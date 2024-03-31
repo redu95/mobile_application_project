@@ -1,6 +1,6 @@
 # Mobile-Application-Project
 
-# Project Name
+# Project Name: Parent Teacher Communication System
 
 ## Description
 a brief description of our project 
