@@ -1,6 +1,6 @@
 # Mobile-Application-Project
 
-# Project Name: Parent Teacher Communication System
+# Project Name: Sky App
 
 ## Description
 a brief description of our project 
