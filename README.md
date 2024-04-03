@@ -24,6 +24,7 @@ SkyApp is the official mobile application for guests staying at the Skylight Hot
 
 ## Group Members
 - Rediet Muluken [@redu95](https://github.com/redu95)
+- Tsehay Goremes [@tseehay](https://github.com/tseehay)
 - Gelila Mihirke [@Gelilamihirke](https://github.com/Gelilamihirke)
 - Faiza Mohammed [@72730882](https://github.com/72730882)
 
