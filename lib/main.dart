@@ -1,4 +1,7 @@
+import 'dart:ui';
+
 import 'package:flutter/material.dart';
+import 'package:mobile_application_project/introduction_screen.dart';
 
 void main() {
   runApp(const MyApp());
@@ -7,64 +10,117 @@ void main() {
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
 
-  // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Flutter Demo',
+      title: 'Addis Stay',
       theme: ThemeData(
-
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
         useMaterial3: true,
       ),
-      home: const MyHomePage(title: 'Flutter Demo Home Page'),
+      home:  WelcomePage(),
+      debugShowCheckedModeBanner: false,
     );
   }
 }
 
-class MyHomePage extends StatefulWidget {
-  const MyHomePage({super.key, required this.title});
-  final String title;
-
-  @override
-  State<MyHomePage> createState() => _MyHomePageState();
-}
-
-class _MyHomePageState extends State<MyHomePage> {
-  int _counter = 0;
-
-  void _incrementCounter() {
-    setState(() {
-      _counter++;
-    });
-  }
+class WelcomePage extends StatelessWidget {
+  const WelcomePage({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        backgroundColor: Colors.orange,
-        title: Text("Sky App"),
-      ),
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            const Text(
-              'You have pushed the button this many times:',
+      body: Stack(
+        children: [
+          // Background image
+          Image.asset(
+            'assets/images/landing_page_images/welcomePag_Image.jpg',
+            fit: BoxFit.cover,
+            width: double.infinity,
+            height: double.infinity,
+          ),
+          // Dark overlay to make the image darker
+          Container(
+            color: Colors.black.withOpacity(0.65), // Adjust opacity as needed
+            width: double.infinity,
+            height: double.infinity,
+          ),
+          //Icon in square
+          Positioned(
+            left: 160,
+            top: 220,
+            child: Container(
+              width: 50,
+              height: 50,
+              color: Colors.white,
+              child: Icon(Icons.hotel, color: Colors.deepPurple), // Later be Changed
             ),
-            Text(
-              '$_counter',
-              style: Theme.of(context).textTheme.headlineMedium,
+          ),
+          // Welcome text and icon
+          const Positioned(
+            left: 115,
+            top: 300,
+            child: Text(
+              'Addis Stay',
+              style: TextStyle(
+                fontSize: 28,
+                fontWeight: FontWeight.bold,
+                color: Colors.white,
+              ),
             ),
-          ],
-        ),
+          ),
+          const Positioned(
+            left: 80,
+            top: 350,
+            child: Text(
+              'Best App to find Hotels in Addis Ababa!',
+              style: TextStyle(
+                fontSize: 12,
+                fontWeight: FontWeight.bold,
+                color: Colors.white,
+              ),
+            ),
+          ),
+          // Get Started button
+          Positioned(
+             left: 60,
+             bottom: 150,
+            child: Align(
+              //alignment: Alignment.bottomCenter,
+              child: ElevatedButton(
+                onPressed: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => IntroScreenDemo()),
+                  );
+                },
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: Colors.deepPurple, //  fill color
+                  padding: EdgeInsets.symmetric(horizontal: 100, vertical: 16), // Adjust button size here
+                ),
+                child: const Text(
+                    'Get Started',
+                  style: TextStyle(
+                    color: Colors.white,
+                  ),
+                ),
+              ),
+            ),
+          ),
+          const Positioned(
+             left: 110,
+              bottom: 120,
+              child:  Text(
+                  'Already Have an Account? Log in',
+                  style:TextStyle(
+                    fontSize: 12,
+                    fontWeight: FontWeight.bold,
+                    color: Colors.white,
+                  ),
+              ),
+          )
+        ],
       ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: _incrementCounter,
-        tooltip: 'Increment',
-        child: const Icon(Icons.add),
-      ), // This trailing comma makes auto-formatting nicer for build methods.
     );
   }
 }
