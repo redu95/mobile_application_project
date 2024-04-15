@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "868634398702",
+    "project_id": "addis-stay-ce1e2",
+    "storage_bucket": "addis-stay-ce1e2.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:868634398702:android:9def671d226570af7848ff",
+        "android_client_info": {
+          "package_name": "com.example.mobile_application_project"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBoNvnjz-J3-ttiqslc8Y1oDpD-s7OFSng"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

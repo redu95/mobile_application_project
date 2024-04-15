@@ -1,8 +1,12 @@
 plugins {
     id "com.android.application"
+    // START: FlutterFire Configuration
+    id 'com.google.gms.google-services'
+    // END: FlutterFire Configuration
     id "kotlin-android"
     id "dev.flutter.flutter-gradle-plugin"
 }
+
 
 def localProperties = new Properties()
 def localPropertiesFile = rootProject.file('local.properties')
@@ -21,7 +25,7 @@ def flutterVersionName = localProperties.getProperty('flutter.versionName')
 if (flutterVersionName == null) {
     flutterVersionName = '1.0'
 }
-
+//apply plugin:'com.google.gms.google-services'
 android {
     namespace "com.example.mobile_application_project"
     compileSdk flutter.compileSdkVersion
