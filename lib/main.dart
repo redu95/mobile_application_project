@@ -1,9 +1,15 @@
 import 'dart:ui';
 
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:mobile_application_project/introduction_screen.dart';
+import 'firebase_options.dart';
 
-void main() {
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp(
+    options: DefaultFirebaseOptions.currentPlatform,
+  );
   runApp(const MyApp());
 }
 
@@ -73,7 +79,7 @@ class WelcomePage extends StatelessWidget {
             left: 80,
             top: 350,
             child: Text(
-              'Best App to find Hotels in Addis Ababa!',
+              'Best App to Book Hotels in Addis Ababa!',
               style: TextStyle(
                 fontSize: 12,
                 fontWeight: FontWeight.bold,
