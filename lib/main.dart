@@ -1,8 +1,10 @@
 import 'dart:ui';
 
 import 'package:firebase_core/firebase_core.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:mobile_application_project/introduction_screen.dart';
+import 'package:mobile_application_project/login_page.dart';
 import 'firebase_options.dart';
 
 void main() async {
@@ -113,18 +115,23 @@ class WelcomePage extends StatelessWidget {
               ),
             ),
           ),
-          const Positioned(
-             left: 110,
-              bottom: 120,
-              child:  Text(
-                  'Already Have an Account? Log in',
-                  style:TextStyle(
-                    fontSize: 12,
-                    fontWeight: FontWeight.bold,
+           Positioned(
+             left: 90,
+              bottom: 100,
+              child: GestureDetector(
+                onTap: (){
+                  Navigator.push(context, MaterialPageRoute(builder: (context)=> LogInPage()));
+                },
+                child:const Text(
+                    'Already Have an Account? Log in',
+                  style: TextStyle(
                     color: Colors.white,
+                    fontWeight: FontWeight.bold,
                   ),
+                ),
               ),
           )
+
         ],
       ),
     );
