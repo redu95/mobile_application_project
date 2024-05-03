@@ -30,119 +30,46 @@ class _IntroScreenDemoState extends State<IntroScreenDemo> {
           key: _introKey,
           pages: [
             PageViewModel(
-              title: "Hotel Search",
-              image: Image.asset("assets/images/landing_page_images/hotel-location.png"),
-              bodyWidget: Column(
-                children: [
-                  const Text('Finding Best Hotels in Addis Abeba.'),
-                  ElevatedButton(
-                      onPressed: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(builder: (context) => LogInPage()),
-                        );
-                      },
-                      child: const Text('Log In')
-                  ),
-                  ElevatedButton(
-                      onPressed: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(builder: (context) => SignUpPage()),
-                        );
-                      },
-                      child: const Text('Sign Up')
-                  )
-                ],
+              title: "Addis Stay",
+              body: "Welcome to the app! This is a description of how it works.",
+              image: const Center(
+                child: Icon(Icons.waving_hand, size: 150.0,color: Colors.deepPurple,),
               ),
+            ),
+            PageViewModel(
+              title: "Hotel Search",
+              image: const Center(
+                child: Icon(Icons.location_searching, size: 150.0,color: Colors.deepPurple,),
+              ),
+              body:'Finding Best Hotels in Addis Abeba.',
             ),
             PageViewModel(
               title: "Online Booking",
               image: Image.asset("assets/images/landing_page_images/reception-desk.jpg"),
-              bodyWidget: Column(
-                children: [
-                  const Text('Booking Online From any part of the World!'),
-                  ElevatedButton(
-                      onPressed: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(builder: (context) => LogInPage()),
-                        );
-                      },
-                      child: const Text('Log In')
-                  ),
-                  ElevatedButton(
-                      onPressed: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(builder: (context) => SignUpPage()),
-                        );
-                      },
-                      child: const Text('Sign Up')
-                  )
-                ],
-              ),
+              body:'Booking Online From any part of the World!',
             ),
             PageViewModel(
               title: "Hotel Details",
               image: Image.asset("assets/images/landing_page_images/receptionist-working-on-her-desk-with-laptop.png"),
-              bodyWidget: Column(
-                children: [
-                  const Text('Having all Information About Selected Hotels their Service!'),
-                  ElevatedButton(
-                      onPressed: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(builder: (context) => LogInPage()),
-                        );
-                      },
-                      child: const Text('Log In')
-                  ),
-                  ElevatedButton(
-                      onPressed: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(builder: (context) => SignUpPage()),
-                        );
-                      },
-                      child: const Text('Sign Up')
-                  )
-                ],
-              ),
+              body:'Having all Information About Selected Hotels their Service!',
             ),
             PageViewModel(
               title: "Map View",
               image: Image.asset("assets/images/landing_page_images/hotel-location.png"),
-              bodyWidget: Column(
-                children: [
-                  const Text('Getting the Exact Location of the Hotels in Map!'),
-                  ElevatedButton(
-                      onPressed: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(builder: (context) => LogInPage()),
-                        );
-                      },
-                      child: const Text('Log In')
-                  ),
-                  ElevatedButton(
-                      onPressed: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(builder: (context) => SignUpPage()),
-                        );
-                      },
-                      child: const Text('Sign Up')
-                  )
-                ],
-              ),
+              body:'Getting the Exact Location of the Hotels in Map!',
             ),
             PageViewModel(
               title: "Review and Ratings",
               image: Image.asset("assets/images/landing_page_images/waiter-holding-tray-in-restaurant.png"),
               bodyWidget: Column(
                 children: [
-                  const Text('Display accurate star ratings for each hotel, providing users with valuable insights into the quality and service!'),
+                  const Text(
+                    'Display accurate star ratings for each hotel, providing users with valuable insights into the quality and service!',
+                    style: TextStyle(
+                      color: Colors.deepPurple,fontSize: 20.0,
+                    ),
+                  ),
+                  const SizedBox(height: 10.0),
                   ElevatedButton(
                       onPressed: () {
                         Navigator.push(
@@ -150,8 +77,9 @@ class _IntroScreenDemoState extends State<IntroScreenDemo> {
                           MaterialPageRoute(builder: (context) => LogInPage()),
                         );
                       },
-                      child: const Text('Log In')
+                      child: const Text('                Log In                ',style: TextStyle(fontSize: 20.0,fontWeight: FontWeight.bold),)
                   ),
+                  const SizedBox(height: 10.0),
                   ElevatedButton(
                       onPressed: () {
                         Navigator.push(
@@ -159,14 +87,17 @@ class _IntroScreenDemoState extends State<IntroScreenDemo> {
                           MaterialPageRoute(builder: (context) => SignUpPage()),
                         );
                       },
-                      child: const Text('Sign Up')
+                      child: const Text('                Sign Up                ',style: TextStyle(fontSize: 20.0,fontWeight: FontWeight.bold),)
                   )
 
                 ],
               ),
             ),
           ],
-          showNextButton: false,
+        skip: const Text("Skip"),
+        next: const Text("Next"),
+          showSkipButton: true,
+          showNextButton: true,
           showDoneButton: false,
         ),
     );

@@ -115,7 +115,7 @@ class _SignUpPageState extends State<SignUpPage> {
                   return null;
                 },
                 controller: emailController,
-                obscureText: true,
+                obscureText: false,
                 decoration: const InputDecoration(
                   labelText: 'Email',
                   border: OutlineInputBorder(),

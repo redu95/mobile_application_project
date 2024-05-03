@@ -5,6 +5,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:mobile_application_project/home_page.dart';
+import 'package:mobile_application_project/services/auth.dart';
 
 import 'forgot_password.dart';
 
@@ -57,7 +58,7 @@ class _LogInPageState extends State<LogInPage> {
     return Scaffold(
       appBar: AppBar(
         leading: IconButton(
-          icon: Icon(Icons.arrow_back),
+          icon: const Icon(Icons.arrow_back),
           onPressed: () {
             Navigator.pop(context);
           },
@@ -70,7 +71,7 @@ class _LogInPageState extends State<LogInPage> {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Text(
+              const Text(
                 'Login',
                 style: TextStyle(
                   fontSize: 24.0,
@@ -78,24 +79,18 @@ class _LogInPageState extends State<LogInPage> {
                 ),
               ),
               SizedBox(height: 20.0),
-              ElevatedButton(
-                onPressed: () {
-                  // Add Google login functionality here
+              GestureDetector(
+                onTap:(){
+                  AuthMethods().signInWihGoogle(context);
                 },
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    // Image.asset(
-                    //   'assets/Icons/google-logo.png',
-                    //   height: 20.0,
-                    //   width: 20.0,
-                    // ),
-                    SizedBox(width: 10.0),
-                    Text('Login with Google'),
-                  ],
+                child: Image.asset(
+                  'assets/Icons/google-logo-9822.png',
+                  height: 50.0,
+                  width: 50.0,
                 ),
+                //Text('Login with Google'),
               ),
-              SizedBox(height: 30.0),
+              SizedBox(height: 50.0),
               TextFormField(
                 validator: (value){
                   if(value ==null || value.isEmpty){
@@ -139,20 +134,36 @@ class _LogInPageState extends State<LogInPage> {
                     userLogin();
                   }
                 },
-                child:const Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Text('Log In')
-                  ],
+                child: Container(
+                  width: 140,
+                  padding: EdgeInsets.all(10),
+                  decoration: BoxDecoration(
+                      color: Colors.deepPurpleAccent,
+                      borderRadius: BorderRadius.circular(30)
+                  ),
+                  child: const Center(
+                    child: Text(
+                      "Log In",
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontSize: 18.0,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                  ),
                 ),
               ),
               SizedBox(height: 10.0),
-              GestureDetector(
-                onTap: (){
-                  Navigator.push(context, MaterialPageRoute(builder: (context)=> ForgotPassword()));
+              TextButton(
+                onPressed: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => ForgotPassword()),
+                  );
                 },
-                child:Text('Forgot Your Password?'),
+                child: Text('Forgot Your Password?'),
               ),
+
             ],
           ),
         ),

@@ -5,6 +5,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:mobile_application_project/introduction_screen.dart';
 import 'package:mobile_application_project/login_page.dart';
+import 'package:mobile_application_project/setting_page.dart';
 import 'firebase_options.dart';
 
 void main() async {
@@ -26,7 +27,7 @@ class MyApp extends StatelessWidget {
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
         useMaterial3: true,
       ),
-      home:  WelcomePage(),
+      home:  SettingPage(),
       debugShowCheckedModeBanner: false,
     );
   }
