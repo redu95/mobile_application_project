@@ -1,4 +1,4 @@
-//import 'dart:js_interop';
+//login_page
 
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
@@ -26,32 +26,37 @@ class _LogInPageState extends State<LogInPage> {
 
   final _formKey = GlobalKey<FormState>();
 
-  userLogin() async{
-    try{
+  userLogin() async {
+    try {
       // Logging the email and password before signing in
-      print('Email: $email');
-      print('Password: $password');
+      print('Email: ${emailController.text}');
+      print('Password: ${passwordController.text}');
       //
-      await FirebaseAuth.instance.signInWithEmailAndPassword(email:email,password: password);
-      Navigator.push(context, MaterialPageRoute(builder: (context)=>Home()));
-    }on FirebaseAuthException catch (e){
-      if(e.code == 'user-not-found'){
+      await FirebaseAuth.instance.signInWithEmailAndPassword(
+          email: emailController.text,
+          password: passwordController.text);
+      Navigator.push(context, MaterialPageRoute(builder: (context) => Home()));
+    } on FirebaseAuthException catch (e) {
+      if (e.code == 'user-not-found') {
         ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-            backgroundColor: Colors.orangeAccent,
-            content: Text(
-              'No User Found for that Email',
-              style: TextStyle(fontSize: 18.0),)));
-      }
-      else if(e.code=='wrong-password'){
+          backgroundColor: Colors.orangeAccent,
+          content: Text(
+            'No User Found for that Email',
+            style: TextStyle(fontSize: 18.0),
+          ),
+        ));
+      } else if (e.code == 'wrong-password') {
         ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-            backgroundColor: Colors.orangeAccent,
-            content: Text(
-              'Wrong Password Provided by the user',
-              style: TextStyle(fontSize: 18.0),)));
+          backgroundColor: Colors.orangeAccent,
+          content: Text(
+            'Wrong Password Provided by the user',
+            style: TextStyle(fontSize: 18.0),
+          ),
+        ));
       }
-
     }
   }
+
 
   @override
   Widget build(BuildContext context) {

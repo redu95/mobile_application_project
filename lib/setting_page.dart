@@ -1,25 +1,99 @@
+// setting_page.dart
+import 'dart:io';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:ionicons/ionicons.dart';
+import 'package:mobile_application_project/edit_account_page.dart';
+import 'package:path/path.dart';
 
-class SettingPage extends StatelessWidget {
-  const SettingPage({super.key});
+import 'login_page.dart';
+
+class SettingPage extends StatefulWidget {
+  const SettingPage({Key? key}) : super(key: key);
+
+  @override
+  _SettingPageState createState() => _SettingPageState();
+}
+
+class _SettingPageState extends State<SettingPage> {
+  String userName = '';
+  String bio = '';
+  String? photoUrl; // Add this variable to hold profile picture URL
+  late User user; // Add this variable to hold the authenticated user
+
+  @override
+  void initState() {
+    super.initState();
+    user = FirebaseAuth.instance.currentUser!;
+    loadUserInfo(user.uid);
+  }
+  Future<void> loadUserInfo(String uid) async {
+    DocumentSnapshot userDoc =
+    await FirebaseFirestore.instance.collection('users').doc(uid).get();
+    setState(() {
+      userName = userDoc['name'];
+      bio = userDoc['bio'];
+      photoUrl = userDoc['photoUrl'];
+    });
+  }
+
+  Future<void> saveUserInfo(
+      String uid, String name, String bio, String? photoUrl) async {
+    await FirebaseFirestore.instance.collection('users').doc(uid).set({
+      'name': name,
+      'bio': bio,
+      'photoUrl': photoUrl,
+    });
+  }
+
+  Future<String> uploadImage(File image) async {
+    String fileName = basename(image.path);
+    Reference storageReference =
+    FirebaseStorage.instance.ref().child('profilePictures/$fileName');
+    UploadTask uploadTask = storageReference.putFile(image);
+    TaskSnapshot snapshot = await uploadTask;
+    return await snapshot.ref.getDownloadURL();
+  }
+
+  // Function to log out
+  Future<void> logOut(BuildContext context) async {
+    // Sign out user
+    await FirebaseAuth.instance.signOut();
+
+    // Clear user data
+    setState(() {
+      userName = '';
+      bio = '';
+      photoUrl = null;
+    });
+
+    // Navigate back to login page
+    Navigator.pushReplacement(
+      context,
+      MaterialPageRoute(builder: (context) => LogInPage()),
+    );
+  }
+
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         leading: IconButton(
-          onPressed: () {},
-          icon: Icon(Ionicons.chevron_back_outline),
+          icon: Icon(Icons.arrow_back),
+          onPressed: () {
+            Navigator.pop(context);
+          },
         ),
-        leadingWidth: 100,
       ),
       body: SingleChildScrollView(
         padding: EdgeInsets.all(20),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text(
+            const Text(
               "Settings",
               style: TextStyle(
                 fontSize: 32,
@@ -35,12 +109,33 @@ class SettingPage extends StatelessWidget {
               ),
             ),
             buildSettingItem(
-              title: "Rediet Muluken",
-              icon: Ionicons.person_circle_outline,
-              onTap: () {},
+              title: userName,
+              subtitle: bio,
+              icon: photoUrl != null ? null : Icons.person,
+              image: photoUrl != null ? NetworkImage(photoUrl!) : null,
+              onTap: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => EditAccountPage(
+                      userName: userName,
+                      bio: bio,
+                      image: null, // Pass null for now, update it with actual image when implemented
+                      onSave: (String newName, String newBio, File? newImage) async {
+                        // Update user information in Firebase
+                         await FirebaseFirestore.instance.collection('users').doc(user.uid).update({
+                           'name': newName,
+                           'bio': newBio,
+                           'photoUrl': newImage != null ? await uploadImage(newImage) : null,
+                         });
+                      },
+                    ),
+                  ),
+                );
+              },
             ),
             SizedBox(height: 40),
-            Text(
+            const Text(
               "Settings",
               style: TextStyle(
                 fontSize: 24,
@@ -63,6 +158,7 @@ class SettingPage extends StatelessWidget {
             buildSettingItem(
               title: "Dark Mode",
               icon: Ionicons.moon_outline,
+              isDarkMode: true,
               onTap: () {},
             ),
             SizedBox(height: 20),
@@ -75,7 +171,32 @@ class SettingPage extends StatelessWidget {
             buildSettingItem(
               title: "Log Out",
               icon: Ionicons.log_out_outline,
-              onTap: () {},
+              onTap: () {
+                // Show an alert dialog to confirm logout
+                showDialog(
+                  context: context,
+                  builder: (BuildContext context) {
+                    return AlertDialog(
+                      title: Text("Log Out"),
+                      content: Text("Do you really want to log out?"),
+                      actions: [
+                        TextButton(
+                          onPressed: () {
+                            Navigator.of(context).pop(); // Close the dialog
+                          },
+                          child: Text("Cancel"),
+                        ),
+                        TextButton(
+                          onPressed: () {
+                            logOut(context); // Log out function
+                          },
+                          child: Text("Log Out"),
+                        ),
+                      ],
+                    );
+                  },
+                );
+              },
             ),
           ],
         ),
@@ -85,8 +206,11 @@ class SettingPage extends StatelessWidget {
 
   Widget buildSettingItem({
     required String title,
-    required IconData icon,
+    IconData? icon,
     required VoidCallback onTap,
+    String? subtitle,
+    ImageProvider? image,
+    bool isDarkMode = false,
   }) {
     return InkWell(
       onTap: onTap,
@@ -94,147 +218,55 @@ class SettingPage extends StatelessWidget {
         padding: const EdgeInsets.symmetric(vertical: 12),
         child: Row(
           children: [
-            Icon(
-              icon,
-              size: 30,
-              color: Colors.purple,
-
-            ),
-            SizedBox(width: 20),
-            Text(
-              title,
-              style: TextStyle(
-                fontSize: 18,
-                fontWeight: FontWeight.w500,
+            if (image != null)
+              CircleAvatar(
+                radius: 30,
+                backgroundImage: image,
               ),
+            if (image == null && icon != null)
+              Icon(
+                icon,
+                size: 30,
+                color: Colors.purple,
+              ),
+            SizedBox(width: 20),
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  title,
+                  style: TextStyle(
+                    fontSize: 18,
+                    fontWeight: FontWeight.w500,
+                  ),
+                ),
+                if (subtitle != null) SizedBox(height: 4),
+                if (subtitle != null)
+                  Text(
+                    subtitle,
+                    style: TextStyle(
+                      fontSize: 14,
+                      color: Colors.grey,
+                    ),
+                  ),
+              ],
             ),
             Spacer(),
-            Icon(
-              Ionicons.chevron_forward_outline,
-              size: 30,
-              color: Colors.purple.shade200,
-            ),
+            if (isDarkMode)
+              Switch(
+                value: false, // Replace true with your dark mode state
+                onChanged: (value) {}, // Implement dark mode toggling
+                activeColor: Colors.purple,
+              )
+            else
+              const Icon(
+                Icons.chevron_right,
+                size: 30,
+                color: Colors.purple,
+            )
           ],
         ),
       ),
     );
   }
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-// import 'package:flutter/material.dart';
-// import 'package:ionicons/ionicons.dart';
-//
-// class SettingPage extends StatelessWidget {
-//   const SettingPage({super.key});
-//
-//   @override
-//   Widget build(BuildContext context) {
-//     return  Scaffold(
-//       appBar: AppBar(
-//         leading: IconButton(onPressed: (){},icon: Icon(Ionicons.chevron_back_outline),
-//         ),
-//         leadingWidth: 100,
-//       ),
-//       body:  Column(
-//         children: [
-//           Text(
-//             "Settings",
-//             style:TextStyle(
-//               fontSize: 24,
-//               fontWeight: FontWeight.bold,
-//             ),
-//           ),
-//           const SizedBox(height: 30),
-//           Text(
-//               "Account",
-//             style: TextStyle(
-//               fontSize: 24,
-//               fontWeight: FontWeight.w500,
-//             ),
-//           ),
-//           Container(
-//             width: double.infinity,
-//             child: Row(
-//               children: [
-//                 Image.asset("assets/avatar.png",width: 70,height: 70,),
-//                 const SizedBox(width: 20),
-//                 const Column(
-//                   crossAxisAlignment: CrossAxisAlignment.start,
-//                   children: [
-//                     Text(
-//                       "Rediet Muluken",
-//                       style: TextStyle(
-//                         fontSize: 18,
-//                         fontWeight: FontWeight.w500,
-//                       ),
-//                     ),
-//                     SizedBox(height: 16),
-//                     Text(
-//                       "Youtube Channel",
-//                       style: TextStyle(
-//                         fontSize: 14,
-//                         color: Colors.grey,
-//                       ),
-//                     ),
-//                   ],
-//                 ),
-//                 const Spacer(),
-//                 Container(
-//                   width: 60,
-//                   height: 60,
-//                   decoration: BoxDecoration(
-//                     color: Colors.grey,
-//                     borderRadius: BorderRadius.circular(15),
-//                   ),
-//                   child: const Icon(Ionicons.chevron_forward_outline),
-//                 )
-//               ],
-//             ),
-//           ),
-//           const SizedBox(height: 40,),
-//           Text(
-//             "Settings",
-//             style: TextStyle(
-//               fontSize: 24,
-//               fontWeight: FontWeight.w500
-//             ),
-//           ),
-//           const SizedBox(height: 20,),
-//           Container(
-//             width: double.infinity,
-//             child: Row(
-//               children: [
-//                 Container(
-//                   width: 50,
-//                   height: 50,
-//                   decoration: BoxDecoration(
-//                     shape: BoxShape.circle,
-//                     color: Colors.purple.shade200,
-//                   ),
-//                   child: const Icon(Ionicons.earth),
-//                 )
-//               ],
-//             ),
-//           )
-//         ],
-//       ),
-//     );
-//   }
-// }

@@ -1,5 +1,5 @@
+
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:mobile_application_project/home_page.dart';
@@ -19,31 +19,40 @@ class _SignUpPageState extends State<SignUpPage> {
 
   final _formKey = GlobalKey<FormState>();
 
-  registration() async{
-    if(password!=null && nameController.text!="" && emailController.text!=""){
-      try{
-        UserCredential userCredential = await FirebaseAuth.instance.createUserWithEmailAndPassword(email: email, password: password);
-        ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('Registered Successfully',style: TextStyle(fontSize: 20.0),)));
-        Navigator.push(context, MaterialPageRoute(builder: (context)=>Home()));
-      }
-      on FirebaseAuthException catch (e){
-        if(e.code == 'weak-password'){
-          ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+  registration() async {
+    if (_formKey.currentState!.validate()) {
+      try {
+        await FirebaseAuth.instance.createUserWithEmailAndPassword(
+            email: emailController.text,
+            password: passwordController.text);
+        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+            content: Text('Registered Successfully',
+              style: TextStyle(fontSize: 20.0),
+            )));
+        Navigator.push(context,
+            MaterialPageRoute(builder: (context) => Home()));
+      } on FirebaseAuthException catch (e) {
+        if (e.code == 'weak-password') {
+          ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
             backgroundColor: Colors.orangeAccent,
-              content: Text(
-                'Password provided is too weak',
-                style: TextStyle(fontSize: 18.0),)));
-        }
-        else if(e.code == 'email-already-in-use'){
-          ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-              backgroundColor: Colors.orangeAccent,
-              content: Text(
-                'Account already exists',
-                style: TextStyle(fontSize: 18.0),)));
+            content: Text(
+              'Password provided is too weak',
+              style: TextStyle(fontSize: 18.0),
+            ),
+          ));
+        } else if (e.code == 'email-already-in-use') {
+          ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+            backgroundColor: Colors.orangeAccent,
+            content: Text(
+              'Account already exists',
+              style: TextStyle(fontSize: 18.0),
+            ),
+          ));
         }
       }
     }
   }
+
 
 
   @override
@@ -76,7 +85,7 @@ class _SignUpPageState extends State<SignUpPage> {
                 onPressed: () {
                   // Add Google login functionality here
                 },
-                child:  Row(
+                child:  const Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                      //Image.asset(
@@ -90,7 +99,7 @@ class _SignUpPageState extends State<SignUpPage> {
                 ),
               ),
               SizedBox(height: 70),
-              Text('Enter your Name',
+              const Text('Enter your Name',
               ),
               TextFormField(
                 validator: (value){
@@ -106,7 +115,7 @@ class _SignUpPageState extends State<SignUpPage> {
                 ),
               ),
               const SizedBox(height: 10.0),
-              Text('Enter your Email'),
+              const Text('Enter your Email'),
               TextFormField(
                 validator: (value){
                   if(value ==null||value.isEmpty){

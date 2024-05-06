@@ -40,7 +40,10 @@ dependencies:
   firebase_auth: ^4.19.1
   google_sign_in: ^6.2.1
   cloud_firestore: ^4.16.1
+  firebase_storage: ^11.7.4
   ionicons: ^0.2.2
+  image_picker: ^1.1.1
+
 
 dev_dependencies:
   flutter_test:
