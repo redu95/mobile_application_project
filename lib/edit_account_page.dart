@@ -1,7 +1,10 @@
 //edit_account_page
 
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:firebase_storage/firebase_storage.dart';
+import 'package:path/path.dart';
 import 'dart:io';
 
 
@@ -33,6 +36,8 @@ class _EditAccountPageState extends State<EditAccountPage> {
 
   final picker = ImagePicker();
 
+  String? get userId => null;
+
   Future getImage() async {
     final pickedFile = await picker.pickImage(source: ImageSource.gallery);
 
@@ -45,6 +50,34 @@ class _EditAccountPageState extends State<EditAccountPage> {
     });
   }
 
+  Future<String> uploadImage(File image) async {
+    String fileName = image.path.split('/').last;
+    Reference storageReference =
+    FirebaseStorage.instance.ref().child('profilePictures/$fileName');
+    UploadTask uploadTask = storageReference.putFile(image);
+    TaskSnapshot snapshot = await uploadTask;
+    return await snapshot.ref.getDownloadURL();
+  }
+
+
+  Future<void> saveProfileInfo(String newName, String newBio, File? newImage) async {
+    String photoUrl;
+    if (newImage != null) {
+      // Upload image to Firebase Storage
+      photoUrl = await uploadImage(newImage);
+    } else {
+      photoUrl = ''; // Or set it to the current photo URL if not changed
+    }
+
+    // Update user information in Firestore
+    await FirebaseFirestore.instance.collection('users').doc(userId).update({
+      'name': newName,
+      'bio': newBio,
+      'photoUrl': photoUrl,
+    });
+  }
+
+
   @override
   void initState() {
     super.initState();
@@ -55,7 +88,7 @@ class _EditAccountPageState extends State<EditAccountPage> {
     _image = widget.image;
   }
 
-  void _showAlertDialog() {
+  void _showAlertDialog(BuildContext context) {
     showDialog(
       context: context,
       builder: (context) {

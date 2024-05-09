@@ -8,6 +8,8 @@ import 'package:mobile_application_project/services/database.dart';
 class AuthMethods{
   final FirebaseAuth auth = FirebaseAuth.instance;
 
+  get displayName => displayName;
+
   getCurrentUser()async{
     return await auth.currentUser;
   }
@@ -37,7 +39,10 @@ class AuthMethods{
         "id":userDetails.uid
       };
       await DatabaseMethods().adduser(userDetails.uid, userInfoMap).then((value) {
-        Navigator.push(context, MaterialPageRoute(builder: (context)=> Home()));
+        Navigator.push(
+          context,
+          MaterialPageRoute(builder: (context) => Home(userName: displayName)),
+        );
       });
     }
   }

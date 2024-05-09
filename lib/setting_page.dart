@@ -11,33 +11,56 @@ import 'package:path/path.dart';
 import 'login_page.dart';
 
 class SettingPage extends StatefulWidget {
-  const SettingPage({Key? key}) : super(key: key);
+  final String userName;
+
+  const SettingPage({Key? key, required this.userName}) : super(key: key);
 
   @override
   _SettingPageState createState() => _SettingPageState();
 }
 
 class _SettingPageState extends State<SettingPage> {
-  String userName = '';
-  String bio = '';
+  late String userName;
+  late String bio ="Add your bio";
   String? photoUrl; // Add this variable to hold profile picture URL
   late User user; // Add this variable to hold the authenticated user
+  bool isLoading = true; // Track loading state
+  TextEditingController userNameController =  TextEditingController();
+  TextEditingController emailController =  TextEditingController();
+  TextEditingController passwordController = new TextEditingController();
 
   @override
   void initState() {
     super.initState();
+    userName = widget.userName;
     user = FirebaseAuth.instance.currentUser!;
     loadUserInfo(user.uid);
   }
   Future<void> loadUserInfo(String uid) async {
-    DocumentSnapshot userDoc =
-    await FirebaseFirestore.instance.collection('users').doc(uid).get();
-    setState(() {
-      userName = userDoc['name'];
-      bio = userDoc['bio'];
-      photoUrl = userDoc['photoUrl'];
-    });
+    try {
+      DocumentSnapshot userDoc =
+      await FirebaseFirestore.instance.collection('users').doc(uid).get();
+      if (userDoc.exists) {
+        setState(() {
+          userName = userDoc.get('userName');
+          bio = userDoc.get('bio') ?? "Add your bio";
+          photoUrl = userDoc.get('photoUrl');
+          isLoading = false;
+        });
+      } else {
+        setState(() {
+          isLoading = false;
+        });
+        print("Document does not exist");
+      }
+    } catch (e) {
+      print("Error loading user info: $e");
+      setState(() {
+        isLoading = false;
+      });
+    }
   }
+
 
   Future<void> saveUserInfo(
       String uid, String name, String bio, String? photoUrl) async {
@@ -79,6 +102,14 @@ class _SettingPageState extends State<SettingPage> {
 
   @override
   Widget build(BuildContext context) {
+    // if (isLoading) {
+    //   // Show loading indicator while data is being loaded
+    //   return Scaffold(
+    //     body: Center(
+    //       child: CircularProgressIndicator(),
+    //     ),
+    //   );
+    // }
     return Scaffold(
       appBar: AppBar(
         leading: IconButton(
@@ -117,7 +148,7 @@ class _SettingPageState extends State<SettingPage> {
                 Navigator.push(
                   context,
                   MaterialPageRoute(
-                    builder: (context) => EditAccountPage(
+                    builder: (context) =>  EditAccountPage(
                       userName: userName,
                       bio: bio,
                       image: null, // Pass null for now, update it with actual image when implemented
