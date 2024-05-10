@@ -2,20 +2,29 @@ import 'package:flutter/material.dart';
 import 'package:mobile_application_project/setting_page.dart';
 
 class Home extends StatefulWidget {
-  const Home({Key? key}) : super(key: key);
+  final String userName;
+  const Home({Key? key, required this.userName}) : super(key: key);
 
   @override
   State<Home> createState() => _HomeState();
 }
 
+
+
 class _HomeState extends State<Home> {
   int _selectedIndex = 0;
 
-  static const List<Widget> _widgetOptions = <Widget>[
-    HomePage(), // Replace this with your Home Page widget
-    Text('Search Page'), // Replace this with your Search Page widget
-    SettingPage(), // Replace this with your Profile Page widget
-  ];
+  late List<Widget> _widgetOptions;
+
+  @override
+  void initState() {
+    super.initState();
+    _widgetOptions = <Widget>[
+      HomePage(),
+      Text('Search Page'),
+      SettingPage(userName: widget.userName,),
+    ];
+  }
 
   void _onItemTapped(int index) {
     setState(() {
@@ -54,7 +63,7 @@ class _HomeState extends State<Home> {
 
 
 class HomePage extends StatefulWidget {
-  const HomePage({super.key});
+  const HomePage({Key? key}) : super(key: key);
 
   @override
   State<HomePage> createState() => _HomePageState();

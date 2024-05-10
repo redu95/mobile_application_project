@@ -1,5 +1,6 @@
 //login_page
 
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -8,6 +9,7 @@ import 'package:mobile_application_project/home_page.dart';
 import 'package:mobile_application_project/services/auth.dart';
 
 import 'forgot_password.dart';
+
 
 
 
@@ -20,11 +22,26 @@ class LogInPage extends StatefulWidget {
 
 class _LogInPageState extends State<LogInPage> {
 
-  String email = "",password = "";
+  late String email,password = "";
   TextEditingController emailController = new TextEditingController();
   TextEditingController passwordController = new TextEditingController();
 
   final _formKey = GlobalKey<FormState>();
+
+  Future<String> getUsernameFromEmail(String email) async {
+    // Query the database to get the username based on the email
+    QuerySnapshot<Map<String, dynamic>> snapshot = await FirebaseFirestore.instance
+        .collection('users')
+        .where('email', isEqualTo: email)
+        .get();
+
+    // Extract username from snapshot
+    if (snapshot.docs.isNotEmpty) {
+      return snapshot.docs.first['userName'];
+    } else {
+      return '';
+    }
+  }
 
   userLogin() async {
     try {
@@ -32,10 +49,16 @@ class _LogInPageState extends State<LogInPage> {
       print('Email: ${emailController.text}');
       print('Password: ${passwordController.text}');
       //
+      String email = emailController.text.trim(); // Update email from the controller
       await FirebaseAuth.instance.signInWithEmailAndPassword(
-          email: emailController.text,
+          email: email,
           password: passwordController.text);
-      Navigator.push(context, MaterialPageRoute(builder: (context) => Home()));
+      // Extract username from the database using email
+      String userName = await getUsernameFromEmail(email);
+      Navigator.push(
+        context,
+        MaterialPageRoute(builder: (context) => Home(userName: userName)),
+      );
     } on FirebaseAuthException catch (e) {
       if (e.code == 'user-not-found') {
         ScaffoldMessenger.of(context).showSnackBar(SnackBar(
@@ -56,6 +79,7 @@ class _LogInPageState extends State<LogInPage> {
       }
     }
   }
+
 
 
   @override
