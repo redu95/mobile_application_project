@@ -99,6 +99,16 @@ class _SettingPageState extends State<SettingPage> {
     );
   }
 
+  // Method to refresh user data
+  Future<void> refreshUserData() async {
+    setState(() {
+      isLoading = true;
+    });
+    await loadUserInfo(user.uid);
+    setState(() {
+      isLoading = false;
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -118,6 +128,17 @@ class _SettingPageState extends State<SettingPage> {
             Navigator.pop(context);
           },
         ),
+        actions: [
+          IconButton(
+            onPressed: () {
+              setState(() {
+                isLoading = true;
+              });
+              loadUserInfo(user.uid); // Reload user info
+            },
+            icon: Icon(Icons.refresh),
+          ),
+        ],
       ),
       body: SingleChildScrollView(
         padding: EdgeInsets.all(20),
@@ -218,8 +239,9 @@ class _SettingPageState extends State<SettingPage> {
                           child: Text("Cancel"),
                         ),
                         TextButton(
-                          onPressed: () {
+                          onPressed: () async {
                             logOut(context); // Log out function
+                            await refreshUserData(); // Refresh user data after logout
                           },
                           child: Text("Log Out"),
                         ),
@@ -249,17 +271,17 @@ class _SettingPageState extends State<SettingPage> {
         padding: const EdgeInsets.symmetric(vertical: 12),
         child: Row(
           children: [
-            if (image != null)
-              CircleAvatar(
-                radius: 30,
-                backgroundImage: image,
-              ),
-            if (image == null && icon != null)
-              Icon(
+            CircleAvatar(
+              radius: 30,
+              backgroundImage: photoUrl != null ? NetworkImage(photoUrl!) : null,
+              child: photoUrl == null && icon != null
+                  ? Icon(
                 icon,
                 size: 30,
-                color: Colors.purple,
-              ),
+                color: Colors.white,
+              )
+                  : null,
+            ),
             SizedBox(width: 20),
             Column(
               crossAxisAlignment: CrossAxisAlignment.start,

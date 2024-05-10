@@ -43,6 +43,7 @@ dependencies:
   firebase_storage: ^11.7.4
   ionicons: ^0.2.2
   image_picker: ^1.1.1
+  firebase_app_check: ^0.2.2+5
 
 
 dev_dependencies:

@@ -1,6 +1,6 @@
 
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:mobile_application_project/home_page.dart';
 
@@ -12,8 +12,8 @@ class SignUpPage extends StatefulWidget {
 }
 
 class _SignUpPageState extends State<SignUpPage> {
-  String email = "",password = "",name = "";
-  TextEditingController nameController = new TextEditingController();
+  String email = "",password = "",userName = "";
+  TextEditingController userNameController = new TextEditingController();
   TextEditingController emailController = new TextEditingController();
   TextEditingController passwordController = new TextEditingController();
 
@@ -25,12 +25,19 @@ class _SignUpPageState extends State<SignUpPage> {
         await FirebaseAuth.instance.createUserWithEmailAndPassword(
             email: emailController.text,
             password: passwordController.text);
+        // Save user data to Firestore
+        await FirebaseFirestore.instance.collection('users').doc(FirebaseAuth.instance.currentUser!.uid).set({
+          'userName': userNameController.text,
+          'email': emailController.text,
+          'bio': '',
+          'photoUrl':null
+          // You can add more fields here if needed
+        });
         ScaffoldMessenger.of(context).showSnackBar(SnackBar(
             content: Text('Registered Successfully',
               style: TextStyle(fontSize: 20.0),
             )));
-        Navigator.push(context,
-            MaterialPageRoute(builder: (context) => Home()));
+        Navigator.push(context, MaterialPageRoute(builder: (context) => Home(userName: userNameController.text)));
       } on FirebaseAuthException catch (e) {
         if (e.code == 'weak-password') {
           ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
@@ -108,7 +115,7 @@ class _SignUpPageState extends State<SignUpPage> {
                   }
                   return null;
                 },
-                controller: nameController,
+                controller: userNameController,
                 decoration: const InputDecoration(
                   labelText: 'Name',
                   border: OutlineInputBorder(),
@@ -152,7 +159,7 @@ class _SignUpPageState extends State<SignUpPage> {
                   if(_formKey.currentState!.validate()){
                     setState(() {
                       email=emailController.text;
-                      name = nameController.text;
+                      userName = userNameController.text;
                       password = passwordController.text;
                     });
                   }
