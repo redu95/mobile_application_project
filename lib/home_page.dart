@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:mobile_application_project/setting_page.dart';
 
+
 class Home extends StatefulWidget {
   final String userName;
   const Home({Key? key, required this.userName}) : super(key: key);
@@ -76,6 +77,7 @@ class _HomePageState extends State<HomePage> {
       appBar: AppBar(
         title: const Text('Home Page'),
       ),
+      backgroundColor: Colors.deepPurpleAccent,
     );
   }
 }
