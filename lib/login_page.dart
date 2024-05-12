@@ -1,84 +1,73 @@
-//login_page
+// login_page.dart
 
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:mobile_application_project/home_page.dart';
-import 'package:mobile_application_project/services/auth.dart';
-
-import 'forgot_password.dart';
-
-
+import 'package:mobile_application_project/forgot_password.dart';
 
 
 class LogInPage extends StatefulWidget {
-  const LogInPage({super.key});
+   LogInPage({super.key});
 
   @override
   State<LogInPage> createState() => _LogInPageState();
 }
 
 class _LogInPageState extends State<LogInPage> {
-
-  late String email,password = "";
-  TextEditingController emailController = new TextEditingController();
-  TextEditingController passwordController = new TextEditingController();
-
+  late String email;
+  late String password;
   final _formKey = GlobalKey<FormState>();
+  TextEditingController emailController = TextEditingController();
+  TextEditingController passwordController = TextEditingController();
 
-  Future<String> getUsernameFromEmail(String email) async {
-    // Query the database to get the username based on the email
-    QuerySnapshot<Map<String, dynamic>> snapshot = await FirebaseFirestore.instance
-        .collection('users')
-        .where('email', isEqualTo: email)
-        .get();
-
-    // Extract username from snapshot
-    if (snapshot.docs.isNotEmpty) {
-      return snapshot.docs.first['userName'];
-    } else {
-      return '';
-    }
-  }
-
-  userLogin() async {
-    try {
-      // Logging the email and password before signing in
-      print('Email: ${emailController.text}');
-      print('Password: ${passwordController.text}');
-      //
-      String email = emailController.text.trim(); // Update email from the controller
+  void signIn() async {
+    //show loading Circle
+    showDialog(
+        context: context,
+        builder: (context){
+         return const Center(
+           child: CircularProgressIndicator() ,
+         );
+        },
+    );
+    //try to sign in
+    try{
       await FirebaseAuth.instance.signInWithEmailAndPassword(
-          email: email,
-          password: passwordController.text);
-      // Extract username from the database using email
-      String userName = await getUsernameFromEmail(email);
-      Navigator.push(
-        context,
-        MaterialPageRoute(builder: (context) => Home(userName: userName)),
+        email: emailController.text.trim(),
+        password: passwordController.text,
       );
-    } on FirebaseAuthException catch (e) {
-      if (e.code == 'user-not-found') {
-        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-          backgroundColor: Colors.orangeAccent,
-          content: Text(
-            'No User Found for that Email',
-            style: TextStyle(fontSize: 18.0),
-          ),
-        ));
-      } else if (e.code == 'wrong-password') {
-        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-          backgroundColor: Colors.orangeAccent,
-          content: Text(
-            'Wrong Password Provided by the user',
-            style: TextStyle(fontSize: 18.0),
-          ),
-        ));
+    } on FirebaseAuthException catch (e){
+      if(e.code == 'user-not-found'){
+        showDialog(
+          context: context,
+          builder: (context){
+            return const AlertDialog(
+              title: Text(
+                'No User Found for that Email',
+                style: TextStyle(fontSize: 18.0),),
+            );
+          },
+        );
       }
+      else if(e.code=='wrong-password'){
+        showDialog(
+          context: context,
+          builder: (context){
+            return const AlertDialog(
+              title: Text(
+                'Wrong Password Provided by the user',
+                style: TextStyle(fontSize: 18.0),),
+            );
+          },
+        );
+
+      }
+
     }
+    //pop the Navigator
+    Navigator.pop(context);
   }
+
 
 
 
@@ -108,28 +97,23 @@ class _LogInPageState extends State<LogInPage> {
                 ),
               ),
               SizedBox(height: 20.0),
-              GestureDetector(
-                onTap:(){
-                  AuthMethods().signInWihGoogle(context);
-                },
-                child: Image.asset(
-                  'assets/Icons/google-logo-9822.png',
-                  height: 50.0,
-                  width: 50.0,
-                ),
-                //Text('Login with Google'),
-              ),
-              SizedBox(height: 50.0),
               TextFormField(
-                validator: (value){
-                  if(value ==null || value.isEmpty){
+                validator: (value) {
+                  if (value == null || value.isEmpty) {
                     return 'Please Enter Email';
                   }
                   // Check if the email is in the correct format
-                  if (!RegExp(r'\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Z|a-z]{2,}\b').hasMatch(value)) {
+                  if (!RegExp(
+                      r'\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Z|a-z]{2,}\b')
+                      .hasMatch(value)) {
                     return 'Invalid email address';
                   }
                   return null;
+                },
+                onChanged: (value) {
+                  setState(() {
+                    email = value.trim();
+                  });
                 },
                 controller: emailController,
                 decoration: InputDecoration(
@@ -139,11 +123,16 @@ class _LogInPageState extends State<LogInPage> {
               ),
               SizedBox(height: 10.0),
               TextFormField(
-                validator: (value){
-                  if(value ==null||value.isEmpty){
+                validator: (value) {
+                  if (value == null || value.isEmpty) {
                     return 'Please Enter Password';
                   }
                   return null;
+                },
+                onChanged: (value) {
+                  setState(() {
+                    password = value;
+                  });
                 },
                 controller: passwordController,
                 obscureText: true,
@@ -153,23 +142,14 @@ class _LogInPageState extends State<LogInPage> {
                 ),
               ),
               SizedBox(height: 10.0),
-              GestureDetector(
-                onTap: (){
-                  if(_formKey.currentState!.validate()){
-                    setState(() {
-                      email=emailController.text;
-                      password = passwordController.text;
-                    });
-                    userLogin();
-                  }
-                },
-                child: Container(
-                  width: 140,
-                  padding: EdgeInsets.all(10),
-                  decoration: BoxDecoration(
-                      color: Colors.deepPurpleAccent,
-                      borderRadius: BorderRadius.circular(30)
-                  ),
+              Container(
+                width: 140,
+                padding: EdgeInsets.all(10),
+                decoration: BoxDecoration(
+                    color: Colors.deepPurpleAccent,
+                    borderRadius: BorderRadius.circular(30)),
+                child: GestureDetector(
+                  onTap: signIn,
                   child: const Center(
                     child: Text(
                       "Log In",
@@ -192,7 +172,6 @@ class _LogInPageState extends State<LogInPage> {
                 },
                 child: Text('Forgot Your Password?'),
               ),
-
             ],
           ),
         ),
@@ -200,5 +179,3 @@ class _LogInPageState extends State<LogInPage> {
     );
   }
 }
-
-
