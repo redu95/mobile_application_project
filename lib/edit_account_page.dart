@@ -61,6 +61,7 @@ class _EditAccountPageState extends State<EditAccountPage> {
   }
 
 
+
   Future<void> saveProfileInfo(String newName, String newBio, File? newImage) async {
     String photoUrl;
     if (newImage != null) {
@@ -76,11 +77,11 @@ class _EditAccountPageState extends State<EditAccountPage> {
     // Check if the user ID is available
     if (userId != null) {
       // Update user information in Firestore
-      await FirebaseFirestore.instance.collection('users').doc(userId).set({
+      await FirebaseFirestore.instance.collection('users').doc(userId).update({
         'userName': newName,
         'bio': newBio,
         'photoUrl': photoUrl,
-      }, SetOptions(merge: true)); // Use merge: true to create the document if it doesn't exist
+      }, ); // Use merge: true to create the document if it doesn't exist
     }
   }
 
@@ -107,7 +108,8 @@ class _EditAccountPageState extends State<EditAccountPage> {
                   usernameController.text,
                   _bioController.text,
                   _image,
-                ); // Pass arguments here
+                );
+                // Pass arguments here
                 Navigator.of(context).pop(); // Dismiss the dialog
                 Navigator.of(context).pop();
               },

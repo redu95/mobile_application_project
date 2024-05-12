@@ -1,9 +1,13 @@
+//home_page.dart
+
+
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:mobile_application_project/setting_page.dart';
 
+
 class Home extends StatefulWidget {
-  final String userName;
-  const Home({Key? key, required this.userName}) : super(key: key);
+  const Home({super.key});
 
   @override
   State<Home> createState() => _HomeState();
@@ -13,7 +17,6 @@ class Home extends StatefulWidget {
 
 class _HomeState extends State<Home> {
   int _selectedIndex = 0;
-
   late List<Widget> _widgetOptions;
 
   @override
@@ -22,7 +25,7 @@ class _HomeState extends State<Home> {
     _widgetOptions = <Widget>[
       HomePage(),
       Text('Search Page'),
-      SettingPage(userName: widget.userName,),
+      SettingPage(),
     ];
   }
 
@@ -31,6 +34,7 @@ class _HomeState extends State<Home> {
       _selectedIndex = index;
     });
   }
+
 
   @override
   Widget build(BuildContext context) {
@@ -61,21 +65,30 @@ class _HomeState extends State<Home> {
   }
 }
 
+class HomePage extends StatelessWidget {
+   HomePage({super.key});
 
-class HomePage extends StatefulWidget {
-  const HomePage({Key? key}) : super(key: key);
-
-  @override
-  State<HomePage> createState() => _HomePageState();
-}
-
-class _HomePageState extends State<HomePage> {
+  final user = FirebaseAuth.instance.currentUser;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         title: const Text('Home Page'),
       ),
+      body: Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Text(
+              'Welcome,' + user!.email!,
+              style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
+
+          ],
+        ),
+      ),
     );
   }
 }
+
+
+
