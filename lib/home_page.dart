@@ -75,6 +75,7 @@ class HomePage extends StatelessWidget {
       appBar: AppBar(
         title: const Text('Home Page'),
       ),
+
       body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
@@ -86,6 +87,9 @@ class HomePage extends StatelessWidget {
           ],
         ),
       ),
+=======
+      backgroundColor: Colors.deepPurpleAccent,
+
     );
   }
 }
