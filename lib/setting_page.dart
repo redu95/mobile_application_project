@@ -165,11 +165,11 @@ class _SettingPageState extends State<SettingPage> {
                       image: null, // Pass null for now, update it with actual image when implemented
                       onSave: (String newName, String newBio, File? newImage) async {
                         // Update user information in Firebase
-                         await FirebaseFirestore.instance.collection('users').doc(user.uid).update({
-                           'name': newName,
-                           'bio': newBio,
-                           'photoUrl': newImage != null ? await uploadImage(newImage) : null,
-                         });
+                        await FirebaseFirestore.instance.collection('users').doc(user.uid).update({
+                          'name': newName,
+                          'bio': newBio,
+                          'photoUrl': newImage != null ? await uploadImage(newImage) : null,
+                        });
                       },
                     ),
                   ),
@@ -306,7 +306,7 @@ class _SettingPageState extends State<SettingPage> {
                 Icons.chevron_right,
                 size: 30,
                 color: Colors.purple,
-            )
+              )
           ],
         ),
       ),
