@@ -87,7 +87,6 @@ class HomePage extends StatelessWidget {
           ],
         ),
       ),
-=======
       backgroundColor: Colors.deepPurpleAccent,
 
     );
