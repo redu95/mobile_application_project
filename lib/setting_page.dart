@@ -10,7 +10,6 @@ import 'package:mobile_application_project/edit_account_page.dart';
 import 'package:path/path.dart';
 
 import 'login_page.dart';
-
 class SettingPage extends StatefulWidget {
 
   const SettingPage({Key? key}) : super(key: key);
@@ -20,6 +19,10 @@ class SettingPage extends StatefulWidget {
 }
 
 class _SettingPageState extends State<SettingPage> {
+  bool _switchValue = false;  // Setting initial value of the switch to true (on state)
+  ThemeData _lightTheme = ThemeData(brightness: Brightness.light, primaryColor: Colors.white); // Theme data for light mode with white as the primary color
+  ThemeData _darkTheme = ThemeData(brightness: Brightness.dark, primaryColor: Colors.black); // Theme data for dark mode with black as the primary color
+
   late String userName;
   late String email ="Add your email";
   String? photoUrl; // Add this variable to hold profile picture URL
@@ -110,38 +113,37 @@ class _SettingPageState extends State<SettingPage> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        leading: IconButton(
-          icon: Icon(Icons.arrow_back),
-          onPressed: () {
-            Navigator.pop(context);
-          },
-        ),
-        actions: [
-          IconButton(
+
+    // if (isLoading) {
+    //   // Show loading indicator while data is being loaded
+    //   return Scaffold(
+    //     body: Center(
+    //       child: CircularProgressIndicator(),
+    //     ),
+    //   );
+    // }
+    return MaterialApp(
+      theme: _switchValue ? _darkTheme : _lightTheme,// Set the theme based on the value of _switchValue
+      home: Scaffold (
+        backgroundColor: _switchValue ? Colors.black : Colors.white,// Set the background color based on the value of _switchValue
+        appBar: AppBar(
+          leading: IconButton(
+            icon: Icon(Icons.arrow_back),
             onPressed: () {
-              setState(() {
-                isLoading = true;
-              });
-              loadUserInfo(user.uid); // Reload user info
+              Navigator.pop(context);
             },
-            icon: Icon(Icons.refresh),
           ),
-        ],
-      ),
-      body: SingleChildScrollView(
-        padding: EdgeInsets.all(20),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            const Text(
-              "Settings",
-              style: TextStyle(
-                fontSize: 32,
-                fontWeight: FontWeight.bold,
-              ),
+          actions: [
+            IconButton(
+              onPressed: () {
+                setState(() {
+                  isLoading = true;
+                });
+                loadUserInfo(user.uid); // Reload user info
+              },
+              icon: Icon(Icons.refresh),
             ),
+
             SizedBox(height: 30),
             const Text(
               "Account",
@@ -174,81 +176,127 @@ class _SettingPageState extends State<SettingPage> {
                           await loadUserInfo(user.uid);
                           Navigator.pop(context);
                         }
-                    ),
-                  ),
-                );
-              },
-            ),
-            SizedBox(height: 40),
-            const Text(
-              "Settings",
-              style: TextStyle(
-                fontSize: 24,
-                fontWeight: FontWeight.w500,
-              ),
-            ),
-            SizedBox(height: 20),
-            buildSettingItem(
-              title: "Language",
-              icon: Ionicons.language_outline,
-              onTap: () {},
-            ),
-            SizedBox(height: 20),
-            buildSettingItem(
-              title: "Notifications",
-              icon: Ionicons.notifications_outline,
-              onTap: () {},
-            ),
-            SizedBox(height: 20),
-            buildSettingItem(
-              title: "Dark Mode",
-              icon: Ionicons.moon_outline,
-              isDarkMode: true,
-              onTap: () {},
-            ),
-            SizedBox(height: 20),
-            buildSettingItem(
-              title: "Help",
-              icon: Ionicons.help_outline,
-              onTap: () {},
-            ),
-            SizedBox(height: 20),
-            buildSettingItem(
-              title: "Log Out",
-              icon: Ionicons.log_out_outline,
-              onTap: () {
-                // Show an alert dialog to confirm logout
-                showDialog(
-                  context: context,
-                  builder: (BuildContext context) {
-                    return AlertDialog(
-                      title: Text("Log Out"),
-                      content: Text("Do you really want to log out?"),
-                      actions: [
-                        TextButton(
-                          onPressed: () {
-                            Navigator.of(context).pop(); // Close the dialog
-                          },
-                          child: Text("Cancel"),
-                        ),
-                        TextButton(
-                          onPressed: () async {
-                            logOut(context); // Log out function
-                            await refreshUserData(); // Refresh user data after logout
-                          },
-                          child: Text("Log Out"),
-                        ),
-                      ],
-                    );
-                  },
-                );
-              },
-            ),
           ],
+        ),
+        body: SingleChildScrollView(
+          padding: EdgeInsets.all(20),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              const Text(
+                "Settings",
+                style: TextStyle(
+                  fontSize: 32,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+              SizedBox(height: 30),
+              Text(
+                "Account",
+                style: TextStyle(
+                  fontSize: 24,
+                  fontWeight: FontWeight.w500,
+                ),
+              ),
+              buildSettingItem(
+                title: userName,
+                subtitle: bio,
+                icon: photoUrl != null ? null : Icons.person,
+                image: photoUrl != null ? NetworkImage(photoUrl!) : null,
+                onTap: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) =>  EditAccountPage(
+                        userName: userName,
+                        bio: bio,
+                        image: null, // Pass null for now, update it with actual image when implemented
+                        onSave: (String newName, String newBio, File? newImage) async {
+                          // Update user information in Firebase
+                          await FirebaseFirestore.instance.collection('users').doc(user.uid).update({
+                            'name': newName,
+                            'bio': newBio,
+                            'photoUrl': newImage != null ? await uploadImage(newImage) : null,
+                          });
+                        },
+                      ),
+
+                    ),
+                  );
+                },
+              ),
+              SizedBox(height: 40),
+              const Text(
+                "Settings",
+                style: TextStyle(
+                  fontSize: 24,
+                  fontWeight: FontWeight.w500,
+                ),
+              ),
+              SizedBox(height: 20),
+              buildSettingItem(
+                title: "Language",
+                icon: Ionicons.language_outline,
+                onTap: () {},
+              ),
+              SizedBox(height: 20),
+              buildSettingItem(
+                title: "Notifications",
+                icon: Ionicons.notifications_outline,
+                onTap: () {},
+              ),
+              SizedBox(height: 20),
+              buildSettingItem(
+                title: "Dark Mode",
+                icon: Ionicons.moon_outline,
+                isDarkMode: true,
+                onTap: () {},
+              ),
+              SizedBox(height: 20),
+              buildSettingItem(
+                title: "Help",
+                icon: Ionicons.help_outline,
+                onTap: () {},
+              ),
+              SizedBox(height: 20),
+              buildSettingItem(
+                title: "Log Out",
+                icon: Ionicons.log_out_outline,
+                onTap: () {
+                  // Show an alert dialog to confirm logout
+                  showDialog(
+                    context: context,
+                    builder: (BuildContext context) {
+                      return AlertDialog(
+                        title: Text("Log Out"),
+                        content: Text("Do you really want to log out?"),
+                        actions: [
+                          TextButton(
+                            onPressed: () {
+                              Navigator.of(context).pop(); // Close the dialog
+                            },
+                            child: Text("Cancel"),
+                          ),
+                          TextButton(
+                            onPressed: () async {
+                              logOut(context); // Log out function
+                              await refreshUserData(); // Refresh user data after logout
+                            },
+                            child: Text("Log Out"),
+                          ),
+                        ],
+                      );
+                    },
+                  );
+                },
+              ),
+            ],
+          ),
         ),
       ),
     );
   }
+
 
 
   Widget buildAccount({
@@ -301,7 +349,6 @@ class _SettingPageState extends State<SettingPage> {
     );
   }
 
-
   Widget buildSettingItem({
     required String title,
     IconData? icon,
@@ -352,13 +399,17 @@ class _SettingPageState extends State<SettingPage> {
             Spacer(),
             if (isDarkMode)
               Switch(
-                value: false, // Replace true with your dark mode state
-                onChanged: (value) {}, // Implement dark mode toggling
+                value: _switchValue, // Replace true with your dark mode state
+                onChanged: (newValue) {
+                  setState(() {
+                    _switchValue = newValue; // Update the value of _switchValue with the new value
+                  });
+                  },
                 activeColor: Colors.purple,
               )
             else
               const Icon(
-                Icons.chevron_right,
+                Icons.chevron_left,
                 size: 30,
                 color: Colors.purple,
               )
