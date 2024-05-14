@@ -4,6 +4,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:ionicons/ionicons.dart';
 import 'package:mobile_application_project/edit_account_page.dart';
 import 'package:path/path.dart';
@@ -20,13 +21,11 @@ class SettingPage extends StatefulWidget {
 
 class _SettingPageState extends State<SettingPage> {
   late String userName;
-  late String bio ="Add your bio";
+  late String email ="Add your email";
   String? photoUrl; // Add this variable to hold profile picture URL
   late User user; // Add this variable to hold the authenticated user
   bool isLoading = true; // Track loading state
-  TextEditingController userNameController =  TextEditingController();
-  TextEditingController emailController =  TextEditingController();
-  TextEditingController passwordController = new TextEditingController();
+
 
   @override
   void initState() {
@@ -41,7 +40,7 @@ class _SettingPageState extends State<SettingPage> {
       if (userDoc.exists) {
         setState(() {
           userName = userDoc.get('userName');
-          bio = userDoc.get('bio') ?? "Add your bio";
+          email = userDoc.get('email') ?? "Add your email";
           photoUrl = userDoc.get('photoUrl');
           isLoading = false;
         });
@@ -60,11 +59,12 @@ class _SettingPageState extends State<SettingPage> {
   }
 
 
+
   Future<void> saveUserInfo(
-      String uid, String name, String bio, String? photoUrl) async {
+      String uid, String name, String email, String? photoUrl) async {
     await FirebaseFirestore.instance.collection('users').doc(uid).set({
       'name': name,
-      'bio': bio,
+      'email': email,
       'photoUrl': photoUrl,
     });
   }
@@ -86,7 +86,7 @@ class _SettingPageState extends State<SettingPage> {
     // Clear user data
     setState(() {
       userName = '';
-      bio = '';
+      email = '';
       photoUrl = null;
     });
 
@@ -143,34 +143,37 @@ class _SettingPageState extends State<SettingPage> {
               ),
             ),
             SizedBox(height: 30),
-            Text(
+            const Text(
               "Account",
               style: TextStyle(
                 fontSize: 24,
                 fontWeight: FontWeight.w500,
               ),
             ),
-            buildSettingItem(
+
+            buildAccount(
               title: userName,
-              subtitle: bio,
-              icon: photoUrl != null ? null : Icons.person,
-              image: photoUrl != null ? NetworkImage(photoUrl!) : null,
+              subtitle: email,
+              image:  NetworkImage('https://static.vecteezy.com/system/resources/previews/004/026/956/non_2x/person-avatar-icon-free-vector.jpg'),
               onTap: () {
                 Navigator.push(
                   context,
                   MaterialPageRoute(
-                    builder: (context) =>  EditAccountPage(
-                      userName: userName,
-                      bio: bio,
-                      image: null, // Pass null for now, update it with actual image when implemented
-                      onSave: (String newName, String newBio, File? newImage) async {
-                        // Update user information in Firebase
-                        await FirebaseFirestore.instance.collection('users').doc(user.uid).update({
-                          'name': newName,
-                          'bio': newBio,
-                          'photoUrl': newImage != null ? await uploadImage(newImage) : null,
-                        });
-                      },
+                    builder: (context) =>EditAccountPage(
+                        userName: userName,
+                        email: email,
+                        onSave: (String newName, String newemail, File? newImage, String newGender)async{
+                          // Update user information in Firebase
+                          await FirebaseFirestore.instance.collection('users').doc(user.uid).update({
+                            'userName': newName,
+                            'email': newemail,
+                            'photoUrl': newImage != null ? await uploadImage(newImage) : null,
+                            'gender':newGender,
+                          });
+                          // Navigate back to SettingPage after saving changes
+                          await loadUserInfo(user.uid);
+                          Navigator.pop(context);
+                        }
                     ),
                   ),
                 );
@@ -247,6 +250,58 @@ class _SettingPageState extends State<SettingPage> {
     );
   }
 
+
+  Widget buildAccount({
+    required String title,
+    required VoidCallback onTap,
+    String? subtitle,
+    ImageProvider? image,
+  }) {
+    return InkWell(
+      onTap: onTap,
+      child: Padding(
+        padding: const EdgeInsets.symmetric(vertical: 12),
+        child: Row(
+          children: [
+            CircleAvatar(
+              radius: 30,
+              backgroundImage: photoUrl != null ? NetworkImage(photoUrl!) : NetworkImage('https://static.vecteezy.com/system/resources/previews/004/026/956/non_2x/person-avatar-icon-free-vector.jpg'),
+            ),
+            SizedBox(width: 20),
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  title,
+                  style: TextStyle(
+                    fontSize: 18,
+                    fontWeight: FontWeight.w500,
+                  ),
+                ),
+                if (subtitle != null) SizedBox(height: 4),
+                if (subtitle != null)
+                  Text(
+                    subtitle,
+                    style: TextStyle(
+                      fontSize: 14,
+                      color: Colors.grey,
+                    ),
+                  ),
+              ],
+            ),
+            Spacer(),
+            const Icon(
+              Icons.settings,
+              size: 30,
+              color: Colors.purple,
+            )
+          ],
+        ),
+      ),
+    );
+  }
+
+
   Widget buildSettingItem({
     required String title,
     IconData? icon,
@@ -258,11 +313,11 @@ class _SettingPageState extends State<SettingPage> {
     return InkWell(
       onTap: onTap,
       child: Padding(
-        padding: const EdgeInsets.symmetric(vertical: 12),
+        padding: const EdgeInsets.symmetric(vertical: 10),
         child: Row(
           children: [
             CircleAvatar(
-              radius: 30,
+              radius: 20,
               backgroundImage: photoUrl != null ? NetworkImage(photoUrl!) : null,
               child: photoUrl == null && icon != null
                   ? Icon(
