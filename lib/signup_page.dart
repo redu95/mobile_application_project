@@ -3,6 +3,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:mobile_application_project/home_page.dart';
+import 'package:mobile_application_project/login_page.dart';
 
 class SignUpPage extends StatefulWidget {
   const SignUpPage({super.key});
@@ -235,6 +236,31 @@ class _SignUpPageState extends State<SignUpPage> {
                   ),
                 ),
               ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Text(
+                    "Already have an Account?",
+                    style: TextStyle(
+                      fontSize: 18.0,color: Colors.white,
+                    ),
+                  ),
+                  SizedBox(width: 5.0,),
+                  GestureDetector(
+                    onTap: (){
+                      Navigator.push(context, MaterialPageRoute(builder: (context)=>LogInPage()));
+                    },
+                    child: Text(
+                      "Login",
+                      style: TextStyle(
+                        color: Colors.deepPurpleAccent,
+                        fontSize: 20.0,
+                        fontWeight: FontWeight.w500,
+                      ),
+                    ),
+                  )
+                ],
+              )
             ],
           ),
         ),
