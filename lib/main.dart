@@ -1,19 +1,21 @@
 import 'dart:ui';
 
+import 'package:firebase_app_check/firebase_app_check.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:mobile_application_project/auth_page.dart';
 import 'package:mobile_application_project/introduction_screen.dart';
 import 'package:mobile_application_project/login_page.dart';
-// import 'package:firebase_app_check/firebase_app_check.dart';
 import 'firebase_options.dart';
+
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
-  //await FirebaseAppCheck.instance.activate();
+  await FirebaseAppCheck.instance.activate();
   runApp(MyApp());
 }
 
@@ -122,7 +124,7 @@ class WelcomePage extends StatelessWidget {
               bottom: 100,
               child: GestureDetector(
                 onTap: (){
-                  Navigator.push(context, MaterialPageRoute(builder: (context)=> LogInPage()));
+                  Navigator.push(context, MaterialPageRoute(builder: (context)=> AuthPage()));
                 },
                 child:const Text(
                     'Already Have an Account? Log in',

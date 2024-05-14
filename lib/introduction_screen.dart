@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:mobile_application_project/login_page.dart';
+import 'package:mobile_application_project/auth_page.dart';
 import 'package:introduction_screen/introduction_screen.dart';
 import 'package:mobile_application_project/signup_page.dart';
 
@@ -26,7 +26,9 @@ class _IntroScreenDemoState extends State<IntroScreenDemo> {
           },
         ),
       ),
-      body:  IntroductionScreen(
+      body: SizedBox(
+        height: MediaQuery.of(context).size.height,
+        child:  IntroductionScreen(
           key: _introKey,
           pages: [
             PageViewModel(
@@ -54,11 +56,6 @@ class _IntroScreenDemoState extends State<IntroScreenDemo> {
               body:'Having all Information About Selected Hotels their Service!',
             ),
             PageViewModel(
-              title: "Map View",
-              image: Image.asset("assets/images/landing_page_images/hotel-location.png"),
-              body:'Getting the Exact Location of the Hotels in Map!',
-            ),
-            PageViewModel(
               title: "Review and Ratings",
               image: Image.asset("assets/images/landing_page_images/waiter-holding-tray-in-restaurant.png"),
               bodyWidget: Column(
@@ -74,7 +71,7 @@ class _IntroScreenDemoState extends State<IntroScreenDemo> {
                       onPressed: () {
                         Navigator.push(
                           context,
-                          MaterialPageRoute(builder: (context) => LogInPage()),
+                          MaterialPageRoute(builder: (context) => AuthPage()),
                         );
                       },
                       child: const Text('                Log In                ',style: TextStyle(fontSize: 20.0,fontWeight: FontWeight.bold),)
@@ -94,12 +91,13 @@ class _IntroScreenDemoState extends State<IntroScreenDemo> {
               ),
             ),
           ],
-        skip: const Text("Skip"),
-        next: const Text("Next"),
+          skip: const Text("Skip"),
+          next: const Text("Next"),
           showSkipButton: true,
           showNextButton: true,
           showDoneButton: false,
         ),
+      ),
     );
   }
 }

@@ -10,9 +10,8 @@ import 'package:path/path.dart';
 
 import 'login_page.dart';
 class SettingPage extends StatefulWidget {
-  final String userName;
 
-  const SettingPage({Key? key, required this.userName}) : super(key: key);
+  const SettingPage({Key? key}) : super(key: key);
 
   @override
   _SettingPageState createState() => _SettingPageState();
@@ -35,7 +34,6 @@ class _SettingPageState extends State<SettingPage> {
   @override
   void initState() {
     super.initState();
-    userName = widget.userName;
     user = FirebaseAuth.instance.currentUser!;
     loadUserInfo(user.uid);
   }
@@ -115,6 +113,7 @@ class _SettingPageState extends State<SettingPage> {
 
   @override
   Widget build(BuildContext context) {
+
     // if (isLoading) {
     //   // Show loading indicator while data is being loaded
     //   return Scaffold(
@@ -127,6 +126,8 @@ class _SettingPageState extends State<SettingPage> {
       theme: _switchValue ? _darkTheme : _lightTheme,// Set the theme based on the value of _switchValue
       home: Scaffold (
       backgroundColor: _switchValue ? Colors.black : Colors.white,// Set the background color based on the value of _switchValue
+
+    return Scaffold(
       appBar: AppBar(
         leading: IconButton(
           icon: Icon(Icons.arrow_back),
