@@ -9,7 +9,6 @@ import 'package:mobile_application_project/edit_account_page.dart';
 import 'package:path/path.dart';
 
 import 'login_page.dart';
-
 class SettingPage extends StatefulWidget {
 
   const SettingPage({Key? key}) : super(key: key);
@@ -19,6 +18,10 @@ class SettingPage extends StatefulWidget {
 }
 
 class _SettingPageState extends State<SettingPage> {
+  bool _switchValue = false;  // Setting initial value of the switch to true (on state)
+  ThemeData _lightTheme = ThemeData(brightness: Brightness.light, primaryColor: Colors.white); // Theme data for light mode with white as the primary color
+  ThemeData _darkTheme = ThemeData(brightness: Brightness.dark, primaryColor: Colors.black); // Theme data for dark mode with black as the primary color
+
   late String userName;
   late String bio ="Add your bio";
   String? photoUrl; // Add this variable to hold profile picture URL
@@ -110,6 +113,20 @@ class _SettingPageState extends State<SettingPage> {
 
   @override
   Widget build(BuildContext context) {
+
+    // if (isLoading) {
+    //   // Show loading indicator while data is being loaded
+    //   return Scaffold(
+    //     body: Center(
+    //       child: CircularProgressIndicator(),
+    //     ),
+    //   );
+    // }
+    return MaterialApp(
+      theme: _switchValue ? _darkTheme : _lightTheme,// Set the theme based on the value of _switchValue
+      home: Scaffold (
+      backgroundColor: _switchValue ? Colors.black : Colors.white,// Set the background color based on the value of _switchValue
+
     return Scaffold(
       appBar: AppBar(
         leading: IconButton(
@@ -244,6 +261,7 @@ class _SettingPageState extends State<SettingPage> {
           ],
         ),
       ),
+      ),
     );
   }
 
@@ -297,13 +315,17 @@ class _SettingPageState extends State<SettingPage> {
             Spacer(),
             if (isDarkMode)
               Switch(
-                value: false, // Replace true with your dark mode state
-                onChanged: (value) {}, // Implement dark mode toggling
+                value: _switchValue, // Replace true with your dark mode state
+                onChanged: (newValue) {
+                  setState(() {
+                    _switchValue = newValue; // Update the value of _switchValue with the new value
+                  });
+                  },
                 activeColor: Colors.purple,
               )
             else
               const Icon(
-                Icons.chevron_right,
+                Icons.chevron_left,
                 size: 30,
                 color: Colors.purple,
             )
