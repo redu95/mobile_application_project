@@ -4,6 +4,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:mobile_application_project/home_page.dart';
 import 'package:mobile_application_project/forgot_password.dart';
+import 'package:mobile_application_project/signup_page.dart';
 
 
 class LogInPage extends StatefulWidget {
@@ -172,6 +173,31 @@ class _LogInPageState extends State<LogInPage> {
                 },
                 child: Text('Forgot Your Password?'),
               ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Text(
+                    "Don't Have an Account?",
+                    style: TextStyle(
+                      fontSize: 18.0,color: Colors.white,
+                    ),
+                  ),
+                  SizedBox(width: 5.0,),
+                  GestureDetector(
+                    onTap: (){
+                      Navigator.push(context, MaterialPageRoute(builder: (context)=>SignUpPage()));
+                    },
+                    child: Text(
+                      "Create",
+                      style: TextStyle(
+                        color: Colors.deepPurpleAccent,
+                        fontSize: 20.0,
+                        fontWeight: FontWeight.w500,
+                      ),
+                    ),
+                  )
+                ],
+              )
             ],
           ),
         ),
