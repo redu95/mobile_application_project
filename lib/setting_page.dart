@@ -4,7 +4,6 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:ionicons/ionicons.dart';
 import 'package:mobile_application_project/edit_account_page.dart';
 import 'package:path/path.dart';
@@ -28,7 +27,9 @@ class _SettingPageState extends State<SettingPage> {
   String? photoUrl; // Add this variable to hold profile picture URL
   late User user; // Add this variable to hold the authenticated user
   bool isLoading = true; // Track loading state
-
+  TextEditingController userNameController =  TextEditingController();
+  TextEditingController emailController =  TextEditingController();
+  TextEditingController passwordController = new TextEditingController();
 
   @override
   void initState() {
@@ -60,7 +61,6 @@ class _SettingPageState extends State<SettingPage> {
       });
     }
   }
-
 
 
   Future<void> saveUserInfo(
@@ -113,15 +113,6 @@ class _SettingPageState extends State<SettingPage> {
 
   @override
   Widget build(BuildContext context) {
-
-    // if (isLoading) {
-    //   // Show loading indicator while data is being loaded
-    //   return Scaffold(
-    //     body: Center(
-    //       child: CircularProgressIndicator(),
-    //     ),
-    //   );
-    // }
     return MaterialApp(
       theme: _switchValue ? _darkTheme : _lightTheme,// Set the theme based on the value of _switchValue
       home: Scaffold (
@@ -143,39 +134,6 @@ class _SettingPageState extends State<SettingPage> {
               },
               icon: Icon(Icons.refresh),
             ),
-
-            SizedBox(height: 30),
-            const Text(
-              "Account",
-              style: TextStyle(
-                fontSize: 24,
-                fontWeight: FontWeight.w500,
-              ),
-            ),
-
-            buildAccount(
-              title: userName,
-              subtitle: email,
-              image:  NetworkImage('https://static.vecteezy.com/system/resources/previews/004/026/956/non_2x/person-avatar-icon-free-vector.jpg'),
-              onTap: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) =>EditAccountPage(
-                        userName: userName,
-                        email: email,
-                        onSave: (String newName, String newemail, File? newImage, String newGender)async{
-                          // Update user information in Firebase
-                          await FirebaseFirestore.instance.collection('users').doc(user.uid).update({
-                            'userName': newName,
-                            'email': newemail,
-                            'photoUrl': newImage != null ? await uploadImage(newImage) : null,
-                            'gender':newGender,
-                          });
-                          // Navigate back to SettingPage after saving changes
-                          await loadUserInfo(user.uid);
-                          Navigator.pop(context);
-                        }
           ],
         ),
         body: SingleChildScrollView(
@@ -198,32 +156,34 @@ class _SettingPageState extends State<SettingPage> {
                   fontWeight: FontWeight.w500,
                 ),
               ),
-              buildSettingItem(
+              buildAccount(
                 title: userName,
-                subtitle: bio,
-                icon: photoUrl != null ? null : Icons.person,
-                image: photoUrl != null ? NetworkImage(photoUrl!) : null,
+                subtitle: email,
+                image:  NetworkImage('https://static.vecteezy.com/system/resources/previews/004/026/956/non_2x/person-avatar-icon-free-vector.jpg'),
                 onTap: () {
                   Navigator.push(
                     context,
                     MaterialPageRoute(
-                      builder: (context) =>  EditAccountPage(
-                        userName: userName,
-                        bio: bio,
-                        image: null, // Pass null for now, update it with actual image when implemented
-                        onSave: (String newName, String newBio, File? newImage) async {
-                          // Update user information in Firebase
-                          await FirebaseFirestore.instance.collection('users').doc(user.uid).update({
-                            'name': newName,
-                            'bio': newBio,
-                            'photoUrl': newImage != null ? await uploadImage(newImage) : null,
-                          });
-                        },
-                      ),
+                      builder: (context) =>EditAccountPage(
+                      userName: userName,
+                      email: email,
+                          onSave: (String newName, String newemail, File? newImage, String newGender)async{
+                            // Update user information in Firebase
+                            await FirebaseFirestore.instance.collection('users').doc(user.uid).update({
+                              'userName': newName,
+                              'email': newemail,
+                              'photoUrl': newImage != null ? await uploadImage(newImage) : null,
+                              'gender':newGender,
+                            });
+                            // Navigate back to SettingPage after saving changes
+                            await loadUserInfo(user.uid);
+                            Navigator.pop(context);
+                          }
 
-                    ),
+                      )
+                    )
                   );
-                },
+                }
               ),
               SizedBox(height: 40),
               const Text(
@@ -297,8 +257,6 @@ class _SettingPageState extends State<SettingPage> {
     );
   }
 
-
-
   Widget buildAccount({
     required String title,
     required VoidCallback onTap,
@@ -349,6 +307,7 @@ class _SettingPageState extends State<SettingPage> {
     );
   }
 
+
   Widget buildSettingItem({
     required String title,
     IconData? icon,
@@ -360,11 +319,11 @@ class _SettingPageState extends State<SettingPage> {
     return InkWell(
       onTap: onTap,
       child: Padding(
-        padding: const EdgeInsets.symmetric(vertical: 10),
+        padding: const EdgeInsets.symmetric(vertical: 12),
         child: Row(
           children: [
             CircleAvatar(
-              radius: 20,
+              radius: 30,
               backgroundImage: photoUrl != null ? NetworkImage(photoUrl!) : null,
               child: photoUrl == null && icon != null
                   ? Icon(
@@ -412,7 +371,7 @@ class _SettingPageState extends State<SettingPage> {
                 Icons.chevron_left,
                 size: 30,
                 color: Colors.purple,
-              )
+            )
           ],
         ),
       ),
