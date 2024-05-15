@@ -242,7 +242,7 @@ class _SignUpPageState extends State<SignUpPage> {
                   Text(
                     "Already have an Account?",
                     style: TextStyle(
-                      fontSize: 18.0,color: Colors.white,
+                      fontSize: 18.0,color: Colors.black,
                     ),
                   ),
                   SizedBox(width: 5.0,),

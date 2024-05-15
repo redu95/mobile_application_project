@@ -11,7 +11,16 @@ import 'package:path/path.dart';
 import 'login_page.dart';
 class SettingPage extends StatefulWidget {
 
-  const SettingPage({Key? key}) : super(key: key);
+  final String userName;
+  final String email;
+  final String? photoUrl;
+
+  const SettingPage({
+    Key? key,
+    required this.userName,
+    required this.email,
+    this.photoUrl,
+  }) : super(key: key);
 
   @override
   _SettingPageState createState() => _SettingPageState();
@@ -22,7 +31,7 @@ class _SettingPageState extends State<SettingPage> {
   ThemeData _lightTheme = ThemeData(brightness: Brightness.light, primaryColor: Colors.white); // Theme data for light mode with white as the primary color
   ThemeData _darkTheme = ThemeData(brightness: Brightness.dark, primaryColor: Colors.black); // Theme data for dark mode with black as the primary color
 
-  late String userName;
+  String userName ='';
   late String email ="Add your email";
   String? photoUrl; // Add this variable to hold profile picture URL
   late User user; // Add this variable to hold the authenticated user
@@ -195,14 +204,28 @@ class _SettingPageState extends State<SettingPage> {
               ),
               SizedBox(height: 20),
               buildSettingItem(
-                title: "Language",
-                icon: Ionicons.language_outline,
+                title: "Bookings",
+                icon: Ionicons.calendar,
                 onTap: () {},
               ),
               SizedBox(height: 20),
               buildSettingItem(
-                title: "Notifications",
-                icon: Ionicons.notifications_outline,
+                title: "Favorites",
+                icon: Ionicons.heart,
+                onTap: () {},
+              ),
+              SizedBox(height: 20,),
+              const Text(
+                "  Appearances",
+                style: TextStyle(
+                  fontSize: 18,
+                  fontWeight: FontWeight.w300,
+                ),
+              ),
+              SizedBox(height: 20),
+              buildSettingItem(
+                title: "Languages",
+                icon: Ionicons.language_outline,
                 onTap: () {},
               ),
               SizedBox(height: 20),
@@ -213,9 +236,23 @@ class _SettingPageState extends State<SettingPage> {
                 onTap: () {},
               ),
               SizedBox(height: 20),
+              const Text(
+                "  Help and Support",
+                style: TextStyle(
+                  fontSize: 18,
+                  fontWeight: FontWeight.w300,
+                ),
+              ),
+              SizedBox(height: 20),
               buildSettingItem(
                 title: "Help",
                 icon: Ionicons.help_outline,
+                onTap: () {},
+              ),
+              SizedBox(height: 20),
+              buildSettingItem(
+                title: "Privacy",
+                icon: Ionicons.shield,
                 onTap: () {},
               ),
               SizedBox(height: 20),
@@ -319,17 +356,18 @@ class _SettingPageState extends State<SettingPage> {
     return InkWell(
       onTap: onTap,
       child: Padding(
-        padding: const EdgeInsets.symmetric(vertical: 12),
+        padding: const EdgeInsets.symmetric(vertical: 10),
         child: Row(
           children: [
             CircleAvatar(
               radius: 30,
+              backgroundColor: Colors.purple.shade50,
               backgroundImage: photoUrl != null ? NetworkImage(photoUrl!) : null,
               child: photoUrl == null && icon != null
                   ? Icon(
                 icon,
                 size: 30,
-                color: Colors.white,
+                color: Colors.deepPurple,
               )
                   : null,
             ),
