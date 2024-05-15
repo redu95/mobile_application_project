@@ -179,7 +179,7 @@ class _LogInPageState extends State<LogInPage> {
                   Text(
                     "Don't Have an Account?",
                     style: TextStyle(
-                      fontSize: 18.0,color: Colors.white,
+                      fontSize: 18.0,color: Colors.black,
                     ),
                   ),
                   SizedBox(width: 5.0,),

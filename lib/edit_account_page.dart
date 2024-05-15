@@ -47,20 +47,6 @@ class _EditAccountPageState extends State<EditAccountPage> {
   }
 
 
-  String? get userId => null;
-
-
-
-  Future<String> uploadImage(File image) async {
-    String fileName = image.path.split('/').last;
-    Reference storageReference =
-    FirebaseStorage.instance.ref().child('profilePictures/$fileName');
-    UploadTask uploadTask = storageReference.putFile(image);
-    TaskSnapshot snapshot = await uploadTask;
-    return await snapshot.ref.getDownloadURL();
-  }
-
-
 
   Future<void> _showConfirmationDialog(BuildContext context) async {
     await showDialog<void>(
@@ -77,12 +63,16 @@ class _EditAccountPageState extends State<EditAccountPage> {
               child: Text('Cancel'),
             ),
             TextButton(
-              onPressed: ()  {
+              onPressed: () async {
                 // Call onSave function to save changes
                 widget.onSave(userName, email, _image, selectedGender);
-                // Navigate back
+                // Simulate a delay for a more natural loading effect
+                await Future.delayed(Duration(seconds: 1));
+
+                // Navigate back after the delay
                 Navigator.pop(context);
-                Navigator.pop(context);
+
+
               },
               child: Text('OK'),
             ),
