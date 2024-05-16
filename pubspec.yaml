@@ -21,7 +21,6 @@ version: 1.0.0+1
 environment:
    sdk: '>=3.3.3 <4.0.0'
 
-
 # Dependencies specify other packages that your package needs in order to work.
 # To automatically upgrade your package dependencies to the latest versions
 # consider running `flutter pub upgrade --major-versions`. Alternatively,
@@ -33,9 +32,15 @@ dependencies:
     sdk: flutter
 
 
+
+
+  # The following adds the Cupertino Icons font to your application.
+  # Use with the CupertinoIcons class for iOS style icons.
   cupertino_icons: ^1.0.6
+  flutter_locales: ^3.0.1
 
   introduction_screen: ^3.1.14
+  firebase_core: ^2.31.0
   firebase_auth: ^4.19.1
   google_sign_in: ^6.2.0
   cloud_firestore: ^4.16.1
@@ -43,7 +48,6 @@ dependencies:
   ionicons: ^0.2.2
   image_picker: ^1.1.1
   firebase_app_check: ^0.2.2+5
-  firebase_core: ^2.31.0
 
 
 dev_dependencies:
@@ -62,7 +66,7 @@ dev_dependencies:
 
 # The following section is specific to Flutter packages.
 flutter:
-
+  generate: true
   # The following line ensures that the Material Icons font is
   # included with your application, so that you can use the icons in
   # the material Icons class.
@@ -72,8 +76,9 @@ flutter:
   assets:
    - assets/images/landing_page_images/
    - assets/Icons/
-   - assets/
-   #- images/a_dot_ham.jpegs
+   - assets/locales/
+   - assets/images/icon_imgg/
+   #- images/a_dot_ham .jpegs
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware
