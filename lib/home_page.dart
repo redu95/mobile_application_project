@@ -208,6 +208,7 @@ class HomePage extends StatelessWidget {
                       width: 100,
                       margin: const EdgeInsets.symmetric(horizontal: 12.0, vertical: 12),
 
+
                       decoration: BoxDecoration(
                         color:Color(0xffF0F1F3),
                         borderRadius: BorderRadius.circular(12),
