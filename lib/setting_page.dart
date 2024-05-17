@@ -237,6 +237,7 @@ class _SettingPageState extends State<SettingPage> {
                             logOut(context); // Log out function
                             await refreshUserData(); // Refresh user data after logout
                           },
+
                           child: LocaleText("log_out"),
                         ),
                       ],

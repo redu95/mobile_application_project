@@ -22,6 +22,7 @@ class _IntroScreenDemoState extends State<IntroScreenDemo> {
           icon: const Icon(Icons.arrow_back),
           onPressed: () {
             Navigator.pop(context); // Navigate back to the previous screen (main.dart)
+
           },
         ),
       ),

@@ -200,6 +200,7 @@ class _SignUpPageState extends State<SignUpPage> {
                         fontWeight: FontWeight.bold,
                       ),
                     ),
+
                   ),
                 ),
               ),
