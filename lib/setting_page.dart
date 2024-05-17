@@ -1,4 +1,3 @@
-// setting_page.dart
 import 'dart:io';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -7,11 +6,12 @@ import 'package:flutter/material.dart';
 import 'package:ionicons/ionicons.dart';
 import 'package:mobile_application_project/edit_account_page.dart';
 import 'package:path/path.dart';
+import 'package:flutter_locales/flutter_locales.dart';
+import 'package:mobile_application_project/languageMenu.dart';
 
 import 'login_page.dart';
 
 class SettingPage extends StatefulWidget {
-
   const SettingPage({Key? key}) : super(key: key);
 
   @override
@@ -20,12 +20,12 @@ class SettingPage extends StatefulWidget {
 
 class _SettingPageState extends State<SettingPage> {
   late String userName;
-  late String bio ="Add your bio";
+  late String bio = "Add your bio";
   String? photoUrl; // Add this variable to hold profile picture URL
   late User user; // Add this variable to hold the authenticated user
   bool isLoading = true; // Track loading state
-  TextEditingController userNameController =  TextEditingController();
-  TextEditingController emailController =  TextEditingController();
+  TextEditingController userNameController = TextEditingController();
+  TextEditingController emailController = TextEditingController();
   TextEditingController passwordController = new TextEditingController();
 
   @override
@@ -34,6 +34,7 @@ class _SettingPageState extends State<SettingPage> {
     user = FirebaseAuth.instance.currentUser!;
     loadUserInfo(user.uid);
   }
+
   Future<void> loadUserInfo(String uid) async {
     try {
       DocumentSnapshot userDoc =
@@ -58,7 +59,6 @@ class _SettingPageState extends State<SettingPage> {
       });
     }
   }
-
 
   Future<void> saveUserInfo(
       String uid, String name, String bio, String? photoUrl) async {
@@ -135,16 +135,16 @@ class _SettingPageState extends State<SettingPage> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            const Text(
-              "Settings",
+            LocaleText(
+              "settings",
               style: TextStyle(
                 fontSize: 32,
                 fontWeight: FontWeight.bold,
               ),
             ),
             SizedBox(height: 30),
-            Text(
-              "Account",
+            LocaleText(
+              "account",
               style: TextStyle(
                 fontSize: 24,
                 fontWeight: FontWeight.w500,
@@ -159,17 +159,17 @@ class _SettingPageState extends State<SettingPage> {
                 Navigator.push(
                   context,
                   MaterialPageRoute(
-                    builder: (context) =>  EditAccountPage(
+                    builder: (context) => EditAccountPage(
                       userName: userName,
                       bio: bio,
                       image: null, // Pass null for now, update it with actual image when implemented
                       onSave: (String newName, String newBio, File? newImage) async {
                         // Update user information in Firebase
-                         await FirebaseFirestore.instance.collection('users').doc(user.uid).update({
-                           'name': newName,
-                           'bio': newBio,
-                           'photoUrl': newImage != null ? await uploadImage(newImage) : null,
-                         });
+                        await FirebaseFirestore.instance.collection('users').doc(user.uid).update({
+                          'name': newName,
+                          'bio': newBio,
+                          'photoUrl': newImage != null ? await uploadImage(newImage) : null,
+                        });
                       },
                     ),
                   ),
@@ -177,8 +177,8 @@ class _SettingPageState extends State<SettingPage> {
               },
             ),
             SizedBox(height: 40),
-            const Text(
-              "Settings",
+            LocaleText(
+              "settings",
               style: TextStyle(
                 fontSize: 24,
                 fontWeight: FontWeight.w500,
@@ -186,32 +186,36 @@ class _SettingPageState extends State<SettingPage> {
             ),
             SizedBox(height: 20),
             buildSettingItem(
-              title: "Language",
+              title: Locales.string(context, "language"),
               icon: Ionicons.language_outline,
-              onTap: () {},
+              onTap: () {
+                Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => LanguageMenuDemo()),
+              );},
             ),
             SizedBox(height: 20),
             buildSettingItem(
-              title: "Notifications",
+              title: Locales.string(context, "notifications"),
               icon: Ionicons.notifications_outline,
               onTap: () {},
             ),
             SizedBox(height: 20),
             buildSettingItem(
-              title: "Dark Mode",
+              title: Locales.string(context, "dark_mode"),
               icon: Ionicons.moon_outline,
               isDarkMode: true,
               onTap: () {},
             ),
             SizedBox(height: 20),
             buildSettingItem(
-              title: "Help",
+              title: Locales.string(context, "help"),
               icon: Ionicons.help_outline,
               onTap: () {},
             ),
             SizedBox(height: 20),
             buildSettingItem(
-              title: "Log Out",
+              title: Locales.string(context, "log_out"),
               icon: Ionicons.log_out_outline,
               onTap: () {
                 // Show an alert dialog to confirm logout
@@ -219,21 +223,21 @@ class _SettingPageState extends State<SettingPage> {
                   context: context,
                   builder: (BuildContext context) {
                     return AlertDialog(
-                      title: Text("Log Out"),
-                      content: Text("Do you really want to log out?"),
+                      title: LocaleText("log_out"),
+                      content: LocaleText("log_out_confirmation"),
                       actions: [
                         TextButton(
                           onPressed: () {
                             Navigator.of(context).pop(); // Close the dialog
                           },
-                          child: Text("Cancel"),
+                          child: LocaleText("cancel"),
                         ),
                         TextButton(
                           onPressed: () async {
                             logOut(context); // Log out function
                             await refreshUserData(); // Refresh user data after logout
                           },
-                          child: Text("Log Out"),
+                          child: LocaleText("log_out"),
                         ),
                       ],
                     );
@@ -306,7 +310,7 @@ class _SettingPageState extends State<SettingPage> {
                 Icons.chevron_right,
                 size: 30,
                 color: Colors.purple,
-            )
+              ),
           ],
         ),
       ),

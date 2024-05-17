@@ -38,6 +38,8 @@ dependencies:
   # Use with the CupertinoIcons class for iOS style icons.
   cupertino_icons: ^1.0.6
   flutter_locales: ^3.0.1
+  flutter_localizations:
+    sdk: flutter
 
   introduction_screen: ^3.1.14
   firebase_core: ^2.31.0
