@@ -237,6 +237,7 @@ class Menu_screen extends StatelessWidget {
         color: color,
         borderRadius: BorderRadius.circular(12),
       ),
+
       child: Center(
         child: Text(
           title,
