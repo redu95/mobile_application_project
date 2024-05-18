@@ -1,17 +1,17 @@
-// setting_page.dart
 import 'dart:io';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_locales/flutter_locales.dart';
 import 'package:ionicons/ionicons.dart';
 import 'package:mobile_application_project/edit_account_page.dart';
 import 'package:path/path.dart';
+import 'package:mobile_application_project/languageMenu.dart';
 
 import 'login_page.dart';
 
 class SettingPage extends StatefulWidget {
-
   const SettingPage({Key? key}) : super(key: key);
 
   @override
@@ -20,13 +20,13 @@ class SettingPage extends StatefulWidget {
 
 class _SettingPageState extends State<SettingPage> {
   late String userName;
-  late String bio ="Add your bio";
-  String? photoUrl; // Add this variable to hold profile picture URL
-  late User user; // Add this variable to hold the authenticated user
-  bool isLoading = true; // Track loading state
-  TextEditingController userNameController =  TextEditingController();
-  TextEditingController emailController =  TextEditingController();
-  TextEditingController passwordController = new TextEditingController();
+  late String bio = "Add your bio";
+  String? photoUrl;
+  late User user;
+  bool isLoading = true;
+  TextEditingController userNameController = TextEditingController();
+  TextEditingController emailController = TextEditingController();
+  TextEditingController passwordController = TextEditingController();
 
   @override
   void initState() {
@@ -34,6 +34,7 @@ class _SettingPageState extends State<SettingPage> {
     user = FirebaseAuth.instance.currentUser!;
     loadUserInfo(user.uid);
   }
+
   Future<void> loadUserInfo(String uid) async {
     try {
       DocumentSnapshot userDoc =
@@ -59,9 +60,7 @@ class _SettingPageState extends State<SettingPage> {
     }
   }
 
-
-  Future<void> saveUserInfo(
-      String uid, String name, String bio, String? photoUrl) async {
+  Future<void> saveUserInfo(String uid, String name, String bio, String? photoUrl) async {
     await FirebaseFirestore.instance.collection('users').doc(uid).set({
       'name': name,
       'bio': bio,
@@ -78,26 +77,19 @@ class _SettingPageState extends State<SettingPage> {
     return await snapshot.ref.getDownloadURL();
   }
 
-  // Function to log out
   Future<void> logOut(BuildContext context) async {
-    // Sign out user
     await FirebaseAuth.instance.signOut();
-
-    // Clear user data
     setState(() {
       userName = '';
       bio = '';
       photoUrl = null;
     });
-
-    // Navigate back to login page
     Navigator.pushReplacement(
       context,
       MaterialPageRoute(builder: (context) => LogInPage()),
     );
   }
 
-  // Method to refresh user data
   Future<void> refreshUserData() async {
     setState(() {
       isLoading = true;
@@ -124,18 +116,20 @@ class _SettingPageState extends State<SettingPage> {
               setState(() {
                 isLoading = true;
               });
-              loadUserInfo(user.uid); // Reload user info
+              loadUserInfo(user.uid);
             },
             icon: Icon(Icons.refresh),
           ),
         ],
       ),
-      body: SingleChildScrollView(
+      body: isLoading
+          ? Center(child: CircularProgressIndicator())
+          : SingleChildScrollView(
         padding: EdgeInsets.all(20),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            const Text(
+            LocaleText(
               "Settings",
               style: TextStyle(
                 fontSize: 32,
@@ -143,7 +137,7 @@ class _SettingPageState extends State<SettingPage> {
               ),
             ),
             SizedBox(height: 30),
-            Text(
+            LocaleText(
               "Account",
               style: TextStyle(
                 fontSize: 24,
@@ -159,17 +153,17 @@ class _SettingPageState extends State<SettingPage> {
                 Navigator.push(
                   context,
                   MaterialPageRoute(
-                    builder: (context) =>  EditAccountPage(
+                    builder: (context) => EditAccountPage(
                       userName: userName,
                       bio: bio,
-                      image: null, // Pass null for now, update it with actual image when implemented
+                      image: null,
                       onSave: (String newName, String newBio, File? newImage) async {
-                        // Update user information in Firebase
-                         await FirebaseFirestore.instance.collection('users').doc(user.uid).update({
-                           'name': newName,
-                           'bio': newBio,
-                           'photoUrl': newImage != null ? await uploadImage(newImage) : null,
-                         });
+                        String? newPhotoUrl = photoUrl;
+                        if (newImage != null) {
+                          newPhotoUrl = await uploadImage(newImage);
+                        }
+                        await saveUserInfo(user.uid, newName, newBio, newPhotoUrl);
+                        refreshUserData();
                       },
                     ),
                   ),
@@ -177,7 +171,7 @@ class _SettingPageState extends State<SettingPage> {
               },
             ),
             SizedBox(height: 40),
-            const Text(
+            LocaleText(
               "Settings",
               style: TextStyle(
                 fontSize: 24,
@@ -188,7 +182,12 @@ class _SettingPageState extends State<SettingPage> {
             buildSettingItem(
               title: "Language",
               icon: Ionicons.language_outline,
-              onTap: () {},
+              onTap: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => LanguageMenuDemo()),
+                );
+              },
             ),
             SizedBox(height: 20),
             buildSettingItem(
@@ -214,26 +213,24 @@ class _SettingPageState extends State<SettingPage> {
               title: "Log Out",
               icon: Ionicons.log_out_outline,
               onTap: () {
-                // Show an alert dialog to confirm logout
                 showDialog(
                   context: context,
                   builder: (BuildContext context) {
                     return AlertDialog(
-                      title: Text("Log Out"),
-                      content: Text("Do you really want to log out?"),
+                      title: LocaleText("Log Out"),
+                      content: LocaleText("Do you really want to log out?"),
                       actions: [
                         TextButton(
                           onPressed: () {
-                            Navigator.of(context).pop(); // Close the dialog
+                            Navigator.of(context).pop();
                           },
-                          child: Text("Cancel"),
+                          child: LocaleText("Cancel"),
                         ),
                         TextButton(
                           onPressed: () async {
-                            logOut(context); // Log out function
-                            await refreshUserData(); // Refresh user data after logout
+                            await logOut(context);
                           },
-                          child: Text("Log Out"),
+                          child: LocaleText("Log Out"),
                         ),
                       ],
                     );
@@ -263,8 +260,8 @@ class _SettingPageState extends State<SettingPage> {
           children: [
             CircleAvatar(
               radius: 30,
-              backgroundImage: photoUrl != null ? NetworkImage(photoUrl!) : null,
-              child: photoUrl == null && icon != null
+              backgroundImage: image,
+              child: image == null && icon != null
                   ? Icon(
                 icon,
                 size: 30,
@@ -273,40 +270,41 @@ class _SettingPageState extends State<SettingPage> {
                   : null,
             ),
             SizedBox(width: 20),
-            Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  title,
-                  style: TextStyle(
-                    fontSize: 18,
-                    fontWeight: FontWeight.w500,
-                  ),
-                ),
-                if (subtitle != null) SizedBox(height: 4),
-                if (subtitle != null)
-                  Text(
-                    subtitle,
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  LocaleText(
+                    title,
                     style: TextStyle(
-                      fontSize: 14,
-                      color: Colors.grey,
+                      fontSize: 18,
+                      fontWeight: FontWeight.w500,
                     ),
                   ),
-              ],
+                  if (subtitle != null) SizedBox(height: 4),
+                  if (subtitle != null)
+                    LocaleText(
+                      subtitle,
+                      style: TextStyle(
+                        fontSize: 14,
+                        color: Colors.grey,
+                      ),
+                    ),
+                ],
+              ),
             ),
-            Spacer(),
             if (isDarkMode)
               Switch(
-                value: false, // Replace true with your dark mode state
-                onChanged: (value) {}, // Implement dark mode toggling
+                value: false,
+                onChanged: (value) {},
                 activeColor: Colors.purple,
               )
             else
-              const Icon(
+              Icon(
                 Icons.chevron_right,
                 size: 30,
                 color: Colors.purple,
-            )
+              ),
           ],
         ),
       ),

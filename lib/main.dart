@@ -6,9 +6,12 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:mobile_application_project/auth_page.dart';
 import 'package:mobile_application_project/introduction_screen.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:mobile_application_project/login_page.dart';
-import 'firebase_options.dart';
+import 'package:mobile_application_project/languageMenu.dart';
+import 'package:flutter_locales/flutter_locales.dart';
 
+import 'firebase_options.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -16,6 +19,7 @@ void main() async {
     options: DefaultFirebaseOptions.currentPlatform,
   );
   await FirebaseAppCheck.instance.activate();
+  await Locales.init(['en', 'am', 'ar']); // Initialize locales
   runApp(MyApp());
 }
 
@@ -24,14 +28,24 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Addis Stay',
-      theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
-        useMaterial3: true,
+    return LocaleBuilder(
+      builder: (locale) => MaterialApp(
+        debugShowCheckedModeBanner: false,
+        title: 'Flutter Locales',
+        localizationsDelegates: [
+          Locales.delegate,
+          GlobalMaterialLocalizations.delegate,
+          GlobalWidgetsLocalizations.delegate,
+          GlobalCupertinoLocalizations.delegate,
+        ],
+        supportedLocales: Locales.supportedLocales,
+        locale: locale,
+        home: const WelcomePage(),
+        theme: ThemeData(
+          colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
+          useMaterial3: true,
+        ),
       ),
-      home:  WelcomePage(),
-      debugShowCheckedModeBanner: false,
     );
   }
 }
@@ -44,20 +58,45 @@ class WelcomePage extends StatelessWidget {
     return Scaffold(
       body: Stack(
         children: [
-          // Background image
+// Background image
           Image.asset(
             'assets/images/landing_page_images/welcomePag_Image.jpg',
             fit: BoxFit.cover,
             width: double.infinity,
             height: double.infinity,
           ),
-          // Dark overlay to make the image darker
+// Dark overlay to make the image darker
           Container(
-            color: Colors.black.withOpacity(0.65), // Adjust opacity as needed
+            color: Colors.black.withOpacity(0.65),
             width: double.infinity,
             height: double.infinity,
           ),
-          //Icon in square
+// Language button
+          Positioned(
+            top: 60,
+            right: 20,
+            child: Align(
+              child: ElevatedButton(
+                onPressed: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => LanguageMenuDemo()),
+                  );
+                },
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: Colors.transparent,
+                  padding: EdgeInsets.symmetric(horizontal: 50, vertical: 16),
+                ),
+                child: const LocaleText(
+                  'language',
+                  style: TextStyle(
+                    color: Colors.white,
+                  ),
+                ),
+              ),
+            ),
+          ),
+// Icon in square
           Positioned(
             left: 160,
             top: 220,
@@ -65,15 +104,15 @@ class WelcomePage extends StatelessWidget {
               width: 50,
               height: 50,
               color: Colors.white,
-              child: Icon(Icons.hotel, color: Colors.deepPurple), // Later be Changed
+              child: Icon(Icons.hotel, color: Colors.deepPurple),
             ),
           ),
-          // Welcome text and icon
+// Welcome text and icon
           const Positioned(
             left: 115,
             top: 300,
-            child: Text(
-              'Addis Stay',
+            child: LocaleText(
+              'addis_stay',
               style: TextStyle(
                 fontSize: 28,
                 fontWeight: FontWeight.bold,
@@ -84,8 +123,8 @@ class WelcomePage extends StatelessWidget {
           const Positioned(
             left: 80,
             top: 350,
-            child: Text(
-              'Best App to Book Hotels in Addis Ababa!',
+            child: LocaleText(
+              'best_app_to_book_hotels',
               style: TextStyle(
                 fontSize: 12,
                 fontWeight: FontWeight.bold,
@@ -93,12 +132,11 @@ class WelcomePage extends StatelessWidget {
               ),
             ),
           ),
-          // Get Started button
+// Get Started button
           Positioned(
-             left: 60,
-             bottom: 150,
+            left: 60,
+            bottom: 150,
             child: Align(
-              //alignment: Alignment.bottomCenter,
               child: ElevatedButton(
                 onPressed: () {
                   Navigator.push(
@@ -107,11 +145,11 @@ class WelcomePage extends StatelessWidget {
                   );
                 },
                 style: ElevatedButton.styleFrom(
-                  backgroundColor: Colors.deepPurple, //  fill color
-                  padding: EdgeInsets.symmetric(horizontal: 100, vertical: 16), // Adjust button size here
+                  backgroundColor: Colors.deepPurple,
+                  padding: EdgeInsets.symmetric(horizontal: 100, vertical: 16),
                 ),
-                child: const Text(
-                    'Get Started',
+                child: const LocaleText(
+                  'get_started',
                   style: TextStyle(
                     color: Colors.white,
                   ),
@@ -119,23 +157,22 @@ class WelcomePage extends StatelessWidget {
               ),
             ),
           ),
-           Positioned(
-             left: 90,
-              bottom: 100,
-              child: GestureDetector(
-                onTap: (){
-                  Navigator.push(context, MaterialPageRoute(builder: (context)=> AuthPage()));
-                },
-                child:const Text(
-                    'Already Have an Account? Log in',
-                  style: TextStyle(
-                    color: Colors.white,
-                    fontWeight: FontWeight.bold,
-                  ),
+          Positioned(
+            left: 90,
+            bottom: 100,
+            child: GestureDetector(
+              onTap: () {
+                Navigator.push(context, MaterialPageRoute(builder: (context) => AuthPage()));
+              },
+              child: const LocaleText(
+                'already_have_an_account',
+                style: TextStyle(
+                  color: Colors.white,
+                  fontWeight: FontWeight.bold,
                 ),
               ),
-          )
-
+            ),
+          ),
         ],
       ),
     );
