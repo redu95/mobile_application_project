@@ -16,6 +16,7 @@ class Home extends StatefulWidget {
 
 
 class _HomeState extends State<Home> {
+  final User user = FirebaseAuth.instance.currentUser!;
   int _selectedIndex = 0;
   late List<Widget> _widgetOptions;
 
@@ -25,7 +26,11 @@ class _HomeState extends State<Home> {
     _widgetOptions = <Widget>[
       HomePage(),
       Text('Search Page'),
-      SettingPage(),
+      SettingPage(
+        userName: user.displayName ?? '',
+        email: user.email ?? 'Add your email',
+        photoUrl: user.photoURL,
+      ),
     ];
   }
 
@@ -87,7 +92,6 @@ class HomePage extends StatelessWidget {
           ],
         ),
       ),
-=======
       backgroundColor: Colors.deepPurpleAccent,
 
     );
