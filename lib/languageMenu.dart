@@ -1,11 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_locales/flutter_locales.dart';
-import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  await Locales.init(['en', 'am', 'ar']); // Initialize with supported locales
+  await Locales.init(['en', 'es', 'am', 'ar']); // Initialize with supported locales
   runApp(MyApp());
 }
 
@@ -15,21 +14,15 @@ class MyApp extends StatelessWidget {
     return LocaleBuilder(
       builder: (locale) => MaterialApp(
         locale: locale,
-        localizationsDelegates: [
-          Locales.delegate, // Use Locales.delegate for localization
-          GlobalMaterialLocalizations.delegate,
-          GlobalWidgetsLocalizations.delegate,
-          GlobalCupertinoLocalizations.delegate,
-        ],
         supportedLocales: Locales.supportedLocales,
-        home: LanguageMenuDemo(),
+        home: const LanguageMenuDemo(),
       ),
     );
   }
 }
 
 class LanguageMenuDemo extends StatefulWidget {
-  const LanguageMenuDemo({super.key});
+  const LanguageMenuDemo({Key? key}) : super(key: key);
 
   @override
   State<LanguageMenuDemo> createState() => _LanguageMenuDemoState();
@@ -38,12 +31,14 @@ class LanguageMenuDemo extends StatefulWidget {
 class _LanguageMenuDemoState extends State<LanguageMenuDemo> {
   final List<String> locales = [
     "English",
+    "español",
     "አማርኛ",
     "Arabic"
   ];
 
   final List<String> localeCodes = [
     "en",
+    "es",
     "am",
     "ar"
   ];

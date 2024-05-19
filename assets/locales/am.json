@@ -39,5 +39,15 @@
   "help": "እርዳታ",
   "log_out": "ውጣ",
   "log_out_confirm": "እርግጠኛ ነዎት እንደምትወጡ?",
-  "cancel": "ሰርዝ"
+  "cancel": "ሰርዝ",
+  "sign_Up": "ተመዝገቢ",
+  "please_Enter_User_Name": "እባክዎን የተጠቃሚ ስም አስገቡ",
+  "please_Enter_Email_Address": "እባክዎን ኢሜል አድራሻ አስገቡ",
+  "invalid_Email_Address": "ልክ ያልሆነ የኢሜይል አድራሻ",
+  "password": "የይለፍ ቃል",
+  "please_Enter_Password": "እባክህ የይለፍ ቃል አስገባ",
+  "confirm_Password": "የይለፍ ቃል አረጋግጥ",
+  "please_Confirm_Your_Password": "እባክህ የይለፍ ቃልህን አረጋግጥ",
+  "error_Creating_Account": "መለያ መፍጠር ስህተት"
+
 }

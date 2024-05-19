@@ -19,7 +19,7 @@ void main() async {
     options: DefaultFirebaseOptions.currentPlatform,
   );
   await FirebaseAppCheck.instance.activate();
-  await Locales.init(['en', 'am', 'ar']); // Initialize locales
+  await Locales.init(['en','es', 'am', 'ar']); // Initialize locales
   runApp(MyApp());
 }
 

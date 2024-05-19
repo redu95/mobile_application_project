@@ -41,5 +41,15 @@
   "help": "help",
   "log_out": "log out",
   "log_out_confirm": "log out confirm",
-  "cancel": "cancel"
+  "cancel": "cancel",
+  "sign_Up": "Sign Up",
+  "please_Enter_User_Name": "Please enter your user name",
+  "please_Enter_Email_Address": "Please enter your email address",
+  "invalid_Email_Address": "Invalid email address",
+  "password": "Password",
+  "please_Enter_Password": "Please enter your password",
+  "confirm_Password": "Confirm Password",
+  "please_Confirm_Your_Password": "Please confirm your password",
+  "error_Creating_Account": "Error creating account. Please try again later."
 }
+
