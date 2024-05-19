@@ -73,6 +73,7 @@ flutter:
    - assets/images/landing_page_images/
    - assets/Icons/
    - assets/
+   - assets/images/hotel_im/
    #- images/a_dot_ham.jpegs
 
   # An image asset can refer to one or more resolution-specific "variants", see
