@@ -106,7 +106,7 @@ class _HomePageState extends State<HomePage> {
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceAround,
                 children: [
-                  const Icon(Icons.menu_rounded, size: 40),
+                  const Icon(Icons.menu_rounded, size: 40,color: Colors.purple,),
                   ClipRRect(
                     borderRadius: BorderRadius.circular(22),
                     child: const Image(
@@ -153,7 +153,8 @@ class _HomePageState extends State<HomePage> {
                         ),
                         border: OutlineInputBorder(
                           borderSide: const BorderSide(
-                              width: 2.4, color: Color(0xff3c4657)),
+                              width: 2.4,
+                              color: Colors.purple),
                           borderRadius: BorderRadius.circular(12),
                         ),
                         enabledBorder: OutlineInputBorder(
@@ -165,7 +166,7 @@ class _HomePageState extends State<HomePage> {
                   ),
                   Container(
                     decoration: BoxDecoration(
-                      color: const Color(0xff3c4657),
+                      color: Colors.purple,
                       borderRadius: BorderRadius.circular(8),
                     ),
                     height: 50,
@@ -190,7 +191,7 @@ class _HomePageState extends State<HomePage> {
                       });
                     },
                     child: MenuScreen(
-                      "Hotel",
+                      "Dining",
                       selectedOne == MenuSelection.menu1
                           ? Colors.purple : Color(0xffF0F1F3),
                       selectedOne == MenuSelection.menu1
@@ -204,7 +205,7 @@ class _HomePageState extends State<HomePage> {
                       });
                     },
                     child: MenuScreen(
-                      "Apartment",
+                      "Accommodations",
                       selectedOne == MenuSelection.menu2
                           ? Colors.purple : Color(0xffF0F1F3),
                       selectedOne == MenuSelection.menu2
@@ -218,7 +219,7 @@ class _HomePageState extends State<HomePage> {
                       });
                     },
                     child: MenuScreen(
-                      "hostel",
+                      "Room Servicel",
                       selectedOne == MenuSelection.menu3
                           ? Colors.purple : Color(0xffF0F1F3),
                       selectedOne == MenuSelection.menu3
@@ -232,7 +233,7 @@ class _HomePageState extends State<HomePage> {
                       });
                     },
                     child: MenuScreen(
-                      "Motel",
+                      "Accommodations",
                       selectedOne == MenuSelection.menu4
                           ? Colors.purple : Color(0xffF0F1F3),
                       selectedOne == MenuSelection.menu4
@@ -281,7 +282,7 @@ class _HomePageState extends State<HomePage> {
                       right: 0,
                       child: IconButton(
                         onPressed: (){},
-                        icon:Icon(Icons.favorite_border),
+                        icon:Icon(Icons.favorite_border,color: Colors.purple,),
                       ),
 
                     ),
@@ -373,7 +374,7 @@ class _HomePageState extends State<HomePage> {
                                 Text(
                                   object.getAnotherData[index].name,
                                   style: TextStyle(
-                                      fontSize:18
+                                      fontSize:22
                                       ,color:Colors.white ,
                                       fontWeight:FontWeight.w600),
                                 ),

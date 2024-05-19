@@ -67,7 +67,7 @@ class Detail extends StatelessWidget {
                           onPressed: () {
                             Navigator.pop(context);
                           },
-                          icon: Icon(Icons.arrow_back_ios, size: 30),
+                          icon: Icon(Icons.arrow_back_ios, size: 30, color: Colors.purple,),
                           iconSize: 30,
                         ),
                       ),
@@ -75,11 +75,13 @@ class Detail extends StatelessWidget {
                         height: 50,
                         decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(12),
-                          color: Color(0xfffF8FcFF),
+                          color: Color(0xFFF8FCFF),
+
                         ),
                         width: 60,
                         child: const Icon(
-                          Icons.favorite_border,size: 30,),
+
+                          Icons.favorite_border,size: 30, color: Colors.purple,),
                       ),
 
 
@@ -97,8 +99,8 @@ class Detail extends StatelessWidget {
                 Text(
                   hotelName,
                   style: TextStyle(
-                    fontSize: 22,
-                    fontWeight: FontWeight.w400,
+                    fontSize: 28,
+                    fontWeight: FontWeight.w800,
                     color: Colors.black,
                   ),
                 ),
@@ -153,9 +155,9 @@ class Detail extends StatelessWidget {
                   style: TextStyle(fontSize: 22),
                 ),
                 Text(
-                  "Hotel is a superior building meant for accommodation 15 or more strangers temporarily "
-                      "for a few days. Strangers are changed according to the nature and period of accommodation. "
-                      "Hotel provides both lodging (temporary habitation) & boarding facilities.",
+                  "Our hotel  is a prestigious hotel in Addis Ababa, Ethiopia, offering luxurious accommodations, "
+                      "exceptional amenities, and prime location. With elegant rooms, "
+                      "exquisite dining, and extensive facilities, it guarantees a memorable stay.",
                 style: TextStyle(fontSize:14 ),),
               ],
             ),
