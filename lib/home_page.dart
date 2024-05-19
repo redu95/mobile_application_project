@@ -4,6 +4,7 @@ import 'package:mobile_application_project/setting_page.dart';
 import 'package:mobile_application_project/homeScreen.dart';
 
 import 'package:mobile_application_project/data_home.dart';
+import 'package:mobile_application_project/detail_screen.dart';
 
 class Home extends StatefulWidget {
   @override
@@ -91,7 +92,7 @@ class _HomePageState extends State<HomePage> {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      theme: ThemeData(scaffoldBackgroundColor: Color(0xffF8FCFF)),
+      theme: ThemeData(scaffoldBackgroundColor: Color(0xffF8FCFF),primaryColor:Color(0xffF8FCFF) ),
       home: Scaffold(
         body:SafeArea(
           child:SingleChildScrollView(
@@ -246,74 +247,84 @@ class _HomePageState extends State<HomePage> {
       ),
       Container(
         margin:EdgeInsets.symmetric(horizontal:4,vertical:12),
-        height: 400,
+        height: 270,
         width: double.infinity,
         child: ListView.builder(
           scrollDirection: Axis.horizontal,
           itemCount: object.getData.length,
           itemBuilder: (context, index){
-            return Container(height: 200,
-              margin:EdgeInsets.symmetric(horizontal:8),
-              width: 250,
-              decoration: BoxDecoration(
-                borderRadius:BorderRadius.circular(12),
-                image: DecorationImage(
-                    image: AssetImage(
-                        object.getData[index].imageurl),
+            return InkWell(
+              onTap: (){
+                Navigator.push(context,MaterialPageRoute(builder: (context)=> Detail(
+                    object.getData[index].imageurl,
+                    object.getData[index].name,
+                    object.getData[index].location)
+                )
+                );
+              },
+              child: Container(height: 200,
+                margin:EdgeInsets.symmetric(horizontal:8),
+                width: 250,
+                decoration: BoxDecoration(
+                  borderRadius:BorderRadius.circular(12),
+                  image: DecorationImage(
+                      image: AssetImage(
+                          object.getData[index].imageurl),
 
 
-                    fit:BoxFit.cover),
+                      fit:BoxFit.cover),
 
-              ),
-              child: Stack(
-                children: [
-                  Positioned(
-                    right: 0,
-                    child: IconButton(
-                      onPressed: (){},
-                      icon:Icon(Icons.favorite_border),
+                ),
+                child: Stack(
+                  children: [
+                    Positioned(
+                      right: 0,
+                      child: IconButton(
+                        onPressed: (){},
+                        icon:Icon(Icons.favorite_border),
+                      ),
+
                     ),
+                    Positioned(
+                        bottom:10,
+                        left:10,
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              object.getData[index].name,
+                              style: TextStyle(
+                                  fontSize:
+                                  22,color:Colors.white ,
+                                  fontWeight:FontWeight.w600),
+                            ),
+                            const SizedBox(height: 8,),
+                            Row(
+                              children: [
+                                Icon(Icons.location_on,
+                                  size:30,
+                                  color: Colors.white,),
+                                Text(
+                                  object.getData[index].location,
+                                  style: const TextStyle(
+                                      fontSize: 22,
+                                      color:Colors.white,
+                                      fontWeight:FontWeight.w600
+                                  )
+                                  ,
+                                )
 
-                  ),
-                 Positioned(
-                   bottom:10,
-                   left:10,
-                   child: Column(
-                     crossAxisAlignment: CrossAxisAlignment.start,
-                     children: [
-                       Text(
-                         object.getData[index].name,
-                         style: TextStyle(
-                             fontSize:
-                             22,color:Colors.white ,
-                             fontWeight:FontWeight.w600),
-                       ),
-                       const SizedBox(height: 8,),
-                       Row(
-                         children: [
-                           Icon(Icons.location_on,
-                               size:30,
-                           color: Colors.white,),
-                           Text(
-                             object.getData[index].location,
-                             style: const TextStyle(
-                               fontSize: 22,
-                               color:Colors.white,
-                                 fontWeight:FontWeight.w600
-                             )
-                             ,
-                           )
+                              ],
+                            )
+                          ],
+                        )
+                    )
 
-                         ],
-                       )
-                     ],
-                   )
-                 )
+                  ],
+                ),
 
-                ],
+
               ),
-
-
             );
 
           },
@@ -333,53 +344,63 @@ class _HomePageState extends State<HomePage> {
                 scrollDirection: Axis.horizontal,
                 itemCount: object.getAnotherData.length,
                 itemBuilder: (context, index) {
-                  return Container(
-                    margin: EdgeInsets.symmetric(horizontal: 4),
-                    height: 220,
-                    width: 200,
-                    decoration: BoxDecoration(
-                        image:DecorationImage(image:AssetImage(object.getAnotherData[index].imageurl)
-                        ,fit:BoxFit.cover),
-                        borderRadius:BorderRadius.circular(12)
-                    ),
-                    child: Stack(children: [
-                      Positioned(
-                          bottom:10,
-                          left:10,
-
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text(
-                                object.getAnotherData[index].name,
-                                style: TextStyle(
-                                    fontSize:18
-                                    ,color:Colors.white ,
-                                    fontWeight:FontWeight.w600),
-                              ),
-                              const SizedBox(height: 8,),
-                              Row(
-                                children: [
-                                  Icon(Icons.location_on,
-                                    size:30,
-                                    color: Colors.white,),
-                                  Text(
-                                    object.getAnotherData[index].location,
-                                    style: const TextStyle(
-                                        fontSize: 18,
-                                        color:Colors.white,
-                                        fontWeight:FontWeight.w600
-                                    )
-                                    ,
-                                  )
-
-                                ],
-                              )
-                            ],
-                          )
+                  return InkWell(
+                    onTap: (){
+                      Navigator.push(context,MaterialPageRoute(builder: (context)=> Detail(
+                          object.getAnotherData[index].imageurl,
+                          object.getAnotherData[index].name,
+                          object.getAnotherData[index].location)
                       )
-                    ],),
-
+                      );
+                    },
+                    child: Container(
+                      margin: EdgeInsets.symmetric(horizontal: 4),
+                      height: 220,
+                      width: 200,
+                      decoration: BoxDecoration(
+                          image:DecorationImage(image:AssetImage(object.getAnotherData[index].imageurl)
+                          ,fit:BoxFit.cover),
+                          borderRadius:BorderRadius.circular(12)
+                      ),
+                      child: Stack(children: [
+                        Positioned(
+                            bottom:10,
+                            left:10,
+                    
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(
+                                  object.getAnotherData[index].name,
+                                  style: TextStyle(
+                                      fontSize:18
+                                      ,color:Colors.white ,
+                                      fontWeight:FontWeight.w600),
+                                ),
+                                const SizedBox(height: 8,),
+                                Row(
+                                  children: [
+                                    Icon(Icons.location_on,
+                                      size:30,
+                                      color: Colors.white,),
+                                    Text(
+                                      object.getAnotherData[index].location,
+                                      style: const TextStyle(
+                                          fontSize: 18,
+                                          color:Colors.white,
+                                          fontWeight:FontWeight.w600
+                                      )
+                                      ,
+                                    )
+                    
+                                  ],
+                                )
+                              ],
+                            )
+                        )
+                      ],),
+                    
+                    ),
                   );
                 },
               ),
