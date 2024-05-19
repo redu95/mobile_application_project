@@ -9,14 +9,14 @@ import 'dart:io';
 
 class EditAccountPage extends StatefulWidget {
   final String userName;
-  final String bio;
+  final String email;
   final File? image;
-  final void Function(String newName, String newBio, File? newImage) onSave;
+  final void Function(String newName, String newemail, File? newImage,String newGender) onSave;
 
   const EditAccountPage({
     Key? key,
     required this.userName,
-    required this.bio,
+    required this.email,
     required this.onSave,
     this.image,
   }) : super(key: key);
@@ -26,12 +26,12 @@ class EditAccountPage extends StatefulWidget {
 }
 
 class _EditAccountPageState extends State<EditAccountPage> {
-  String selectedGender = '';
+  String selectedGender ='' ;
   late String userName;
-  late String bio;
+  late String email;
   late File? _image;
   TextEditingController usernameController = TextEditingController();
-  TextEditingController _bioController = TextEditingController();
+  TextEditingController _emailController = TextEditingController();
   bool changesSaved = false;
 
   final picker = ImagePicker();
@@ -40,51 +40,11 @@ class _EditAccountPageState extends State<EditAccountPage> {
   void initState() {
     super.initState();
     userName = widget.userName;
-    bio = widget.bio;
+    email = widget.email;
     usernameController.text = userName;
-    _bioController.text = bio;
+    _emailController.text = email;
     _image = widget.image;
   }
-
-
-  String? get userId => null;
-
-
-
-  Future<String> uploadImage(File image) async {
-    String fileName = image.path.split('/').last;
-    Reference storageReference =
-    FirebaseStorage.instance.ref().child('profilePictures/$fileName');
-    UploadTask uploadTask = storageReference.putFile(image);
-    TaskSnapshot snapshot = await uploadTask;
-    return await snapshot.ref.getDownloadURL();
-  }
-
-
-
-  Future<void> saveProfileInfo(String newName, String newBio, File? newImage) async {
-    String photoUrl;
-    if (newImage != null) {
-      // Upload image to Firebase Storage
-      photoUrl = await uploadImage(newImage);
-    } else {
-      photoUrl = ''; // Or set it to the current photo URL if not changed
-    }
-
-    // Get user ID from wherever it's supposed to come from
-    String? userId = ''; // Replace this with the logic to get user ID
-
-    // Check if the user ID is available
-    if (userId != null) {
-      // Update user information in Firestore
-      await FirebaseFirestore.instance.collection('users').doc(userId).update({
-        'userName': newName,
-        'bio': newBio,
-        'photoUrl': photoUrl,
-      }, ); // Use merge: true to create the document if it doesn't exist
-    }
-  }
-
 
 
 
@@ -104,14 +64,15 @@ class _EditAccountPageState extends State<EditAccountPage> {
             ),
             TextButton(
               onPressed: () async {
-                await saveProfileInfo(
-                  usernameController.text,
-                  _bioController.text,
-                  _image,
-                );
-                // Pass arguments here
-                Navigator.of(context).pop(); // Dismiss the dialog
-                Navigator.of(context).pop();
+                // Call onSave function to save changes
+                widget.onSave(userName, email, _image, selectedGender);
+                // Simulate a delay for a more natural loading effect
+                await Future.delayed(Duration(seconds: 1));
+
+                // Navigate back after the delay
+                Navigator.pop(context);
+
+
               },
               child: Text('OK'),
             ),
@@ -226,7 +187,7 @@ class _EditAccountPageState extends State<EditAccountPage> {
                   ),
                 ),
                 SizedBox(height: 30),
-                Text(
+                const Text(
                   'Username',
                   style: TextStyle(
                     fontSize: 18,
@@ -236,9 +197,9 @@ class _EditAccountPageState extends State<EditAccountPage> {
                 SizedBox(height: 10),
                 TextField(
                   controller: usernameController,
-                  decoration: InputDecoration(
+                  decoration: const InputDecoration(
                     border: OutlineInputBorder(),
-                    hintText: 'Change your username',
+                    hintText: 'Change your Username',
                   ),
                   onChanged: (value) {
                     setState(() {
@@ -248,7 +209,7 @@ class _EditAccountPageState extends State<EditAccountPage> {
                 ),
                 SizedBox(height: 30),
                 Text(
-                  'Bio (max 30 characters)',
+                  'Email',
                   style: TextStyle(
                     fontSize: 18,
                     fontWeight: FontWeight.bold,
@@ -257,19 +218,18 @@ class _EditAccountPageState extends State<EditAccountPage> {
                 SizedBox(height: 10),
                 TextField(
                   maxLength: 30,
-                  controller: _bioController,
+                  controller: _emailController,
                   onChanged: (value) {
                     setState(() {
-                      bio = value;
+                      email = value;
                     });
                   },
-                  decoration: InputDecoration(
+                  decoration: const InputDecoration(
                     border: OutlineInputBorder(),
-                    hintText: 'Write a short bio',
                   ),
                 ),
                 SizedBox(height: 20),
-                Text(
+                const Text(
                   'Gender',
                   style: TextStyle(
                     fontSize: 18,
