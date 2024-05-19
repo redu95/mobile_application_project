@@ -1,6 +1,7 @@
 import 'package:mobile_application_project/data.dart';
 class DataHome{
 
+
   List<Data> getData=[
     Data("assets/images/hotel_im/hiltonb.jpeg","Hilton Hotel","bakanisa"),
     Data("assets/images/hotel_im/sheratonb.jpg","sheraton Hotel","art kilo"),

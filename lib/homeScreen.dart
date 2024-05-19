@@ -7,7 +7,6 @@ class MenuScreen extends StatelessWidget {
   final Color textColor;
 
   MenuScreen(this.text, this.backgroundColor, this.textColor);
-
   @override
   Widget build(BuildContext context) {
     return Container(

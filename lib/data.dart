@@ -3,5 +3,6 @@ class Data {
   final String name;
   final String location;
 
+
   Data(this.imageurl, this.name, this.location);
 }
