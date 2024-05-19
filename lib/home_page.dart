@@ -1,10 +1,6 @@
-//home_page.dart
-
-
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:mobile_application_project/setting_page.dart';
-
 
 class Home extends StatefulWidget {
   const Home({super.key});
@@ -12,13 +8,9 @@ class Home extends StatefulWidget {
   @override
   State<Home> createState() => _HomeState();
 }
-
-
-
 class _HomeState extends State<Home> {
   int _selectedIndex = 0;
   late List<Widget> _widgetOptions;
-
   @override
   void initState() {
     super.initState();
@@ -34,8 +26,6 @@ class _HomeState extends State<Home> {
       _selectedIndex = index;
     });
   }
-
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -87,7 +77,6 @@ class HomePage extends StatelessWidget {
           ],
         ),
       ),
-=======
       backgroundColor: Colors.deepPurpleAccent,
 
     );
