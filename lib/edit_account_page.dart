@@ -71,6 +71,7 @@ class _EditAccountPageState extends State<EditAccountPage> {
 
                 // Navigate back after the delay
                 Navigator.pop(context);
+                Navigator.pop(context);
 
 
               },
