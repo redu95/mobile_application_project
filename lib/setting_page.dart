@@ -7,12 +7,11 @@ import 'package:flutter_locales/flutter_locales.dart';
 import 'package:ionicons/ionicons.dart';
 import 'package:mobile_application_project/edit_account_page.dart';
 import 'package:path/path.dart';
+
 import 'package:mobile_application_project/languageMenu.dart';
-
 import 'login_page.dart';
-class SettingPage extends StatefulWidget {
 
-  const SettingPage({Key? key}) : super(key: key);
+class SettingPage extends StatefulWidget {
 
   final String userName;
   final String email;
@@ -25,22 +24,11 @@ class SettingPage extends StatefulWidget {
     this.photoUrl,
   }) : super(key: key);
 
-
   @override
   _SettingPageState createState() => _SettingPageState();
 }
 
 class _SettingPageState extends State<SettingPage> {
-
-  late String userName;
-  late String bio = "Add your bio";
-  String? photoUrl;
-  late User user;
-  bool isLoading = true;
-  TextEditingController userNameController = TextEditingController();
-  TextEditingController emailController = TextEditingController();
-  TextEditingController passwordController = TextEditingController();
-
   bool _switchValue = false;  // Setting initial value of the switch to true (on state)
   ThemeData _lightTheme = ThemeData(brightness: Brightness.light, primaryColor: Colors.white); // Theme data for light mode with white as the primary color
   ThemeData _darkTheme = ThemeData(brightness: Brightness.dark, primaryColor: Colors.black); // Theme data for dark mode with black as the primary color
@@ -54,14 +42,12 @@ class _SettingPageState extends State<SettingPage> {
   TextEditingController emailController =  TextEditingController();
   TextEditingController passwordController = new TextEditingController();
 
-
   @override
   void initState() {
     super.initState();
     user = FirebaseAuth.instance.currentUser!;
     loadUserInfo(user.uid);
   }
-
   Future<void> loadUserInfo(String uid) async {
     try {
       DocumentSnapshot userDoc =
@@ -84,7 +70,8 @@ class _SettingPageState extends State<SettingPage> {
       setState(() {
         isLoading = false;
       });
-  
+    }
+  }
 
 
   Future<void> saveUserInfo(
@@ -105,19 +92,26 @@ class _SettingPageState extends State<SettingPage> {
     return await snapshot.ref.getDownloadURL();
   }
 
+  // Function to log out
   Future<void> logOut(BuildContext context) async {
+    // Sign out user
     await FirebaseAuth.instance.signOut();
+
+    // Clear user data
     setState(() {
       userName = '';
       email = '';
       photoUrl = null;
     });
+
+    // Navigate back to login page
     Navigator.pushReplacement(
       context,
       MaterialPageRoute(builder: (context) => LogInPage()),
     );
   }
 
+  // Method to refresh user data
   Future<void> refreshUserData() async {
     setState(() {
       isLoading = true;
@@ -138,12 +132,10 @@ class _SettingPageState extends State<SettingPage> {
           leading: IconButton(
             icon: Icon(Icons.arrow_back),
             onPressed: () {
-
               Navigator.pop(context);
-
             },
           ),
-           actions: [
+          actions: [
             IconButton(
               onPressed: () {
                 setState(() {
@@ -154,167 +146,169 @@ class _SettingPageState extends State<SettingPage> {
               icon: Icon(Icons.refresh),
             ),
           ],
-          body: isLoading
-                ? Center(child: CircularProgressIndicator())
-                : SingleChildScrollView(
-              padding: EdgeInsets.all(20),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  LocaleText(
-                    "Settings",
-                    style: TextStyle(
-                      fontSize: 32,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                  SizedBox(height: 30),
-                  LocaleText(
-                    "Account",
-                    style: TextStyle(
-                      fontSize: 24,
-                      fontWeight: FontWeight.w500,
-                    ),
-                  ),
-                  buildAccount(
-                    title: userName,
-                    subtitle: email,
-                    image:  NetworkImage('https://static.vecteezy.com/system/resources/previews/004/026/956/non_2x/person-avatar-icon-free-vector.jpg'),
-                    onTap: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) =>EditAccountPage(
-                          userName: userName,
-                          email: email,
-                              onSave: (String newName, String newemail, File? newImage, String newGender)async{
-                                // Update user information in Firebase
-                                await FirebaseFirestore.instance.collection('users').doc(user.uid).update({
-                                  'userName': newName,
-                                  'email': newemail,
-                                  'photoUrl': newImage != null ? await uploadImage(newImage) : null,
-                                  'gender':newGender,
-                                });
-                                // Navigate back to SettingPage after saving changes
-                                await loadUserInfo(user.uid);
-                                Navigator.pop(context);
-                              }
+        ),
+        body: SingleChildScrollView(
+          padding: EdgeInsets.all(20),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              const Text(
+                "Settings"?? "Default Value",
+                style: TextStyle(
+                  fontSize: 32,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+              SizedBox(height: 30),
+              const Text(
+                "Account" ?? "Default Value", // Provide a default value if "Account" is null
+                style: TextStyle(
+                  fontSize: 24,
+                  fontWeight: FontWeight.w500,
+                ),
+              ),
+              buildAccount(
+                title: userName,
+                subtitle: email,
+                image: NetworkImage('https://static.vecteezy.com/system/resources/previews/004/026/956/non_2x/person-avatar-icon-free-vector.jpg'),
+                onTap: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) =>EditAccountPage(
+                      userName: userName,
+                      email: email,
+                        onSave: (String newName, String newEmail, File? newImage, String newGender) async {
+                          try {
+                            // Update user information in Firebase Firestore
+                            await FirebaseFirestore.instance.collection('users').doc(user.uid).update({
+                              'userName': newName,
+                              'email': newEmail,
+                              if (newImage != null) 'photoUrl': await uploadImage(newImage),
+                              'gender': newGender,
+                            });
 
-                          )
-                        )
-                      );
-                    }
-                  ),
-                  SizedBox(height: 40),
-                  LocaleText(
-                    "Settings",
-                    style: TextStyle(
-                      fontSize: 24,
-                      fontWeight: FontWeight.w500,
-                     ),
-                  ),
-                  SizedBox(height: 20),
-                  buildSettingItem(
-                    title: "Bookings",
-                    icon: Ionicons.calendar,
-                    onTap: () {},
-                  ),
-                  SizedBox(height: 20),
-                  buildSettingItem(
-                    title: "Favorites",
-                    icon: Ionicons.heart,
-                    onTap: () {},
-                  ),
-                  SizedBox(height: 20,),
-                  const Text(
-                    "  Appearances",
-                    style: TextStyle(
-                      fontSize: 18,
-                      fontWeight: FontWeight.w300,
-                    ),
-                  ),
-                  SizedBox(height: 20), 
-                  buildSettingItem(
-                    title: "Language",
-                    icon: Ionicons.language_outline,
-                    onTap: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(builder: (context) => LanguageMenuDemo()),
+                            // Reload user info after saving changes
+                            await loadUserInfo(user.uid);
+
+                            // Navigate back to SettingPage
+                            Navigator.pop(context);
+                          } catch (e) {
+                            print("Error updating user info: $e");
+                            // Handle error
+                          }
+                        },
+
+
+                      )
+                    )
+                  );
+                }
+              ),
+              SizedBox(height: 40),
+               const Text(
+                "Settings",
+                style: TextStyle(
+                  fontSize: 24,
+                  fontWeight: FontWeight.w500,
+                ),
+              ),
+              SizedBox(height: 20),
+              buildSettingItem(
+                title: "Bookings",
+                icon: Ionicons.calendar,
+                onTap: () {},
+              ),
+              SizedBox(height: 20),
+              buildSettingItem(
+                title: "Favorites",
+                icon: Ionicons.heart,
+                onTap: () {},
+              ),
+              SizedBox(height: 20,),
+              const Text(
+                "  Appearances",
+                style: TextStyle(
+                  fontSize: 18,
+                  fontWeight: FontWeight.w300,
+                ),
+              ),
+              SizedBox(height: 20),
+              buildSettingItem(
+                title: "Language",
+                icon: Ionicons.language_outline,
+                onTap: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => LanguageMenuDemo()),
+                  );
+                },
+              ),
+              SizedBox(height: 20),
+              buildSettingItem(
+                title: "Dark Mode",
+                icon: Ionicons.moon_outline,
+                isDarkMode: true,
+                onTap: () {},
+              ),
+              SizedBox(height: 20),
+              const Text(
+                "  Help and Support"?? "Default Value",
+                style: TextStyle(
+                  fontSize: 18,
+                  fontWeight: FontWeight.w300,
+                ),
+              ),
+              SizedBox(height: 20),
+              buildSettingItem(
+                title: "Help",
+                icon: Ionicons.help_outline,
+                onTap: () {},
+              ),
+              SizedBox(height: 20),
+              buildSettingItem(
+                title: "Privacy",
+                icon: Ionicons.shield,
+                onTap: () {},
+              ),
+              SizedBox(height: 20),
+              buildSettingItem(
+                title: "Log Out",
+                icon: Ionicons.log_out_outline,
+                onTap: () {
+                  // Show an alert dialog to confirm logout
+                  showDialog(
+                    context: context,
+                    builder: (BuildContext context) {
+                      return AlertDialog(
+                        title: Text("Log Out"),
+                        content: Text("Do you really want to log out?"),
+                        actions: [
+                          TextButton(
+                            onPressed: () {
+                              Navigator.of(context).pop(); // Close the dialog
+                            },
+                            child: Text("Cancel"),
+                          ),
+                          TextButton(
+                            onPressed: () async {
+                              logOut(context); // Log out function
+                              await refreshUserData(); // Refresh user data after logout
+                            },
+                            child: const Text("Log Out"),
+                          ),
+                        ],
                       );
                     },
-                  ),
-                  SizedBox(height: 20),
-                  buildSettingItem(
-                    title: "Dark Mode",
-                    icon: Ionicons.moon_outline,
-                    isDarkMode: true,
-                    onTap: () {},
-                  ),
-                  SizedBox(height: 20),
-                  const Text(
-                    "  Help and Support",
-                    style: TextStyle(
-                      fontSize: 18,
-                      fontWeight: FontWeight.w300,
-                    ),
-                  ),
-                  SizedBox(height: 20),
-                  buildSettingItem(
-                    title: "Help",
-                    icon: Ionicons.help_outline,
-                    onTap: () {},
-                  ),
-                  SizedBox(height: 20),
-                  buildSettingItem(
-                    title: "Privacy",
-                    icon: Ionicons.shield,
-                    onTap: () {},
-                  ),
-                  SizedBox(height: 20),
-                  buildSettingItem(
-                    title: "Log Out",
-                    icon: Ionicons.log_out_outline,
-                    onTap: () {
-                      // Show an alert dialog to confirm logout
-                      showDialog(
-                        context: context,
-                        builder: (BuildContext context) {
-                          return AlertDialog(
-                            title: LocaleText("Log Out"),
-                            content: LocaleText("Do you really want to log out?"),
-                            actions: [
-                              TextButton(
-                                onPressed: () {
-                                  Navigator.of(context).pop(); // Close the dialog
-                                },
-                                child: LocaleText("Cancel"),
-                              ),
-                              TextButton(
-                                onPressed: () async {
-                                  logOut(context); // Log out function
-                                  await refreshUserData(); // Refresh user data after logout
-                                },
-                                child: LocaleText("Log Out"),
-                              ),
-                            ],
-                          );
-                        },
-                      );
-                    },// on tap
-                  ),
-                ],
+                  );
+                },
               ),
-            ),
+            ],
           ),
-        );
-      }
-                      
-
-        
-              
-              
-              
+        ),
+      ),
+    );
+  }
 
   Widget buildAccount({
     required String title,
@@ -384,39 +378,35 @@ class _SettingPageState extends State<SettingPage> {
             CircleAvatar(
               radius: 30,
               backgroundColor: Colors.purple.shade50,
-              backgroundImage: photoUrl != null ? NetworkImage(photoUrl!) : null,
-              child: photoUrl == null && icon != null
-                  ? Icon(
+              child: Icon(
                 icon,
                 size: 30,
                 color: Colors.deepPurple,
-              )
-                  : null,
-            ),
-            SizedBox(width: 20),
-            Expanded(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  LocaleText(
-                    title,
-                    style: TextStyle(
-                      fontSize: 18,
-                      fontWeight: FontWeight.w500,
-                    ),
-                  ),
-                  if (subtitle != null) SizedBox(height: 4),
-                  if (subtitle != null)
-                    LocaleText(
-                      subtitle,
-                      style: TextStyle(
-                        fontSize: 14,
-                        color: Colors.grey,
-                      ),
-                    ),
-                ],
               ),
             ),
+            SizedBox(width: 20),
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  title,
+                  style: TextStyle(
+                    fontSize: 18,
+                    fontWeight: FontWeight.w500,
+                  ),
+                ),
+                if (subtitle != null) SizedBox(height: 4),
+                if (subtitle != null)
+                  Text(
+                    subtitle,
+                    style: TextStyle(
+                      fontSize: 14,
+                      color: Colors.grey,
+                    ),
+                  ),
+              ],
+            ),
+            Spacer(),
             if (isDarkMode)
               Switch(
                 value: _switchValue, // Replace true with your dark mode state
@@ -432,7 +422,7 @@ class _SettingPageState extends State<SettingPage> {
                 Icons.chevron_left,
                 size: 30,
                 color: Colors.purple,
-              ),
+            )
           ],
         ),
       ),
