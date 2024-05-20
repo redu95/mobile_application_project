@@ -7,6 +7,9 @@ import 'package:flutter/material.dart';
 import 'package:mobile_application_project/auth_page.dart';
 import 'package:mobile_application_project/introduction_screen.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
+
+import 'package:mobile_application_project/login_page.dart';
+
 import 'package:mobile_application_project/languageMenu.dart';
 import 'package:flutter_locales/flutter_locales.dart';
 
