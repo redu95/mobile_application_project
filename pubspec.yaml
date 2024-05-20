@@ -19,7 +19,7 @@ publish_to: 'none' # Remove this line if you wish to publish to pub.dev
 version: 1.0.0+1
 
 environment:
-  sdk: '>=3.3.3 <4.0.0'
+   sdk: '>=3.3.3 <4.0.0'
 
 # Dependencies specify other packages that your package needs in order to work.
 # To automatically upgrade your package dependencies to the latest versions
@@ -37,7 +37,7 @@ dependencies:
   cupertino_icons: ^1.0.6
 
   introduction_screen: ^3.1.14
-  firebase_core: ^2.29.0
+  firebase_core: ^2.31.0
   firebase_auth: ^4.19.1
   google_sign_in: ^6.2.0
   cloud_firestore: ^4.16.1
@@ -45,6 +45,19 @@ dependencies:
   ionicons: ^0.2.2
   image_picker: ^1.1.1
   firebase_app_check: ^0.2.2+5
+  # gebetamap: ^1.1.4
+  # geolocator: ^7.1.0
+  # google_maps_flutter: ^2.0.6
+
+  http: ^1.1.0
+  lottie: ^2.3.2
+  dartz: ^0.10.1
+  google_maps_flutter: ^2.2.7
+  flutter_riverpod: ^2.4.1
+  fab_circular_menu: ^1.0.1
+  flutter_polyline_points: ^2.0.0
+  flutter_rating_stars: ^1.0.4
+  flip_card: ^0.6.0
 
 
 dev_dependencies:
@@ -56,7 +69,7 @@ dev_dependencies:
   # activated in the `analysis_options.yaml` file located at the root of your
   # package. See that file for information about deactivating specific lint
   # rules and activating additional ones.
-  flutter_lints: ^3.0.0
+  flutter_lints: ^4.0.0
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec
@@ -72,10 +85,29 @@ flutter:
   # To add assets to your application, add an assets section, like this:
   assets:
    - assets/images/landing_page_images/
+   - assets/animassets/mapanimation.json
+   - assets/mapicons/
    - assets/Icons/
    - assets/
    #- images/a_dot_ham.jpegs
-
+  # fonts:
+  #   - family: WorkSans
+  #     fonts:
+  #       - asset: assets/fonts/WorkSans-Regular.ttf
+  #       - asset: assets/fonts/WorkSans-Italic.ttf
+  #         style: italic
+  #       - asset: assets/fonts/WorkSans-Bold.ttf
+  #         weight: 700
+  #       - asset: assets/fonts/WorkSans-SemiBold.ttf
+  #         weight: 500
+  #       - asset: assets/fonts/WorkSans-Light.ttf
+  #         weight: 200
+  #       - asset: assets/fonts/WorkSans-Thin.ttf
+  #         weight: 300
+  #       - asset: assets/fonts/WorkSans-Medium.ttf
+  #         weight: 400
+  #       - asset: assets/fonts/WorkSans-ExtraLight.ttf
+  #         weight: 100
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware
 

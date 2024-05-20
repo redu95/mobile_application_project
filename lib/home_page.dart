@@ -1,10 +1,9 @@
 //home_page.dart
-
-
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:mobile_application_project/nearby_page.dart';
 import 'package:mobile_application_project/setting_page.dart';
-
+import 'package:mobile_application_project/nearby_page.dart';
 
 class Home extends StatefulWidget {
   const Home({super.key});
@@ -12,8 +11,6 @@ class Home extends StatefulWidget {
   @override
   State<Home> createState() => _HomeState();
 }
-
-
 
 class _HomeState extends State<Home> {
   int _selectedIndex = 0;
@@ -25,6 +22,7 @@ class _HomeState extends State<Home> {
     _widgetOptions = <Widget>[
       HomePage(),
       Text('Search Page'),
+      NearbyPage(),
       SettingPage(),
     ];
   }
@@ -34,7 +32,6 @@ class _HomeState extends State<Home> {
       _selectedIndex = index;
     });
   }
-
 
   @override
   Widget build(BuildContext context) {
@@ -53,6 +50,10 @@ class _HomeState extends State<Home> {
             label: 'Search',
           ),
           BottomNavigationBarItem(
+            icon: Icon(Icons.maps_home_work_sharp),
+            label: 'Nearby',
+          ),
+          BottomNavigationBarItem(
             icon: Icon(Icons.person),
             label: 'Profile',
           ),
@@ -66,32 +67,25 @@ class _HomeState extends State<Home> {
 }
 
 class HomePage extends StatelessWidget {
-   HomePage({super.key});
+  HomePage({super.key});
 
   final user = FirebaseAuth.instance.currentUser;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Home Page'),
-      ),
-
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Text(
-              'Welcome,' + user!.email!,
-              style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
-
-          ],
+        appBar: AppBar(
+          title: const Text('Home Page'),
         ),
-      ),
-      backgroundColor: Colors.deepPurpleAccent,
-
-    );
+        body: Center(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Text('Welcome,' + user!.email!,
+                  style: const TextStyle(
+                      fontSize: 20, fontWeight: FontWeight.bold)),
+            ],
+          ),
+        ),
+        backgroundColor: Color.fromARGB(255, 122, 110, 153));
   }
 }
-
-
-
