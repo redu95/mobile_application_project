@@ -1,5 +1,9 @@
+import 'dart:math';
+
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:ionicons/ionicons.dart';
 import 'package:mobile_application_project/setting_page.dart';
 import 'package:mobile_application_project/homeScreen.dart';
 import 'package:mobile_application_project/data_home.dart';
@@ -87,6 +91,46 @@ class _HomePageState extends State<HomePage> {
   MenuSelection selectedOne = MenuSelection.menu1;
   DataHome object=DataHome();
 
+  String userName ='';
+  String email ="";
+  String? photoUrl; // Add this variable to hold profile picture URL
+  late User user; // Add this variable to hold the authenticated user
+  bool isLoading = true; // Track loading state
+
+  @override
+  // initializing the states
+  void initState() {
+    super.initState();
+    user = FirebaseAuth.instance.currentUser!;
+    loadUserInfo(user.uid);
+  }
+
+  //
+  Future<void> loadUserInfo(String uid) async {
+    try {
+      DocumentSnapshot userDoc =
+      await FirebaseFirestore.instance.collection('users').doc(uid).get();
+      if (userDoc.exists) {
+        setState(() {
+          userName = userDoc.get('userName');
+          email = userDoc.get('email') ?? "Add your email";
+          photoUrl = userDoc.get('photoUrl');
+          isLoading = false;
+        });
+      } else {
+        setState(() {
+          isLoading = false;
+        });
+        print("Document does not exist");
+      }
+    } catch (e) {
+      print("Error loading user info: $e");
+      setState(() {
+        isLoading = false;
+      });
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -99,27 +143,40 @@ class _HomePageState extends State<HomePage> {
           children: [
             Padding(
               padding: const EdgeInsets.symmetric(
-                horizontal: 12.0,
-                vertical: 12,
+                horizontal: 2,
+                vertical: 15,
               ),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceAround,
                 children: [
-                  const Icon(Icons.menu_rounded, size: 40,color: Colors.purple,),
-                  ClipRRect(
-                    borderRadius: BorderRadius.circular(22),
-                    child: const Image(
-                      height: 60,
-                      width: 60,
-                      fit: BoxFit.fill,
-                      image: AssetImage('assets/Icons/user_im.jpeg'),
+                  // const Icon(Icons.menu_rounded, size: 40,color: Colors.purple,),
+                  CircleAvatar(
+                    radius: 30,
+                    backgroundImage: photoUrl != null ? NetworkImage(photoUrl!) : NetworkImage('https://static.vecteezy.com/system/resources/previews/004/026/956/non_2x/person-avatar-icon-free-vector.jpg'),
+                  ),
+                  Icon(
+                    Ionicons.location,
+                    size: 30,
+                    color: Colors.purple,
+                  ),
+                  Text(
+                    "Addis Abeba Ethiopia",
+                    style: TextStyle(
+                      fontWeight: FontWeight.w800,
+                      fontSize: 18,
+                      color: Colors.purpleAccent,
                     ),
+                  ),
+                  Icon(
+                    Ionicons.notifications,
+                    size: 30,
+                    color: Colors.purple,
                   ),
                 ],
               ),
             ),
             const Padding(
-              padding: EdgeInsets.symmetric(horizontal: 12.0, vertical: 12),
+              padding: EdgeInsets.symmetric(horizontal: 2, vertical: 5),
               child: Text(
                 "Where Would You Like To Go?",
                 style: TextStyle(
@@ -134,7 +191,7 @@ class _HomePageState extends State<HomePage> {
             ),
             Padding(
               padding: const EdgeInsets.symmetric(
-                horizontal: 12.0,
+                horizontal: 2,
                 vertical: 12,
               ),
               child: Row(
