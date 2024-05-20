@@ -21,7 +21,7 @@ class _HomeState extends State<Home> {
     super.initState();
     _widgetOptions = <Widget>[
       HomePage(),
-      Text('Search Page'),
+      // Text('Search Page'),
       NearbyPage(),
       SettingPage(),
     ];
@@ -45,10 +45,10 @@ class _HomeState extends State<Home> {
             icon: Icon(Icons.home),
             label: 'Home',
           ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.search),
-            label: 'Search',
-          ),
+          // BottomNavigationBarItem(
+          //   icon: Icon(Icons.search),
+          //   label: 'Search',
+          // ),
           BottomNavigationBarItem(
             icon: Icon(Icons.maps_home_work_sharp),
             label: 'Nearby',

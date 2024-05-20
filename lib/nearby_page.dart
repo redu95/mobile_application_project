@@ -1,6 +1,6 @@
 import 'dart:async';
-import 'dart:ffi';
-import 'dart:typed_data';
+// import 'dart:ffi';
+// import 'dart:typed_data';
 
 import 'package:firebase_auth/firebase_auth.dart';
 
@@ -26,6 +26,7 @@ class NearbyPage extends ConsumerStatefulWidget {
 }
 
 class _NearbyPageState extends ConsumerState<NearbyPage> {
+  final user = FirebaseAuth.instance.currentUser;
   Completer<GoogleMapController> _controller = Completer();
 
 //Debounce to throttle async calls during search
