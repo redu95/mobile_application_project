@@ -2,7 +2,6 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:mobile_application_project/setting_page.dart';
 import 'package:mobile_application_project/homeScreen.dart';
-
 import 'package:mobile_application_project/data_home.dart';
 import 'package:mobile_application_project/detail_screen.dart';
 
