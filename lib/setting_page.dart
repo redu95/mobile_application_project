@@ -159,7 +159,7 @@
  //                     child: Column(
  //                       crossAxisAlignment: CrossAxisAlignment.start,
  //                       children: [
- //                         LocaleText(
+ //                         Text(
  //                           "Settings",
  //                           style: TextStyle(
  //                             fontSize: 32,
@@ -167,7 +167,7 @@
  //                           ),
  //                         ),
  //                         SizedBox(height: 30),
- //                         LocaleText(
+ //                         Text(
  //                           "Account",
  //                           style: TextStyle(
  //                             fontSize: 24,
@@ -204,7 +204,7 @@
  //                           }
  //                         ),
  //                         SizedBox(height: 40),
- //                         LocaleText(
+ //                         Text(
  //                         "Settings",
  //                         style: TextStyle(
  //                         fontSize: 24,
@@ -279,21 +279,21 @@
  //                         context: context,
  //                         builder: (BuildContext context) {
  //                         return AlertDialog(
- //                         title: LocaleText("Log Out"),
- //                         content: LocaleText("Do you really want to log out?"),
+ //                         title: Text("Log Out"),
+ //                         content: Text("Do you really want to log out?"),
  //                         actions: [
  //                         TextButton(
  //                         onPressed: () {
  //                         Navigator.of(context).pop(); // Close the dialog
  //                         },
- //                         child: LocaleText("Cancel"),
+ //                         child: Text("Cancel"),
  //                         ),
  //                         TextButton(
  //                         onPressed: () async {
  //                         logOut(context); // Log out function
  //                         await refreshUserData(); // Refresh user data after logout
  //                         },
- //                         child: LocaleText("Log Out"),
+ //                         child: Text("Log Out"),
  //                         ),
  //                         ],
  //                         );
@@ -396,7 +396,7 @@
  //                   child: Column(
  //                     crossAxisAlignment: CrossAxisAlignment.start,
  //                     children: [
- //                       LocaleText(
+ //                       Text(
  //                         title,
  //                         style: TextStyle(
  //                           fontSize: 18,
@@ -405,7 +405,7 @@
  //                       ),
  //                       if (subtitle != null) SizedBox(height: 4),
  //                       if (subtitle != null)
- //                         LocaleText(
+ //                         Text(
  //                           subtitle,
  //                           style: TextStyle(
  //                             fontSize: 14,
@@ -592,16 +592,16 @@ class _SettingPageState extends State<SettingPage> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              const LocaleText(
-                "Settings",
+              const Text(
+                "Settings"?? "Default Value",
                 style: TextStyle(
                   fontSize: 32,
                   fontWeight: FontWeight.bold,
                 ),
               ),
               SizedBox(height: 30),
-              LocaleText(
-                "Account",
+              const Text(
+                "Account" ?? "Default Value", // Provide a default value if "Account" is null
                 style: TextStyle(
                   fontSize: 24,
                   fontWeight: FontWeight.w500,
@@ -610,6 +610,7 @@ class _SettingPageState extends State<SettingPage> {
               buildAccount(
                 title: userName,
                 subtitle: email,
+                image: NetworkImage('https://static.vecteezy.com/system/resources/previews/004/026/956/non_2x/person-avatar-icon-free-vector.jpg'),
                 onTap: () {
                   Navigator.push(
                     context,
@@ -645,7 +646,7 @@ class _SettingPageState extends State<SettingPage> {
                 }
               ),
               SizedBox(height: 40),
-              LocaleText(
+               const Text(
                 "Settings",
                 style: TextStyle(
                   fontSize: 24,
@@ -692,7 +693,7 @@ class _SettingPageState extends State<SettingPage> {
               ),
               SizedBox(height: 20),
               const Text(
-                "  Help and Support",
+                "  Help and Support"?? "Default Value",
                 style: TextStyle(
                   fontSize: 18,
                   fontWeight: FontWeight.w300,
@@ -720,21 +721,21 @@ class _SettingPageState extends State<SettingPage> {
                     context: context,
                     builder: (BuildContext context) {
                       return AlertDialog(
-                        title: LocaleText("Log Out"),
-                        content: LocaleText("Do you really want to log out?"),
+                        title: Text("Log Out"),
+                        content: Text("Do you really want to log out?"),
                         actions: [
                           TextButton(
                             onPressed: () {
                               Navigator.of(context).pop(); // Close the dialog
                             },
-                            child: LocaleText("Cancel"),
+                            child: Text("Cancel"),
                           ),
                           TextButton(
                             onPressed: () async {
                               logOut(context); // Log out function
                               await refreshUserData(); // Refresh user data after logout
                             },
-                            child: LocaleText("Log Out"),
+                            child: const Text("Log Out"),
                           ),
                         ],
                       );
@@ -817,14 +818,11 @@ class _SettingPageState extends State<SettingPage> {
             CircleAvatar(
               radius: 30,
               backgroundColor: Colors.purple.shade50,
-              backgroundImage: photoUrl != null ? NetworkImage(photoUrl!) : null,
-              child: photoUrl == null && icon != null
-                  ? Icon(
+              child: Icon(
                 icon,
                 size: 30,
                 color: Colors.deepPurple,
-              )
-                  : null,
+              ),
             ),
             SizedBox(width: 20),
             Column(
