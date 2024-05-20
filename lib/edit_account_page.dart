@@ -34,7 +34,7 @@ class _EditAccountPageState extends State<EditAccountPage> {
   TextEditingController _emailController = TextEditingController();
   bool changesSaved = false;
 
-  final picker = ImagePicker();
+  ImagePicker picker = ImagePicker();
 
   @override
   void initState() {
@@ -86,7 +86,8 @@ class _EditAccountPageState extends State<EditAccountPage> {
 
   // Method to update the selected image and show preview
   Future<void> _getImageAndPreview() async {
-    final pickedFile = await picker.pickImage(source: ImageSource.gallery);
+    XFile? pickedFile = await picker.pickImage(source: ImageSource.gallery);
+    print("${pickedFile?.path}");
 
     setState(() {
       if (pickedFile != null) {
