@@ -34,7 +34,10 @@ dependencies:
 
 
   cupertino_icons: ^1.0.6
-
+  flutter_locales: ^2.0.0
+  flutter_localizations:
+    sdk: flutter
+  shared_preferences: ^2.0.9
   introduction_screen: ^3.1.14
   firebase_auth: ^4.19.1
   google_sign_in: ^6.2.0
@@ -72,7 +75,7 @@ flutter:
   assets:
    - assets/images/landing_page_images/
    - assets/Icons/
-   - assets/
+   - assets/locales/
    #- images/a_dot_ham.jpegs
 
   # An image asset can refer to one or more resolution-specific "variants", see
