@@ -34,8 +34,13 @@ dependencies:
 
 
   cupertino_icons: ^1.0.6
+  flutter_locales: ^2.0.0
 
+  flutter_localizations:
+    sdk: flutter
+  shared_preferences: ^2.0.9
   introduction_screen: ^3.1.14
+  firebase_core: ^2.31.0
   firebase_auth: ^4.19.1
   google_sign_in: ^6.2.0
   cloud_firestore: ^4.16.1
@@ -43,7 +48,7 @@ dependencies:
   ionicons: ^0.2.2
   image_picker: ^1.1.1
   firebase_app_check: ^0.2.2+5
-  firebase_core: ^2.31.0
+
 
 
 dev_dependencies:
@@ -62,18 +67,22 @@ dev_dependencies:
 
 # The following section is specific to Flutter packages.
 flutter:
-
+  generate: true
   # The following line ensures that the Material Icons font is
   # included with your application, so that you can use the icons in
   # the material Icons class.
   uses-material-design: true
   # To add assets to your application, add an assets section, like this:
   assets:
+
    - assets/images/landing_page_images/
    - assets/Icons/
+
    - assets/
    - assets/images/hotel_im/
+   - assets/locales/
    #- images/a_dot_ham.jpegs
+
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware

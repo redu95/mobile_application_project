@@ -1,14 +1,17 @@
-// setting_page.dart
+// setting page
 import 'dart:io';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_locales/flutter_locales.dart';
 import 'package:ionicons/ionicons.dart';
 import 'package:mobile_application_project/edit_account_page.dart';
 import 'package:path/path.dart';
 
+import 'package:mobile_application_project/languageMenu.dart';
 import 'login_page.dart';
+
 class SettingPage extends StatefulWidget {
 
   final String userName;
@@ -151,15 +154,15 @@ class _SettingPageState extends State<SettingPage> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               const Text(
-                "Settings",
+                "Settings"?? "Default Value",
                 style: TextStyle(
                   fontSize: 32,
                   fontWeight: FontWeight.bold,
                 ),
               ),
               SizedBox(height: 30),
-              Text(
-                "Account",
+              const Text(
+                "Account" ?? "Default Value", // Provide a default value if "Account" is null
                 style: TextStyle(
                   fontSize: 24,
                   fontWeight: FontWeight.w500,
@@ -168,7 +171,7 @@ class _SettingPageState extends State<SettingPage> {
               buildAccount(
                 title: userName,
                 subtitle: email,
-                image:  NetworkImage('https://static.vecteezy.com/system/resources/previews/004/026/956/non_2x/person-avatar-icon-free-vector.jpg'),
+                image: NetworkImage('https://static.vecteezy.com/system/resources/previews/004/026/956/non_2x/person-avatar-icon-free-vector.jpg'),
                 onTap: () {
                   Navigator.push(
                     context,
@@ -176,18 +179,27 @@ class _SettingPageState extends State<SettingPage> {
                       builder: (context) =>EditAccountPage(
                       userName: userName,
                       email: email,
-                          onSave: (String newName, String newemail, File? newImage, String newGender)async{
-                            // Update user information in Firebase
+                        onSave: (String newName, String newEmail, File? newImage, String newGender) async {
+                          try {
+                            // Update user information in Firebase Firestore
                             await FirebaseFirestore.instance.collection('users').doc(user.uid).update({
                               'userName': newName,
-                              'email': newemail,
-                              'photoUrl': newImage != null ? await uploadImage(newImage) : null,
-                              'gender':newGender,
+                              'email': newEmail,
+                              if (newImage != null) 'photoUrl': await uploadImage(newImage),
+                              'gender': newGender,
                             });
-                            // Navigate back to SettingPage after saving changes
+
+                            // Reload user info after saving changes
                             await loadUserInfo(user.uid);
+
+                            // Navigate back to SettingPage
                             Navigator.pop(context);
+                          } catch (e) {
+                            print("Error updating user info: $e");
+                            // Handle error
                           }
+                        },
+
 
                       )
                     )
@@ -195,7 +207,7 @@ class _SettingPageState extends State<SettingPage> {
                 }
               ),
               SizedBox(height: 40),
-              const Text(
+               const Text(
                 "Settings",
                 style: TextStyle(
                   fontSize: 24,
@@ -224,9 +236,14 @@ class _SettingPageState extends State<SettingPage> {
               ),
               SizedBox(height: 20),
               buildSettingItem(
-                title: "Languages",
+                title: "Language",
                 icon: Ionicons.language_outline,
-                onTap: () {},
+                onTap: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => LanguageMenuDemo()),
+                  );
+                },
               ),
               SizedBox(height: 20),
               buildSettingItem(
@@ -237,7 +254,7 @@ class _SettingPageState extends State<SettingPage> {
               ),
               SizedBox(height: 20),
               const Text(
-                "  Help and Support",
+                "  Help and Support"?? "Default Value",
                 style: TextStyle(
                   fontSize: 18,
                   fontWeight: FontWeight.w300,
@@ -279,7 +296,7 @@ class _SettingPageState extends State<SettingPage> {
                               logOut(context); // Log out function
                               await refreshUserData(); // Refresh user data after logout
                             },
-                            child: Text("Log Out"),
+                            child: const Text("Log Out"),
                           ),
                         ],
                       );
@@ -362,14 +379,11 @@ class _SettingPageState extends State<SettingPage> {
             CircleAvatar(
               radius: 30,
               backgroundColor: Colors.purple.shade50,
-              backgroundImage: photoUrl != null ? NetworkImage(photoUrl!) : null,
-              child: photoUrl == null && icon != null
-                  ? Icon(
+              child: Icon(
                 icon,
                 size: 30,
                 color: Colors.deepPurple,
-              )
-                  : null,
+              ),
             ),
             SizedBox(width: 20),
             Column(
