@@ -51,7 +51,7 @@ dependencies:
   ionicons: ^0.2.2
   image_picker: ^1.1.1
   firebase_app_check: ^0.2.2+5
-  firebase_core: ^2.31.0
+
 
 
 dev_dependencies:
