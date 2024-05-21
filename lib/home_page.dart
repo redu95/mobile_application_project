@@ -3,6 +3,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:ionicons/ionicons.dart';
+import 'package:mobile_application_project/search_page.dart';
 import 'package:mobile_application_project/setting_page.dart';
 import 'package:mobile_application_project/homeScreen.dart';
 import 'package:mobile_application_project/data_home.dart';
@@ -32,12 +33,8 @@ class _HomeState extends State<Home> {
   void initState() {
     super.initState();
     _widgetOptions = <Widget>[
-
       HomePage(),
-      Container( // Wrapping Text widget inside Container
-        alignment: Alignment.center,
-        child: const Text('Search Page'),
-      ),
+      SearchPage(),
       NearbyPage(),
       SettingPage(
         userName: user.displayName ?? '',
