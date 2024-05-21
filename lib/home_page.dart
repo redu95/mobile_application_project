@@ -39,7 +39,6 @@ class _HomeState extends State<Home> {
         child: const Text('Search Page'),
       ),
       NearbyPage(),
-
       SettingPage(
         userName: user.displayName ?? '',
         email: user.email ?? 'Add your email',
@@ -81,6 +80,7 @@ class _HomeState extends State<Home> {
         ],
         currentIndex: _selectedIndex,
         selectedItemColor: Colors.purple,
+        unselectedItemColor: Colors.grey,
         onTap: _onItemTapped,
       ),
     );
