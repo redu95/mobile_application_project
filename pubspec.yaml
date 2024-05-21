@@ -34,10 +34,12 @@ dependencies:
 
 
   cupertino_icons: ^1.0.6
+  path: ^1.8.0
   flutter_locales: ^2.0.0
 
   flutter_localizations:
     sdk: flutter
+  intl: ^0.18.1
   shared_preferences: ^2.0.9
   introduction_screen: ^3.1.14
   firebase_core: ^2.31.0

@@ -8,9 +8,14 @@ import 'package:flutter_locales/flutter_locales.dart';
 import 'package:ionicons/ionicons.dart';
 import 'package:mobile_application_project/edit_account_page.dart';
 import 'package:path/path.dart';
-
+import 'package:flutter_locales/flutter_locales.dart';
+import 'package:mobile_application_project/l10n/l10n.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:mobile_application_project/languageMenu.dart';
 import 'package:mobile_application_project/languageMenu.dart';
 import 'login_page.dart';
+
+
 
 class SettingPage extends StatefulWidget {
 
@@ -148,21 +153,21 @@ class _SettingPageState extends State<SettingPage> {
             ),
           ],
         ),
+
         body: SingleChildScrollView(
           padding: EdgeInsets.all(20),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              const Text(
-                "Settings"?? "Default Value",
+              Text(
+                AppLocalizations.of(context)!.settings ?? '' ,
                 style: TextStyle(
                   fontSize: 32,
                   fontWeight: FontWeight.bold,
                 ),
               ),
               SizedBox(height: 30),
-              const Text(
-                "Account" ?? "Default Value", // Provide a default value if "Account" is null
+              Text(AppLocalizations.of(context)!.account ?? '' , // Provide a default value if "Account" is null
                 style: TextStyle(
                   fontSize: 24,
                   fontWeight: FontWeight.w500,
@@ -207,8 +212,7 @@ class _SettingPageState extends State<SettingPage> {
                 }
               ),
               SizedBox(height: 40),
-               const Text(
-                "Settings",
+               Text(AppLocalizations.of(context)!.settings ?? '' ,
                 style: TextStyle(
                   fontSize: 24,
                   fontWeight: FontWeight.w500,
@@ -216,19 +220,18 @@ class _SettingPageState extends State<SettingPage> {
               ),
               SizedBox(height: 20),
               buildSettingItem(
-                title: "Bookings",
+                title: AppLocalizations.of(context)!.bookings ?? '' ,
                 icon: Ionicons.calendar,
                 onTap: () {},
               ),
               SizedBox(height: 20),
               buildSettingItem(
-                title: "Favorites",
+                title: AppLocalizations.of(context)!.favorites ?? '' ,
                 icon: Ionicons.heart,
                 onTap: () {},
               ),
               SizedBox(height: 20,),
-              const Text(
-                "  Appearances",
+              Text(AppLocalizations.of(context)!.appearances ?? '' ,
                 style: TextStyle(
                   fontSize: 18,
                   fontWeight: FontWeight.w300,
@@ -236,25 +239,21 @@ class _SettingPageState extends State<SettingPage> {
               ),
               SizedBox(height: 20),
               buildSettingItem(
-                title: "Language",
+                title:AppLocalizations.of(context)!.language ?? '' ,
                 icon: Ionicons.language_outline,
                 onTap: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(builder: (context) => LanguageMenuDemo()),
-                  );
+
                 },
               ),
               SizedBox(height: 20),
               buildSettingItem(
-                title: "Dark Mode",
+                title: AppLocalizations.of(context)!.darkMode ?? '' ,
                 icon: Ionicons.moon_outline,
                 isDarkMode: true,
                 onTap: () {},
               ),
               SizedBox(height: 20),
-              const Text(
-                "  Help and Support"?? "Default Value",
+              Text(AppLocalizations.of(context)!.helpAndSupport ?? '' ,
                 style: TextStyle(
                   fontSize: 18,
                   fontWeight: FontWeight.w300,
@@ -262,19 +261,19 @@ class _SettingPageState extends State<SettingPage> {
               ),
               SizedBox(height: 20),
               buildSettingItem(
-                title: "Help",
+                title: AppLocalizations.of(context)!.help ?? '' ,
                 icon: Ionicons.help_outline,
                 onTap: () {},
               ),
               SizedBox(height: 20),
               buildSettingItem(
-                title: "Privacy",
+                title: AppLocalizations.of(context)!.privacy ?? '' ,
                 icon: Ionicons.shield,
                 onTap: () {},
               ),
               SizedBox(height: 20),
               buildSettingItem(
-                title: "Log Out",
+                title: AppLocalizations.of(context)!.logOut ?? '' ,
                 icon: Ionicons.log_out_outline,
                 onTap: () {
                   // Show an alert dialog to confirm logout
@@ -282,21 +281,21 @@ class _SettingPageState extends State<SettingPage> {
                     context: context,
                     builder: (BuildContext context) {
                       return AlertDialog(
-                        title: Text("Log Out"),
+                        title: Text(AppLocalizations.of(context)!.logOut ?? '' ,),
                         content: Text("Do you really want to log out?"),
                         actions: [
                           TextButton(
                             onPressed: () {
                               Navigator.of(context).pop(); // Close the dialog
                             },
-                            child: Text("Cancel"),
+                            child: Text(AppLocalizations.of(context)!.cancel ?? '' ,),
                           ),
                           TextButton(
                             onPressed: () async {
                               logOut(context); // Log out function
                               await refreshUserData(); // Refresh user data after logout
                             },
-                            child: const Text("Log Out"),
+                            child:  Text(AppLocalizations.of(context)!.logOut ?? '' "Log Out"),
                           ),
                         ],
                       );
@@ -308,6 +307,7 @@ class _SettingPageState extends State<SettingPage> {
           ),
         ),
       ),
+
     );
   }
 
@@ -398,7 +398,7 @@ class _SettingPageState extends State<SettingPage> {
                 ),
                 if (subtitle != null) SizedBox(height: 4),
                 if (subtitle != null)
-                  Text(
+                  LocaleText(
                     subtitle,
                     style: TextStyle(
                       fontSize: 14,

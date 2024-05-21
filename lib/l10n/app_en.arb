@@ -1,0 +1,238 @@
+{
+   "language": "English",
+   "@language": {
+     "description": "The current Language"
+   },
+   "addis_stay": "Addis Stay",
+   "@addis_stay": {
+     "description": "The name of the app"
+   },
+   "best_app_to_book_hotels": "Best App to Book Hotels in Addis Ababa!",
+   "@best_app_to_book_hotels": {
+     "description": "The app's tagline or description"
+   },
+   "get_started": "Get Started",
+   "@get_started": {
+     "description": "Button label to start using the app"
+   },
+   "already_have_an_account": "Already Have an Account? Log in",
+   "@already_have_an_account": {
+     "description": "Prompt for users who already have an account"
+   },
+   "welcome_description": "welcome description",
+   "@welcome_description": {
+     "description": "Description shown on the welcome screen"
+   },
+   "hotel_search": "hotel search",
+   "@hotel_search": {
+     "description": "Label for the hotel search feature"
+   },
+   "hotel_search_description": "hotel search description",
+   "@hotel_search_description": {
+     "description": "Description of the hotel search feature"
+   },
+   "online_booking": "online booking",
+   "@online_booking": {
+     "description": "Label for the online booking feature"
+   },
+   "online_booking_description": "online booking description",
+   "@online_booking_description": {
+     "description": "Description of the online booking feature"
+   },
+   "hotel_details": "hotel details",
+   "@hotel_details": {
+     "description": "Label for the hotel details feature"
+   },
+   "hotel_details_description": "hotel details description",
+   "@hotel_details_description": {
+     "description": "Description of the hotel details feature"
+   },
+   "review_ratings": "review ratings",
+   "@review_ratings": {
+     "description": "Label for the review and ratings feature"
+   },
+   "review_ratings_description": "review ratings description",
+   "@review_ratings_description": {
+     "description": "Description of the review and ratings feature"
+   },
+   "log_in": "log in",
+   "@log_in": {
+     "description": "Label for the login button"
+   },
+   "skip": "skip",
+   "@skip": {
+     "description": "Label for the skip button"
+   },
+   "next": "next",
+   "@next": {
+     "description": "Label for the next button"
+   },
+   "home": "home",
+   "@home": {
+     "description": "Label for the home page"
+   },
+   "search": "search",
+   "@search": {
+     "description": "Label for the search feature"
+   },
+   "profile": "profile",
+   "@profile": {
+     "description": "Label for the profile page"
+   },
+   "homePage": "home page",
+   "@homePage": {
+     "description": "Label for the home page"
+   },
+   "welcome": "welcome",
+   "@welcome": {
+     "description": "Label for the welcome message or screen"
+   },
+   "searchPage": "search page",
+   "@searchPage": {
+     "description": "Label for the search page"
+   },
+   "signUp": "sign up",
+   "@signUp": {
+     "description": "Label for the sign up feature"
+   },
+   "pleaseEnterUsername": "please enter username",
+   "@pleaseEnterUsername": {
+     "description": "Prompt for the user to enter a username"
+   },
+   "pleaseEnterEmail": "please enter email",
+   "@pleaseEnterEmail": {
+     "description": "Prompt for the user to enter an email address"
+   },
+   "invalidEmail": "invalid email",
+   "@invalidEmail": {
+     "description": "Error message for an invalid email address"
+   },
+   "pleaseEnterPassword": "please enter password",
+   "@pleaseEnterPassword": {
+     "description": "Prompt for the user to enter a password"
+   },
+   "pleaseConfirmPassword": "please confirm password",
+   "@pleaseConfirmPassword": {
+     "description": "Prompt for the user to confirm their password"
+   },
+   "registeredSuccessfully": "registered successfully",
+   "@registeredSuccessfully": {
+     "description": "Success message for a successful registration"
+   },
+   "weakPassword": "weak password",
+   "@weakPassword": {
+     "description": "Error message for a weak password"
+   },
+   "emailAlreadyInUse": "email already in use",
+   "@emailAlreadyInUse": {
+     "description": "Error message for an email address that is already in use"
+   },
+   "errorCreatingAccount": "error creating account",
+   "@errorCreatingAccount": {
+     "description": "Error message for a failed account creation"
+   },
+   "settings": "settings",
+   "@settings": {
+     "description": "Label for the settings page"
+   },
+   "account": "account",
+   "@account": {
+     "description": "Label for the account settings"
+   },
+   "language": "language",
+   "@language": {
+     "description": "Label for the language settings"
+   },
+   "notifications": "notifications",
+   "@notifications": {
+     "description": "Label for the notifications settings"
+   },
+   "darkMode": "dark mode",
+   "@darkMode": {
+     "description": "Label for the dark mode settings"
+   },
+   "help": "help",
+   "@help": {
+     "description": "Label for the help section"
+   },
+   "logOut": "log out",
+   "@logOut": {
+     "description": "Label for the log out feature"
+   },
+   "bookings": "bookings",
+   "@bookings": {
+     "description": "Label for the bookings section"
+   },
+   "favorites": "favorites",
+   "@favorites": {
+     "description": "Label for the favorites section"
+   },
+   "appearances": "appearances",
+   "@appearances": {
+     "description": "Label for the appearances settings"
+   },
+   "helpAndSupport": "help and support",
+   "@helpAndSupport": {
+     "description": "Label for the help and support section"
+   },
+   "privacy": "privacy",
+   "@privacy": {
+     "description": "Label for the privacy settings"
+   },
+   "confirmLogout": "confirm logout",
+   "@confirmLogout": {
+     "description": "Label for the confirm logout dialog"
+   },
+   "save": "save",
+   "@save": {
+     "description": "Label for the save button"
+   },
+   "editAccount": "edit account",
+   "@editAccount": {
+     "description": "Label for the edit account feature"
+   },
+   "refresh": "refresh",
+   "@refresh": {
+     "description": "Label for the refresh button"
+   },
+   "logOutConfirm": "log out confirm",
+   "@logOutConfirm": {
+     "description": "Label for the log out confirmation"
+   },
+   "cancel": "cancel",
+   "@cancel": {
+     "description": "Label for the cancel button"
+   },
+   "pleaseEnterUserName": "please enter user name",
+   "@pleaseEnterUserName": {
+     "description": "Prompt for the user to enter a username"
+   },
+   "pleaseEnterEmailAddress": "please enter email address",
+   "@pleaseEnterEmailAddress": {
+     "description": "Prompt for the user to enter an email address"
+   },
+   "invalidEmailAddress": "invalid email address",
+   "@invalidEmailAddress": {
+     "description": "Error message for an invalid email address"
+   },
+   "password": "password",
+   "@password": {
+     "description": "Label for the password field"
+   },
+   "pleaseEnterPassword": "please enter password",
+   "@pleaseEnterPassword": {
+     "description": "Prompt for the user to enter a password"
+   },
+   "confirmPassword": "confirm password",
+   "@confirmPassword": {
+     "description": "Label for the confirm password field"
+   },
+   "pleaseConfirmYourPassword": "please confirm your password",
+   "@pleaseConfirmYourPassword": {
+     "description": "Prompt for the user to confirm their password"
+   },
+   "errorCreatingAccount": "error creating account. please try again later.",
+   "@errorCreatingAccount": {
+     "description": "Error message for a failed account creation"
+   }
+}

@@ -3,6 +3,7 @@ import 'package:flutter_locales/flutter_locales.dart';
 import 'package:mobile_application_project/auth_page.dart';
 import 'package:introduction_screen/introduction_screen.dart';
 import 'package:mobile_application_project/signup_page.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class IntroScreenDemo extends StatefulWidget {
   const IntroScreenDemo({super.key});
@@ -31,12 +32,10 @@ class _IntroScreenDemoState extends State<IntroScreenDemo> {
           key: _introKey,
           pages: [
             PageViewModel(
-              titleWidget: LocaleText(
-                'addis_stay',
+              titleWidget: Text(AppLocalizations.of(context)?.addis_stay ?? '',
                 style: TextStyle(fontSize: 28, fontWeight: FontWeight.bold),
               ),
-              bodyWidget: LocaleText(
-                'welcome_description',
+              bodyWidget: Text(AppLocalizations.of(context)?.welcome_description ?? '',
                 style: TextStyle(fontSize: 16),
               ),
               image: const Center(
@@ -44,12 +43,10 @@ class _IntroScreenDemoState extends State<IntroScreenDemo> {
               ),
             ),
             PageViewModel(
-              titleWidget: LocaleText(
-                'hotel_search',
+              titleWidget: Text(AppLocalizations.of(context)?.hotel_search ?? '',
                 style: TextStyle(fontSize: 28, fontWeight: FontWeight.bold),
               ),
-              bodyWidget: LocaleText(
-                'hotel_search_description',
+              bodyWidget: Text(AppLocalizations.of(context)?.hotel_search_description?? '',
                 style: TextStyle(fontSize: 16),
               ),
               image: const Center(
@@ -57,36 +54,30 @@ class _IntroScreenDemoState extends State<IntroScreenDemo> {
               ),
             ),
             PageViewModel(
-              titleWidget: LocaleText(
-                'online_booking',
+              titleWidget: Text(AppLocalizations.of(context)?.online_booking?? '',
                 style: TextStyle(fontSize: 28, fontWeight: FontWeight.bold),
               ),
-              bodyWidget: LocaleText(
-                'online_booking_description',
+              bodyWidget: Text(AppLocalizations.of(context)?.online_booking_description?? '',
                 style: TextStyle(fontSize: 16),
               ),
               image: Image.asset("assets/images/landing_page_images/reception-desk.jpg"),
             ),
             PageViewModel(
-              titleWidget: LocaleText(
-                'hotel_details',
+              titleWidget: Text(AppLocalizations.of(context)?.hotel_details?? '',
                 style: TextStyle(fontSize: 28, fontWeight: FontWeight.bold),
               ),
-              bodyWidget: LocaleText(
-                'hotel_details_description',
+              bodyWidget: Text(AppLocalizations.of(context)?.hotel_details_description?? '',
                 style: TextStyle(fontSize: 16),
               ),
               image: Image.asset("assets/images/landing_page_images/receptionist-working-on-her-desk-with-laptop.png"),
             ),
             PageViewModel(
-              titleWidget: LocaleText(
-                'review_ratings',
+              titleWidget: Text(AppLocalizations.of(context)?.review_ratings?? '',
                 style: TextStyle(fontSize: 28, fontWeight: FontWeight.bold),
               ),
               bodyWidget: Column(
                 children: [
-                  LocaleText(
-                    'review_ratings_description',
+                  Text(AppLocalizations.of(context)?.review_ratings_description?? '',
                     style: TextStyle(color: Colors.deepPurple, fontSize: 20.0),
                   ),
                   const SizedBox(height: 10.0),
@@ -97,8 +88,7 @@ class _IntroScreenDemoState extends State<IntroScreenDemo> {
                         MaterialPageRoute(builder: (context) => AuthPage()),
                       );
                     },
-                    child: LocaleText(
-                      'log_in',
+                    child: Text(AppLocalizations.of(context)?.log_in?? '',
                       style: TextStyle(fontSize: 20.0, fontWeight: FontWeight.bold),
                     ),
                   ),
@@ -110,8 +100,7 @@ class _IntroScreenDemoState extends State<IntroScreenDemo> {
                         MaterialPageRoute(builder: (context) => SignUpPage()),
                       );
                     },
-                    child: LocaleText(
-                      'sign_up',
+                    child: Text(AppLocalizations.of(context)?.signUp?? '',
                       style: TextStyle(fontSize: 20.0, fontWeight: FontWeight.bold),
                     ),
                   )
@@ -120,8 +109,8 @@ class _IntroScreenDemoState extends State<IntroScreenDemo> {
               image: Image.asset("assets/images/landing_page_images/waiter-holding-tray-in-restaurant.png"),
             ),
           ],
-          skip: LocaleText('skip'),
-          next: LocaleText('next'),
+          skip: Text(AppLocalizations.of(context)?.skip?? '',),
+          next: Text(AppLocalizations.of(context)?.next?? '',),
           showSkipButton: true,
           showNextButton: true,
           showDoneButton: false,

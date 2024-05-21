@@ -40,7 +40,19 @@
   "dark_mode": "dark mode ",
   "help": "help",
   "log_out": "log out",
-  "log_out_confirm": "log out confirm",
+  "bookings": "Bookings",
+  "favorites": "Favorites",
+  "appearances": "Appearances",
+
+  "help_and_support": "Help and Support",
+
+  "privacy": "Privacy",
+
+  "confirm_logout": "Are you sure you want to log out?",
+  "save": "Save",
+  "edit_account": "Edit Account",
+  "refresh": "Refresh",
+"log_out_confirm": "log out confirm",
   "cancel": "cancel",
   "sign_Up": "Sign Up",
   "please_Enter_User_Name": "Please enter your user name",

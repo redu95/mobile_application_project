@@ -1,9 +1,9 @@
 {
+  "@@locale": "ar",
   "addis_stay": "إقامة أديس",
   "best_app_to_book_hotels": "أفضل تطبيق لحجز الفنادق في أديس أبابا!",
   "get_started": "البدء",
   "already_have_an_account": "هل لديك حساب بالفعل؟ تسجيل الدخول",
-
   "welcome_description": "مرحبًا بك في التطبيق! هذا وصف لكيفية عمله.",
   "hotel_search": "بحث عن فندق",
   "hotel_search_description": "العثور على أفضل الفنادق في أديس أبابا.",
@@ -23,7 +23,6 @@
   "home_page": "الصفحة الرئيسية",
   "welcome": "مرحبًا",
   "search_page": "صفحة البحث",
-
   "please_enter_username": "يرجى إدخال اسم المستخدم",
   "please_enter_email": "يرجى إدخال عنوان بريدك الإلكتروني",
   "invalid_email": "عنوان البريد الإلكتروني غير صالح",
@@ -51,16 +50,12 @@
   "confirmPassword": "تأكيد كلمة المرور",
   "pleaseConfirmYourPassword": "الرجاء تأكيد كلمة المرور الخاصة بك",
   "errorCreatingAccount": "خطأ في إنشاء الحساب. يرجى المحاولة مرة أخرى لاحقًا.",
-
   "bookings": "الحجوزات",
   "favorites": "المفضلة",
   "appearances": "المظهر",
   "help_and_support": "المساعدة والدعم",
-
   "privacy": "الخصوصية",
-
   "confirm_logout": "هل أنت متأكد أنك تريد تسجيل الخروج؟",
-
   "save": "حفظ",
   "edit_account": "تعديل الحساب",
   "refresh": "تحديث"

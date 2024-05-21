@@ -1,4 +1,5 @@
 {
+  "@@locale": "am",
   "addis_stay": "አዲስ ቆይታ",
   "best_app_to_book_hotels": "በአዲስ አበባ ሆቴሎችን ለመያዝ ምርጥ መተግበሪያ!",
   "get_started": "ጀምር",
@@ -49,19 +50,12 @@
   "confirm_Password": "የይለፍ ቃል አረጋግጥ",
   "please_Confirm_Your_Password": "እባክህ የይለፍ ቃልህን አረጋግጥ",
   "error_Creating_Account": "መለያ መፍጠር ስህተት",
-
-
   "bookings": "ቆጣቢያዎች",
   "favorites": "ተወዳጆች",
   "appearances": "መልክ",
-
-
   "help_and_support": "እርዳታ እና ድጋፍ",
-
   "privacy": "ቅጂ ጥበብ",
-
   "confirm_logout": "መውጣት ተረጋግጦህ/ትን?",
-
   "save": "አስቀምጥ",
   "edit_account": "መለያ አርትኦ",
   "refresh": "እንደገና አዘምን",

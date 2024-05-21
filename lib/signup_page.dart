@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_locales/flutter_locales.dart';
 import 'package:mobile_application_project/home_page.dart';
 import 'package:mobile_application_project/login_page.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class SignUpPage extends StatefulWidget {
   const SignUpPage({super.key});
@@ -51,8 +52,7 @@ class _SignUpPageState extends State<SignUpPage> {
 
           ScaffoldMessenger.of(context).showSnackBar(
             SnackBar(
-              content: LocaleText(
-                'registered_successfully',
+              content: Text(AppLocalizations.of(context)!.registeredSuccessfully ?? '' ,
                 style: const TextStyle(fontSize: 20.0),
               ),
             ),
@@ -85,8 +85,7 @@ class _SignUpPageState extends State<SignUpPage> {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
             backgroundColor: Colors.orangeAccent,
-            content: LocaleText(
-              'error_creating_account',
+            content: Text(AppLocalizations.of(context)!.errorCreatingAccount ?? '' ,
               style: const TextStyle(fontSize: 18.0),
             ),
           ),
@@ -114,8 +113,7 @@ class _SignUpPageState extends State<SignUpPage> {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              LocaleText(
-                'sign_up',
+              Text(AppLocalizations.of(context)!.signUp ?? '' ,
                 style: const TextStyle(
                   fontSize: 24.0,
                   fontWeight: FontWeight.bold,
@@ -125,13 +123,13 @@ class _SignUpPageState extends State<SignUpPage> {
               TextFormField(
                 validator: (value) {
                   if (value == null || value.isEmpty) {
-                    return Locales.string(context, 'please_enter_username');
+                    return AppLocalizations.of(context)!.pleaseEnterUserName ?? '';
                   }
                   return null;
                 },
                 controller: userNameController,
                 decoration: InputDecoration(
-                  labelText: Locales.string(context, 'please_enter_username'),
+                  labelText: AppLocalizations.of(context)!.pleaseEnterUserName ?? '',
                   border: const OutlineInputBorder(),
                 ),
               ),
@@ -139,7 +137,7 @@ class _SignUpPageState extends State<SignUpPage> {
               TextFormField(
                 validator: (value) {
                   if (value == null || value.isEmpty) {
-                    return Locales.string(context, 'please_enter_email');
+                    return AppLocalizations.of(context)!.pleaseEnterEmailAddress ?? '';
                   }
                   if (!RegExp(r'\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Z|a-z]{2,}\b').hasMatch(value)) {
                     return Locales.string(context, 'invalid_email');
@@ -149,7 +147,7 @@ class _SignUpPageState extends State<SignUpPage> {
                 controller: emailController,
                 obscureText: false,
                 decoration: InputDecoration(
-                  labelText: Locales.string(context, 'please_enter_email'),
+                  labelText: AppLocalizations.of(context)!.pleaseEnterEmailAddress ?? '',
                   border: const OutlineInputBorder(),
                 ),
               ),
@@ -157,14 +155,14 @@ class _SignUpPageState extends State<SignUpPage> {
               TextFormField(
                 validator: (value) {
                   if (value == null || value.isEmpty) {
-                    return Locales.string(context, 'please_enter_password');
+                    return AppLocalizations.of(context)!.pleaseEnterPassword ?? '';
                   }
                   return null;
                 },
                 controller: passwordController,
                 obscureText: true,
                 decoration: InputDecoration(
-                  labelText: Locales.string(context, 'please_enter_password'),
+                  labelText: AppLocalizations.of(context)!.pleaseEnterPassword ?? '',
                   border: const OutlineInputBorder(),
                 ),
               ),
@@ -172,14 +170,14 @@ class _SignUpPageState extends State<SignUpPage> {
               TextFormField(
                 validator: (value) {
                   if (value == null || value.isEmpty) {
-                    return Locales.string(context, 'please_confirm_password');
+                    return AppLocalizations.of(context)!.pleaseConfirmPassword ?? '';
                   }
                   return null;
                 },
                 controller: confirmPasswordController,
                 obscureText: true,
                 decoration: InputDecoration(
-                  labelText: Locales.string(context, 'please_confirm_password'),
+                  labelText:  AppLocalizations.of(context)!.pleaseConfirmPassword ?? '',
                   border: const OutlineInputBorder(),
                 ),
               ),
@@ -193,8 +191,7 @@ class _SignUpPageState extends State<SignUpPage> {
                 child: GestureDetector(
                   onTap: registration,
                   child: Center(
-                    child: LocaleText(
-                      'sign_up',
+                    child: Text( AppLocalizations.of(context)!.signUp ?? '',
                       style: const TextStyle(
                         color: Colors.white,
                         fontSize: 18.0,
@@ -207,8 +204,7 @@ class _SignUpPageState extends State<SignUpPage> {
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Text(
-                    "Already have an Account?",
+                  Text( AppLocalizations.of(context)!.already_have_an_account?? '',
                     style: TextStyle(
                       fontSize: 18.0,color: Colors.black,
                     ),
@@ -218,8 +214,7 @@ class _SignUpPageState extends State<SignUpPage> {
                     onTap: (){
                       Navigator.push(context, MaterialPageRoute(builder: (context)=>LogInPage()));
                     },
-                    child: Text(
-                      "Login",
+                    child: Text( AppLocalizations.of(context)!.log_in ?? '',
                       style: TextStyle(
                         color: Colors.deepPurpleAccent,
                         fontSize: 20.0,
