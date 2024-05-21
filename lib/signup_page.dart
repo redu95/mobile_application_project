@@ -50,17 +50,17 @@ class _SignUpPageState extends State<SignUpPage> {
           });
 
           ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(
+            const SnackBar(
               content: LocaleText(
                 'registered_successfully',
-                style: const TextStyle(fontSize: 20.0),
+                style: TextStyle(fontSize: 20.0),
               ),
             ),
           );
 
           Navigator.push(
             context,
-            MaterialPageRoute(builder: (context) => Home()),
+            MaterialPageRoute(builder: (context) => const Home()),
           );
         }
       } on FirebaseAuthException catch (e) {
@@ -83,11 +83,11 @@ class _SignUpPageState extends State<SignUpPage> {
         );
       } catch (e) {
         ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
+          const SnackBar(
             backgroundColor: Colors.orangeAccent,
             content: LocaleText(
               'error_creating_account',
-              style: const TextStyle(fontSize: 18.0),
+              style: TextStyle(fontSize: 18.0),
             ),
           ),
         );
@@ -114,9 +114,9 @@ class _SignUpPageState extends State<SignUpPage> {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              LocaleText(
+              const LocaleText(
                 'sign_up',
-                style: const TextStyle(
+                style: TextStyle(
                   fontSize: 24.0,
                   fontWeight: FontWeight.bold,
                 ),
@@ -192,10 +192,10 @@ class _SignUpPageState extends State<SignUpPage> {
                     borderRadius: BorderRadius.circular(30)),
                 child: GestureDetector(
                   onTap: registration,
-                  child: Center(
+                  child: const Center(
                     child: LocaleText(
                       'sign_up',
-                      style: const TextStyle(
+                      style: TextStyle(
                         color: Colors.white,
                         fontSize: 18.0,
                         fontWeight: FontWeight.bold,
@@ -207,18 +207,18 @@ class _SignUpPageState extends State<SignUpPage> {
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Text(
+                  const Text(
                     "Already have an Account?",
                     style: TextStyle(
                       fontSize: 18.0,color: Colors.black,
                     ),
                   ),
-                  SizedBox(width: 5.0,),
+                  const SizedBox(width: 5.0,),
                   GestureDetector(
                     onTap: (){
-                      Navigator.push(context, MaterialPageRoute(builder: (context)=>LogInPage()));
+                      Navigator.push(context, MaterialPageRoute(builder: (context)=>const LogInPage()));
                     },
-                    child: Text(
+                    child: const Text(
                       "Login",
                       style: TextStyle(
                         color: Colors.deepPurpleAccent,
