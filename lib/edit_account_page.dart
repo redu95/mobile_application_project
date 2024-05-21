@@ -1,9 +1,7 @@
 //edit_account_page
 
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:firebase_storage/firebase_storage.dart';
 import 'dart:io';
 
 
@@ -14,12 +12,12 @@ class EditAccountPage extends StatefulWidget {
   final void Function(String newName, String newemail, File? newImage,String newGender) onSave;
 
   const EditAccountPage({
-    Key? key,
+    super.key,
     required this.userName,
     required this.email,
     required this.onSave,
     this.image,
-  }) : super(key: key);
+  });
 
   @override
   _EditAccountPageState createState() => _EditAccountPageState();
@@ -31,7 +29,7 @@ class _EditAccountPageState extends State<EditAccountPage> {
   late String email;
   late File? _image;
   TextEditingController usernameController = TextEditingController();
-  TextEditingController _emailController = TextEditingController();
+  final TextEditingController _emailController = TextEditingController();
   bool changesSaved = false;
 
   ImagePicker picker = ImagePicker();
@@ -53,21 +51,21 @@ class _EditAccountPageState extends State<EditAccountPage> {
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
-          title: Text('Save Changes'),
-          content: Text('Do you want to save changes?'),
+          title: const Text('Save Changes'),
+          content: const Text('Do you want to save changes?'),
           actions: <Widget>[
             TextButton(
               onPressed: () {
                 Navigator.of(context).pop(); // Dismiss the dialog
               },
-              child: Text('Cancel'),
+              child: const Text('Cancel'),
             ),
             TextButton(
               onPressed: () async {
                 // Call onSave function to save changes
                 widget.onSave(userName, email, _image, selectedGender);
                 // Simulate a delay for a more natural loading effect
-                await Future.delayed(Duration(seconds: 1));
+                await Future.delayed(const Duration(seconds: 1));
 
                 // Navigate back after the delay
                 Navigator.pop(context);
@@ -75,7 +73,7 @@ class _EditAccountPageState extends State<EditAccountPage> {
 
 
               },
-              child: Text('OK'),
+              child: const Text('OK'),
             ),
           ],
         );
@@ -111,7 +109,7 @@ class _EditAccountPageState extends State<EditAccountPage> {
         child: Scaffold(
           appBar: AppBar(
             leading: IconButton(
-              icon: Icon(Icons.arrow_back),
+              icon: const Icon(Icons.arrow_back),
               onPressed: () {
                 Navigator.pop(context);
               },
@@ -122,31 +120,31 @@ class _EditAccountPageState extends State<EditAccountPage> {
                   // Show confirmation dialog before saving changes
                   await _showConfirmationDialog(context);
                 },
-                icon: Icon(Icons.check),
+                icon: const Icon(Icons.check),
               ),
             ],
           ),
           body: SingleChildScrollView(
-            padding: EdgeInsets.all(20),
+            padding: const EdgeInsets.all(20),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text(
+                const Text(
                   "Account",
                   style: TextStyle(
                     fontSize: 32,
                     fontWeight: FontWeight.bold,
                   ),
                 ),
-                SizedBox(height: 10),
-                Text(
+                const SizedBox(height: 10),
+                const Text(
                   "Change Profile Picture",
                   style: TextStyle(
                     fontSize: 14,
                     fontWeight: FontWeight.w500,
                   ),
                 ),
-                SizedBox(height: 20),
+                const SizedBox(height: 20),
                 GestureDetector(
                   onTap: () {
                     _getImageAndPreview(); // Call method to select image and show preview
@@ -169,7 +167,7 @@ class _EditAccountPageState extends State<EditAccountPage> {
                               ? CircleAvatar(
                             backgroundImage: FileImage(widget.image!),
                           )
-                              : Icon(
+                              : const Icon(
                                   Icons.person,
                                   size: 80,
                                   color: Colors.purple,
@@ -181,14 +179,14 @@ class _EditAccountPageState extends State<EditAccountPage> {
                           child: CircleAvatar(
                             backgroundColor: Colors.purple.shade500,
                             radius: 18,
-                            child: Icon(Icons.camera_alt, color: Colors.white),
+                            child: const Icon(Icons.camera_alt, color: Colors.white),
                           ),
                         ),
                       ],
                     ),
                   ),
                 ),
-                SizedBox(height: 30),
+                const SizedBox(height: 30),
                 const Text(
                   'Username',
                   style: TextStyle(
@@ -196,7 +194,7 @@ class _EditAccountPageState extends State<EditAccountPage> {
                     fontWeight: FontWeight.bold,
                   ),
                 ),
-                SizedBox(height: 10),
+                const SizedBox(height: 10),
                 TextField(
                   controller: usernameController,
                   decoration: const InputDecoration(
@@ -209,15 +207,15 @@ class _EditAccountPageState extends State<EditAccountPage> {
                     });
                   },
                 ),
-                SizedBox(height: 30),
-                Text(
+                const SizedBox(height: 30),
+                const Text(
                   'Email',
                   style: TextStyle(
                     fontSize: 18,
                     fontWeight: FontWeight.bold,
                   ),
                 ),
-                SizedBox(height: 10),
+                const SizedBox(height: 10),
                 TextField(
                   maxLength: 30,
                   controller: _emailController,
@@ -230,7 +228,7 @@ class _EditAccountPageState extends State<EditAccountPage> {
                     border: OutlineInputBorder(),
                   ),
                 ),
-                SizedBox(height: 20),
+                const SizedBox(height: 20),
                 const Text(
                   'Gender',
                   style: TextStyle(
@@ -238,11 +236,11 @@ class _EditAccountPageState extends State<EditAccountPage> {
                     fontWeight: FontWeight.bold,
                   ),
                 ),
-                SizedBox(height: 10),
+                const SizedBox(height: 10),
                 Row(
                   children: [
                     buildGenderButton('Male'),
-                    SizedBox(width: 10),
+                    const SizedBox(width: 10),
                     buildGenderButton('Female'),
                   ],
                 ),
@@ -262,13 +260,13 @@ class _EditAccountPageState extends State<EditAccountPage> {
         });
       },
       style: ButtonStyle(
-        backgroundColor: MaterialStateProperty.all(
+        backgroundColor: WidgetStateProperty.all(
           selectedGender == gender ? Colors.purple : Colors.grey,
         ),
       ),
       child: Text(
         gender,
-        style: TextStyle(color: Colors.white),
+        style: const TextStyle(color: Colors.white),
       ),
     );
   }

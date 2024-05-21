@@ -19,7 +19,7 @@ class _IntroScreenDemoState extends State<IntroScreenDemo> {
     return Scaffold(
       appBar: AppBar(
         leading: IconButton(
-          icon: Icon(Icons.arrow_back),
+          icon: const Icon(Icons.arrow_back),
           onPressed: () {
             Navigator.pop(context); // Navigate back to the previous screen (main.dart)
           },
@@ -31,11 +31,11 @@ class _IntroScreenDemoState extends State<IntroScreenDemo> {
           key: _introKey,
           pages: [
             PageViewModel(
-              titleWidget: LocaleText(
+              titleWidget: const LocaleText(
                 'addis_stay',
                 style: TextStyle(fontSize: 28, fontWeight: FontWeight.bold),
               ),
-              bodyWidget: LocaleText(
+              bodyWidget: const LocaleText(
                 'welcome_description',
                 style: TextStyle(fontSize: 16),
               ),
@@ -44,11 +44,11 @@ class _IntroScreenDemoState extends State<IntroScreenDemo> {
               ),
             ),
             PageViewModel(
-              titleWidget: LocaleText(
+              titleWidget: const LocaleText(
                 'hotel_search',
                 style: TextStyle(fontSize: 28, fontWeight: FontWeight.bold),
               ),
-              bodyWidget: LocaleText(
+              bodyWidget: const LocaleText(
                 'hotel_search_description',
                 style: TextStyle(fontSize: 16),
               ),
@@ -57,35 +57,35 @@ class _IntroScreenDemoState extends State<IntroScreenDemo> {
               ),
             ),
             PageViewModel(
-              titleWidget: LocaleText(
+              titleWidget: const LocaleText(
                 'online_booking',
                 style: TextStyle(fontSize: 28, fontWeight: FontWeight.bold),
               ),
-              bodyWidget: LocaleText(
+              bodyWidget: const LocaleText(
                 'online_booking_description',
                 style: TextStyle(fontSize: 16),
               ),
               image: Image.asset("assets/images/landing_page_images/reception-desk.jpg"),
             ),
             PageViewModel(
-              titleWidget: LocaleText(
+              titleWidget: const LocaleText(
                 'hotel_details',
                 style: TextStyle(fontSize: 28, fontWeight: FontWeight.bold),
               ),
-              bodyWidget: LocaleText(
+              bodyWidget: const LocaleText(
                 'hotel_details_description',
                 style: TextStyle(fontSize: 16),
               ),
               image: Image.asset("assets/images/landing_page_images/receptionist-working-on-her-desk-with-laptop.png"),
             ),
             PageViewModel(
-              titleWidget: LocaleText(
+              titleWidget: const LocaleText(
                 'review_ratings',
                 style: TextStyle(fontSize: 28, fontWeight: FontWeight.bold),
               ),
               bodyWidget: Column(
                 children: [
-                  LocaleText(
+                  const LocaleText(
                     'review_ratings_description',
                     style: TextStyle(color: Colors.deepPurple, fontSize: 20.0),
                   ),
@@ -94,10 +94,10 @@ class _IntroScreenDemoState extends State<IntroScreenDemo> {
                     onPressed: () {
                       Navigator.push(
                         context,
-                        MaterialPageRoute(builder: (context) => AuthPage()),
+                        MaterialPageRoute(builder: (context) => const AuthPage()),
                       );
                     },
-                    child: LocaleText(
+                    child: const LocaleText(
                       'log_in',
                       style: TextStyle(fontSize: 20.0, fontWeight: FontWeight.bold),
                     ),
@@ -107,10 +107,10 @@ class _IntroScreenDemoState extends State<IntroScreenDemo> {
                     onPressed: () {
                       Navigator.push(
                         context,
-                        MaterialPageRoute(builder: (context) => SignUpPage()),
+                        MaterialPageRoute(builder: (context) => const SignUpPage()),
                       );
                     },
-                    child: LocaleText(
+                    child: const LocaleText(
                       'sign_up',
                       style: TextStyle(fontSize: 20.0, fontWeight: FontWeight.bold),
                     ),
@@ -120,8 +120,8 @@ class _IntroScreenDemoState extends State<IntroScreenDemo> {
               image: Image.asset("assets/images/landing_page_images/waiter-holding-tray-in-restaurant.png"),
             ),
           ],
-          skip: LocaleText('skip'),
-          next: LocaleText('next'),
+          skip: const LocaleText('skip'),
+          next: const LocaleText('next'),
           showSkipButton: true,
           showNextButton: true,
           showDoneButton: false,

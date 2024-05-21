@@ -1,4 +1,3 @@
-import 'dart:math';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -10,6 +9,8 @@ import 'package:mobile_application_project/data_home.dart';
 import 'package:mobile_application_project/detail_screen.dart';
 
 class Home extends StatefulWidget {
+  const Home({super.key});
+
   @override
   State<Home> createState() => _HomeState();
 }
@@ -30,10 +31,10 @@ class _HomeState extends State<Home> {
   void initState() {
     super.initState();
     _widgetOptions = <Widget>[
-      HomePage(),
+      const HomePage(),
       Container( // Wrapping Text widget inside Container
         alignment: Alignment.center,
-        child: Text('Search Page'),
+        child: const Text('Search Page'),
       ),
       SettingPage(
         userName: user.displayName ?? '',
@@ -79,7 +80,7 @@ class _HomeState extends State<Home> {
 }
 
 class HomePage extends StatefulWidget {
-  HomePage({Key? key}) : super(key: key);
+  const HomePage({super.key});
 
 
 
@@ -135,7 +136,7 @@ class _HomePageState extends State<HomePage> {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      theme: ThemeData(scaffoldBackgroundColor: Color(0xffF8FCFF),primaryColor:Color(0xffF8FCFF) ),
+      theme: ThemeData(scaffoldBackgroundColor: const Color(0xffF8FCFF),primaryColor:const Color(0xffF8FCFF) ),
       home: Scaffold(
         body:SafeArea(
           child:SingleChildScrollView(
@@ -152,14 +153,14 @@ class _HomePageState extends State<HomePage> {
                   // const Icon(Icons.menu_rounded, size: 40,color: Colors.purple,),
                   CircleAvatar(
                     radius: 30,
-                    backgroundImage: photoUrl != null ? NetworkImage(photoUrl!) : NetworkImage('https://static.vecteezy.com/system/resources/previews/004/026/956/non_2x/person-avatar-icon-free-vector.jpg'),
+                    backgroundImage: photoUrl != null ? NetworkImage(photoUrl!) : const NetworkImage('https://static.vecteezy.com/system/resources/previews/004/026/956/non_2x/person-avatar-icon-free-vector.jpg'),
                   ),
-                  Icon(
+                  const Icon(
                     Ionicons.location,
                     size: 30,
                     color: Colors.purple,
                   ),
-                  Text(
+                  const Text(
                     "Addis Abeba Ethiopia",
                     style: TextStyle(
                       fontWeight: FontWeight.w800,
@@ -167,7 +168,7 @@ class _HomePageState extends State<HomePage> {
                       color: Colors.purpleAccent,
                     ),
                   ),
-                  Icon(
+                  const Icon(
                     Ionicons.notifications,
                     size: 30,
                     color: Colors.purple,
@@ -202,10 +203,10 @@ class _HomePageState extends State<HomePage> {
                     child: TextField(
                       decoration: InputDecoration(
                         hintText: "Search for place",
-                        prefixIcon: Icon(
+                        prefixIcon: const Icon(
                           Icons.search,
                           size: 35,
-                          color: const Color(0xff3c4657),
+                          color: Color(0xff3c4657),
                         ),
                         border: OutlineInputBorder(
                           borderSide: const BorderSide(
@@ -213,8 +214,8 @@ class _HomePageState extends State<HomePage> {
                               color: Colors.purple),
                           borderRadius: BorderRadius.circular(12),
                         ),
-                        enabledBorder: OutlineInputBorder(
-                          borderSide: const BorderSide(
+                        enabledBorder: const OutlineInputBorder(
+                          borderSide: BorderSide(
                               width: 2.4, color: Color(0xff3c4657)),
                         ),
                       ),
@@ -236,7 +237,7 @@ class _HomePageState extends State<HomePage> {
             Container(
               height: 70,
               width: double.infinity,
-              margin: EdgeInsets.symmetric(horizontal: 12, vertical: 12),
+              margin: const EdgeInsets.symmetric(horizontal: 12, vertical: 12),
               child: ListView(
                 scrollDirection: Axis.horizontal,
                 children: [
@@ -249,7 +250,7 @@ class _HomePageState extends State<HomePage> {
                     child: MenuScreen(
                       "Dining",
                       selectedOne == MenuSelection.menu1
-                          ? Colors.purple : Color(0xffF0F1F3),
+                          ? Colors.purple : const Color(0xffF0F1F3),
                       selectedOne == MenuSelection.menu1
                           ? Colors.white: Colors.grey,
                     ),
@@ -263,7 +264,7 @@ class _HomePageState extends State<HomePage> {
                     child: MenuScreen(
                       "Accommodations",
                       selectedOne == MenuSelection.menu2
-                          ? Colors.purple : Color(0xffF0F1F3),
+                          ? Colors.purple : const Color(0xffF0F1F3),
                       selectedOne == MenuSelection.menu2
                           ? Colors.white: Colors.grey,
                     ),
@@ -277,7 +278,7 @@ class _HomePageState extends State<HomePage> {
                     child: MenuScreen(
                       "Room Servicel",
                       selectedOne == MenuSelection.menu3
-                          ? Colors.purple : Color(0xffF0F1F3),
+                          ? Colors.purple : const Color(0xffF0F1F3),
                       selectedOne == MenuSelection.menu3
                           ? Colors.white: Colors.grey,
                     ),
@@ -291,7 +292,7 @@ class _HomePageState extends State<HomePage> {
                     child: MenuScreen(
                       "Accommodations",
                       selectedOne == MenuSelection.menu4
-                          ? Colors.purple : Color(0xffF0F1F3),
+                          ? Colors.purple : const Color(0xffF0F1F3),
                       selectedOne == MenuSelection.menu4
                           ? Colors.white: Colors.grey,
                     ),
@@ -299,11 +300,11 @@ class _HomePageState extends State<HomePage> {
                 ],
               ),
             ),
-      SizedBox(
+      const SizedBox(
             height:15
       ),
       Container(
-        margin:EdgeInsets.symmetric(horizontal:4,vertical:12),
+        margin:const EdgeInsets.symmetric(horizontal:4,vertical:12),
         height: 270,
         width: double.infinity,
         child: ListView.builder(
@@ -320,7 +321,7 @@ class _HomePageState extends State<HomePage> {
                 );
               },
               child: Container(height: 200,
-                margin:EdgeInsets.symmetric(horizontal:8),
+                margin:const EdgeInsets.symmetric(horizontal:8),
                 width: 250,
                 decoration: BoxDecoration(
                   borderRadius:BorderRadius.circular(12),
@@ -338,7 +339,7 @@ class _HomePageState extends State<HomePage> {
                       right: 0,
                       child: IconButton(
                         onPressed: (){},
-                        icon:Icon(Icons.favorite_border,color: Colors.purple,),
+                        icon:const Icon(Icons.favorite_border,color: Colors.purple,),
                       ),
 
                     ),
@@ -350,7 +351,7 @@ class _HomePageState extends State<HomePage> {
                           children: [
                             Text(
                               object.getData[index].name,
-                              style: TextStyle(
+                              style: const TextStyle(
                                   fontSize:
                                   22,color:Colors.white ,
                                   fontWeight:FontWeight.w600),
@@ -358,7 +359,7 @@ class _HomePageState extends State<HomePage> {
                             const SizedBox(height: 8,),
                             Row(
                               children: [
-                                Icon(Icons.location_on,
+                                const Icon(Icons.location_on,
                                   size:30,
                                   color: Colors.white,),
                                 Text(
@@ -386,7 +387,7 @@ class _HomePageState extends State<HomePage> {
 
           },
         ),),
-            const Padding(padding: const EdgeInsets.only(left:12.0 ,top: 12),
+            const Padding(padding: EdgeInsets.only(left:12.0 ,top: 12),
             child:Text("Popular Hotels",style: TextStyle(
                 fontSize: 24,
             color:Color(0xff3c4657),
@@ -394,7 +395,7 @@ class _HomePageState extends State<HomePage> {
            )),
             const SizedBox(height: 10,),
             Container(
-              margin: EdgeInsets.symmetric(horizontal: 8,vertical: 12),
+              margin: const EdgeInsets.symmetric(horizontal: 8,vertical: 12),
               height: 220,
               width: double.infinity,
               child: ListView.builder(
@@ -411,7 +412,7 @@ class _HomePageState extends State<HomePage> {
                       );
                     },
                     child: Container(
-                      margin: EdgeInsets.symmetric(horizontal: 4),
+                      margin: const EdgeInsets.symmetric(horizontal: 4),
                       height: 220,
                       width: 200,
                       decoration: BoxDecoration(
@@ -429,7 +430,7 @@ class _HomePageState extends State<HomePage> {
                               children: [
                                 Text(
                                   object.getAnotherData[index].name,
-                                  style: TextStyle(
+                                  style: const TextStyle(
                                       fontSize:22
                                       ,color:Colors.white ,
                                       fontWeight:FontWeight.w600),
@@ -437,7 +438,7 @@ class _HomePageState extends State<HomePage> {
                                 const SizedBox(height: 8,),
                                 Row(
                                   children: [
-                                    Icon(Icons.location_on,
+                                    const Icon(Icons.location_on,
                                       size:30,
                                       color: Colors.white,),
                                     Text(

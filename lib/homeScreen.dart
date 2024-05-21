@@ -6,13 +6,13 @@ class MenuScreen extends StatelessWidget {
   final Color backgroundColor;
   final Color textColor;
 
-  MenuScreen(this.text, this.backgroundColor, this.textColor);
+  const MenuScreen(this.text, this.backgroundColor, this.textColor, {super.key});
   @override
   Widget build(BuildContext context) {
     return Container(
       height: 60,
       width: 250,
-      margin: EdgeInsets.symmetric(horizontal: 8),
+      margin: const EdgeInsets.symmetric(horizontal: 8),
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(12),
         color: backgroundColor,

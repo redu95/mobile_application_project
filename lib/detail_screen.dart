@@ -1,4 +1,3 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 class Detail extends StatelessWidget {
@@ -6,7 +5,7 @@ class Detail extends StatelessWidget {
   final String hotelName;
   final String hotelLocation;
 
-  Detail(this.imageurl, this.hotelName, this.hotelLocation);
+  const Detail(this.imageurl, this.hotelName, this.hotelLocation, {super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -16,17 +15,17 @@ class Detail extends StatelessWidget {
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: [
-            Text("\$106",style: TextStyle(fontSize: 40),
+            const Text("\$106",style: TextStyle(fontSize: 40),
             ),
-            Container(
+            SizedBox(
               height: 60,
               child: MaterialButton(
                 minWidth: 280,
                 onPressed:(){},
                 shape: RoundedRectangleBorder(
                   borderRadius:BorderRadius.circular(12),),
-                color: Color(0xff3C4657),
-                child: Text(
+                color: const Color(0xff3C4657),
+                child: const Text(
                   "Select room",style: TextStyle(fontSize:22,color: Colors.white ),
                 ),
               ),
@@ -60,14 +59,14 @@ class Detail extends StatelessWidget {
                         height: 50,
                         decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(12),
-                          color: Color(0xFFF8FCFF),
+                          color: const Color(0xFFF8FCFF),
                         ),
                         width: 60,
                         child: IconButton(
                           onPressed: () {
                             Navigator.pop(context);
                           },
-                          icon: Icon(Icons.arrow_back_ios, size: 30, color: Colors.purple,),
+                          icon: const Icon(Icons.arrow_back_ios, size: 30, color: Colors.purple,),
                           iconSize: 30,
                         ),
                       ),
@@ -75,7 +74,7 @@ class Detail extends StatelessWidget {
                         height: 50,
                         decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(12),
-                          color: Color(0xFFF8FCFF),
+                          color: const Color(0xFFF8FCFF),
 
                         ),
                         width: 60,
@@ -98,14 +97,14 @@ class Detail extends StatelessWidget {
               children: [
                 Text(
                   hotelName,
-                  style: TextStyle(
+                  style: const TextStyle(
                     fontSize: 28,
                     fontWeight: FontWeight.w800,
                     color: Colors.black,
                   ),
                 ),
-                Row(
-                  children: const [
+                const Row(
+                  children: [
                     Icon(
                       Icons.star,
                       color: Colors.yellow,
@@ -135,21 +134,21 @@ class Detail extends StatelessWidget {
                 ),
                 Row(
                   children: [
-                    Icon(Icons.location_on, size: 30),
+                    const Icon(Icons.location_on, size: 30),
                     Text(
                       hotelLocation,
-                      style: TextStyle(fontSize: 24),
+                      style: const TextStyle(fontSize: 24),
                     ),
                   ],
                 ),
               ],
             ),
           ),
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 12.0, vertical: 6),
+          const Padding(
+            padding: EdgeInsets.symmetric(horizontal: 12.0, vertical: 6),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
-              children: const [
+              children: [
                 Text(
                   "Detail",
                   style: TextStyle(fontSize: 22),
@@ -171,51 +170,51 @@ class Detail extends StatelessWidget {
                   height: 60,
                   width: 60,
                   decoration: BoxDecoration(
-                    color: Color.fromARGB(255, 145, 233, 148),
+                    color: const Color.fromARGB(255, 145, 233, 148),
                     borderRadius: BorderRadius.circular(12),
 
                   ),
-                  child: Icon(Icons.wifi,size: 40,),
+                  child: const Icon(Icons.wifi,size: 40,),
                 ),
                 Container(
                   height: 60,
                   width: 60,
                   decoration: BoxDecoration(
-                    color: Color.fromARGB(255, 158, 228, 221),
+                    color: const Color.fromARGB(255, 158, 228, 221),
                     borderRadius: BorderRadius.circular(12),
 
                   ),
-                  child: Icon(Icons.ac_unit,size: 40,),
+                  child: const Icon(Icons.ac_unit,size: 40,),
                 )
                 ,Container(
                   height: 60,
                   width: 60,
                   decoration: BoxDecoration(
-                    color: Color.fromARGB(255, 245, 214, 167),
+                    color: const Color.fromARGB(255, 245, 214, 167),
                     borderRadius: BorderRadius.circular(12),
 
                   ),
-                  child: Icon(Icons.restaurant,size: 40,),
+                  child: const Icon(Icons.restaurant,size: 40,),
                 ),
                 Container(
                   height: 60,
                   width: 60,
                   decoration: BoxDecoration(
-                    color: Color.fromARGB(255, 145, 233, 148),
+                    color: const Color.fromARGB(255, 145, 233, 148),
                     borderRadius: BorderRadius.circular(12),
 
                   ),
-                  child: Icon(Icons.car_rental,size: 40,),
+                  child: const Icon(Icons.car_rental,size: 40,),
                 ),
                 Container(
                   height: 60,
                   width: 60,
                   decoration: BoxDecoration(
-                    color: Color.fromARGB(255, 114, 195, 233),
+                    color: const Color.fromARGB(255, 114, 195, 233),
                     borderRadius: BorderRadius.circular(12),
 
                   ),
-                  child: Icon(Icons.pool,size: 40,),
+                  child: const Icon(Icons.pool,size: 40,),
                 )
               ],
             ),

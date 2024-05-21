@@ -1,14 +1,11 @@
-import 'dart:ui';
 
 import 'package:firebase_app_check/firebase_app_check.dart';
 import 'package:firebase_core/firebase_core.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:mobile_application_project/auth_page.dart';
 import 'package:mobile_application_project/introduction_screen.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 
-import 'package:mobile_application_project/login_page.dart';
 
 import 'package:mobile_application_project/languageMenu.dart';
 import 'package:flutter_locales/flutter_locales.dart';
@@ -20,9 +17,9 @@ void main() async {
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
-  await FirebaseAppCheck.instance.activate();
+  //await FirebaseAppCheck.instance.activate();
   await Locales.init(['en','es', 'am', 'ar']); // Initialize locales
-  runApp(MyApp());
+  runApp(const MyApp());
 }
 
 class MyApp extends StatelessWidget {
@@ -34,7 +31,7 @@ class MyApp extends StatelessWidget {
       builder: (locale) => MaterialApp(
         debugShowCheckedModeBanner: false,
         title: 'Flutter Locales',
-        localizationsDelegates: [
+        localizationsDelegates: const [
           Locales.delegate,
           GlobalMaterialLocalizations.delegate,
           GlobalWidgetsLocalizations.delegate,
@@ -53,7 +50,7 @@ class MyApp extends StatelessWidget {
 }
 
 class WelcomePage extends StatelessWidget {
-  const WelcomePage({Key? key}) : super(key: key);
+  const WelcomePage({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -82,12 +79,12 @@ class WelcomePage extends StatelessWidget {
                 onPressed: () {
                   Navigator.push(
                     context,
-                    MaterialPageRoute(builder: (context) => LanguageMenuDemo()),
+                    MaterialPageRoute(builder: (context) => const LanguageMenuDemo()),
                   );
                 },
                 style: ElevatedButton.styleFrom(
                   backgroundColor: Colors.transparent,
-                  padding: EdgeInsets.symmetric(horizontal: 50, vertical: 16),
+                  padding: const EdgeInsets.symmetric(horizontal: 50, vertical: 16),
                 ),
                 child: const LocaleText(
                   'language',
@@ -106,7 +103,7 @@ class WelcomePage extends StatelessWidget {
               width: 50,
               height: 50,
               color: Colors.white,
-              child: Icon(Icons.hotel, color: Colors.deepPurple),
+              child: const Icon(Icons.hotel, color: Colors.deepPurple),
             ),
           ),
 // Welcome text and icon
@@ -143,12 +140,12 @@ class WelcomePage extends StatelessWidget {
                 onPressed: () {
                   Navigator.push(
                     context,
-                    MaterialPageRoute(builder: (context) => IntroScreenDemo()),
+                    MaterialPageRoute(builder: (context) => const IntroScreenDemo()),
                   );
                 },
                 style: ElevatedButton.styleFrom(
                   backgroundColor: Colors.deepPurple,
-                  padding: EdgeInsets.symmetric(horizontal: 100, vertical: 16),
+                  padding: const EdgeInsets.symmetric(horizontal: 100, vertical: 16),
                 ),
                 child: const LocaleText(
                   'get_started',
@@ -164,7 +161,7 @@ class WelcomePage extends StatelessWidget {
             bottom: 100,
             child: GestureDetector(
               onTap: () {
-                Navigator.push(context, MaterialPageRoute(builder: (context) => AuthPage()));
+                Navigator.push(context, MaterialPageRoute(builder: (context) => const AuthPage()));
               },
               child: const LocaleText(
                 'already_have_an_account',
