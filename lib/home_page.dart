@@ -7,6 +7,7 @@ import 'package:mobile_application_project/setting_page.dart';
 import 'package:mobile_application_project/homeScreen.dart';
 import 'package:mobile_application_project/data_home.dart';
 import 'package:mobile_application_project/detail_screen.dart';
+import 'package:mobile_application_project/Nearby_page.dart';
 
 class Home extends StatefulWidget {
   const Home({super.key});
@@ -31,11 +32,14 @@ class _HomeState extends State<Home> {
   void initState() {
     super.initState();
     _widgetOptions = <Widget>[
-      const HomePage(),
+
+      HomePage(),
       Container( // Wrapping Text widget inside Container
         alignment: Alignment.center,
         child: const Text('Search Page'),
       ),
+      NearbyPage(),
+
       SettingPage(
         userName: user.displayName ?? '',
         email: user.email ?? 'Add your email',
@@ -63,8 +67,8 @@ class _HomeState extends State<Home> {
             label: 'Home',
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.search),
-            label: 'Search',
+            icon: Icon(Icons.maps_home_work_sharp),
+            label: 'Nearby',
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.person),
@@ -82,15 +86,13 @@ class _HomeState extends State<Home> {
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
 
-
-
   @override
   _HomePageState createState() => _HomePageState();
 }
 
 class _HomePageState extends State<HomePage> {
   MenuSelection selectedOne = MenuSelection.menu1;
-  DataHome object=DataHome();
+  DataHome object = DataHome();
 
   String userName ='';
   String email ="";
@@ -132,7 +134,7 @@ class _HomePageState extends State<HomePage> {
     }
   }
 
-  @override
+ @override
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
