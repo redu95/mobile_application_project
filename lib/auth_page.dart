@@ -15,12 +15,12 @@ import 'login_page.dart';class AuthPage extends StatelessWidget {
         builder:(context, snapshot){
           //user is loged  in
           if(snapshot.hasData){
-            return Home();
+            return const Home();
           }
 
           //user is NOT log in
           else{
-            return LogInPage();
+            return const LogInPage();
           }
         },
       ),

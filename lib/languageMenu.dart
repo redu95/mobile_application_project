@@ -5,10 +5,12 @@ import 'package:shared_preferences/shared_preferences.dart';
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Locales.init(['en', 'es', 'am', 'ar']); // Initialize with supported locales
-  runApp(MyApp());
+  runApp(const MyApp());
 }
 
 class MyApp extends StatelessWidget {
+  const MyApp({super.key});
+
   @override
   Widget build(BuildContext context) {
     return LocaleBuilder(
@@ -22,7 +24,7 @@ class MyApp extends StatelessWidget {
 }
 
 class LanguageMenuDemo extends StatefulWidget {
-  const LanguageMenuDemo({Key? key}) : super(key: key);
+  const LanguageMenuDemo({super.key});
 
   @override
   State<LanguageMenuDemo> createState() => _LanguageMenuDemoState();

@@ -4,7 +4,6 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_locales/flutter_locales.dart';
 import 'package:ionicons/ionicons.dart';
 import 'package:mobile_application_project/edit_account_page.dart';
 import 'package:path/path.dart';
@@ -19,11 +18,11 @@ class SettingPage extends StatefulWidget {
   final String? photoUrl;
 
   const SettingPage({
-    Key? key,
+    super.key,
     required this.userName,
     required this.email,
     this.photoUrl,
-  }) : super(key: key);
+  });
 
   @override
   _SettingPageState createState() => _SettingPageState();
@@ -31,8 +30,8 @@ class SettingPage extends StatefulWidget {
 
 class _SettingPageState extends State<SettingPage> {
   bool _switchValue = false;  // Setting initial value of the switch to true (on state)
-  ThemeData _lightTheme = ThemeData(brightness: Brightness.light, primaryColor: Colors.white); // Theme data for light mode with white as the primary color
-  ThemeData _darkTheme = ThemeData(brightness: Brightness.dark, primaryColor: Colors.black); // Theme data for dark mode with black as the primary color
+  final ThemeData _lightTheme = ThemeData(brightness: Brightness.light, primaryColor: Colors.white); // Theme data for light mode with white as the primary color
+  final ThemeData _darkTheme = ThemeData(brightness: Brightness.dark, primaryColor: Colors.black); // Theme data for dark mode with black as the primary color
 
   String userName ='';
   late String email ="Add your email";
@@ -41,7 +40,7 @@ class _SettingPageState extends State<SettingPage> {
   bool isLoading = true; // Track loading state
   TextEditingController userNameController =  TextEditingController();
   TextEditingController emailController =  TextEditingController();
-  TextEditingController passwordController = new TextEditingController();
+  TextEditingController passwordController = TextEditingController();
 
   @override
   void initState() {
@@ -108,7 +107,7 @@ class _SettingPageState extends State<SettingPage> {
     // Navigate back to login page
     Navigator.pushReplacement(
       context,
-      MaterialPageRoute(builder: (context) => LogInPage()),
+      MaterialPageRoute(builder: (context) => const LogInPage()),
     );
   }
 
@@ -131,7 +130,7 @@ class _SettingPageState extends State<SettingPage> {
         backgroundColor: _switchValue ? Colors.black : Colors.white,// Set the background color based on the value of _switchValue
         appBar: AppBar(
           leading: IconButton(
-            icon: Icon(Icons.arrow_back),
+            icon: const Icon(Icons.arrow_back),
             onPressed: () {
               Navigator.pop(context);
             },
@@ -144,12 +143,12 @@ class _SettingPageState extends State<SettingPage> {
                 });
                 loadUserInfo(user.uid); // Reload user info
               },
-              icon: Icon(Icons.refresh),
+              icon: const Icon(Icons.refresh),
             ),
           ],
         ),
         body: SingleChildScrollView(
-          padding: EdgeInsets.all(20),
+          padding: const EdgeInsets.all(20),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
@@ -160,7 +159,7 @@ class _SettingPageState extends State<SettingPage> {
                   fontWeight: FontWeight.bold,
                 ),
               ),
-              SizedBox(height: 30),
+              const SizedBox(height: 30),
               const Text(
                 "Account" ?? "Default Value", // Provide a default value if "Account" is null
                 style: TextStyle(
@@ -171,7 +170,7 @@ class _SettingPageState extends State<SettingPage> {
               buildAccount(
                 title: userName,
                 subtitle: email,
-                image: NetworkImage('https://static.vecteezy.com/system/resources/previews/004/026/956/non_2x/person-avatar-icon-free-vector.jpg'),
+                image: const NetworkImage('https://static.vecteezy.com/system/resources/previews/004/026/956/non_2x/person-avatar-icon-free-vector.jpg'),
                 onTap: () {
                   Navigator.push(
                     context,
@@ -206,7 +205,7 @@ class _SettingPageState extends State<SettingPage> {
                   );
                 }
               ),
-              SizedBox(height: 40),
+              const SizedBox(height: 40),
                const Text(
                 "Settings",
                 style: TextStyle(
@@ -214,19 +213,19 @@ class _SettingPageState extends State<SettingPage> {
                   fontWeight: FontWeight.w500,
                 ),
               ),
-              SizedBox(height: 20),
+              const SizedBox(height: 20),
               buildSettingItem(
                 title: "Bookings",
                 icon: Ionicons.calendar,
                 onTap: () {},
               ),
-              SizedBox(height: 20),
+              const SizedBox(height: 20),
               buildSettingItem(
                 title: "Favorites",
                 icon: Ionicons.heart,
                 onTap: () {},
               ),
-              SizedBox(height: 20,),
+              const SizedBox(height: 20,),
               const Text(
                 "  Appearances",
                 style: TextStyle(
@@ -234,25 +233,25 @@ class _SettingPageState extends State<SettingPage> {
                   fontWeight: FontWeight.w300,
                 ),
               ),
-              SizedBox(height: 20),
+              const SizedBox(height: 20),
               buildSettingItem(
                 title: "Language",
                 icon: Ionicons.language_outline,
                 onTap: () {
                   Navigator.push(
                     context,
-                    MaterialPageRoute(builder: (context) => LanguageMenuDemo()),
+                    MaterialPageRoute(builder: (context) => const LanguageMenuDemo()),
                   );
                 },
               ),
-              SizedBox(height: 20),
+              const SizedBox(height: 20),
               buildSettingItem(
                 title: "Dark Mode",
                 icon: Ionicons.moon_outline,
                 isDarkMode: true,
                 onTap: () {},
               ),
-              SizedBox(height: 20),
+              const SizedBox(height: 20),
               const Text(
                 "  Help and Support"?? "Default Value",
                 style: TextStyle(
@@ -260,19 +259,19 @@ class _SettingPageState extends State<SettingPage> {
                   fontWeight: FontWeight.w300,
                 ),
               ),
-              SizedBox(height: 20),
+              const SizedBox(height: 20),
               buildSettingItem(
                 title: "Help",
                 icon: Ionicons.help_outline,
                 onTap: () {},
               ),
-              SizedBox(height: 20),
+              const SizedBox(height: 20),
               buildSettingItem(
                 title: "Privacy",
                 icon: Ionicons.shield,
                 onTap: () {},
               ),
-              SizedBox(height: 20),
+              const SizedBox(height: 20),
               buildSettingItem(
                 title: "Log Out",
                 icon: Ionicons.log_out_outline,
@@ -282,14 +281,14 @@ class _SettingPageState extends State<SettingPage> {
                     context: context,
                     builder: (BuildContext context) {
                       return AlertDialog(
-                        title: Text("Log Out"),
-                        content: Text("Do you really want to log out?"),
+                        title: const Text("Log Out"),
+                        content: const Text("Do you really want to log out?"),
                         actions: [
                           TextButton(
                             onPressed: () {
                               Navigator.of(context).pop(); // Close the dialog
                             },
-                            child: Text("Cancel"),
+                            child: const Text("Cancel"),
                           ),
                           TextButton(
                             onPressed: () async {
@@ -325,31 +324,31 @@ class _SettingPageState extends State<SettingPage> {
           children: [
             CircleAvatar(
               radius: 30,
-              backgroundImage: photoUrl != null ? NetworkImage(photoUrl!) : NetworkImage('https://static.vecteezy.com/system/resources/previews/004/026/956/non_2x/person-avatar-icon-free-vector.jpg'),
+              backgroundImage: photoUrl != null ? NetworkImage(photoUrl!) : const NetworkImage('https://static.vecteezy.com/system/resources/previews/004/026/956/non_2x/person-avatar-icon-free-vector.jpg'),
             ),
-            SizedBox(width: 20),
+            const SizedBox(width: 20),
             Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
                   title,
-                  style: TextStyle(
+                  style: const TextStyle(
                     fontSize: 18,
                     fontWeight: FontWeight.w500,
                   ),
                 ),
-                if (subtitle != null) SizedBox(height: 4),
+                if (subtitle != null) const SizedBox(height: 4),
                 if (subtitle != null)
                   Text(
                     subtitle,
-                    style: TextStyle(
+                    style: const TextStyle(
                       fontSize: 14,
                       color: Colors.grey,
                     ),
                   ),
               ],
             ),
-            Spacer(),
+            const Spacer(),
             const Icon(
               Icons.settings,
               size: 30,
@@ -385,29 +384,29 @@ class _SettingPageState extends State<SettingPage> {
                 color: Colors.deepPurple,
               ),
             ),
-            SizedBox(width: 20),
+            const SizedBox(width: 20),
             Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
                   title,
-                  style: TextStyle(
+                  style: const TextStyle(
                     fontSize: 18,
                     fontWeight: FontWeight.w500,
                   ),
                 ),
-                if (subtitle != null) SizedBox(height: 4),
+                if (subtitle != null) const SizedBox(height: 4),
                 if (subtitle != null)
                   Text(
                     subtitle,
-                    style: TextStyle(
+                    style: const TextStyle(
                       fontSize: 14,
                       color: Colors.grey,
                     ),
                   ),
               ],
             ),
-            Spacer(),
+            const Spacer(),
             if (isDarkMode)
               Switch(
                 value: _switchValue, // Replace true with your dark mode state

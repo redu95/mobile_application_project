@@ -41,16 +41,17 @@ dependencies:
   shared_preferences: ^2.0.9
   introduction_screen: ^3.1.14
   firebase_core: ^2.31.0
-  firebase_auth: ^4.19.1
+  firebase_auth: ^4.19.5
   google_sign_in: ^6.2.0
-  cloud_firestore: ^4.16.1
-  firebase_storage: ^11.7.4
+  cloud_firestore: ^4.17.3
+  firebase_storage: ^11.7.5
   ionicons: ^0.2.2
   image_picker: ^1.1.1
   firebase_app_check: ^0.2.2+5
 
 
 
+  path: any
 dev_dependencies:
   flutter_test:
     sdk: flutter
