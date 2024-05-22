@@ -13,6 +13,7 @@ import 'package:mobile_application_project/l10n/l10n.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:mobile_application_project/languageMenu.dart';
 import 'package:mobile_application_project/languageMenu.dart';
+import 'languagerelatedclass/language_constants.dart';
 import 'login_page.dart';
 
 
@@ -128,6 +129,7 @@ class _SettingPageState extends State<SettingPage> {
     });
   }
 
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -242,18 +244,24 @@ class _SettingPageState extends State<SettingPage> {
                 title:AppLocalizations.of(context)!.language ?? '' ,
                 icon: Ionicons.language_outline,
                 onTap: () {
+                  {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => const LanguageMenuDemo()),
+                    );
+                  };
 
                 },
               ),
               SizedBox(height: 20),
               buildSettingItem(
-                title: AppLocalizations.of(context)!.darkMode ?? '' ,
+                title: AppLocalizations.of(context)!.dark_Mode ?? '' ,
                 icon: Ionicons.moon_outline,
                 isDarkMode: true,
                 onTap: () {},
               ),
               SizedBox(height: 20),
-              Text(AppLocalizations.of(context)!.helpAndSupport ?? '' ,
+              Text ((translation(context).help_And_Support ) ,
                 style: TextStyle(
                   fontSize: 18,
                   fontWeight: FontWeight.w300,
@@ -273,7 +281,7 @@ class _SettingPageState extends State<SettingPage> {
               ),
               SizedBox(height: 20),
               buildSettingItem(
-                title: AppLocalizations.of(context)!.logOut ?? '' ,
+                title: AppLocalizations.of(context)!.log_Out ?? '' ,
                 icon: Ionicons.log_out_outline,
                 onTap: () {
                   // Show an alert dialog to confirm logout
@@ -281,7 +289,7 @@ class _SettingPageState extends State<SettingPage> {
                     context: context,
                     builder: (BuildContext context) {
                       return AlertDialog(
-                        title: Text(AppLocalizations.of(context)!.logOut ?? '' ,),
+                        title: Text(AppLocalizations.of(context)!.log_Out ?? '' ,),
                         content: Text("Do you really want to log out?"),
                         actions: [
                           TextButton(
@@ -295,7 +303,7 @@ class _SettingPageState extends State<SettingPage> {
                               logOut(context); // Log out function
                               await refreshUserData(); // Refresh user data after logout
                             },
-                            child:  Text(AppLocalizations.of(context)!.logOut ?? '' "Log Out"),
+                            child:  Text(AppLocalizations.of(context)!.log_Out ?? '' "Log Out"),
                           ),
                         ],
                       );

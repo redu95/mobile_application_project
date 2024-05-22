@@ -7,6 +7,10 @@
    "@addis_stay": {
      "description": "The name of the app"
    },
+   "Home": "Home",
+   "@Home": {
+     "description": "Label for the home page"
+   }
    "best_app_to_book_hotels": "Best App to Book Hotels in Addis Ababa!",
    "@best_app_to_book_hotels": {
      "description": "The app's tagline or description"
@@ -79,56 +83,56 @@
    "@profile": {
      "description": "Label for the profile page"
    },
-   "homePage": "home page",
-   "@homePage": {
+   "home_Page": "home page",
+   "@home_Page": {
      "description": "Label for the home page"
    },
    "welcome": "welcome",
    "@welcome": {
      "description": "Label for the welcome message or screen"
    },
-   "searchPage": "search page",
-   "@searchPage": {
+   "search_Page": "search page",
+   "@search_Page": {
      "description": "Label for the search page"
    },
-   "signUp": "sign up",
-   "@signUp": {
+   "sign_Up": "sign up",
+   "@sign_Up": {
      "description": "Label for the sign up feature"
    },
-   "pleaseEnterUsername": "please enter username",
-   "@pleaseEnterUsername": {
+   "please_Enter_Username": "please enter username",
+   "@please_Enter_Username": {
      "description": "Prompt for the user to enter a username"
    },
-   "pleaseEnterEmail": "please enter email",
-   "@pleaseEnterEmail": {
+   "please_Enter_Email": "please enter email",
+   "@please_Enter_Email": {
      "description": "Prompt for the user to enter an email address"
    },
-   "invalidEmail": "invalid email",
-   "@invalidEmail": {
+   "invalid_Email": "invalid email",
+   "@invalid_Email": {
      "description": "Error message for an invalid email address"
    },
-   "pleaseEnterPassword": "please enter password",
-   "@pleaseEnterPassword": {
+   "please_Enter_Password": "please enter password",
+   "@please_Enter_Password": {
      "description": "Prompt for the user to enter a password"
    },
-   "pleaseConfirmPassword": "please confirm password",
-   "@pleaseConfirmPassword": {
+   "please_Confirm_Password": "please confirm password",
+   "@please_Confirm_Password": {
      "description": "Prompt for the user to confirm their password"
    },
-   "registeredSuccessfully": "registered successfully",
-   "@registeredSuccessfully": {
+   "registered_Successfully": "registered successfully",
+   "@registered_Successfully": {
      "description": "Success message for a successful registration"
    },
-   "weakPassword": "weak password",
-   "@weakPassword": {
+   "weak_Password": "weak password",
+   "@weak_Password": {
      "description": "Error message for a weak password"
    },
-   "emailAlreadyInUse": "email already in use",
-   "@emailAlreadyInUse": {
+   "email_Already_InUse": "email already in use",
+   "@email_Already_InUse": {
      "description": "Error message for an email address that is already in use"
    },
-   "errorCreatingAccount": "error creating account",
-   "@errorCreatingAccount": {
+   "error_Creating_Account": "error creating account",
+   "@error_Creating_Account": {
      "description": "Error message for a failed account creation"
    },
    "settings": "settings",
@@ -147,18 +151,21 @@
    "@notifications": {
      "description": "Label for the notifications settings"
    },
-   "darkMode": "dark mode",
-   "@darkMode": {
+   "dark_Mode": "dark mode",
+   "@dark_Mode": {
      "description": "Label for the dark mode settings"
    },
    "help": "help",
    "@help": {
      "description": "Label for the help section"
    },
-   "logOut": "log out",
-   "@logOut": {
-     "description": "Label for the log out feature"
-   },
+    "log_Out": "Log Out",
+     "@log_Out": {
+       "description": "Text for the log out button or link"
+     },
+
+
+
    "bookings": "bookings",
    "@bookings": {
      "description": "Label for the bookings section"
@@ -171,68 +178,68 @@
    "@appearances": {
      "description": "Label for the appearances settings"
    },
-   "helpAndSupport": "help and support",
-   "@helpAndSupport": {
-     "description": "Label for the help and support section"
+   "help_And_Support": "help and support",
+   "@help_And_Support": {
+     "description": "Label for the help and support settings"
    },
    "privacy": "privacy",
    "@privacy": {
      "description": "Label for the privacy settings"
    },
-   "confirmLogout": "confirm logout",
-   "@confirmLogout": {
+   "confirm_Logout": "confirm logout",
+   "@confirm_Logout": {
      "description": "Label for the confirm logout dialog"
    },
    "save": "save",
    "@save": {
      "description": "Label for the save button"
    },
-   "editAccount": "edit account",
-   "@editAccount": {
+   "edit_Account": "edit account",
+   "@edit_Account": {
      "description": "Label for the edit account feature"
    },
    "refresh": "refresh",
    "@refresh": {
      "description": "Label for the refresh button"
    },
-   "logOutConfirm": "log out confirm",
-   "@logOutConfirm": {
+   "log_Out_Confirm": "log out confirm",
+   "@log_Out_Confirm": {
      "description": "Label for the log out confirmation"
    },
    "cancel": "cancel",
    "@cancel": {
      "description": "Label for the cancel button"
    },
-   "pleaseEnterUserName": "please enter user name",
-   "@pleaseEnterUserName": {
+   "please_Enter_User_Name": "please enter user name",
+   "@please_Enter_User_Name": {
      "description": "Prompt for the user to enter a username"
    },
-   "pleaseEnterEmailAddress": "please enter email address",
-   "@pleaseEnterEmailAddress": {
+   "please_Enter_Email_Address": "please enter email address",
+   "@please_Enter_Email_Address": {
      "description": "Prompt for the user to enter an email address"
    },
-   "invalidEmailAddress": "invalid email address",
-   "@invalidEmailAddress": {
+   "invalid_Email_Address": "invalid email address",
+   "@invalid_Email_Address": {
      "description": "Error message for an invalid email address"
    },
    "password": "password",
    "@password": {
      "description": "Label for the password field"
    },
-   "pleaseEnterPassword": "please enter password",
-   "@pleaseEnterPassword": {
+   "please_Enter_Password": "please enter password",
+   "@please_Enter_Password": {
      "description": "Prompt for the user to enter a password"
    },
-   "confirmPassword": "confirm password",
-   "@confirmPassword": {
+   "confirm_Password": "confirm password",
+   "@confirm_Password": {
      "description": "Label for the confirm password field"
    },
-   "pleaseConfirmYourPassword": "please confirm your password",
-   "@pleaseConfirmYourPassword": {
+   "please_Confirm_Your_Password": "please confirm your password",
+   "@please_Confirm_Your_Password": {
      "description": "Prompt for the user to confirm their password"
    },
-   "errorCreatingAccount": "error creating account. please try again later.",
-   "@errorCreatingAccount": {
+   "error_Creating_Account": "error creating account. please try again later.",
+   "@error_Creating_Account": {
      "description": "Error message for a failed account creation"
    }
 }

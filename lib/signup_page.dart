@@ -52,7 +52,7 @@ class _SignUpPageState extends State<SignUpPage> {
 
           ScaffoldMessenger.of(context).showSnackBar(
             SnackBar(
-              content: Text(AppLocalizations.of(context)!.registeredSuccessfully ?? '' ,
+              content: Text(AppLocalizations.of(context)!.registered_Successfully ?? '' ,
                 style: const TextStyle(fontSize: 20.0),
               ),
             ),
@@ -85,7 +85,7 @@ class _SignUpPageState extends State<SignUpPage> {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
             backgroundColor: Colors.orangeAccent,
-            content: Text(AppLocalizations.of(context)!.errorCreatingAccount ?? '' ,
+            content: Text(AppLocalizations.of(context)!.error_Creating_Account ?? '' ,
               style: const TextStyle(fontSize: 18.0),
             ),
           ),
@@ -113,7 +113,7 @@ class _SignUpPageState extends State<SignUpPage> {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Text(AppLocalizations.of(context)!.signUp ?? '' ,
+              Text(AppLocalizations.of(context)!.sign_Up ?? '' ,
                 style: const TextStyle(
                   fontSize: 24.0,
                   fontWeight: FontWeight.bold,
@@ -123,13 +123,13 @@ class _SignUpPageState extends State<SignUpPage> {
               TextFormField(
                 validator: (value) {
                   if (value == null || value.isEmpty) {
-                    return AppLocalizations.of(context)!.pleaseEnterUserName ?? '';
+                    return AppLocalizations.of(context)!.please_Enter_User_Name ?? '';
                   }
                   return null;
                 },
                 controller: userNameController,
                 decoration: InputDecoration(
-                  labelText: AppLocalizations.of(context)!.pleaseEnterUserName ?? '',
+                  labelText: AppLocalizations.of(context)!.please_Enter_User_Name ?? '',
                   border: const OutlineInputBorder(),
                 ),
               ),
@@ -137,7 +137,7 @@ class _SignUpPageState extends State<SignUpPage> {
               TextFormField(
                 validator: (value) {
                   if (value == null || value.isEmpty) {
-                    return AppLocalizations.of(context)!.pleaseEnterEmailAddress ?? '';
+                    return AppLocalizations.of(context)!.please_Enter_Email_Address ?? '';
                   }
                   if (!RegExp(r'\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Z|a-z]{2,}\b').hasMatch(value)) {
                     return Locales.string(context, 'invalid_email');
@@ -147,7 +147,7 @@ class _SignUpPageState extends State<SignUpPage> {
                 controller: emailController,
                 obscureText: false,
                 decoration: InputDecoration(
-                  labelText: AppLocalizations.of(context)!.pleaseEnterEmailAddress ?? '',
+                  labelText: AppLocalizations.of(context)!.please_Enter_Email_Address ?? '',
                   border: const OutlineInputBorder(),
                 ),
               ),
@@ -155,14 +155,14 @@ class _SignUpPageState extends State<SignUpPage> {
               TextFormField(
                 validator: (value) {
                   if (value == null || value.isEmpty) {
-                    return AppLocalizations.of(context)!.pleaseEnterPassword ?? '';
+                    return AppLocalizations.of(context)!.please_Enter_Password ?? '';
                   }
                   return null;
                 },
                 controller: passwordController,
                 obscureText: true,
                 decoration: InputDecoration(
-                  labelText: AppLocalizations.of(context)!.pleaseEnterPassword ?? '',
+                  labelText: AppLocalizations.of(context)!.please_Enter_Password ?? '',
                   border: const OutlineInputBorder(),
                 ),
               ),
@@ -170,14 +170,14 @@ class _SignUpPageState extends State<SignUpPage> {
               TextFormField(
                 validator: (value) {
                   if (value == null || value.isEmpty) {
-                    return AppLocalizations.of(context)!.pleaseConfirmPassword ?? '';
+                    return AppLocalizations.of(context)!.please_Confirm_Password ?? '';
                   }
                   return null;
                 },
                 controller: confirmPasswordController,
                 obscureText: true,
                 decoration: InputDecoration(
-                  labelText:  AppLocalizations.of(context)!.pleaseConfirmPassword ?? '',
+                  labelText:  AppLocalizations.of(context)!.please_Confirm_Password ?? '',
                   border: const OutlineInputBorder(),
                 ),
               ),
@@ -191,7 +191,7 @@ class _SignUpPageState extends State<SignUpPage> {
                 child: GestureDetector(
                   onTap: registration,
                   child: Center(
-                    child: Text( AppLocalizations.of(context)!.signUp ?? '',
+                    child: Text( AppLocalizations.of(context)!.sign_Up ?? '',
                       style: const TextStyle(
                         color: Colors.white,
                         fontSize: 18.0,

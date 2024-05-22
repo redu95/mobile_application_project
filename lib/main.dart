@@ -5,6 +5,7 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:mobile_application_project/auth_page.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:mobile_application_project/introduction_screen.dart';
 import 'package:mobile_application_project/languageMenu.dart';
 import 'package:flutter_locales/flutter_locales.dart';
@@ -22,6 +23,11 @@ class MyApp extends StatefulWidget {
     _MyAppState? state = context.findAncestorStateOfType<_MyAppState>();
     state?.setLocale(newLocale);
   }
+
+  static Future<void> saveLanguagePreference(String languageCode) async {
+    final prefs = await SharedPreferences.getInstance();
+    await prefs.setString('language_code', languageCode);
+  }
 }
 
 class _MyAppState extends State<MyApp> {
@@ -31,8 +37,24 @@ class _MyAppState extends State<MyApp> {
     setState(() {
       _locale = locale;
     });
+    MyApp.saveLanguagePreference(locale.languageCode);
   }
 
+
+  @override
+  void initState() {
+    super.initState();
+    _loadLanguagePreference();
+  }
+
+  _loadLanguagePreference() async {
+    final prefs = await SharedPreferences.getInstance();
+    final languageCode = prefs.getString('language_code');
+    if (languageCode != null) {
+      Locale newLocale = Locale(languageCode);
+      setLocale(newLocale);
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -69,7 +91,7 @@ class WelcomePage extends StatefulWidget {
 
 class _WelcomePageState extends State<WelcomePage> {
   // List of languages
-  final List<String> _languages = ["English", "Amharic", "Arabic", "Spanish"];
+  final List<String> _languages = ["English", "አማርኛ", "عربي", "español"];
   String? _selectedLanguage;
 
   // Function to set the locale based on the selected language
@@ -77,13 +99,13 @@ class _WelcomePageState extends State<WelcomePage> {
     if (language == null) return;
     Locale newLocale;
     switch (language) {
-      case "Amharic":
+      case "አማርኛ":
         newLocale = Locale('am');
         break;
-      case "Arabic":
+      case "عربي":
         newLocale = Locale('ar');
         break;
-      case "Spanish":
+      case "español":
         newLocale = Locale('es');
         break;
       case "English":
@@ -140,7 +162,6 @@ class _WelcomePageState extends State<WelcomePage> {
               ),
             ),
           ),
-          // Other widgets...
           Positioned(
             left: 160,
             top: 220,

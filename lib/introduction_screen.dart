@@ -100,7 +100,7 @@ class _IntroScreenDemoState extends State<IntroScreenDemo> {
                         MaterialPageRoute(builder: (context) => SignUpPage()),
                       );
                     },
-                    child: Text(AppLocalizations.of(context)?.signUp?? '',
+                    child: Text(AppLocalizations.of(context)?.sign_Up?? '',
                       style: TextStyle(fontSize: 20.0, fontWeight: FontWeight.bold),
                     ),
                   )

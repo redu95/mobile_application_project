@@ -9,6 +9,8 @@ import 'package:mobile_application_project/homeScreen.dart';
 import 'package:mobile_application_project/data_home.dart';
 import 'package:mobile_application_project/detail_screen.dart';
 
+import 'languagerelatedclass/language_constants.dart';
+
 class Home extends StatefulWidget {
   @override
   State<Home> createState() => _HomeState();
@@ -56,10 +58,10 @@ class _HomeState extends State<Home> {
         child: _widgetOptions.elementAt(_selectedIndex),
       ),
       bottomNavigationBar: BottomNavigationBar(
-        items: const <BottomNavigationBarItem>[
+        items:  <BottomNavigationBarItem>[
           BottomNavigationBarItem(
             icon: Icon(Icons.home),
-            label: 'Home',
+            label: translation(context).home,
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.search),
