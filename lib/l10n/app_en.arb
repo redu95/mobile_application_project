@@ -7,10 +7,6 @@
    "@addis_stay": {
      "description": "The name of the app"
    },
-   "Home": "Home",
-   "@Home": {
-     "description": "Label for the home page"
-   }
    "best_app_to_book_hotels": "Best App to Book Hotels in Addis Ababa!",
    "@best_app_to_book_hotels": {
      "description": "The app's tagline or description"
