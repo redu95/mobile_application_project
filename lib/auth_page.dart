@@ -20,7 +20,7 @@ import 'login_page.dart';class AuthPage extends StatelessWidget {
 
           //user is NOT log in
           else{
-            return LogInPage();
+            return const LogInPage();
           }
         },
       ),

@@ -1,5 +1,4 @@
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:mobile_application_project/home_page.dart';
@@ -11,7 +10,7 @@ class AuthMethods{
   get displayName => displayName;
 
   getCurrentUser()async{
-    return await auth.currentUser;
+    return auth.currentUser;
   }
 
   signInWihGoogle(BuildContext context) async {
@@ -31,19 +30,17 @@ class AuthMethods{
 
     User? userDetails = result.user;
 
-    if(result!= null){
-      Map<String,dynamic> userInfoMap = {
-        "email":userDetails!.email,
-        "name":userDetails.displayName,
-        "imgUrl":userDetails.photoURL,
-        "id":userDetails.uid
-      };
-      await DatabaseMethods().adduser(userDetails.uid, userInfoMap).then((value) {
-        Navigator.push(
-          context,
-          MaterialPageRoute(builder: (context) => Home()),
-        );
-      });
+    Map<String,dynamic> userInfoMap = {
+      "email":userDetails!.email,
+      "name":userDetails.displayName,
+      "imgUrl":userDetails.photoURL,
+      "id":userDetails.uid
+    };
+    await DatabaseMethods().adduser(userDetails.uid, userInfoMap).then((value) {
+      Navigator.push(
+        context,
+        MaterialPageRoute(builder: (context) =>  Home()),
+      );
+    });
     }
-  }
 }

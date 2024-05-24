@@ -11,7 +11,7 @@ class ForgotPassword extends StatefulWidget {
 
 class _ForgotPasswordState extends State<ForgotPassword> {
   String email = "";
-  TextEditingController emailController = new TextEditingController();
+  TextEditingController emailController = TextEditingController();
 
   final _formKey = GlobalKey<FormState>();
 
@@ -110,7 +110,7 @@ class _ForgotPasswordState extends State<ForgotPassword> {
                         },
                         child: Container(
                           width: 140,
-                          padding: EdgeInsets.all(10),
+                          padding: const EdgeInsets.all(10),
                           decoration: BoxDecoration(
                             color: Colors.white,
                             borderRadius: BorderRadius.circular(10)
@@ -131,18 +131,18 @@ class _ForgotPasswordState extends State<ForgotPassword> {
                        Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
-                          Text(
+                          const Text(
                             "Don't Have an Account?",
                             style: TextStyle(
                               fontSize: 18.0,color: Colors.white,
                             ),
                           ),
-                          SizedBox(width: 5.0,),
+                          const SizedBox(width: 5.0,),
                           GestureDetector(
                             onTap: (){
-                              Navigator.push(context, MaterialPageRoute(builder: (context)=>SignUpPage()));
+                              Navigator.push(context, MaterialPageRoute(builder: (context)=>const SignUpPage()));
                             },
-                            child: Text(
+                            child: const Text(
                               "Create",
                               style: TextStyle(
                                 color: Colors.deepPurpleAccent,
