@@ -7,6 +7,9 @@ import 'package:flutter/material.dart';
 import 'package:mobile_application_project/auth_page.dart';
 import 'package:mobile_application_project/introduction_screen.dart';
 import 'package:mobile_application_project/login_page.dart';
+import 'package:mobile_application_project/theme_provider.dart';
+
+import 'package:provider/provider.dart';
 import 'firebase_options.dart';
 
 
@@ -25,14 +28,17 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Addis Stay',
-      theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
-        useMaterial3: true,
-      ),
-      home:  WelcomePage(),
-      debugShowCheckedModeBanner: false,
+    return ChangeNotifierProvider(
+      create: (context) => ThemeSettings(false),// Provide the initial dark mode value
+      builder: (context, snapshot) {
+        final settings = Provider.of<ThemeSettings>(context);// Access the ThemeSettings instance
+        return MaterialApp(
+          title: 'Addis Stay',
+          theme: settings.currentTheme, // Set the theme based on the currentTheme value
+          home:  WelcomePage(),
+          debugShowCheckedModeBanner: false,
+        );
+      },
     );
   }
 }
