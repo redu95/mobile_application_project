@@ -1,6 +1,6 @@
 
+//import 'package:firebase_app_check/firebase_app_check.dart';
 import 'package:firebase_core/firebase_core.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:mobile_application_project/auth_page.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -65,6 +65,7 @@ class _MyAppState extends State<MyApp> {
           final settings = Provider.of<ThemeSettings>(context); // Access the ThemeSettings instance
           return MaterialApp(
             title: 'Addis Stay',
+            theme: settings.currentTheme,
             localizationsDelegates: AppLocalizations.localizationsDelegates,
             supportedLocales: AppLocalizations.supportedLocales,
 
@@ -83,7 +84,7 @@ void main() async {
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
-  await FirebaseAppCheck.instance.activate();
+  await Locales.init(['en', 'am', 'ar', 'es']); // Initialize flutter_locales
   runApp(MyApp());
 }
 
