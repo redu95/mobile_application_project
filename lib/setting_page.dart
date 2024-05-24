@@ -12,13 +12,15 @@ import 'package:flutter_locales/flutter_locales.dart';
 import 'package:mobile_application_project/l10n/l10n.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:mobile_application_project/languageMenu.dart';
-import 'package:mobile_application_project/languageMenu.dart';
 import 'languagerelatedclass/language_constants.dart';
+import 'package:provider/provider.dart';
 import 'login_page.dart';
+import 'package:mobile_application_project/theme_provider.dart';
 
 
 
 class SettingPage extends StatefulWidget {
+
 
   final String userName;
   final String email;
@@ -31,17 +33,21 @@ class SettingPage extends StatefulWidget {
     this.photoUrl,
   }) : super(key: key);
 
+
   @override
   _SettingPageState createState() => _SettingPageState();
 }
 
 class _SettingPageState extends State<SettingPage> {
+
+  bool _isDarkModeEnabled = false;
   bool _switchValue = false;  // Setting initial value of the switch to true (on state)
   ThemeData _lightTheme = ThemeData(brightness: Brightness.light, primaryColor: Colors.white); // Theme data for light mode with white as the primary color
   ThemeData _darkTheme = ThemeData(brightness: Brightness.dark, primaryColor: Colors.black); // Theme data for dark mode with black as the primary color
 
   String userName ='';
   late String email ="Add your email";
+
   String? photoUrl; // Add this variable to hold profile picture URL
   late User user; // Add this variable to hold the authenticated user
   bool isLoading = true; // Track loading state
@@ -55,6 +61,9 @@ class _SettingPageState extends State<SettingPage> {
     user = FirebaseAuth.instance.currentUser!;
     loadUserInfo(user.uid);
   }
+
+
+
   Future<void> loadUserInfo(String uid) async {
     try {
       DocumentSnapshot userDoc =
@@ -132,10 +141,14 @@ class _SettingPageState extends State<SettingPage> {
 
   @override
   Widget build(BuildContext context) {
+
+    final themeProvider = Provider.of<ThemeSettings>(context); // Access the theme provider
+
     return MaterialApp(
-      theme: _switchValue ? _darkTheme : _lightTheme,// Set the theme based on the value of _switchValue
+      theme: _isDarkModeEnabled ? _darkTheme : _lightTheme,// Set the theme based on the value of _switchValue
       home: Scaffold (
-        backgroundColor: _switchValue ? Colors.black : Colors.white,// Set the background color based on the value of _switchValue
+        backgroundColor: _isDarkModeEnabled ? Colors.black : Colors.white,// Set the background color based on the value of _switchValue
+
         appBar: AppBar(
           leading: IconButton(
             icon: Icon(Icons.arrow_back),
@@ -234,6 +247,7 @@ class _SettingPageState extends State<SettingPage> {
               ),
               SizedBox(height: 20,),
               Text(AppLocalizations.of(context)!.appearances ?? '' ,
+
                 style: TextStyle(
                   fontSize: 18,
                   fontWeight: FontWeight.w300,
@@ -258,7 +272,22 @@ class _SettingPageState extends State<SettingPage> {
                 title: AppLocalizations.of(context)!.dark_Mode ?? '' ,
                 icon: Ionicons.moon_outline,
                 isDarkMode: true,
-                onTap: () {},
+                onTap: () {
+                  setState(() {
+                    _isDarkModeEnabled = !_isDarkModeEnabled;
+                    themeProvider.setThemeMode(_isDarkModeEnabled ? ThemeMode.dark : ThemeMode.light);
+                  });
+                },
+                trailing: Switch(
+                  value: _isDarkModeEnabled,
+                  onChanged: (newValue) {
+                    setState(() {
+                      _isDarkModeEnabled = !_isDarkModeEnabled;
+                      themeProvider.setThemeMode(_isDarkModeEnabled ? ThemeMode.dark : ThemeMode.light);
+                    });
+                  },
+                  activeColor: Colors.purple,
+                ),
               ),
               SizedBox(height: 20),
               Text ((translation(context).help_And_Support ) ,
@@ -315,7 +344,6 @@ class _SettingPageState extends State<SettingPage> {
           ),
         ),
       ),
-
     );
   }
 
@@ -369,7 +397,6 @@ class _SettingPageState extends State<SettingPage> {
     );
   }
 
-
   Widget buildSettingItem({
     required String title,
     IconData? icon,
@@ -377,6 +404,7 @@ class _SettingPageState extends State<SettingPage> {
     String? subtitle,
     ImageProvider? image,
     bool isDarkMode = false,
+    Widget? trailing, // Added trailing parameter for the switch widget
   }) {
     return InkWell(
       onTap: onTap,
@@ -417,24 +445,25 @@ class _SettingPageState extends State<SettingPage> {
             ),
             Spacer(),
             if (isDarkMode)
-              Switch(
-                value: _switchValue, // Replace true with your dark mode state
-                onChanged: (newValue) {
-                  setState(() {
-                    _switchValue = newValue; // Update the value of _switchValue with the new value
-                  });
-                  },
-                activeColor: Colors.purple,
+              trailing ?? const Icon(
+                Icons.chevron_right,
+                size: 30,
+                color: Colors.purple,
               )
             else
               const Icon(
-                Icons.chevron_left,
+                Icons.chevron_right,
                 size: 30,
                 color: Colors.purple,
-            )
+              )
           ],
         ),
       ),
     );
   }
 }
+
+
+
+
+

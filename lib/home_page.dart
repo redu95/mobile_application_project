@@ -4,6 +4,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:ionicons/ionicons.dart';
+import 'package:mobile_application_project/search_page.dart';
 import 'package:mobile_application_project/setting_page.dart';
 import 'package:mobile_application_project/homeScreen.dart';
 import 'package:mobile_application_project/data_home.dart';
@@ -33,10 +34,8 @@ class _HomeState extends State<Home> {
     super.initState();
     _widgetOptions = <Widget>[
       HomePage(),
-      Container( // Wrapping Text widget inside Container
-        alignment: Alignment.center,
-        child: Text('Search Page'),
-      ),
+      SearchPage(),
+      NearbyPage(),
       SettingPage(
         userName: user.displayName ?? '',
         email: user.email ?? 'Add your email',
@@ -74,6 +73,7 @@ class _HomeState extends State<Home> {
         ],
         currentIndex: _selectedIndex,
         selectedItemColor: Colors.purple,
+        unselectedItemColor: Colors.grey,
         onTap: _onItemTapped,
       ),
     );

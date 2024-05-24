@@ -1,6 +1,4 @@
-import 'dart:ui';
 
-import 'package:firebase_app_check/firebase_app_check.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -12,6 +10,8 @@ import 'package:flutter_locales/flutter_locales.dart';
 import 'package:mobile_application_project/l10n/l10n.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'firebase_options.dart';
+import 'package:mobile_application_project/theme_provider.dart';
+import 'package:provider/provider.dart';
 
 class MyApp extends StatefulWidget {
   const MyApp({Key? key}) : super(key: key);
@@ -55,20 +55,25 @@ class _MyAppState extends State<MyApp> {
       setLocale(newLocale);
     }
   }
-
+  
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Localization',
-      debugShowCheckedModeBanner: false,
-      theme: ThemeData(
-        primarySwatch: Colors.blue,
-      ),
-      localizationsDelegates: AppLocalizations.localizationsDelegates,
-      supportedLocales: AppLocalizations.supportedLocales,
+    return LocaleBuilder(
+      builder: (locale) => ChangeNotifierProvider(
+        create: (context) => ThemeSettings(false), // Provide the initial dark mode value
+        builder: (context, _) {
+          final settings = Provider.of<ThemeSettings>(context); // Access the ThemeSettings instance
+          return MaterialApp(
+            title: 'Addis Stay',
+            localizationsDelegates: AppLocalizations.localizationsDelegates,
+            supportedLocales: AppLocalizations.supportedLocales,
 
-      locale: _locale,
-      home: const WelcomePage(),
+            locale: _locale,
+            home: const WelcomePage(),
+            debugShowCheckedModeBanner: false,
+          );
+        },
+      ),
     );
   }
 }
@@ -87,6 +92,7 @@ class WelcomePage extends StatefulWidget {
 
   @override
   _WelcomePageState createState() => _WelcomePageState();
+
 }
 
 class _WelcomePageState extends State<WelcomePage> {

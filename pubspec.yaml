@@ -32,14 +32,15 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
+  provider: ^5.0.0
+  shared_preferences: ^2.0.9
 
 
   cupertino_icons: ^1.0.6
   flutter_locales: ^2.0.0
-
   flutter_localizations:
     sdk: flutter
-  shared_preferences: ^2.0.9
+
   introduction_screen: ^3.1.14
   firebase_core: ^2.31.0
   firebase_auth: ^4.19.5
@@ -59,12 +60,23 @@ dependencies:
   flutter_polyline_points: ^2.0.0
   flutter_rating_stars: ^1.0.4
   flip_card: ^0.6.0
+  google_fonts: ^6.2.1
+  flutter_staggered_grid_view: ^0.7.0
+  font_awesome_flutter: ^10.7.0
+  flutter_rating_bar: ^4.0.1
 
 
   path: any
 dev_dependencies:
   flutter_test:
     sdk: flutter
+  flutter_launcher_icons: ^0.9.2
+
+flutter_icons:
+  android: true
+  ios: true
+  web: true
+  image_path: "assets/Icons/icon-1.png"
 
   # The "flutter_lints" package below contains a set of recommended lints to
   # encourage good coding practices. The lint set provided by the package is
