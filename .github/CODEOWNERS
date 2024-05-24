@@ -1,0 +1,15 @@
+# This is a comment
+# Each line is a file pattern followed by one or more owners
+
+# The '*' pattern matches all files in the repository.
+* @redu96
+# Owners for specific files and directories
+
+# Owner for all files in the repository
+* @redu95
+
+# Owner for files in the 'src' directory
+/lib/ @redu95
+
+# Owner for files with a specific extension
+*.dart @redu95
