@@ -3,6 +3,7 @@ import 'package:flutter_locales/flutter_locales.dart';
 import 'package:mobile_application_project/auth_page.dart';
 import 'package:introduction_screen/introduction_screen.dart';
 import 'package:mobile_application_project/signup_page.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class IntroScreenDemo extends StatefulWidget {
   const IntroScreenDemo({super.key});
@@ -19,7 +20,7 @@ class _IntroScreenDemoState extends State<IntroScreenDemo> {
     return Scaffold(
       appBar: AppBar(
         leading: IconButton(
-          icon: const Icon(Icons.arrow_back),
+          icon: Icon(Icons.arrow_back),
           onPressed: () {
             Navigator.pop(context); // Navigate back to the previous screen (main.dart)
           },
@@ -31,12 +32,10 @@ class _IntroScreenDemoState extends State<IntroScreenDemo> {
           key: _introKey,
           pages: [
             PageViewModel(
-              titleWidget: const LocaleText(
-                'addis_stay',
+              titleWidget: Text(AppLocalizations.of(context)?.addis_stay ?? '',
                 style: TextStyle(fontSize: 28, fontWeight: FontWeight.bold),
               ),
-              bodyWidget: const LocaleText(
-                'welcome_description',
+              bodyWidget: Text(AppLocalizations.of(context)?.welcome_description ?? '',
                 style: TextStyle(fontSize: 16),
               ),
               image: const Center(
@@ -44,12 +43,10 @@ class _IntroScreenDemoState extends State<IntroScreenDemo> {
               ),
             ),
             PageViewModel(
-              titleWidget: const LocaleText(
-                'hotel_search',
+              titleWidget: Text(AppLocalizations.of(context)?.hotel_search ?? '',
                 style: TextStyle(fontSize: 28, fontWeight: FontWeight.bold),
               ),
-              bodyWidget: const LocaleText(
-                'hotel_search_description',
+              bodyWidget: Text(AppLocalizations.of(context)?.hotel_search_description?? '',
                 style: TextStyle(fontSize: 16),
               ),
               image: const Center(
@@ -57,36 +54,30 @@ class _IntroScreenDemoState extends State<IntroScreenDemo> {
               ),
             ),
             PageViewModel(
-              titleWidget: const LocaleText(
-                'online_booking',
+              titleWidget: Text(AppLocalizations.of(context)?.online_booking?? '',
                 style: TextStyle(fontSize: 28, fontWeight: FontWeight.bold),
               ),
-              bodyWidget: const LocaleText(
-                'online_booking_description',
+              bodyWidget: Text(AppLocalizations.of(context)?.online_booking_description?? '',
                 style: TextStyle(fontSize: 16),
               ),
               image: Image.asset("assets/images/landing_page_images/reception-desk.jpg"),
             ),
             PageViewModel(
-              titleWidget: const LocaleText(
-                'hotel_details',
+              titleWidget: Text(AppLocalizations.of(context)?.hotel_details?? '',
                 style: TextStyle(fontSize: 28, fontWeight: FontWeight.bold),
               ),
-              bodyWidget: const LocaleText(
-                'hotel_details_description',
+              bodyWidget: Text(AppLocalizations.of(context)?.hotel_details_description?? '',
                 style: TextStyle(fontSize: 16),
               ),
               image: Image.asset("assets/images/landing_page_images/receptionist-working-on-her-desk-with-laptop.png"),
             ),
             PageViewModel(
-              titleWidget: const LocaleText(
-                'review_ratings',
+              titleWidget: Text(AppLocalizations.of(context)?.review_ratings?? '',
                 style: TextStyle(fontSize: 28, fontWeight: FontWeight.bold),
               ),
               bodyWidget: Column(
                 children: [
-                  const LocaleText(
-                    'review_ratings_description',
+                  Text(AppLocalizations.of(context)?.review_ratings_description?? '',
                     style: TextStyle(color: Colors.deepPurple, fontSize: 20.0),
                   ),
                   const SizedBox(height: 10.0),
@@ -94,11 +85,10 @@ class _IntroScreenDemoState extends State<IntroScreenDemo> {
                     onPressed: () {
                       Navigator.push(
                         context,
-                        MaterialPageRoute(builder: (context) => const AuthPage()),
+                        MaterialPageRoute(builder: (context) => AuthPage()),
                       );
                     },
-                    child: const LocaleText(
-                      'log_in',
+                    child: Text(AppLocalizations.of(context)?.log_in?? '',
                       style: TextStyle(fontSize: 20.0, fontWeight: FontWeight.bold),
                     ),
                   ),
@@ -107,11 +97,10 @@ class _IntroScreenDemoState extends State<IntroScreenDemo> {
                     onPressed: () {
                       Navigator.push(
                         context,
-                        MaterialPageRoute(builder: (context) => const SignUpPage()),
+                        MaterialPageRoute(builder: (context) => SignUpPage()),
                       );
                     },
-                    child: const LocaleText(
-                      'sign_up',
+                    child: Text(AppLocalizations.of(context)?.sign_Up?? '',
                       style: TextStyle(fontSize: 20.0, fontWeight: FontWeight.bold),
                     ),
                   )
@@ -120,8 +109,8 @@ class _IntroScreenDemoState extends State<IntroScreenDemo> {
               image: Image.asset("assets/images/landing_page_images/waiter-holding-tray-in-restaurant.png"),
             ),
           ],
-          skip: const LocaleText('skip'),
-          next: const LocaleText('next'),
+          skip: Text(AppLocalizations.of(context)?.skip?? '',),
+          next: Text(AppLocalizations.of(context)?.next?? '',),
           showSkipButton: true,
           showNextButton: true,
           showDoneButton: false,

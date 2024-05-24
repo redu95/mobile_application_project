@@ -1,3 +1,4 @@
+
 //edit_account_page
 
 import 'package:flutter/material.dart';
@@ -168,10 +169,10 @@ class _EditAccountPageState extends State<EditAccountPage> {
                             backgroundImage: FileImage(widget.image!),
                           )
                               : const Icon(
-                                  Icons.person,
-                                  size: 80,
-                                  color: Colors.purple,
-                                ),
+                            Icons.person,
+                            size: 80,
+                            color: Colors.purple,
+                          ),
                         ),
                         Positioned(
                           bottom: 0,
@@ -236,14 +237,7 @@ class _EditAccountPageState extends State<EditAccountPage> {
                     fontWeight: FontWeight.bold,
                   ),
                 ),
-                const SizedBox(height: 10),
-                Row(
-                  children: [
-                    buildGenderButton('Male'),
-                    const SizedBox(width: 10),
-                    buildGenderButton('Female'),
-                  ],
-                ),
+
               ],
             ),
           ),
@@ -252,22 +246,5 @@ class _EditAccountPageState extends State<EditAccountPage> {
 
   }
 
-  Widget buildGenderButton(String gender) {
-    return ElevatedButton(
-      onPressed: () {
-        setState(() {
-          selectedGender = gender;
-        });
-      },
-      style: ButtonStyle(
-        backgroundColor: WidgetStateProperty.all(
-          selectedGender == gender ? Colors.purple : Colors.grey,
-        ),
-      ),
-      child: Text(
-        gender,
-        style: const TextStyle(color: Colors.white),
-      ),
-    );
-  }
+
 }

@@ -4,13 +4,20 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_locales/flutter_locales.dart';
 import 'package:ionicons/ionicons.dart';
 import 'package:mobile_application_project/edit_account_page.dart';
 import 'package:path/path.dart';
+import 'package:flutter_locales/flutter_locales.dart';
+import 'package:mobile_application_project/l10n/l10n.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:mobile_application_project/languageMenu.dart';
+import 'languagerelatedclass/language_constants.dart';
 import 'package:provider/provider.dart';
 import 'login_page.dart';
 import 'package:mobile_application_project/theme_provider.dart';
+
+
 
 class SettingPage extends StatefulWidget {
 
@@ -20,11 +27,11 @@ class SettingPage extends StatefulWidget {
   final String? photoUrl;
 
   const SettingPage({
-    super.key,
+    Key? key,
     required this.userName,
     required this.email,
     this.photoUrl,
-  });
+  }) : super(key: key);
 
 
   @override
@@ -35,8 +42,8 @@ class _SettingPageState extends State<SettingPage> {
 
   bool _isDarkModeEnabled = false;
   bool _switchValue = false;  // Setting initial value of the switch to true (on state)
-  final ThemeData _lightTheme = ThemeData(brightness: Brightness.light, primaryColor: Colors.white); // Theme data for light mode with white as the primary color
-  final ThemeData _darkTheme = ThemeData(brightness: Brightness.dark, primaryColor: Colors.black); // Theme data for dark mode with black as the primary color
+  ThemeData _lightTheme = ThemeData(brightness: Brightness.light, primaryColor: Colors.white); // Theme data for light mode with white as the primary color
+  ThemeData _darkTheme = ThemeData(brightness: Brightness.dark, primaryColor: Colors.black); // Theme data for dark mode with black as the primary color
 
   String userName ='';
   late String email ="Add your email";
@@ -46,7 +53,7 @@ class _SettingPageState extends State<SettingPage> {
   bool isLoading = true; // Track loading state
   TextEditingController userNameController =  TextEditingController();
   TextEditingController emailController =  TextEditingController();
-  TextEditingController passwordController = TextEditingController();
+  TextEditingController passwordController = new TextEditingController();
 
   @override
   void initState() {
@@ -116,7 +123,7 @@ class _SettingPageState extends State<SettingPage> {
     // Navigate back to login page
     Navigator.pushReplacement(
       context,
-      MaterialPageRoute(builder: (context) => const LogInPage()),
+      MaterialPageRoute(builder: (context) => LogInPage()),
     );
   }
 
@@ -131,6 +138,7 @@ class _SettingPageState extends State<SettingPage> {
     });
   }
 
+
   @override
   Widget build(BuildContext context) {
 
@@ -143,7 +151,7 @@ class _SettingPageState extends State<SettingPage> {
 
         appBar: AppBar(
           leading: IconButton(
-            icon: const Icon(Icons.arrow_back),
+            icon: Icon(Icons.arrow_back),
             onPressed: () {
               Navigator.pop(context);
             },
@@ -156,25 +164,25 @@ class _SettingPageState extends State<SettingPage> {
                 });
                 loadUserInfo(user.uid); // Reload user info
               },
-              icon: const Icon(Icons.refresh),
+              icon: Icon(Icons.refresh),
             ),
           ],
         ),
+
         body: SingleChildScrollView(
-          padding: const EdgeInsets.all(20),
+          padding: EdgeInsets.all(20),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              const Text(
-                "Settings"?? "Default Value",
+              Text(
+                AppLocalizations.of(context)!.settings ?? '' ,
                 style: TextStyle(
                   fontSize: 32,
                   fontWeight: FontWeight.bold,
                 ),
               ),
-              const SizedBox(height: 30),
-              const Text(
-                "Account" ?? "Default Value", // Provide a default value if "Account" is null
+              SizedBox(height: 30),
+              Text(AppLocalizations.of(context)!.account ?? '' , // Provide a default value if "Account" is null
                 style: TextStyle(
                   fontSize: 24,
                   fontWeight: FontWeight.w500,
@@ -183,7 +191,7 @@ class _SettingPageState extends State<SettingPage> {
               buildAccount(
                 title: userName,
                 subtitle: email,
-                image: const NetworkImage('https://static.vecteezy.com/system/resources/previews/004/026/956/non_2x/person-avatar-icon-free-vector.jpg'),
+                image: NetworkImage('https://static.vecteezy.com/system/resources/previews/004/026/956/non_2x/person-avatar-icon-free-vector.jpg'),
                 onTap: () {
                   Navigator.push(
                     context,
@@ -218,50 +226,50 @@ class _SettingPageState extends State<SettingPage> {
                   );
                 }
               ),
-              const SizedBox(height: 40),
-               const Text(
-                "Settings",
+              SizedBox(height: 40),
+               Text(AppLocalizations.of(context)!.settings ?? '' ,
                 style: TextStyle(
                   fontSize: 24,
                   fontWeight: FontWeight.w500,
                 ),
               ),
-              const SizedBox(height: 20),
+              SizedBox(height: 20),
               buildSettingItem(
-                title: "Bookings",
+                title: AppLocalizations.of(context)!.bookings ?? '' ,
                 icon: Ionicons.calendar,
                 onTap: () {},
               ),
-              const SizedBox(height: 20),
+              SizedBox(height: 20),
               buildSettingItem(
-                title: "Favorites",
+                title: AppLocalizations.of(context)!.favorites ?? '' ,
                 icon: Ionicons.heart,
                 onTap: () {},
               ),
+              SizedBox(height: 20,),
+              Text(AppLocalizations.of(context)!.appearances ?? '' ,
 
-              SizedBox(height: 20),
-              const SizedBox(height: 20,),
-              const Text(
-                "  Appearances",
                 style: TextStyle(
                   fontSize: 18,
                   fontWeight: FontWeight.w300,
                 ),
               ),
-              const SizedBox(height: 20),
+              SizedBox(height: 20),
               buildSettingItem(
-                title: "Language",
+                title:AppLocalizations.of(context)!.language ?? '' ,
                 icon: Ionicons.language_outline,
                 onTap: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(builder: (context) => const LanguageMenuDemo()),
-                  );
+                  {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => const LanguageMenuDemo()),
+                    );
+                  };
+
                 },
               ),
-              const SizedBox(height: 20),
+              SizedBox(height: 20),
               buildSettingItem(
-                title: "Dark Mode",
+                title: AppLocalizations.of(context)!.dark_Mode ?? '' ,
                 icon: Ionicons.moon_outline,
                 isDarkMode: true,
                 onTap: () {
@@ -281,29 +289,28 @@ class _SettingPageState extends State<SettingPage> {
                   activeColor: Colors.purple,
                 ),
               ),
-              const SizedBox(height: 20),
-              const Text(
-                "  Help and Support"?? "Default Value",
+              SizedBox(height: 20),
+              Text ((translation(context).help_And_Support ) ,
                 style: TextStyle(
                   fontSize: 18,
                   fontWeight: FontWeight.w300,
                 ),
               ),
-              const SizedBox(height: 20),
+              SizedBox(height: 20),
               buildSettingItem(
-                title: "Help",
+                title: AppLocalizations.of(context)!.help ?? '' ,
                 icon: Ionicons.help_outline,
                 onTap: () {},
               ),
-              const SizedBox(height: 20),
+              SizedBox(height: 20),
               buildSettingItem(
-                title: "Privacy",
+                title: AppLocalizations.of(context)!.privacy ?? '' ,
                 icon: Ionicons.shield,
                 onTap: () {},
               ),
-              const SizedBox(height: 20),
+              SizedBox(height: 20),
               buildSettingItem(
-                title: "Log Out",
+                title: AppLocalizations.of(context)!.log_Out ?? '' ,
                 icon: Ionicons.log_out_outline,
                 onTap: () {
                   // Show an alert dialog to confirm logout
@@ -311,21 +318,21 @@ class _SettingPageState extends State<SettingPage> {
                     context: context,
                     builder: (BuildContext context) {
                       return AlertDialog(
-                        title: const Text("Log Out"),
-                        content: const Text("Do you really want to log out?"),
+                        title: Text(AppLocalizations.of(context)!.log_Out ?? '' ,),
+                        content: Text("Do you really want to log out?"),
                         actions: [
                           TextButton(
                             onPressed: () {
                               Navigator.of(context).pop(); // Close the dialog
                             },
-                            child: const Text("Cancel"),
+                            child: Text(AppLocalizations.of(context)!.cancel ?? '' ,),
                           ),
                           TextButton(
                             onPressed: () async {
                               logOut(context); // Log out function
                               await refreshUserData(); // Refresh user data after logout
                             },
-                            child: const Text("Log Out"),
+                            child:  Text(AppLocalizations.of(context)!.log_Out ?? '' "Log Out"),
                           ),
                         ],
                       );
@@ -336,7 +343,7 @@ class _SettingPageState extends State<SettingPage> {
             ],
           ),
         ),
-      )
+      ),
     );
   }
 
@@ -354,31 +361,31 @@ class _SettingPageState extends State<SettingPage> {
           children: [
             CircleAvatar(
               radius: 30,
-              backgroundImage: photoUrl != null ? NetworkImage(photoUrl!) : const NetworkImage('https://static.vecteezy.com/system/resources/previews/004/026/956/non_2x/person-avatar-icon-free-vector.jpg'),
+              backgroundImage: photoUrl != null ? NetworkImage(photoUrl!) : NetworkImage('https://static.vecteezy.com/system/resources/previews/004/026/956/non_2x/person-avatar-icon-free-vector.jpg'),
             ),
-            const SizedBox(width: 20),
+            SizedBox(width: 20),
             Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
                   title,
-                  style: const TextStyle(
+                  style: TextStyle(
                     fontSize: 18,
                     fontWeight: FontWeight.w500,
                   ),
                 ),
-                if (subtitle != null) const SizedBox(height: 4),
+                if (subtitle != null) SizedBox(height: 4),
                 if (subtitle != null)
                   Text(
                     subtitle,
-                    style: const TextStyle(
+                    style: TextStyle(
                       fontSize: 14,
                       color: Colors.grey,
                     ),
                   ),
               ],
             ),
-            const Spacer(),
+            Spacer(),
             const Icon(
               Icons.settings,
               size: 30,
@@ -414,29 +421,29 @@ class _SettingPageState extends State<SettingPage> {
                 color: Colors.deepPurple,
               ),
             ),
-            const SizedBox(width: 20),
+            SizedBox(width: 20),
             Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
                   title,
-                  style: const TextStyle(
+                  style: TextStyle(
                     fontSize: 18,
                     fontWeight: FontWeight.w500,
                   ),
                 ),
-                if (subtitle != null) const SizedBox(height: 4),
+                if (subtitle != null) SizedBox(height: 4),
                 if (subtitle != null)
-                  Text(
+                  LocaleText(
                     subtitle,
-                    style: const TextStyle(
+                    style: TextStyle(
                       fontSize: 14,
                       color: Colors.grey,
                     ),
                   ),
               ],
             ),
-            const Spacer(),
+            Spacer(),
             if (isDarkMode)
               trailing ?? const Icon(
                 Icons.chevron_right,

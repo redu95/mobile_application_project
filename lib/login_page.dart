@@ -42,7 +42,7 @@ class _LogInPageState extends State<LogInPage> {
       Navigator.pop(context); // Dismiss the loading indicator
       Navigator.pushReplacement(
         context,
-        MaterialPageRoute(builder: (context) => const Home()),
+        MaterialPageRoute(builder: (context) =>  Home()),
       );
     } on FirebaseAuthException catch (e){
       if(e.code == 'user-not-found'){

@@ -39,7 +39,7 @@ class AuthMethods{
     await DatabaseMethods().adduser(userDetails.uid, userInfoMap).then((value) {
       Navigator.push(
         context,
-        MaterialPageRoute(builder: (context) => const Home()),
+        MaterialPageRoute(builder: (context) =>  Home()),
       );
     });
     }

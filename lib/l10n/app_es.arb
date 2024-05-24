@@ -1,9 +1,10 @@
 {
+  "@@locale": "es",
   "addis_stay": "Estancia en Addis",
+  "Home": "hogar",
   "best_app_to_book_hotels": "¡La mejor aplicación para reservar hoteles en Addis Abeba!",
   "get_started": "Empezar",
   "already_have_an_account": "¿Ya tienes una cuenta? Inicia sesión",
-
   "welcome_description": "descripción de bienvenida",
   "hotel_search": "búsqueda de hoteles",
   "hotel_search_description": "descripción de búsqueda de hoteles",
@@ -50,7 +51,6 @@
   "confirm_Password": "confirmar Contraseña",
   "please_Confirm_Your_Password": "Por favor, confirme su contraseña",
   "error_Creating_Account":"error al crear cuenta",
-
   "bookings": "Reservas",
   "favorites": "Favoritos",
   "appearances": "Apariencias",

@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_locales/flutter_locales.dart';
 import 'package:mobile_application_project/home_page.dart';
 import 'package:mobile_application_project/login_page.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class SignUpPage extends StatefulWidget {
   const SignUpPage({super.key});
@@ -50,17 +51,16 @@ class _SignUpPageState extends State<SignUpPage> {
           });
 
           ScaffoldMessenger.of(context).showSnackBar(
-            const SnackBar(
-              content: LocaleText(
-                'registered_successfully',
-                style: TextStyle(fontSize: 20.0),
+            SnackBar(
+              content: Text(AppLocalizations.of(context)!.registered_Successfully ?? '' ,
+                style: const TextStyle(fontSize: 20.0),
               ),
             ),
           );
 
           Navigator.push(
             context,
-            MaterialPageRoute(builder: (context) => const Home()),
+            MaterialPageRoute(builder: (context) => Home()),
           );
         }
       } on FirebaseAuthException catch (e) {
@@ -83,11 +83,10 @@ class _SignUpPageState extends State<SignUpPage> {
         );
       } catch (e) {
         ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(
+          SnackBar(
             backgroundColor: Colors.orangeAccent,
-            content: LocaleText(
-              'error_creating_account',
-              style: TextStyle(fontSize: 18.0),
+            content: Text(AppLocalizations.of(context)!.error_Creating_Account ?? '' ,
+              style: const TextStyle(fontSize: 18.0),
             ),
           ),
         );
@@ -114,9 +113,8 @@ class _SignUpPageState extends State<SignUpPage> {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              const LocaleText(
-                'sign_up',
-                style: TextStyle(
+              Text(AppLocalizations.of(context)!.sign_Up ?? '' ,
+                style: const TextStyle(
                   fontSize: 24.0,
                   fontWeight: FontWeight.bold,
                 ),
@@ -125,13 +123,13 @@ class _SignUpPageState extends State<SignUpPage> {
               TextFormField(
                 validator: (value) {
                   if (value == null || value.isEmpty) {
-                    return Locales.string(context, 'please_enter_username');
+                    return AppLocalizations.of(context)!.please_Enter_User_Name ?? '';
                   }
                   return null;
                 },
                 controller: userNameController,
                 decoration: InputDecoration(
-                  labelText: Locales.string(context, 'please_enter_username'),
+                  labelText: AppLocalizations.of(context)!.please_Enter_User_Name ?? '',
                   border: const OutlineInputBorder(),
                 ),
               ),
@@ -139,7 +137,7 @@ class _SignUpPageState extends State<SignUpPage> {
               TextFormField(
                 validator: (value) {
                   if (value == null || value.isEmpty) {
-                    return Locales.string(context, 'please_enter_email');
+                    return AppLocalizations.of(context)!.please_Enter_Email_Address ?? '';
                   }
                   if (!RegExp(r'\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Z|a-z]{2,}\b').hasMatch(value)) {
                     return Locales.string(context, 'invalid_email');
@@ -149,7 +147,7 @@ class _SignUpPageState extends State<SignUpPage> {
                 controller: emailController,
                 obscureText: false,
                 decoration: InputDecoration(
-                  labelText: Locales.string(context, 'please_enter_email'),
+                  labelText: AppLocalizations.of(context)!.please_Enter_Email_Address ?? '',
                   border: const OutlineInputBorder(),
                 ),
               ),
@@ -157,14 +155,14 @@ class _SignUpPageState extends State<SignUpPage> {
               TextFormField(
                 validator: (value) {
                   if (value == null || value.isEmpty) {
-                    return Locales.string(context, 'please_enter_password');
+                    return AppLocalizations.of(context)!.please_Enter_Password ?? '';
                   }
                   return null;
                 },
                 controller: passwordController,
                 obscureText: true,
                 decoration: InputDecoration(
-                  labelText: Locales.string(context, 'please_enter_password'),
+                  labelText: AppLocalizations.of(context)!.please_Enter_Password ?? '',
                   border: const OutlineInputBorder(),
                 ),
               ),
@@ -172,14 +170,14 @@ class _SignUpPageState extends State<SignUpPage> {
               TextFormField(
                 validator: (value) {
                   if (value == null || value.isEmpty) {
-                    return Locales.string(context, 'please_confirm_password');
+                    return AppLocalizations.of(context)!.please_Confirm_Password ?? '';
                   }
                   return null;
                 },
                 controller: confirmPasswordController,
                 obscureText: true,
                 decoration: InputDecoration(
-                  labelText: Locales.string(context, 'please_confirm_password'),
+                  labelText:  AppLocalizations.of(context)!.please_Confirm_Password ?? '',
                   border: const OutlineInputBorder(),
                 ),
               ),
@@ -192,10 +190,9 @@ class _SignUpPageState extends State<SignUpPage> {
                     borderRadius: BorderRadius.circular(30)),
                 child: GestureDetector(
                   onTap: registration,
-                  child: const Center(
-                    child: LocaleText(
-                      'sign_up',
-                      style: TextStyle(
+                  child: Center(
+                    child: Text( AppLocalizations.of(context)!.sign_Up ?? '',
+                      style: const TextStyle(
                         color: Colors.white,
                         fontSize: 18.0,
                         fontWeight: FontWeight.bold,
@@ -207,19 +204,17 @@ class _SignUpPageState extends State<SignUpPage> {
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  const Text(
-                    "Already have an Account?",
+                  Text( AppLocalizations.of(context)!.already_have_an_account?? '',
                     style: TextStyle(
                       fontSize: 18.0,color: Colors.black,
                     ),
                   ),
-                  const SizedBox(width: 5.0,),
+                  SizedBox(width: 5.0,),
                   GestureDetector(
                     onTap: (){
-                      Navigator.push(context, MaterialPageRoute(builder: (context)=>const LogInPage()));
+                      Navigator.push(context, MaterialPageRoute(builder: (context)=>LogInPage()));
                     },
-                    child: const Text(
-                      "Login",
+                    child: Text( AppLocalizations.of(context)!.log_in ?? '',
                       style: TextStyle(
                         color: Colors.deepPurpleAccent,
                         fontSize: 20.0,
