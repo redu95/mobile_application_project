@@ -1,0 +1,5 @@
+{
+    "cmake.sourceDirectory": "/home/tse/Videos/mobile_application_project/linux",
+    "java.compile.nullAnalysis.mode": "automatic",
+    "java.configuration.updateBuildConfiguration": "interactive"
+}

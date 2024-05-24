@@ -4,10 +4,11 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:mobile_application_project/home_page.dart';
 import 'package:mobile_application_project/forgot_password.dart';
+import 'package:mobile_application_project/signup_page.dart';
 
 
 class LogInPage extends StatefulWidget {
-   LogInPage({super.key});
+   const LogInPage({super.key});
 
   @override
   State<LogInPage> createState() => _LogInPageState();
@@ -36,6 +37,13 @@ class _LogInPageState extends State<LogInPage> {
         email: emailController.text.trim(),
         password: passwordController.text,
       );
+
+      // If successful, navigate to home page
+      Navigator.pop(context); // Dismiss the loading indicator
+      Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(builder: (context) => const Home()),
+      );
     } on FirebaseAuthException catch (e){
       if(e.code == 'user-not-found'){
         showDialog(
@@ -60,12 +68,8 @@ class _LogInPageState extends State<LogInPage> {
             );
           },
         );
-
       }
-
     }
-    //pop the Navigator
-    Navigator.pop(context);
   }
 
 
@@ -83,7 +87,7 @@ class _LogInPageState extends State<LogInPage> {
         ),
       ),
       body: Padding(
-        padding: EdgeInsets.all(20.0),
+        padding: const EdgeInsets.all(20.0),
         child: Form(
           key: _formKey,
           child: Column(
@@ -96,7 +100,7 @@ class _LogInPageState extends State<LogInPage> {
                   fontWeight: FontWeight.bold,
                 ),
               ),
-              SizedBox(height: 20.0),
+              const SizedBox(height: 20.0),
               TextFormField(
                 validator: (value) {
                   if (value == null || value.isEmpty) {
@@ -116,12 +120,12 @@ class _LogInPageState extends State<LogInPage> {
                   });
                 },
                 controller: emailController,
-                decoration: InputDecoration(
+                decoration: const InputDecoration(
                   labelText: 'Email',
                   border: OutlineInputBorder(),
                 ),
               ),
-              SizedBox(height: 10.0),
+              const SizedBox(height: 10.0),
               TextFormField(
                 validator: (value) {
                   if (value == null || value.isEmpty) {
@@ -136,15 +140,15 @@ class _LogInPageState extends State<LogInPage> {
                 },
                 controller: passwordController,
                 obscureText: true,
-                decoration: InputDecoration(
+                decoration: const InputDecoration(
                   labelText: 'Password',
                   border: OutlineInputBorder(),
                 ),
               ),
-              SizedBox(height: 10.0),
+              const SizedBox(height: 10.0),
               Container(
                 width: 140,
-                padding: EdgeInsets.all(10),
+                padding: const EdgeInsets.all(10),
                 decoration: BoxDecoration(
                     color: Colors.deepPurpleAccent,
                     borderRadius: BorderRadius.circular(30)),
@@ -162,16 +166,42 @@ class _LogInPageState extends State<LogInPage> {
                   ),
                 ),
               ),
-              SizedBox(height: 10.0),
+              const SizedBox(height: 10.0),
               TextButton(
                 onPressed: () {
                   Navigator.push(
                     context,
-                    MaterialPageRoute(builder: (context) => ForgotPassword()),
+                    MaterialPageRoute(builder: (context) => const ForgotPassword()),
                   );
                 },
-                child: Text('Forgot Your Password?'),
+                child: const Text('Forgot Your Password?'),
               ),
+              const SizedBox(height: 10.0),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  const Text(
+                    "Don't Have an Account?",
+                    style: TextStyle(
+                      fontSize: 18.0,color: Colors.black,
+                    ),
+                  ),
+                  const SizedBox(width: 5.0,),
+                  GestureDetector(
+                    onTap: (){
+                      Navigator.push(context, MaterialPageRoute(builder: (context)=>const SignUpPage()));
+                    },
+                    child: const Text(
+                      "Create",
+                      style: TextStyle(
+                        color: Colors.deepPurpleAccent,
+                        fontSize: 20.0,
+                        fontWeight: FontWeight.w500,
+                      ),
+                    ),
+                  )
+                ],
+              )
             ],
           ),
         ),

@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html>
+    <head>
+      <meta charset="UTF-8">
+      <title>Your Flutter App</title>
+      <link rel="manifest" href="manifest.json">
+      <meta name="theme-color" content="#000000">
+      <meta name="description" content="A new Flutter project">
+      <style>
+          /* Add your custom styles here */
+        </style>
+    </head>
+
+    <script>
+          // This is now deprecated:
+          // var serviceWorkerVersion = 'v1';
+          var serviceWorkerVersion = '{{flutter_service_worker_version}}';
+        </script>
+    <script src="main.dart.js" defer></script>
+        <script>
+          // This is now deprecated:
+          // FlutterLoader.loadEntrypoint(main);
+          FlutterLoader.load(main);
+        </script>
+        <!-- This script adds the flutter initialization JS code -->
+        <script src="flutter.js" defer></script>
+    </head>
+    <body>
+        <script>
+            // Import the functions you need from the SDKs you need
+            import { initializeApp } from "firebase/app";
+            import { getAnalytics } from "firebase/analytics";
+            // TODO: Add SDKs for Firebase products that you want to use
+            // https://firebase.google.com/docs/web/setup#available-libraries
+
+            // Your web app's Firebase configuration
+            // For Firebase JS SDK v7.20.0 and later, measurementId is optional
+            const firebaseConfig = {
+              apiKey: "AIzaSyBzJd-s-8X3oA6jcF6yzbf4X3rxIwBCo_c",
+              authDomain: "addis-stay-ce1e2.firebaseapp.com",
+              projectId: "addis-stay-ce1e2",
+              storageBucket: "addis-stay-ce1e2.appspot.com",
+              messagingSenderId: "868634398702",
+              appId: "1:868634398702:web:0124cb87796f9aed7848ff",
+              measurementId: "G-6NKEN6X0PQ"
+            };
+
+        // Initialize Firebase
+        const app = initializeApp(firebaseConfig);
+        const analytics = getAnalytics(app);
+      </script>
+    </body>
+</html>
+
+
+
+
+
+
+
