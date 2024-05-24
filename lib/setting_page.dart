@@ -8,6 +8,13 @@ import 'package:ionicons/ionicons.dart';
 import 'package:mobile_application_project/edit_account_page.dart';
 import 'package:path/path.dart';
 
+import 'package:provider/provider.dart';
+import 'login_page.dart';
+import 'package:mobile_application_project/theme_provider.dart';
+class SettingPage extends StatefulWidget {
+  const SettingPage({Key? key}) : super(key: key);
+
+
 import 'package:mobile_application_project/languageMenu.dart';
 import 'login_page.dart';
 
@@ -24,17 +31,24 @@ class SettingPage extends StatefulWidget {
     this.photoUrl,
   });
 
+
   @override
   _SettingPageState createState() => _SettingPageState();
 }
 
 class _SettingPageState extends State<SettingPage> {
+
+  bool _isDarkModeEnabled = false;
+  late String userName;
+  late String bio ="Add your bio";
+
   bool _switchValue = false;  // Setting initial value of the switch to true (on state)
   final ThemeData _lightTheme = ThemeData(brightness: Brightness.light, primaryColor: Colors.white); // Theme data for light mode with white as the primary color
   final ThemeData _darkTheme = ThemeData(brightness: Brightness.dark, primaryColor: Colors.black); // Theme data for dark mode with black as the primary color
 
   String userName ='';
   late String email ="Add your email";
+
   String? photoUrl; // Add this variable to hold profile picture URL
   late User user; // Add this variable to hold the authenticated user
   bool isLoading = true; // Track loading state
@@ -48,6 +62,9 @@ class _SettingPageState extends State<SettingPage> {
     user = FirebaseAuth.instance.currentUser!;
     loadUserInfo(user.uid);
   }
+
+
+
   Future<void> loadUserInfo(String uid) async {
     try {
       DocumentSnapshot userDoc =
@@ -124,10 +141,24 @@ class _SettingPageState extends State<SettingPage> {
 
   @override
   Widget build(BuildContext context) {
+
+    final themeProvider = Provider.of<ThemeSettings>(context); // Access the theme provider
+
+    // if (isLoading) {
+    //   // Show loading indicator while data is being loaded
+    //   return Scaffold(
+    //     body: Center(
+    //       child: CircularProgressIndicator(),
+    //     ),
+    //   );
+    // }
+    return Scaffold (
+
     return MaterialApp(
       theme: _switchValue ? _darkTheme : _lightTheme,// Set the theme based on the value of _switchValue
       home: Scaffold (
         backgroundColor: _switchValue ? Colors.black : Colors.white,// Set the background color based on the value of _switchValue
+
         appBar: AppBar(
           leading: IconButton(
             icon: const Icon(Icons.arrow_back),
@@ -225,6 +256,8 @@ class _SettingPageState extends State<SettingPage> {
                 icon: Ionicons.heart,
                 onTap: () {},
               ),
+
+              SizedBox(height: 20),
               const SizedBox(height: 20,),
               const Text(
                 "  Appearances",
@@ -249,7 +282,30 @@ class _SettingPageState extends State<SettingPage> {
                 title: "Dark Mode",
                 icon: Ionicons.moon_outline,
                 isDarkMode: true,
-                onTap: () {},
+                onTap: () {
+                  setState(() {
+                    _isDarkModeEnabled = !_isDarkModeEnabled; // Toggle the state of _isDarkModeEnabled
+                    if (_isDarkModeEnabled) {
+                      themeProvider.setThemeMode(ThemeMode.dark); // Set the dark theme
+                    } else {
+                      themeProvider.setThemeMode(ThemeMode.light); // Set the light theme
+                    }
+                  });
+                },
+                trailing: Switch(
+                  value: _isDarkModeEnabled,
+                  onChanged: (newValue) {
+                    setState(() {
+                      _isDarkModeEnabled = newValue; // Update the state of _isDarkModeEnabled
+                      if (_isDarkModeEnabled) {
+                        themeProvider.setThemeMode(ThemeMode.dark); // Set the dark theme
+                      } else {
+                        themeProvider.setThemeMode(ThemeMode.light); // Set the light theme
+                      }
+                    });
+                  },
+                  activeColor: Colors.purple,
+                ),
               ),
               const SizedBox(height: 20),
               const Text(
@@ -306,7 +362,7 @@ class _SettingPageState extends State<SettingPage> {
             ],
           ),
         ),
-      ),
+
     );
   }
 
@@ -368,6 +424,7 @@ class _SettingPageState extends State<SettingPage> {
     String? subtitle,
     ImageProvider? image,
     bool isDarkMode = false,
+    Widget? trailing, // Added trailing parameter for the switch widget
   }) {
     return InkWell(
       onTap: onTap,
@@ -409,20 +466,21 @@ class _SettingPageState extends State<SettingPage> {
             const Spacer(),
             if (isDarkMode)
               Switch(
-                value: _switchValue, // Replace true with your dark mode state
+                value: _isDarkModeEnabled, // Replace true with your dark mode state
                 onChanged: (newValue) {
                   setState(() {
-                    _switchValue = newValue; // Update the value of _switchValue with the new value
+                    _isDarkModeEnabled = newValue;
                   });
-                  },
+
+                }, // Implement dark mode toggling
                 activeColor: Colors.purple,
               )
             else
               const Icon(
-                Icons.chevron_left,
+                Icons.chevron_right,
                 size: 30,
                 color: Colors.purple,
-            )
+              )
           ],
         ),
       ),

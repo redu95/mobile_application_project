@@ -1,0 +1,8 @@
+# This is a comment
+# Each line is a file pattern followed by one or more owners
+
+# The '*' pattern matches all files in the repository.
+* @redu95
+* @redu95
+* @redu95
+

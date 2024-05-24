@@ -4,13 +4,22 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:mobile_application_project/auth_page.dart';
 import 'package:mobile_application_project/introduction_screen.dart';
+
+import 'package:mobile_application_project/login_page.dart';
+import 'package:mobile_application_project/theme_provider.dart';
+
+import 'package:provider/provider.dart';
+import 'firebase_options.dart';
+
 import 'package:flutter_localizations/flutter_localizations.dart';
+
 
 
 import 'package:mobile_application_project/languageMenu.dart';
 import 'package:flutter_locales/flutter_locales.dart';
 
 import 'firebase_options.dart';
+
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -27,6 +36,19 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+
+    return ChangeNotifierProvider(
+      create: (context) => ThemeSettings(false),// Provide the initial dark mode value
+      builder: (context, snapshot) {
+        final settings = Provider.of<ThemeSettings>(context);// Access the ThemeSettings instance
+        return MaterialApp(
+          title: 'Addis Stay',
+          theme: settings.currentTheme, // Set the theme based on the currentTheme value
+          home:  WelcomePage(),
+          debugShowCheckedModeBanner: false,
+        );
+      },
+
     return LocaleBuilder(
       builder: (locale) => MaterialApp(
         debugShowCheckedModeBanner: false,
@@ -45,6 +67,7 @@ class MyApp extends StatelessWidget {
           useMaterial3: true,
         ),
       ),
+
     );
   }
 }
