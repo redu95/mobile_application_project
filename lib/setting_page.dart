@@ -7,18 +7,13 @@ import 'package:flutter/material.dart';
 import 'package:ionicons/ionicons.dart';
 import 'package:mobile_application_project/edit_account_page.dart';
 import 'package:path/path.dart';
-
+import 'package:mobile_application_project/languageMenu.dart';
 import 'package:provider/provider.dart';
 import 'login_page.dart';
 import 'package:mobile_application_project/theme_provider.dart';
-class SettingPage extends StatefulWidget {
-  const SettingPage({Key? key}) : super(key: key);
-
-
-import 'package:mobile_application_project/languageMenu.dart';
-import 'login_page.dart';
 
 class SettingPage extends StatefulWidget {
+
 
   final String userName;
   final String email;
@@ -39,9 +34,6 @@ class SettingPage extends StatefulWidget {
 class _SettingPageState extends State<SettingPage> {
 
   bool _isDarkModeEnabled = false;
-  late String userName;
-  late String bio ="Add your bio";
-
   bool _switchValue = false;  // Setting initial value of the switch to true (on state)
   final ThemeData _lightTheme = ThemeData(brightness: Brightness.light, primaryColor: Colors.white); // Theme data for light mode with white as the primary color
   final ThemeData _darkTheme = ThemeData(brightness: Brightness.dark, primaryColor: Colors.black); // Theme data for dark mode with black as the primary color
@@ -144,20 +136,10 @@ class _SettingPageState extends State<SettingPage> {
 
     final themeProvider = Provider.of<ThemeSettings>(context); // Access the theme provider
 
-    // if (isLoading) {
-    //   // Show loading indicator while data is being loaded
-    //   return Scaffold(
-    //     body: Center(
-    //       child: CircularProgressIndicator(),
-    //     ),
-    //   );
-    // }
-    return Scaffold (
-
     return MaterialApp(
-      theme: _switchValue ? _darkTheme : _lightTheme,// Set the theme based on the value of _switchValue
+      theme: _isDarkModeEnabled ? _darkTheme : _lightTheme,// Set the theme based on the value of _switchValue
       home: Scaffold (
-        backgroundColor: _switchValue ? Colors.black : Colors.white,// Set the background color based on the value of _switchValue
+        backgroundColor: _isDarkModeEnabled ? Colors.black : Colors.white,// Set the background color based on the value of _switchValue
 
         appBar: AppBar(
           leading: IconButton(
@@ -284,24 +266,16 @@ class _SettingPageState extends State<SettingPage> {
                 isDarkMode: true,
                 onTap: () {
                   setState(() {
-                    _isDarkModeEnabled = !_isDarkModeEnabled; // Toggle the state of _isDarkModeEnabled
-                    if (_isDarkModeEnabled) {
-                      themeProvider.setThemeMode(ThemeMode.dark); // Set the dark theme
-                    } else {
-                      themeProvider.setThemeMode(ThemeMode.light); // Set the light theme
-                    }
+                    _isDarkModeEnabled = !_isDarkModeEnabled;
+                    themeProvider.setThemeMode(_isDarkModeEnabled ? ThemeMode.dark : ThemeMode.light);
                   });
                 },
                 trailing: Switch(
                   value: _isDarkModeEnabled,
                   onChanged: (newValue) {
                     setState(() {
-                      _isDarkModeEnabled = newValue; // Update the state of _isDarkModeEnabled
-                      if (_isDarkModeEnabled) {
-                        themeProvider.setThemeMode(ThemeMode.dark); // Set the dark theme
-                      } else {
-                        themeProvider.setThemeMode(ThemeMode.light); // Set the light theme
-                      }
+                      _isDarkModeEnabled = !_isDarkModeEnabled;
+                      themeProvider.setThemeMode(_isDarkModeEnabled ? ThemeMode.dark : ThemeMode.light);
                     });
                   },
                   activeColor: Colors.purple,
@@ -362,7 +336,7 @@ class _SettingPageState extends State<SettingPage> {
             ],
           ),
         ),
-
+      )
     );
   }
 
@@ -416,7 +390,6 @@ class _SettingPageState extends State<SettingPage> {
     );
   }
 
-
   Widget buildSettingItem({
     required String title,
     IconData? icon,
@@ -465,15 +438,10 @@ class _SettingPageState extends State<SettingPage> {
             ),
             const Spacer(),
             if (isDarkMode)
-              Switch(
-                value: _isDarkModeEnabled, // Replace true with your dark mode state
-                onChanged: (newValue) {
-                  setState(() {
-                    _isDarkModeEnabled = newValue;
-                  });
-
-                }, // Implement dark mode toggling
-                activeColor: Colors.purple,
+              trailing ?? const Icon(
+                Icons.chevron_right,
+                size: 30,
+                color: Colors.purple,
               )
             else
               const Icon(
@@ -487,3 +455,8 @@ class _SettingPageState extends State<SettingPage> {
     );
   }
 }
+
+
+
+
+

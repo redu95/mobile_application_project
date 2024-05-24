@@ -57,7 +57,7 @@ class PlaceListData{
         perNight: 180
     ),
     PlaceListData(
-        imgPath: "assets/images/hotel_im/skycityb.jpeg",
+        imgPath: "assets/images/hotel_im/skycityb.jpg.",
         title: "SkyCity Hotel",
         sub: "Addis Ababa, Ethiopia",
         distance: 2.0,
@@ -75,7 +75,7 @@ class PlaceListData{
         perNight: 180
     ),
     PlaceListData(
-        imgPath: "assets/images/hotel_im/capitalb.jpeg",
+        imgPath: "assets/images/hotel_im/capitalb.jpg",
         title: "Holiday Hotel",
         sub: "Addis Ababa, Ethiopia",
         distance: 2.0,
@@ -84,7 +84,7 @@ class PlaceListData{
         perNight: 180
     ),
     PlaceListData(
-        imgPath: "assets/images/hotel_im/llilib.jpeg",
+        imgPath: "assets/images/hotel_im/Ililib.jpeg",
         title: "Elile Hotel",
         sub: "Addis Ababa, Ethiopia",
         distance: 2.0,
