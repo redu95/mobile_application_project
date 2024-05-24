@@ -10,11 +10,7 @@ import 'package:path/path.dart';
 import 'package:provider/provider.dart';
 import 'login_page.dart';
 import 'package:mobile_application_project/theme_provider.dart';
-
-
-
 class SettingPage extends StatefulWidget {
-
   const SettingPage({Key? key}) : super(key: key);
 
   @override
