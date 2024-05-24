@@ -61,7 +61,7 @@ class _HomeState extends State<Home> {
         items:  <BottomNavigationBarItem>[
           BottomNavigationBarItem(
             icon: Icon(Icons.home),
-            label: translation(context).home,
+            label: 'home',
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.search),
