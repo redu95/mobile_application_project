@@ -85,6 +85,7 @@ class _MyAppState extends State<MyApp> {
             localizationsDelegates: AppLocalizations.localizationsDelegates,
             supportedLocales: AppLocalizations.supportedLocales,
             theme: settings.currentTheme,
+            darkTheme: ThemeData.dark(),
             locale: _locale,
             home: const WelcomePage(),
             debugShowCheckedModeBanner: false,

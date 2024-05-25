@@ -41,6 +41,7 @@ class SettingPage extends StatefulWidget {
 class _SettingPageState extends State<SettingPage> {
 
   bool _isDarkModeEnabled = false;
+  bool _switchValue = false;  // Setting initial value of the switch to true (on state)
   ThemeData _lightTheme = ThemeData(brightness: Brightness.light, primaryColor: Colors.white); // Theme data for light mode with white as the primary color
   ThemeData _darkTheme = ThemeData(brightness: Brightness.dark, primaryColor: Colors.black); // Theme data for dark mode with black as the primary color
 
@@ -50,14 +51,16 @@ class _SettingPageState extends State<SettingPage> {
   String? photoUrl; // Add this variable to hold profile picture URL
   late User user; // Add this variable to hold the authenticated user
   bool isLoading = true; // Track loading state
+  TextEditingController userNameController =  TextEditingController();
+  TextEditingController emailController =  TextEditingController();
+  TextEditingController passwordController = new TextEditingController();
 
   @override
   void initState() {
     super.initState();
     user = FirebaseAuth.instance.currentUser!;
     loadUserInfo(user.uid);
-    final themeProvider = Provider.of<ThemeSettings>(context as BuildContext, listen: false);
-    _isDarkModeEnabled = themeProvider.isDarkModeEnabled;
+    _isDarkModeEnabled = Provider.of<ThemeSettings>(context as BuildContext, listen: false).isDarkModeEnabled;
   }
 
 
@@ -89,7 +92,7 @@ class _SettingPageState extends State<SettingPage> {
 
 
   Future<void> saveUserInfo(
-    String uid, String name, String email, String? photoUrl) async {
+      String uid, String name, String email, String? photoUrl) async {
     await FirebaseFirestore.instance.collection('users').doc(uid).set({
       'name': name,
       'email': email,
@@ -236,12 +239,14 @@ class _SettingPageState extends State<SettingPage> {
                 title: AppLocalizations.of(context)!.bookings ?? '' ,
                 icon: Ionicons.calendar,
                 onTap: () {},
+                themeProvider: Provider.of<ThemeSettings>(context), // Pass themeProvider instance
               ),
               SizedBox(height: 20),
               buildSettingItem(
                 title: AppLocalizations.of(context)!.favorites ?? '' ,
                 icon: Ionicons.heart,
                 onTap: () {},
+                themeProvider: Provider.of<ThemeSettings>(context), // Pass themeProvider instance
               ),
               SizedBox(height: 20,),
               Text(AppLocalizations.of(context)!.appearances ?? '' ,
@@ -264,30 +269,25 @@ class _SettingPageState extends State<SettingPage> {
                   };
 
                 },
+                themeProvider: Provider.of<ThemeSettings>(context), // Pass themeProvider instance
               ),
               SizedBox(height: 20),
               buildSettingItem(
                 title: AppLocalizations.of(context)!.dark_Mode ?? '' ,
                 icon: Ionicons.moon_outline,
                 isDarkMode: true,
-                onTap: () {
-
-                },
+                onTap: () {},
                 trailing: Switch(
                   value: _isDarkModeEnabled,
-                  onChanged: (value) {
+                  onChanged: (newValue) {
                     setState(() {
-                      _isDarkModeEnabled = value;
+                      _isDarkModeEnabled = newValue;
                     });
-                    if (user != null) {
-                      themeProvider.setThemeMode(
-                        value ? ThemeMode.dark : ThemeMode.light,
-                        user.uid,
-                      );
-                    }
+                    themeProvider.setThemeMode(_isDarkModeEnabled ? ThemeMode.dark : ThemeMode.light,user.uid);
                   },
                   activeColor: Colors.purple,
                 ),
+                themeProvider: Provider.of<ThemeSettings>(context), // Pass themeProvider instance
               ),
               SizedBox(height: 20),
               Text ((translation(context).help_And_Support ) ,
@@ -301,17 +301,20 @@ class _SettingPageState extends State<SettingPage> {
                 title: AppLocalizations.of(context)!.help ?? '' ,
                 icon: Ionicons.help_outline,
                 onTap: () {},
+                themeProvider: Provider.of<ThemeSettings>(context), // Pass themeProvider instance
               ),
               SizedBox(height: 20),
               buildSettingItem(
                 title: AppLocalizations.of(context)!.privacy ?? '' ,
                 icon: Ionicons.shield,
                 onTap: () {},
+                themeProvider: Provider.of<ThemeSettings>(context), // Pass themeProvider instance
               ),
               SizedBox(height: 20),
               buildSettingItem(
                 title: AppLocalizations.of(context)!.log_Out ?? '' ,
                 icon: Ionicons.log_out_outline,
+                themeProvider: Provider.of<ThemeSettings>(context), // Pass themeProvider instance
                 onTap: () {
                   // Show an alert dialog to confirm logout
                   showDialog(
@@ -404,61 +407,73 @@ class _SettingPageState extends State<SettingPage> {
     String? subtitle,
     ImageProvider? image,
     bool isDarkMode = false,
-    Widget? trailing, // Added trailing parameter for the switch widget
+    Widget? trailing,
+    required ThemeSettings themeProvider, // Add themeProvider parameter
   }) {
-    return InkWell(
-      onTap: onTap,
-      child: Padding(
-        padding: const EdgeInsets.symmetric(vertical: 10),
-        child: Row(
-          children: [
-            CircleAvatar(
-              radius: 30,
-              backgroundColor: Colors.purple.shade50,
-              child: Icon(
-                icon,
-                size: 30,
-                color: Colors.deepPurple,
-              ),
-            ),
-            SizedBox(width: 20),
-            Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
+    return LayoutBuilder(
+      builder: (BuildContext context, BoxConstraints constraints) {
+        return InkWell(
+          onTap: onTap,
+          child: Padding(
+            padding: const EdgeInsets.symmetric(vertical: 10),
+            child: Row(
               children: [
-                Text(
-                  title,
-                  style: TextStyle(
-                    fontSize: 18,
-                    fontWeight: FontWeight.w500,
+                CircleAvatar(
+                  radius: 30,
+                  backgroundColor: Colors.purple.shade50,
+                  child: Icon(
+                    icon,
+                    size: 30,
+                    color: Colors.deepPurple,
                   ),
                 ),
-                if (subtitle != null) SizedBox(height: 4),
-                if (subtitle != null)
-                  LocaleText(
-                    subtitle,
-                    style: TextStyle(
-                      fontSize: 14,
-                      color: Colors.grey,
+                SizedBox(width: 20),
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      title,
+                      style: TextStyle(
+                        fontSize: 18,
+                        fontWeight: FontWeight.w500,
+                      ),
                     ),
-                  ),
+                    if (subtitle != null) SizedBox(height: 4),
+                    if (subtitle != null)
+                      LocaleText(
+                        subtitle,
+                        style: TextStyle(
+                          fontSize: 14,
+                          color: Colors.grey,
+                        ),
+                      ),
+                  ],
+                ),
+                Spacer(),
+                if (isDarkMode)
+                  trailing ??
+                      Switch(
+                        value: _isDarkModeEnabled,
+                        onChanged: (newValue) {
+                          setState(() {
+                            _isDarkModeEnabled = newValue;
+                          });
+                          themeProvider.setThemeMode(
+                              _isDarkModeEnabled ? ThemeMode.dark : ThemeMode.light,user.uid);
+                        },
+                        activeColor: Colors.purple,
+                      )
+                else
+                  const Icon(
+                    Icons.chevron_right,
+                    size: 30,
+                    color: Colors.purple,
+                  )
               ],
             ),
-            Spacer(),
-            if (isDarkMode)
-              trailing ?? const Icon(
-                Icons.chevron_right,
-                size: 30,
-                color: Colors.purple,
-              )
-            else
-              const Icon(
-                Icons.chevron_right,
-                size: 30,
-                color: Colors.purple,
-              )
-          ],
-        ),
-      ),
+          ),
+        );
+      },
     );
   }
 }
