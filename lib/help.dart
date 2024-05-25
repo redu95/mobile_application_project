@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 class HelpDemo extends StatefulWidget {
   const HelpDemo({Key? key}) : super(key: key);
 
@@ -20,7 +20,7 @@ class _HelpDemoState extends State<HelpDemo> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Help'),
+        title: Text(AppLocalizations.of(context)!.help ?? ''),
       ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
@@ -30,8 +30,7 @@ class _HelpDemoState extends State<HelpDemo> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                const Text(
-                  'Frequently asked questions',
+                 Text(AppLocalizations.of(context)!.frequentlyAskedQuestions ?? '',
                   style: TextStyle(
                     fontSize: 24.0,
                     fontWeight: FontWeight.bold,
@@ -48,19 +47,14 @@ class _HelpDemoState extends State<HelpDemo> {
                     children: [
                       Align(
                         alignment: Alignment.centerLeft,
-                        child: const Text(
-                          'can i cancel my reservation?',
+                        child: Text(AppLocalizations.of(context)!.canICancelMyReservation ?? '' ,
                           style: TextStyle(
                             fontSize: 16.0,
                           ),
                         ),
                       ),
                       _showCancellationText
-                          ? const Text(
-                        'You may cancel your reservation at any time, but there will be a 5% cost.'
-                            ' After canceling with us,you will receive an email confirming the cancellation'
-                            ' if you haven\'t heard from the property within 24 hours, please get in touch '
-                            'with them to make sure they received your cancellation. ',
+                          ? Text(AppLocalizations.of(context)!.youMayCancelYourReservationAtAnyTimeButThereWillBeA5Cost ?? '',
                         style: TextStyle(
                           fontSize: 14.0,
                           color: Colors.grey,
@@ -81,16 +75,14 @@ class _HelpDemoState extends State<HelpDemo> {
                     children: [
                       Align(
                         alignment: Alignment.centerLeft,
-                        child: const Text(
-                          'what payment methods are applicable ?',
+                        child: Text(AppLocalizations.of(context)!.whatPaymentMethodsAreApplicable ?? '',
                           style: TextStyle(
                             fontSize: 16.0,
                           ),
                         ),
                       ),
                       _showPaymentText
-                          ? const Text(
-                        'Any Ethiopian internet bank, including CEB, Apolo, and mobile banking, accepts online payments. ',
+                          ? Text(AppLocalizations.of(context)!.anyEthiopianInternetBankIncludingCEBApoloAndMobileBankingAcceptsOnlinePayments ?? '',
                         style: TextStyle(
                           fontSize: 14.0,
                           color: Colors.grey,
@@ -271,7 +263,7 @@ class _HelpDemoState extends State<HelpDemo> {
                 ElevatedButton(
                   onPressed: () {
                     if (_key.currentState!.validate()) {
-                      // Submit the query
+                      // eziga some functionality yaregal i think backend yasfelgewal red
                     }
                   },
                   child: const Text('Submit'),

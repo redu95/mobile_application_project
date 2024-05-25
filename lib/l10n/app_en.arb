@@ -237,5 +237,26 @@
    "error_Creating_Account": "error creating account. please try again later.",
    "@error_Creating_Account": {
      "description": "Error message for a failed account creation"
-   }
+   },
+  "frequentlyAskedQuestions": "Frequently asked questions",
+  "@frequentlyAskedQuestions": {
+    "description": "text at the body part"
+  },
+  "canICancelMyReservation": "can i cancel my reservation",
+  "@canICancelMyReservation": {
+    "description": "question number one"
+  },
+  "youMayCancelYourReservationAtAnyTimeButThereWillBeA5Cost": "You may cancel your reservation at any time but there will be a 5 cost.",
+  "@youMayCancelYourReservationAtAnyTimeButThereWillBeA5Cost": {
+    "description": "answer"
+  },
+  "whatPaymentMethodsAreApplicable": "what payment methods are applicable",
+  "@whatPaymentMethodsAreApplicable": {
+    "description": "question number two"
+  },
+  "anyEthiopianInternetBankIncludingCEBApoloAndMobileBankingAcceptsOnlinePayments": "Any Ethiopian internet bank, including CEB, Apolo, and mobile banking, accepts online payments.",
+  "@anyEthiopianInternetBankIncludingCEBApoloAndMobileBankingAcceptsOnlinePayments": {
+    "description": "answer two"
+  }
 }
+

@@ -304,8 +304,7 @@ class _SettingPageState extends State<SettingPage> {
                 onTap: () {
                   {
                     Navigator.push(
-                      context,
-                      MaterialPageRoute(builder: (context) => const HelpDemo()),
+                      context, MaterialPageRoute(builder: (context) => const HelpDemo()),//redirect to help page
                     );
                   };
                 },
