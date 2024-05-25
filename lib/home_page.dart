@@ -166,7 +166,7 @@ class _HomePageState extends State<HomePage> {
                             style: TextStyle(
                               fontWeight: FontWeight.bold,
                               fontSize: 18,
-                              color:Colors.purple,
+                              color:Colors.purpleAccent,
                             ),
                           ),
                           Icon(
@@ -175,7 +175,8 @@ class _HomePageState extends State<HomePage> {
                             color: Colors.purple,
                           ),
                           Text(
-                            "Addis Abeba Ethiopia",
+                            "Adis"
+                                " Ethiopia",
                             style: TextStyle(
                               fontWeight: FontWeight.w800,
                               fontSize: 18,
@@ -250,203 +251,120 @@ class _HomePageState extends State<HomePage> {
                     const SizedBox(
                       height: 20,
                     ),
-                    Padding(
-                      padding: const EdgeInsets.symmetric(
-                        horizontal: 2,
-                        vertical: 12,
-                      ),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          SizedBox(
-                            width: 320,
-                            child: TextField(
-                              decoration: InputDecoration(
-                                hintText: "Search for place",
-                                prefixIcon: Icon(
-                                  Icons.search,
-                                  size: 35,
-                                  color: const Color(0xff3c4657),
-                                ),
-                                border: OutlineInputBorder(
-                                  borderSide: const BorderSide(
-                                      width: 2.4,
-                                      color: Colors.purple),
-                                  borderRadius: BorderRadius.circular(12),
-                                ),
-                                enabledBorder: OutlineInputBorder(
-                                  borderSide: const BorderSide(
-                                      width: 2.4, color: Color(0xff3c4657)),
-                                ),
-                              ),
-                            ),
-                          ),
-                          Container(
-                            decoration: BoxDecoration(
-                              color: Colors.purple,
-                              borderRadius: BorderRadius.circular(8),
-                            ),
-                            height: 50,
-                            width: 50,
-                            child: const Icon(
-                                Icons.filter_alt, size: 35, color: Colors.white),
-                          ),
-                        ],
-                      ),
-                    ),
-                    Container(
-                      height: 70,
-                      width: double.infinity,
-                      margin: EdgeInsets.symmetric(horizontal: 12, vertical: 12),
-                      child: ListView(
-                        scrollDirection: Axis.horizontal,
-                        children: [
-                          InkWell(
-                            onTap: () {
-                              setState(() {
-                                selectedOne = MenuSelection.menu1;
-                              });
-                            },
-                            child: MenuScreen(
-                              "Dining",
-                              selectedOne == MenuSelection.menu1
-                                  ? Colors.purple : Color(0xffF0F1F3),
-                              selectedOne == MenuSelection.menu1
-                                  ? Colors.white: Colors.grey,
-                            ),
-                          ),
-                          InkWell(
-                            onTap: () {
-                              setState(() {
-                                selectedOne = MenuSelection.menu2;
-                              });
-                            },
-                            child: MenuScreen(
-                              "Accommodations",
-                              selectedOne == MenuSelection.menu2
-                                  ? Colors.purple : Color(0xffF0F1F3),
-                              selectedOne == MenuSelection.menu2
-                                  ? Colors.white: Colors.grey,
-                            ),
-                          ),
-                          InkWell(
-                            onTap: () {
-                              setState(() {
-                                selectedOne = MenuSelection.menu3;
-                              });
-                            },
-                            child: MenuScreen(
-                              "Room Servicel",
-                              selectedOne == MenuSelection.menu3
-                                  ? Colors.purple : Color(0xffF0F1F3),
-                              selectedOne == MenuSelection.menu3
-                                  ? Colors.white: Colors.grey,
-                            ),
-                          ),
-                          InkWell(
-                            onTap: () {
-                              setState(() {
-                                selectedOne = MenuSelection.menu4;
-                              });
-                            },
-                            child: MenuScreen(
-                              "Accommodations",
-                              selectedOne == MenuSelection.menu4
-                                  ? Colors.purple : Color(0xffF0F1F3),
-                              selectedOne == MenuSelection.menu4
-                                  ? Colors.white: Colors.grey,
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
+
                     SizedBox(
                         height:15
                     ),
                     Container(
-                      margin:EdgeInsets.symmetric(horizontal:4,vertical:12),
-                      height: 270,
+                      margin: EdgeInsets.symmetric(horizontal: 4, vertical: 12),
+                      height: 300,
                       width: double.infinity,
                       child: ListView.builder(
                         scrollDirection: Axis.horizontal,
                         itemCount: object.getData.length,
-                        itemBuilder: (context, index){
+                        itemBuilder: (context, index) {
                           return InkWell(
-                            onTap: (){
-                              Navigator.push(context,MaterialPageRoute(builder: (context)=> Detail(
-                                  object.getData[index].imageurl,
-                                  object.getData[index].name,
-                                  object.getData[index].location)
-                              )
+                            onTap: () {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => Detail(
+                                    object.getData[index].imageurl,
+                                    object.getData[index].name,
+                                    object.getData[index].location,
+                                  ),
+                                ),
                               );
                             },
-                            child: Container(height: 200,
-                              margin:EdgeInsets.symmetric(horizontal:8),
-                              width: 250,
+                            child: Container(
+                              height: 240,
+                              margin: EdgeInsets.symmetric(horizontal: 8),
+                              width: 280,
                               decoration: BoxDecoration(
-                                borderRadius:BorderRadius.circular(12),
-                                image: DecorationImage(
-                                    image: AssetImage(
-                                        object.getData[index].imageurl),
-
-
-                                    fit:BoxFit.cover),
-
+                                borderRadius: BorderRadius.circular(12),
+                                border: Border.all(
+                                  color: Colors.grey,
+                                  width: 1.5,
+                                ),
                               ),
                               child: Stack(
                                 children: [
-                                  Positioned(
-                                    right: 0,
-                                    child: IconButton(
-                                      onPressed: (){},
-                                      icon:Icon(Icons.favorite_border,color: Colors.purple,),
-                                    ),
-
+                                  Column(
+                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    children: [
+                                      Expanded(
+                                        child: Container(
+                                          decoration: BoxDecoration(
+                                            borderRadius: BorderRadius.only(
+                                              topLeft: Radius.circular(12),
+                                              topRight: Radius.circular(12),
+                                            ),
+                                            image: DecorationImage(
+                                              image: AssetImage(
+                                                object.getData[index].imageurl,
+                                              ),
+                                              fit: BoxFit.cover,
+                                            ),
+                                          ),
+                                        ),
+                                      ),
+                                      Container(
+                                        padding: EdgeInsets.all(8),
+                                        child: Column(
+                                          crossAxisAlignment: CrossAxisAlignment.start,
+                                          children: [
+                                            Text(
+                                              object.getData[index].name,
+                                              style: TextStyle(
+                                                fontSize: 24,
+                                                color: Colors.black,
+                                                fontWeight: FontWeight.w600,
+                                              ),
+                                            ),
+                                            SizedBox(height: 4),
+                                            Row(
+                                              children: [
+                                                Icon(
+                                                  Icons.location_on,
+                                                  size: 20,
+                                                  color: Colors.black,
+                                                ),
+                                                SizedBox(width: 4),
+                                                Text(
+                                                  object.getData[index].location,
+                                                  style: TextStyle(
+                                                    fontSize: 18,
+                                                    color: Colors.black,
+                                                    fontWeight: FontWeight.w400,
+                                                  ),
+                                                ),
+                                              ],
+                                            ),
+                                          ],
+                                        ),
+                                      ),
+                                    ],
                                   ),
                                   Positioned(
-                                      bottom:10,
-                                      left:10,
-                                      child: Column(
-                                        crossAxisAlignment: CrossAxisAlignment.start,
-                                        children: [
-                                          Text(
-                                            object.getData[index].name,
-                                            style: TextStyle(
-                                                fontSize:
-                                                22,color:Colors.white ,
-                                                fontWeight:FontWeight.w600),
-                                          ),
-                                          const SizedBox(height: 8,),
-                                          Row(
-                                            children: [
-                                              Icon(Icons.location_on,
-                                                size:30,
-                                                color: Colors.white,),
-                                              Text(
-                                                object.getData[index].location,
-                                                style: const TextStyle(
-                                                    fontSize: 22,
-                                                    color:Colors.white,
-                                                    fontWeight:FontWeight.w600
-                                                )
-                                                ,
-                                              )
-
-                                            ],
-                                          )
-                                        ],
-                                      )
-                                  )
-
+                                    bottom: 10,
+                                    right: 10,
+                                    child: IconButton(
+                                      icon: Icon(
+                                        Icons.favorite_border,
+                                        color: Colors.black,
+                                      ),
+                                      onPressed: () {
+                                        // Handle favorite button press
+                                      },
+                                    ),
+                                  ),
                                 ],
                               ),
-
-
                             ),
                           );
-
                         },
-                      ),),
+                      ),
+                    ),
                     const Padding(padding: const EdgeInsets.only(left:12.0 ,top: 12),
                         child:Text("Popular Hotels",style: TextStyle(
                           fontSize: 24,
@@ -455,69 +373,124 @@ class _HomePageState extends State<HomePage> {
                         )),
                     const SizedBox(height: 10,),
                     Container(
-                      margin: EdgeInsets.symmetric(horizontal: 8,vertical: 12),
-                      height: 220,
+                      margin: EdgeInsets.symmetric(horizontal: 4, vertical: 12),
+                      height: 160, // Adjust the height to your desired value
                       width: double.infinity,
                       child: ListView.builder(
                         scrollDirection: Axis.horizontal,
-                        itemCount: object.getAnotherData.length,
+                        itemCount: object.getData.length,
                         itemBuilder: (context, index) {
+                          bool isFavorite = false;
+
                           return InkWell(
-                            onTap: (){
-                              Navigator.push(context,MaterialPageRoute(builder: (context)=> Detail(
-                                  object.getAnotherData[index].imageurl,
-                                  object.getAnotherData[index].name,
-                                  object.getAnotherData[index].location)
-                              )
+                            onTap: () {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => Detail(
+                                    object.getData[index].imageurl,
+                                    object.getData[index].name,
+                                    object.getData[index].location,
+                                  ),
+                                ),
                               );
                             },
+                            onTapDown: (_) {
+                              setState(() {
+                                isFavorite = true;
+                              });
+                            },
+                            onTapCancel: () {
+                              setState(() {
+                                isFavorite = false;
+                              });
+                            },
                             child: Container(
-                              margin: EdgeInsets.symmetric(horizontal: 4),
-                              height: 220,
-                              width: 200,
+                              height: 140, // Adjust the height to your desired value
+                              margin: EdgeInsets.symmetric(horizontal: 8),
+                              width: 280, // Adjust the width to your desired value
                               decoration: BoxDecoration(
-                                  image:DecorationImage(image:AssetImage(object.getAnotherData[index].imageurl)
-                                      ,fit:BoxFit.cover),
-                                  borderRadius:BorderRadius.circular(12)
+                                borderRadius: BorderRadius.circular(12),
+                                border: Border.all(
+                                  color: Colors.grey,
+                                  width: 1.5,
+                                ),
                               ),
-                              child: Stack(children: [
-                                Positioned(
-                                    bottom:10,
-                                    left:10,
-
-                                    child: Column(
-                                      crossAxisAlignment: CrossAxisAlignment.start,
-                                      children: [
-                                        Text(
-                                          object.getAnotherData[index].name,
-                                          style: TextStyle(
-                                              fontSize:22
-                                              ,color:Colors.white ,
-                                              fontWeight:FontWeight.w600),
+                              child: Row(
+                                children: [
+                                  Container(
+                                    width: 80, // Adjust the width to your desired value
+                                    decoration: BoxDecoration(
+                                      borderRadius: BorderRadius.only(
+                                        topLeft: Radius.circular(12),
+                                        bottomLeft: Radius.circular(12),
+                                      ),
+                                      image: DecorationImage(
+                                        image: AssetImage(
+                                          object.getAnotherData[index].imageurl,
                                         ),
-                                        const SizedBox(height: 8,),
-                                        Row(
-                                          children: [
-                                            Icon(Icons.location_on,
-                                              size:30,
-                                              color: Colors.white,),
-                                            Text(
-                                              object.getAnotherData[index].location,
-                                              style: const TextStyle(
-                                                  fontSize: 18,
-                                                  color:Colors.white,
-                                                  fontWeight:FontWeight.w600
-                                              )
-                                              ,
-                                            )
+                                        fit: BoxFit.cover,
+                                      ),
+                                    ),
+                                  ),
+                                  Expanded(
+                                    child: Container(
+                                      padding: EdgeInsets.all(8),
+                                      child: Column(
+                                        crossAxisAlignment: CrossAxisAlignment.start,
+                                        mainAxisAlignment: MainAxisAlignment.end,
+                                        children: [
+                                          Text(
+                                            object.getAnotherData[index].name,
+                                            style: TextStyle(
+                                              fontSize: 16,
+                                              color: Colors.black,
+                                              fontWeight: FontWeight.w600,
+                                            ),
+                                          ),
+                                          SizedBox(height: 4),
+                                          Row(
+                                            children: [
+                                              Icon(
+                                                Icons.location_on,
+                                                size: 14,
+                                                color: Colors.black,
+                                              ),
+                                              SizedBox(width: 4),
+                                              Text(
+                                                object.getAnotherData[index].location,
+                                                style: TextStyle(
+                                                  fontSize: 12,
+                                                  color: Colors.black,
+                                                  fontWeight: FontWeight.w400,
+                                                ),
+                                              ),
 
-                                          ],
-                                        )
-                                      ],
-                                    )
-                                )
-                              ],),
-
+                                            ],
+                                          ),
+                                          Text(
+                                            "Experience luxury!",style:
+                                          TextStyle(
+                                            fontSize: 12,
+                                            color: Colors.black,
+                                            fontWeight:FontWeight.w300,
+                                          ),
+                                          )
+                                        ],
+                                      ),
+                                    ),
+                                  ),
+                                  Container(
+                                    alignment: Alignment.bottomRight,
+                                    padding: EdgeInsets.all(8),
+                                    child: Icon(
+                                      isFavorite ? Icons.favorite : Icons.favorite_border,
+                                      size: 24,
+                                      color: isFavorite ? Colors.purple : Colors.grey,
+                                    ),
+                                  ),
+                                ],
+                              ),
                             ),
                           );
                         },
