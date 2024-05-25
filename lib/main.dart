@@ -1,4 +1,6 @@
 
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -32,6 +34,7 @@ class MyApp extends StatefulWidget {
 
 class _MyAppState extends State<MyApp> {
   Locale? _locale;
+  bool _isDarkModeEnabled = false;
 
   setLocale(Locale locale) {
     setState(() {
@@ -45,6 +48,7 @@ class _MyAppState extends State<MyApp> {
   void initState() {
     super.initState();
     _loadLanguagePreference();
+    _loadThemePreference();
   }
 
   _loadLanguagePreference() async {
@@ -53,6 +57,19 @@ class _MyAppState extends State<MyApp> {
     if (languageCode != null) {
       Locale newLocale = Locale(languageCode);
       setLocale(newLocale);
+    }
+  }
+  Future<void> _loadThemePreference() async {
+    final user = FirebaseAuth.instance.currentUser;
+    if (user != null) {
+      DocumentSnapshot userDoc = await FirebaseFirestore.instance.collection('users').doc(user.uid).get();
+      if (userDoc.exists && userDoc.data() != null) {
+        _isDarkModeEnabled = userDoc['isDarkModeEnabled'] ?? false;
+        Provider.of<ThemeSettings>(context, listen: false).setThemeMode(
+          _isDarkModeEnabled ? ThemeMode.dark : ThemeMode.light,
+          user.uid,
+        );
+      }
     }
   }
   
@@ -67,7 +84,7 @@ class _MyAppState extends State<MyApp> {
             title: 'Addis Stay',
             localizationsDelegates: AppLocalizations.localizationsDelegates,
             supportedLocales: AppLocalizations.supportedLocales,
-
+            theme: settings.currentTheme,
             locale: _locale,
             home: const WelcomePage(),
             debugShowCheckedModeBanner: false,
@@ -83,7 +100,7 @@ void main() async {
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
-  await FirebaseAppCheck.instance.activate();
+  await Locales.init(['en', 'am', 'ar', 'es']); // Initialize flutter_locales
   runApp(MyApp());
 }
 

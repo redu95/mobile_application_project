@@ -10,6 +10,7 @@ import 'package:mobile_application_project/homeScreen.dart';
 import 'package:mobile_application_project/data_home.dart';
 import 'package:mobile_application_project/detail_screen.dart';
 
+import 'Nearby_page.dart';
 import 'languagerelatedclass/language_constants.dart';
 
 class Home extends StatefulWidget {
@@ -67,6 +68,10 @@ class _HomeState extends State<Home> {
             label: 'Search',
           ),
           BottomNavigationBarItem(
+            icon: Icon(Icons.location_on_rounded),
+            label: 'Nearby',
+          ),
+          BottomNavigationBarItem(
             icon: Icon(Icons.person),
             label: 'Profile',
           ),
@@ -92,7 +97,6 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   MenuSelection selectedOne = MenuSelection.menu1;
   DataHome object=DataHome();
-
   String userName ='';
   String email ="";
   String? photoUrl; // Add this variable to hold profile picture URL
@@ -177,62 +181,11 @@ class _HomePageState extends State<HomePage> {
                         ],
                       ),
                     ),
-                    const Padding(
-                      padding: EdgeInsets.symmetric(horizontal: 2, vertical: 5),
-                      child: Text(
-                        "Where Would You Like To Go?",
-                        style: TextStyle(
-                          fontWeight: FontWeight.w800,
-                          fontSize: 30,
-                          color: Color(0xff3c4657),
-                        ),
-                      ),
-                    ),
-                    const SizedBox(
-                      height: 20,
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.symmetric(
-                        horizontal: 2,
-                        vertical: 12,
-                      ),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          SizedBox(
-                            width: 320,
-                            child: TextField(
-                              decoration: InputDecoration(
-                                hintText: "Search for place",
-                                prefixIcon: Icon(
-                                  Icons.search,
-                                  size: 35,
-                                  color: const Color(0xff3c4657),
-                                ),
-                                border: OutlineInputBorder(
-                                  borderSide: const BorderSide(
-                                      width: 2.4,
-                                      color: Colors.purple),
-                                  borderRadius: BorderRadius.circular(12),
-                                ),
-                                enabledBorder: OutlineInputBorder(
-                                  borderSide: const BorderSide(
-                                      width: 2.4, color: Color(0xff3c4657)),
-                                ),
-                              ),
-                            ),
-                          ),
-                          Container(
-                            decoration: BoxDecoration(
-                              color: Colors.purple,
-                              borderRadius: BorderRadius.circular(8),
-                            ),
-                            height: 50,
-                            width: 50,
-                            child: const Icon(
-                                Icons.filter_alt, size: 35, color: Colors.white),
-                          ),
-                        ],
+                    Text(
+                      'Welcome, $userName!', // Replace $userName with the actual username variable
+                      style: TextStyle(
+                        fontWeight: FontWeight.bold,
+                        fontSize: 24,
                       ),
                     ),
                     Container(

@@ -41,7 +41,6 @@ class SettingPage extends StatefulWidget {
 class _SettingPageState extends State<SettingPage> {
 
   bool _isDarkModeEnabled = false;
-  bool _switchValue = false;  // Setting initial value of the switch to true (on state)
   ThemeData _lightTheme = ThemeData(brightness: Brightness.light, primaryColor: Colors.white); // Theme data for light mode with white as the primary color
   ThemeData _darkTheme = ThemeData(brightness: Brightness.dark, primaryColor: Colors.black); // Theme data for dark mode with black as the primary color
 
@@ -51,15 +50,14 @@ class _SettingPageState extends State<SettingPage> {
   String? photoUrl; // Add this variable to hold profile picture URL
   late User user; // Add this variable to hold the authenticated user
   bool isLoading = true; // Track loading state
-  TextEditingController userNameController =  TextEditingController();
-  TextEditingController emailController =  TextEditingController();
-  TextEditingController passwordController = new TextEditingController();
 
   @override
   void initState() {
     super.initState();
     user = FirebaseAuth.instance.currentUser!;
     loadUserInfo(user.uid);
+    final themeProvider = Provider.of<ThemeSettings>(context as BuildContext, listen: false);
+    _isDarkModeEnabled = themeProvider.isDarkModeEnabled;
   }
 
 
@@ -91,7 +89,7 @@ class _SettingPageState extends State<SettingPage> {
 
 
   Future<void> saveUserInfo(
-      String uid, String name, String email, String? photoUrl) async {
+    String uid, String name, String email, String? photoUrl) async {
     await FirebaseFirestore.instance.collection('users').doc(uid).set({
       'name': name,
       'email': email,
@@ -273,18 +271,20 @@ class _SettingPageState extends State<SettingPage> {
                 icon: Ionicons.moon_outline,
                 isDarkMode: true,
                 onTap: () {
-                  setState(() {
-                    _isDarkModeEnabled = !_isDarkModeEnabled;
-                    themeProvider.setThemeMode(_isDarkModeEnabled ? ThemeMode.dark : ThemeMode.light);
-                  });
+
                 },
                 trailing: Switch(
                   value: _isDarkModeEnabled,
-                  onChanged: (newValue) {
+                  onChanged: (value) {
                     setState(() {
-                      _isDarkModeEnabled = !_isDarkModeEnabled;
-                      themeProvider.setThemeMode(_isDarkModeEnabled ? ThemeMode.dark : ThemeMode.light);
+                      _isDarkModeEnabled = value;
                     });
+                    if (user != null) {
+                      themeProvider.setThemeMode(
+                        value ? ThemeMode.dark : ThemeMode.light,
+                        user.uid,
+                      );
+                    }
                   },
                   activeColor: Colors.purple,
                 ),
