@@ -162,6 +162,14 @@ class _HomePageState extends State<HomePage> {
                             radius: 30,
                             backgroundImage: photoUrl != null ? NetworkImage(photoUrl!) : NetworkImage('https://static.vecteezy.com/system/resources/previews/004/026/956/non_2x/person-avatar-icon-free-vector.jpg'),
                           ),
+                          Text(
+                            'Welcome, $userName!', // Replace $userName with the actual username variable
+                            style: TextStyle(
+                              fontWeight: FontWeight.bold,
+                              fontSize: 18,
+                              color:Colors.purple,
+                            ),
+                          ),
                           Icon(
                             Ionicons.location,
                             size: 30,
@@ -175,24 +183,63 @@ class _HomePageState extends State<HomePage> {
                               color: Colors.purpleAccent,
                             ),
                           ),
+
+
                           Icon(
                             Ionicons.notifications,
                             size: 30,
                             color: Colors.purple,
                           ),
+
                         ],
                       ),
                     ),
-                    const Padding(
+                    Padding(
                       padding: EdgeInsets.symmetric(horizontal: 2, vertical: 5),
-                      child: Text(
-                        "Where Would You Like To Go?",
-                        style: TextStyle(
-                          fontWeight: FontWeight.w800,
-                          fontSize: 30,
-                          color: Color(0xff3c4657),
+                      child: SizedBox(
+                        height: 80,
+                        child: ListView(
+                          scrollDirection: Axis.horizontal,
+                          children: [
+                            CircleAvatar(
+                              backgroundImage: AssetImage('assets/images/hotel_im/hiltonb.jpg'),
+                              radius: 40,
+                            ),
+                            SizedBox(width: 10),
+                            CircleAvatar(
+                              backgroundImage: AssetImage('assets/images/hotel_im/sheratonb.jpg'),
+                              radius: 40,
+                            ),
+                            SizedBox(width: 10),
+                            CircleAvatar(
+                              backgroundImage: AssetImage('assets/images/hotel_im/skyb.jpg'),
+                              radius: 40,
+                            ),
+                            SizedBox(width: 10),
+                            CircleAvatar(
+                              backgroundImage: AssetImage('assets/images/hotel_im/capitalb.jpg'),
+                              radius: 40,
+                            ),
+                            SizedBox(width: 10),
+                            CircleAvatar(
+                              backgroundImage: AssetImage('assets/images/hotel_im/harmony.jpeg'),
+                              radius: 40,
+                            ),
+                            SizedBox(width: 10),
+                            CircleAvatar(
+                              backgroundImage: AssetImage('assets/images/hotel_im/skycityb.jpg'),
+                              radius: 40,
+                            ),
+                            SizedBox(width: 10),
+                            CircleAvatar(
+                              backgroundImage: AssetImage('assets/images/hotel_im/Ililib.jpeg'),
+                              radius: 40,
+                            ),
+
+                          ],
                         ),
                       ),
+
                     ),
                     const SizedBox(
                       height: 20,
