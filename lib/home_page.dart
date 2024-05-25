@@ -373,6 +373,8 @@ class _HomePageState extends State<HomePage> {
                         scrollDirection: Axis.horizontal,
                         itemCount: object.getData.length,
                         itemBuilder: (context, index) {
+                          bool isFavorite = false;
+
                           return InkWell(
                             onTap: () {
                               Navigator.push(
@@ -385,6 +387,16 @@ class _HomePageState extends State<HomePage> {
                                   ),
                                 ),
                               );
+                            },
+                            onTapDown: (_) {
+                              setState(() {
+                                isFavorite = true;
+                              });
+                            },
+                            onTapCancel: () {
+                              setState(() {
+                                isFavorite = false;
+                              });
                             },
                             child: Container(
                               height: 200,
@@ -450,6 +462,15 @@ class _HomePageState extends State<HomePage> {
                                           ),
                                         ],
                                       ),
+                                    ),
+                                  ),
+                                  Container(
+                                    alignment: Alignment.bottomRight,
+                                    padding: EdgeInsets.all(8),
+                                    child: Icon(
+                                      isFavorite ? Icons.favorite : Icons.favorite_border,
+                                      size: 24,
+                                      color: isFavorite ? Colors.purple : Colors.grey,
                                     ),
                                   ),
                                 ],
