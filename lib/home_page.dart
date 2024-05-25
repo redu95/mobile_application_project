@@ -162,6 +162,14 @@ class _HomePageState extends State<HomePage> {
                             radius: 30,
                             backgroundImage: photoUrl != null ? NetworkImage(photoUrl!) : NetworkImage('https://static.vecteezy.com/system/resources/previews/004/026/956/non_2x/person-avatar-icon-free-vector.jpg'),
                           ),
+                          Text(
+                            'Welcome, $userName!', // Replace $userName with the actual username variable
+                            style: TextStyle(
+                              fontWeight: FontWeight.bold,
+                              fontSize: 18,
+                              color:Colors.purple,
+                            ),
+                          ),
                           Icon(
                             Ionicons.location,
                             size: 30,
