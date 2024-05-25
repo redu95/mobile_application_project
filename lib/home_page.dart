@@ -3,6 +3,7 @@ import 'dart:math';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:ionicons/ionicons.dart';
 import 'package:mobile_application_project/search_page.dart';
 import 'package:mobile_application_project/setting_page.dart';
@@ -68,7 +69,7 @@ class _HomeState extends State<Home> {
             label: 'Search',
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.location_on_rounded),
+            icon: Icon(FontAwesomeIcons.locationDot),
             label: 'Nearby',
           ),
           BottomNavigationBarItem(
@@ -160,6 +161,14 @@ class _HomePageState extends State<HomePage> {
                             radius: 30,
                             backgroundImage: photoUrl != null ? NetworkImage(photoUrl!) : NetworkImage('https://static.vecteezy.com/system/resources/previews/004/026/956/non_2x/person-avatar-icon-free-vector.jpg'),
                           ),
+                          Text(
+                            'Welcome, $userName!', // Replace $userName with the actual username variable
+                            style: TextStyle(
+                              fontWeight: FontWeight.bold,
+                              fontSize: 18,
+                              color:Colors.purple,
+                            ),
+                          ),
                           Icon(
                             Ionicons.location,
                             size: 30,
@@ -173,11 +182,14 @@ class _HomePageState extends State<HomePage> {
                               color: Colors.purpleAccent,
                             ),
                           ),
+
+
                           Icon(
                             Ionicons.notifications,
                             size: 30,
                             color: Colors.purple,
                           ),
+
                         ],
                       ),
                     ),
@@ -186,6 +198,100 @@ class _HomePageState extends State<HomePage> {
                       style: TextStyle(
                         fontWeight: FontWeight.bold,
                         fontSize: 24,
+                      ),
+                    ),
+                    Padding(
+                      padding: EdgeInsets.symmetric(horizontal: 2, vertical: 5),
+                      child: SizedBox(
+                        height: 80,
+                        child: ListView(
+                          scrollDirection: Axis.horizontal,
+                          children: [
+                            CircleAvatar(
+                              backgroundImage: AssetImage('assets/images/hotel_im/hiltonb.jpg'),
+                              radius: 40,
+                            ),
+                            SizedBox(width: 10),
+                            CircleAvatar(
+                              backgroundImage: AssetImage('assets/images/hotel_im/sheratonb.jpg'),
+                              radius: 40,
+                            ),
+                            SizedBox(width: 10),
+                            CircleAvatar(
+                              backgroundImage: AssetImage('assets/images/hotel_im/skyb.jpg'),
+                              radius: 40,
+                            ),
+                            SizedBox(width: 10),
+                            CircleAvatar(
+                              backgroundImage: AssetImage('assets/images/hotel_im/capitalb.jpg'),
+                              radius: 40,
+                            ),
+                            SizedBox(width: 10),
+                            CircleAvatar(
+                              backgroundImage: AssetImage('assets/images/hotel_im/harmony.jpeg'),
+                              radius: 40,
+                            ),
+                            SizedBox(width: 10),
+                            CircleAvatar(
+                              backgroundImage: AssetImage('assets/images/hotel_im/skycityb.jpg'),
+                              radius: 40,
+                            ),
+                            SizedBox(width: 10),
+                            CircleAvatar(
+                              backgroundImage: AssetImage('assets/images/hotel_im/Ililib.jpeg'),
+                              radius: 40,
+                            ),
+
+                          ],
+                        ),
+                      ),
+
+                    ),
+                    const SizedBox(
+                      height: 20,
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: 2,
+                        vertical: 12,
+                      ),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          SizedBox(
+                            width: 320,
+                            child: TextField(
+                              decoration: InputDecoration(
+                                hintText: "Search for place",
+                                prefixIcon: Icon(
+                                  Icons.search,
+                                  size: 35,
+                                  color: const Color(0xff3c4657),
+                                ),
+                                border: OutlineInputBorder(
+                                  borderSide: const BorderSide(
+                                      width: 2.4,
+                                      color: Colors.purple),
+                                  borderRadius: BorderRadius.circular(12),
+                                ),
+                                enabledBorder: OutlineInputBorder(
+                                  borderSide: const BorderSide(
+                                      width: 2.4, color: Color(0xff3c4657)),
+                                ),
+                              ),
+                            ),
+                          ),
+                          Container(
+                            decoration: BoxDecoration(
+                              color: Colors.purple,
+                              borderRadius: BorderRadius.circular(8),
+                            ),
+                            height: 50,
+                            width: 50,
+                            child: const Icon(
+                                Icons.filter_alt, size: 35, color: Colors.white),
+                          ),
+                        ],
                       ),
                     ),
                     Container(
