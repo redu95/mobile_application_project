@@ -1,11 +1,18 @@
 import 'package:flutter/material.dart';
 
 class Detail extends StatelessWidget {
-  final String imageurl;
+  final String imageurl1;
+  final String imageurl2;
+  final String imageurl3;
   final String hotelName;
   final String hotelLocation;
 
-  const Detail(this.imageurl, this.hotelName, this.hotelLocation, {super.key});
+  const Detail(
+      this.imageurl1,
+      this.imageurl2,
+      this.imageurl3,
+      this.hotelName,
+      this.hotelLocation, );
 
   @override
   Widget build(BuildContext context) {
@@ -15,213 +22,199 @@ class Detail extends StatelessWidget {
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: [
-            const Text("\$106",style: TextStyle(fontSize: 40),
+            const Text(
+              "\$106",
+              style: TextStyle(fontSize: 40),
             ),
             SizedBox(
               height: 60,
               child: MaterialButton(
                 minWidth: 280,
-                onPressed:(){},
+                onPressed: () {},
                 shape: RoundedRectangleBorder(
-                  borderRadius:BorderRadius.circular(12),),
+                  borderRadius: BorderRadius.circular(12),
+                ),
                 color: const Color(0xff3C4657),
                 child: const Text(
-                  "Select room",style: TextStyle(fontSize:22,color: Colors.white ),
+                  "Book Now",
+                  style: TextStyle(fontSize: 22, color: Colors.white),
                 ),
               ),
             )
           ],
-
         ),
-      ) ,
-      body:SafeArea(
-      child:Column(
-        children: [
-          Container(
-            height: MediaQuery.of(context).size.height * 0.3,
-            width: double.infinity,
-            decoration: BoxDecoration(
-              image: DecorationImage(
-                image: AssetImage(imageurl),
-                fit: BoxFit.cover,
+      ),
+      body: SafeArea(
+        child: SingleChildScrollView(
+          child: Column(
+            children: [
+              SizedBox(
+                height: MediaQuery.of(context).size.height * 0.3,
+                child: ListView(
+                  scrollDirection: Axis.horizontal,
+                  children: [
+                    Image.asset(
+                      imageurl1,
+                      fit: BoxFit.cover,
+                    ),
+                    Image.asset(
+                      imageurl2,
+                      fit: BoxFit.cover,
+                    ),
+                    Image.asset(
+                      imageurl3,
+                      fit: BoxFit.cover,
+                    ),
+                  ],
+                ),
               ),
-            ),
-            child: Stack(
-
-              children: [
-
-                Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 12.0, vertical: 12),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      hotelName,
+                      style: const TextStyle(
+                        fontSize: 28,
+                        fontWeight: FontWeight.w800,
+                        color: Colors.black,
+                      ),
+                    ),
+                    const Row(
+                      children: [
+                        Icon(
+                          Icons.star,
+                          color: Colors.yellow,
+                          size: 30,
+                        ),
+                        Icon(
+                          Icons.star,
+                          color: Colors.yellow,
+                          size: 30,
+                        ),
+                        Icon(
+                          Icons.star,
+                          color: Colors.yellow,
+                          size: 30,
+                        ),
+                        Icon(
+                          Icons.star,
+                          color: Colors.yellow,
+                          size: 30,
+                        ),
+                        Icon(
+                          Icons.star,
+                          color: Colors.yellow,
+                          size: 30,
+                        ),
+                      ],
+                    ),
+                    Row(
+                      children: [
+                        const Icon(Icons.location_on, size: 30),
+                        Text(
+                          hotelLocation,
+                          style: const TextStyle(fontSize: 24),
+                        ),
+                      ],
+                    ),
+                  ],
+                ),
+              ),
+              const Padding(
+                padding: EdgeInsets.symmetric(horizontal: 12.0, vertical: 6),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      "Detail",
+                      style: TextStyle(fontSize: 22),
+                    ),
+                    Text(
+                      "Our hotel is a prestigious hotel in Addis Ababa, Ethiopia, offering luxurious accommodations, exceptional amenities, and a prime location. With elegant rooms, exquisite dining, and extensive facilities, it guarantees a memorable stay.",
+                      style: TextStyle(fontSize: 14),
+                    ),
+                  ],
+                ),
+              ),
+              SingleChildScrollView(
+                scrollDirection: Axis.horizontal,
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 12.0, vertical: 10),
+                  child: Wrap(
+                    spacing: 40.0, // Increased spacing between icons
+                    runSpacing: 10.0,
                     children: [
                       Container(
-                        height: 50,
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(12),
-                          color: const Color(0xFFF8FCFF),
-                        ),
+                        margin: const EdgeInsets.only(left: 10.0), // Add left margin to the first icon
+                        height: 60,
                         width: 60,
-                        child: IconButton(
-                          onPressed: () {
-                            Navigator.pop(context);
-                          },
-                          icon: const Icon(Icons.arrow_back_ios, size: 30, color: Colors.purple,),
-                          iconSize: 30,
+                        decoration: BoxDecoration(
+                          color: const Color.fromARGB(255, 145, 233, 148),
+                          borderRadius: BorderRadius.circular(12),
+                        ),
+                        child: const Icon(
+                          Icons.wifi,
+                          size: 40,
                         ),
                       ),
                       Container(
-                        height: 50,
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(12),
-                          color: const Color(0xFFF8FCFF),
-
-                        ),
+                        height: 60,
                         width: 60,
+                        decoration: BoxDecoration(
+                          color: const Color.fromARGB(255, 158, 228, 221),
+                          borderRadius: BorderRadius.circular(12),
+                        ),
                         child: const Icon(
-
-                          Icons.favorite_border,size: 30, color: Colors.purple,),
+                          Icons.ac_unit,
+                          size: 40,
+                        ),
                       ),
-
-
+                      Container(
+                        height: 60,
+                        width: 60,
+                        decoration: BoxDecoration(
+                          color: const Color.fromARGB(255, 245, 214, 167),
+                          borderRadius: BorderRadius.circular(12),
+                        ),
+                        child: const Icon(
+                          Icons.restaurant,
+                          size: 40,
+                        ),
+                      ),
+                      Container(
+                        height: 60,
+                        width: 60,
+                        decoration: BoxDecoration(
+                          color: const Color.fromARGB(255, 145, 233, 148),
+                          borderRadius: BorderRadius.circular(12),
+                        ),
+                        child: const Icon(
+                          Icons.car_rental,
+                          size: 40,
+                        ),
+                      ),
+                      Container(
+                        height: 60,
+                        width: 60,
+                        decoration: BoxDecoration(
+                          color: const Color.fromARGB(255, 114, 195, 233),
+                          borderRadius: BorderRadius.circular(12),
+                        ),
+                        child: const Icon(
+                          Icons.pool,
+                          size: 40,
+                        ),
+                      ),
                     ],
                   ),
-                )
-              ],
-            ),
+                ),
+              ),
+            ],
           ),
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 12.0, vertical: 12),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  hotelName,
-                  style: const TextStyle(
-                    fontSize: 28,
-                    fontWeight: FontWeight.w800,
-                    color: Colors.black,
-                  ),
-                ),
-                const Row(
-                  children: [
-                    Icon(
-                      Icons.star,
-                      color: Colors.yellow,
-                      size: 30,
-                    ),
-                    Icon(
-                      Icons.star,
-                      color: Colors.yellow,
-                      size: 30,
-                    ),
-                    Icon(
-                      Icons.star,
-                      color: Colors.yellow,
-                      size: 30,
-                    ),
-                    Icon(
-                      Icons.star,
-                      color: Colors.yellow,
-                      size: 30,
-                    ),
-                    Icon(
-                      Icons.star,
-                      color: Colors.yellow,
-                      size: 30,
-                    ),
-                  ],
-                ),
-                Row(
-                  children: [
-                    const Icon(Icons.location_on, size: 30),
-                    Text(
-                      hotelLocation,
-                      style: const TextStyle(fontSize: 24),
-                    ),
-                  ],
-                ),
-              ],
-            ),
-          ),
-          const Padding(
-            padding: EdgeInsets.symmetric(horizontal: 12.0, vertical: 6),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  "Detail",
-                  style: TextStyle(fontSize: 22),
-                ),
-                Text(
-                  "Our hotel  is a prestigious hotel in Addis Ababa, Ethiopia, offering luxurious accommodations, "
-                      "exceptional amenities, and prime location. With elegant rooms, "
-                      "exquisite dining, and extensive facilities, it guarantees a memorable stay.",
-                style: TextStyle(fontSize:14 ),),
-              ],
-            ),
-          ),
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal:12.0,vertical: 10 ),
-            child: Row(
-              mainAxisAlignment:MainAxisAlignment.spaceBetween ,
-              children: [
-                Container(
-                  height: 60,
-                  width: 60,
-                  decoration: BoxDecoration(
-                    color: const Color.fromARGB(255, 145, 233, 148),
-                    borderRadius: BorderRadius.circular(12),
-
-                  ),
-                  child: const Icon(Icons.wifi,size: 40,),
-                ),
-                Container(
-                  height: 60,
-                  width: 60,
-                  decoration: BoxDecoration(
-                    color: const Color.fromARGB(255, 158, 228, 221),
-                    borderRadius: BorderRadius.circular(12),
-
-                  ),
-                  child: const Icon(Icons.ac_unit,size: 40,),
-                )
-                ,Container(
-                  height: 60,
-                  width: 60,
-                  decoration: BoxDecoration(
-                    color: const Color.fromARGB(255, 245, 214, 167),
-                    borderRadius: BorderRadius.circular(12),
-
-                  ),
-                  child: const Icon(Icons.restaurant,size: 40,),
-                ),
-                Container(
-                  height: 60,
-                  width: 60,
-                  decoration: BoxDecoration(
-                    color: const Color.fromARGB(255, 145, 233, 148),
-                    borderRadius: BorderRadius.circular(12),
-
-                  ),
-                  child: const Icon(Icons.car_rental,size: 40,),
-                ),
-                Container(
-                  height: 60,
-                  width: 60,
-                  decoration: BoxDecoration(
-                    color: const Color.fromARGB(255, 114, 195, 233),
-                    borderRadius: BorderRadius.circular(12),
-
-                  ),
-                  child: const Icon(Icons.pool,size: 40,),
-                )
-              ],
-            ),
-          ),
-
-        ],
+        ),
       ),
-      ));
+    );
   }
 }
