@@ -12,7 +12,8 @@ class Detail extends StatelessWidget {
       this.imageurl2,
       this.imageurl3,
       this.hotelName,
-      this.hotelLocation, );
+      this.hotelLocation,
+      );
 
   @override
   Widget build(BuildContext context) {
@@ -50,22 +51,71 @@ class Detail extends StatelessWidget {
             children: [
               SizedBox(
                 height: MediaQuery.of(context).size.height * 0.3,
-                child: ListView(
+                child: SingleChildScrollView(
                   scrollDirection: Axis.horizontal,
-                  children: [
-                    Image.asset(
-                      imageurl1,
-                      fit: BoxFit.cover,
-                    ),
-                    Image.asset(
-                      imageurl2,
-                      fit: BoxFit.cover,
-                    ),
-                    Image.asset(
-                      imageurl3,
-                      fit: BoxFit.cover,
-                    ),
-                  ],
+                  child: Row(
+                    children: [
+                      Container(
+                        margin: const EdgeInsets.only(right: 10),
+                        child: Stack(
+                          children: [
+                            Image.asset(
+                              imageurl1,
+                              fit: BoxFit.cover,
+                            ),
+                            Positioned(
+                              top: 10,
+                              left: 10,
+                              child: Container(
+                                height: 40,
+                                width: 40,
+                                decoration: BoxDecoration(
+                                  color: Colors.white,
+                                  borderRadius: BorderRadius.circular(8),
+                                ),
+                                child: IconButton(
+                                  onPressed: () {
+                                    Navigator.pop(context);
+                                  },
+                                  icon: const Icon(Icons.arrow_back_ios, size: 20, color: Colors.purple),
+                                ),
+                              ),
+                            ),
+                            Positioned(
+                              top: 10,
+                              right: 10,
+                              child: Container(
+                                height: 40,
+                                width: 40,
+                                decoration: BoxDecoration(
+                                  color: Colors.white,
+                                  borderRadius: BorderRadius.circular(8),
+                                ),
+                                child: IconButton(
+                                  onPressed: () {},
+                                  icon: const Icon(Icons.favorite_border, size: 20, color: Colors.purple),
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                      Container(
+                        margin: const EdgeInsets.only(right: 10),
+                        child: Image.asset(
+                          imageurl2,
+                          fit: BoxFit.cover,
+                        ),
+                      ),
+                      Container(
+                        margin: const EdgeInsets.only(right: 10),
+                        child: Image.asset(
+                          imageurl3,
+                          fit: BoxFit.cover,
+                        ),
+                      ),
+                    ],
+                  ),
                 ),
               ),
               Padding(
@@ -81,7 +131,7 @@ class Detail extends StatelessWidget {
                         color: Colors.black,
                       ),
                     ),
-                    const Row(
+                    Row(
                       children: [
                         Icon(
                           Icons.star,
@@ -112,7 +162,7 @@ class Detail extends StatelessWidget {
                     ),
                     Row(
                       children: [
-                        const Icon(Icons.location_on, size: 30),
+                        Icon(Icons.location_on, size: 30),
                         Text(
                           hotelLocation,
                           style: const TextStyle(fontSize: 24),
@@ -131,90 +181,134 @@ class Detail extends StatelessWidget {
                       "Detail",
                       style: TextStyle(fontSize: 22),
                     ),
-                    Text(
-                      "Our hotel is a prestigious hotel in Addis Ababa, Ethiopia, offering luxurious accommodations, exceptional amenities, and a prime location. With elegant rooms, exquisite dining, and extensive facilities, it guarantees a memorable stay.",
+                    Text("Welcome to our luxurious hotel! Located in the heart of the city, our hotel offers a comfortable and elegant stay for both business and leisure travelers. With our world-class amenities and exceptional service, we strive to make your stay truly memorable.",
                       style: TextStyle(fontSize: 14),
                     ),
                   ],
+
                 ),
               ),
               SingleChildScrollView(
                 scrollDirection: Axis.horizontal,
                 child: Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 12.0, vertical: 10),
-                  child: Wrap(
-                    spacing: 40.0, // Increased spacing between icons
-                    runSpacing: 10.0,
+                  child: Row(
                     children: [
-                      Container(
-                        margin: const EdgeInsets.only(left: 10.0), // Add left margin to the first icon
-                        height: 60,
-                        width: 60,
-                        decoration: BoxDecoration(
-                          color: const Color.fromARGB(255, 145, 233, 148),
-                          borderRadius: BorderRadius.circular(12),
-                        ),
-                        child: const Icon(
+                      SizedBox(
+                        width: 140, // Adjust the width and spacing here
+                        child: _buildIconBox(
                           Icons.wifi,
-                          size: 40,
+                          "Free WiFi",
+                          const Color.fromARGB(255, 145, 233, 148),
                         ),
                       ),
-                      Container(
-                        height: 60,
-                        width: 60,
-                        decoration: BoxDecoration(
-                          color: const Color.fromARGB(255, 158, 228, 221),
-                          borderRadius: BorderRadius.circular(12),
-                        ),
-                        child: const Icon(
+                      SizedBox(width: 40), // Add spacing between icons
+                      SizedBox(
+                        width: 140, // Adjust the width and spacing here
+                        child: _buildIconBox(
                           Icons.ac_unit,
-                          size: 40,
+                          "Air Conditioning",
+                          const Color.fromARGB(255, 158, 228, 221),
                         ),
                       ),
-                      Container(
-                        height: 60,
-                        width: 60,
-                        decoration: BoxDecoration(
-                          color: const Color.fromARGB(255, 245, 214, 167),
-                          borderRadius: BorderRadius.circular(12),
-                        ),
-                        child: const Icon(
+                      SizedBox(width: 40), // Add spacing between icons
+                      SizedBox(
+                        width: 140, // Adjust the width and spacing here
+                        child: _buildIconBox(
                           Icons.restaurant,
-                          size: 40,
+                          "Restaurant",
+                          const Color.fromARGB(255, 245, 214, 167),
                         ),
                       ),
-                      Container(
-                        height: 60,
-                        width: 60,
-                        decoration: BoxDecoration(
-                          color: const Color.fromARGB(255, 145, 233, 148),
-                          borderRadius: BorderRadius.circular(12),
-                        ),
-                        child: const Icon(
+                      SizedBox(width: 40), // Add spacing between icons
+                      SizedBox(
+                        width: 140, // Adjust the width and spacing here
+                        child: _buildIconBox(
                           Icons.car_rental,
-                          size: 40,
+                          "Car Rental",
+                          const Color.fromARGB(255, 145, 233, 148),
                         ),
                       ),
-                      Container(
-                        height: 60,
-                        width: 60,
-                        decoration: BoxDecoration(
-                          color: const Color.fromARGB(255, 114, 195, 233),
-                          borderRadius: BorderRadius.circular(12),
-                        ),
-                        child: const Icon(
+                      SizedBox(width: 40), // Add spacing between icons
+                      SizedBox(
+                        width: 140, // Adjust the width and spacing here
+                        child: _buildIconBox(
                           Icons.pool,
-                          size: 40,
+                          "Swimming Pool",
+                          const Color.fromARGB(255, 114, 195, 233),
                         ),
                       ),
                     ],
                   ),
                 ),
-              ),
+              )
             ],
           ),
         ),
       ),
+    );
+  }
+
+  Widget _buildIconBox(IconData icon, String text, Color color) {
+    return Container(
+      margin: const EdgeInsets.only(right: 10.0),
+      height: 80,
+      width: 100, // Increase the width to provide more space for the text
+      decoration: BoxDecoration(
+        color: color,
+        borderRadius: BorderRadius.circular(12),
+      ),
+      child: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 8.0), // Add horizontal padding
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Icon(
+              icon,
+              size: 40,
+              color: Colors.white,
+            ),
+            const SizedBox(height: 6),
+            Flexible(
+              child: Text(
+                text,
+                textAlign: TextAlign.center, // Align the text at the center
+                style: const TextStyle(
+                  fontSize: 12,
+                  color: Colors.white,
+                ),
+              ),
+            ),
+            // Inside the `Column` widget, add the following section after the existing code:
+
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 12.0, vertical: 10),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    'Additional Information',
+                    style: TextStyle(fontSize: 22),
+                  ),
+
+                  const SizedBox(height: 10),
+                  Text(
+                    'Our hotel features a state-of-the-art fitness center, relaxing spa, and a rooftop swimming pool with stunning city views. Guests can indulge in a variety of dining options at our on-site restaurants, serving a wide range of international cuisines.',
+                    style: TextStyle(fontSize: 16),
+                  ),
+                  const SizedBox(height: 10),
+                  Text(
+                    'We are conveniently located near major attractions and shopping centers, making it easy for you to explore the city and enjoy your leisure time. Our dedicated and friendly staff is available 24/7 to assist you with any requests or inquiries you may have.',
+                    style: TextStyle(fontSize: 16),
+                  ),
+                ],
+              ),
+            ),
+          ],
+        ),
+
+      ),
+
     );
   }
 }
