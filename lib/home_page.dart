@@ -367,7 +367,7 @@ class _HomePageState extends State<HomePage> {
                     const SizedBox(height: 10,),
                     Container(
                       margin: EdgeInsets.symmetric(horizontal: 4, vertical: 12),
-                      height: 300,
+                      height: 220,
                       width: double.infinity,
                       child: ListView.builder(
                         scrollDirection: Axis.horizontal,
@@ -387,9 +387,9 @@ class _HomePageState extends State<HomePage> {
                               );
                             },
                             child: Container(
-                              height: 240,
+                              height: 200,
                               margin: EdgeInsets.symmetric(horizontal: 8),
-                              width: 480,
+                              width: 360,
                               decoration: BoxDecoration(
                                 borderRadius: BorderRadius.circular(12),
                                 border: Border.all(
@@ -400,7 +400,7 @@ class _HomePageState extends State<HomePage> {
                               child: Row(
                                 children: [
                                   Container(
-                                    width: 240,
+                                    width: 120,
                                     decoration: BoxDecoration(
                                       borderRadius: BorderRadius.only(
                                         topLeft: Radius.circular(12),
@@ -419,11 +419,12 @@ class _HomePageState extends State<HomePage> {
                                       padding: EdgeInsets.all(8),
                                       child: Column(
                                         crossAxisAlignment: CrossAxisAlignment.start,
+                                        mainAxisAlignment: MainAxisAlignment.end,
                                         children: [
                                           Text(
                                             object.getData[index].name,
                                             style: TextStyle(
-                                              fontSize: 24,
+                                              fontSize: 16,
                                               color: Colors.black,
                                               fontWeight: FontWeight.w600,
                                             ),
@@ -433,14 +434,14 @@ class _HomePageState extends State<HomePage> {
                                             children: [
                                               Icon(
                                                 Icons.location_on,
-                                                size: 20,
+                                                size: 14,
                                                 color: Colors.black,
                                               ),
                                               SizedBox(width: 4),
                                               Text(
                                                 object.getData[index].location,
                                                 style: TextStyle(
-                                                  fontSize: 18,
+                                                  fontSize: 12,
                                                   color: Colors.black,
                                                   fontWeight: FontWeight.w600,
                                                 ),
