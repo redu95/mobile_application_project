@@ -367,7 +367,7 @@ class _HomePageState extends State<HomePage> {
                     const SizedBox(height: 10,),
                     Container(
                       margin: EdgeInsets.symmetric(horizontal: 4, vertical: 12),
-                      height: 220,
+                      height: 160, // Adjust the height to your desired value
                       width: double.infinity,
                       child: ListView.builder(
                         scrollDirection: Axis.horizontal,
@@ -399,9 +399,9 @@ class _HomePageState extends State<HomePage> {
                               });
                             },
                             child: Container(
-                              height: 200,
+                              height: 140, // Adjust the height to your desired value
                               margin: EdgeInsets.symmetric(horizontal: 8),
-                              width: 360,
+                              width: 280, // Adjust the width to your desired value
                               decoration: BoxDecoration(
                                 borderRadius: BorderRadius.circular(12),
                                 border: Border.all(
@@ -412,7 +412,7 @@ class _HomePageState extends State<HomePage> {
                               child: Row(
                                 children: [
                                   Container(
-                                    width: 120,
+                                    width: 80, // Adjust the width to your desired value
                                     decoration: BoxDecoration(
                                       borderRadius: BorderRadius.only(
                                         topLeft: Radius.circular(12),
@@ -420,7 +420,7 @@ class _HomePageState extends State<HomePage> {
                                       ),
                                       image: DecorationImage(
                                         image: AssetImage(
-                                          object.getData[index].imageurl,
+                                          object.getAnotherData[index].imageurl,
                                         ),
                                         fit: BoxFit.cover,
                                       ),
@@ -434,7 +434,7 @@ class _HomePageState extends State<HomePage> {
                                         mainAxisAlignment: MainAxisAlignment.end,
                                         children: [
                                           Text(
-                                            object.getData[index].name,
+                                            object.getAnotherData[index].name,
                                             style: TextStyle(
                                               fontSize: 16,
                                               color: Colors.black,
@@ -451,15 +451,24 @@ class _HomePageState extends State<HomePage> {
                                               ),
                                               SizedBox(width: 4),
                                               Text(
-                                                object.getData[index].location,
+                                                object.getAnotherData[index].location,
                                                 style: TextStyle(
                                                   fontSize: 12,
                                                   color: Colors.black,
-                                                  fontWeight: FontWeight.w600,
+                                                  fontWeight: FontWeight.w400,
                                                 ),
                                               ),
+
                                             ],
                                           ),
+                                          Text(
+                                            "Experience luxury!",style:
+                                          TextStyle(
+                                            fontSize: 12,
+                                            color: Colors.black,
+                                            fontWeight:FontWeight.w300,
+                                          ),
+                                          )
                                         ],
                                       ),
                                     ),
