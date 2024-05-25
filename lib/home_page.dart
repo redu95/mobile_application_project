@@ -176,7 +176,8 @@ class _HomePageState extends State<HomePage> {
                             color: Colors.purple,
                           ),
                           Text(
-                            "Addis Abeba Ethiopia",
+                            "Adis"
+                                " Ethiopia",
                             style: TextStyle(
                               fontWeight: FontWeight.w800,
                               fontSize: 18,
