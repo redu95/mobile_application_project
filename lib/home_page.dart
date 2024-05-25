@@ -98,7 +98,6 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   MenuSelection selectedOne = MenuSelection.menu1;
   DataHome object=DataHome();
-
   String userName ='';
   String email ="";
   String? photoUrl; // Add this variable to hold profile picture URL
@@ -192,6 +191,13 @@ class _HomePageState extends State<HomePage> {
                           ),
 
                         ],
+                      ),
+                    ),
+                    Text(
+                      'Welcome, $userName!', // Replace $userName with the actual username variable
+                      style: TextStyle(
+                        fontWeight: FontWeight.bold,
+                        fontSize: 24,
                       ),
                     ),
                     Padding(
