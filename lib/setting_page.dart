@@ -142,265 +142,271 @@ class _SettingPageState extends State<SettingPage> {
       body: isLoading
           ? Center(child: CircularProgressIndicator())
           : SingleChildScrollView(
-        padding: EdgeInsets.all(20),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text(
-              AppLocalizations.of(context)!.settings ?? '',
-              style: TextStyle(
-                fontSize: 32,
-                fontWeight: FontWeight.bold,
-              ),
-            ),
-            SizedBox(height: 30),
-            Text(
-              AppLocalizations.of(context)!.account ?? '',
-              style: TextStyle(
-                fontSize: 24,
-                fontWeight: FontWeight.w500,
-              ),
-            ),
-            buildAccount(
-              title: userName,
-              subtitle: email,
-              image: NetworkImage(photoUrl ??
-                  'https://static.vecteezy.com/system/resources/previews/004/026/956/non_2x/person-avatar-icon-free-vector.jpg'),
-              onTap: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => EditAccountPage(
-                      userName: userName,
-                      email: email,
-                      onSave: (String newName, String newEmail,
-                          File? newImage, String newGender) async {
-                        try {
-                          await FirebaseFirestore.instance
-                              .collection('users')
-                              .doc(user.uid)
-                              .update({
-                            'userName': newName,
-                            'email': newEmail,
-                            if (newImage != null)
-                              'photoUrl': await uploadImage(newImage),
-                            'gender': newGender,
-                          });
-                          await loadUserInfo(user.uid);
-                          Navigator.pop(context);
-                        } catch (e) {
-                          print("Error updating user info: $e");
-                        }
+              padding: EdgeInsets.all(20),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    AppLocalizations.of(context)!.settings ?? '',
+                    style: TextStyle(
+                      fontSize: 32,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                  SizedBox(height: 30),
+                  Text(
+                    AppLocalizations.of(context)!.account ?? '',
+                    style: TextStyle(
+                      fontSize: 24,
+                      fontWeight: FontWeight.w500,
+                    ),
+                  ),
+                  buildAccount(
+                    title: userName,
+                    subtitle: email,
+                    image: NetworkImage(photoUrl ??
+                        'https://static.vecteezy.com/system/resources/previews/004/026/956/non_2x/person-avatar-icon-free-vector.jpg'),
+                    onTap: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => EditAccountPage(
+                            userName: userName,
+                            email: email,
+                            onSave: (String newName, String newEmail,
+                                File? newImage, String newGender) async {
+                              try {
+                                await FirebaseFirestore.instance
+                                    .collection('users')
+                                    .doc(user.uid)
+                                    .update({
+                                  'userName': newName,
+                                  'email': newEmail,
+                                  if (newImage != null)
+                                    'photoUrl': await uploadImage(newImage),
+                                  'gender': newGender,
+                                });
+                                await loadUserInfo(user.uid);
+                                Navigator.pop(context);
+                              } catch (e) {
+                                print("Error updating user info: $e");
+                              }
+                            },
+                          ),
+                        ),
+                      );
+                    },
+                  ),
+                  SizedBox(height: 40),
+                  Text(
+                    AppLocalizations.of(context)!.settings ?? '',
+                    style: TextStyle(
+                      fontSize: 24,
+                      fontWeight: FontWeight.w500,
+                    ),
+                  ),
+                  SizedBox(height: 30),
+                  ListTile( // Bookings
+                    leading: CircleAvatar(
+                      radius: 30,
+                      backgroundColor: Colors.purple.shade50,
+                      child: Icon(
+                        Ionicons.calendar,
+                        size: 30,
+                        color: Colors.deepPurple,
+                      ),
+                    ),
+                    title: Text(
+                      AppLocalizations.of(context)!.bookings ?? '',
+                      style: TextStyle(
+                        fontSize: 18,
+                        fontWeight: FontWeight.w500,
+                      ),
+                    ),
+                  ),
+                  SizedBox(height: 20),
+                  ListTile( // Favorites
+                    leading: CircleAvatar(
+                      radius: 30,
+                      backgroundColor: Colors.purple.shade50,
+                      child: Icon(
+                        Ionicons.heart,
+                        size: 30,
+                        color: Colors.deepPurple,
+                      ),
+                    ),
+                    title: Text(
+                      AppLocalizations.of(context)!.favorites ?? '',
+                      style: TextStyle(
+                        fontSize: 18,
+                        fontWeight: FontWeight.w500,
+                      ),
+                    ),
+                  ),
+                  SizedBox(height: 20),
+                  Text(
+                    AppLocalizations.of(context)!.appearances ?? '',
+                    style: TextStyle(
+                      fontSize: 18,
+                      fontWeight: FontWeight.w300,
+                    ),
+                  ),
+                  SizedBox(height: 30),
+                  ListTile(
+                    leading: CircleAvatar(
+                      radius: 30,
+                      backgroundColor: Colors.purple.shade50,
+                      child: Icon(
+                        Ionicons.language_outline,
+                        size: 30,
+                        color: Colors.deepPurple,
+                      ),
+                    ),
+                    title: Text(
+                      AppLocalizations.of(context)!.language ?? '',
+                      style: TextStyle(
+                        fontSize: 18,
+                        fontWeight: FontWeight.w500,
+                      ),
+                    ),
+                    onTap: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => const LanguageMenuDemo()),
+                      );
+                    },
+                  ),
+                  SizedBox(height: 20),
+                  ListTile( // Dark Mode
+                    leading: CircleAvatar(
+                      radius: 30,
+                      backgroundColor: Colors.purple.shade50,
+                      child: Icon(
+                        Ionicons.moon_outline,
+                        size: 30,
+                        color: Colors.deepPurple,
+                      ),
+                    ),
+                    title: Text(
+                      AppLocalizations.of(context)!.dark_Mode ?? '',
+                      style: TextStyle(
+                        fontSize: 18,
+                        fontWeight: FontWeight.w500,
+                      ),
+                    ),
+                    trailing: Switch(
+                      value: themeProvider.isDarkModeEnabled,
+                      onChanged: (value) {
+                        themeProvider.setThemeMode(value, user.uid);
                       },
                     ),
                   ),
-                );
-              },
-            ),
-            SizedBox(height: 40),
-            Text(
-              AppLocalizations.of(context)!.settings ?? '',
-              style: TextStyle(
-                fontSize: 24,
-                fontWeight: FontWeight.w500,
+                  SizedBox(height: 30),
+                  Text(
+                    AppLocalizations.of(context)!.help_And_Support ?? '',
+                    style: TextStyle(
+                      fontSize: 18,
+                      fontWeight: FontWeight.w300,
+                    ),
+                  ),
+                  SizedBox(height: 30),
+                  ListTile(
+                    leading: CircleAvatar(
+                      radius: 30,
+                      backgroundColor: Colors.purple.shade50,
+                      child: Icon(
+                        Ionicons.help,
+                        size: 30,
+                        color: Colors.deepPurple,
+                      ),
+                    ),
+                    title: Text(
+                      AppLocalizations.of(context)!.help ?? '',
+                      style: TextStyle(
+                        fontSize: 18,
+                        fontWeight: FontWeight.w500,
+                      ),
+                    ),
+                    onTap: () {
+                        {
+                          Navigator.push(
+                            context, MaterialPageRoute(builder: (context) => const HelpDemo()),//redirect to help page
+                          );
+                        };
+                     },
+                  ),
+                  SizedBox(height: 20),
+                  ListTile(
+                    leading: CircleAvatar(
+                      radius: 30,
+                      backgroundColor: Colors.purple.shade50,
+                      child: Icon(
+                        Ionicons.shield,
+                        size: 30,
+                        color: Colors.deepPurple,
+                      ),
+                    ),
+                    title: Text(
+                      AppLocalizations.of(context)!.privacy ?? '',
+                      style: TextStyle(
+                        fontSize: 18,
+                        fontWeight: FontWeight.w500,
+                      ),
+                    ),
+                  ),
+                  SizedBox(height: 20),
+                  ListTile(
+                    leading: CircleAvatar(
+                      radius: 30,
+                      backgroundColor: Colors.purple.shade50,
+                      child: Icon(
+                        Ionicons.log_out_outline,
+                        size: 30,
+                        color: Colors.deepPurple,
+                      ),
+                    ),
+                    title: Text(
+                      AppLocalizations.of(context)!.log_Out ?? '',
+                      style: TextStyle(
+                        fontSize: 18,
+                        fontWeight: FontWeight.w500,
+                      ),
+                    ),
+                    onTap: () {
+                      showDialog(
+                        context: context,
+                        builder: (BuildContext context) {
+                          return AlertDialog(
+                            title: Text(
+                                AppLocalizations.of(context)!.log_Out ?? ''),
+                            content: Text("Do you really want to log out?"),
+                            actions: [
+                              TextButton(
+                                onPressed: () {
+                                  Navigator.of(context).pop();
+                                },
+                                child:
+                                Text(AppLocalizations.of(context)!.cancel ??
+                                    ''),
+                              ),
+                              TextButton(
+                                onPressed: () async {
+                                  await logOut(context);
+                                  await refreshUserData();
+                                },
+                                child: Text(
+                                    AppLocalizations.of(context)!.log_Out ??
+                                        "Log Out"),
+                              ),
+                            ],
+                          );
+                        },
+                      );
+                    },
+                  ),
+                ],
               ),
-            ),
-            SizedBox(height: 20),
-            ListTile(
-              leading: CircleAvatar(
-                radius: 30,
-                backgroundColor: Colors.purple.shade50,
-                child: Icon(
-                  Ionicons.calendar,
-                  size: 30,
-                  color: Colors.deepPurple,
-                ),
-              ),
-              title: Text(
-                AppLocalizations.of(context)!.bookings ?? '',
-                style: TextStyle(
-                  fontSize: 18,
-                  fontWeight: FontWeight.w500,
-                ),
-              ),
-            ),
-            ListTile(
-              leading: CircleAvatar(
-                radius: 30,
-                backgroundColor: Colors.purple.shade50,
-                child: Icon(
-                  Ionicons.heart,
-                  size: 30,
-                  color: Colors.deepPurple,
-                ),
-              ),
-              title: Text(
-                AppLocalizations.of(context)!.favorites ?? '',
-                style: TextStyle(
-                  fontSize: 18,
-                  fontWeight: FontWeight.w500,
-                ),
-              ),
-            ),
-            SizedBox(height: 20),
-            Text(
-              AppLocalizations.of(context)!.appearances ?? '',
-              style: TextStyle(
-                fontSize: 18,
-                fontWeight: FontWeight.w300,
-              ),
-            ),
-            ListTile(
-              leading: CircleAvatar(
-                radius: 30,
-                backgroundColor: Colors.purple.shade50,
-                child: Icon(
-                  Ionicons.language_outline,
-                  size: 30,
-                  color: Colors.deepPurple,
-                ),
-              ),
-              title: Text(
-                AppLocalizations.of(context)!.language ?? '',
-                style: TextStyle(
-                  fontSize: 18,
-                  fontWeight: FontWeight.w500,
-                ),
-              ),
-              onTap: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                      builder: (context) => const LanguageMenuDemo()),
-                );
-              },
-            ),
-            ListTile(
-              leading: CircleAvatar(
-                radius: 30,
-                backgroundColor: Colors.purple.shade50,
-                child: Icon(
-                  Ionicons.moon_outline,
-                  size: 30,
-                  color: Colors.deepPurple,
-                ),
-              ),
-              title: Text(
-                AppLocalizations.of(context)!.dark_Mode ?? '',
-                style: TextStyle(
-                  fontSize: 18,
-                  fontWeight: FontWeight.w500,
-                ),
-              ),
-              trailing: Switch(
-                value: themeProvider.isDarkModeEnabled,
-                onChanged: (value) {
-                  themeProvider.setThemeMode(value, user.uid);
-                },
-              ),
-            ),
-            SizedBox(height: 20),
-            Text(
-              AppLocalizations.of(context)!.help_And_Support ?? '',
-              style: TextStyle(
-                fontSize: 18,
-                fontWeight: FontWeight.w300,
-              ),
-            ),
-            ListTile(
-              leading: CircleAvatar(
-                radius: 30,
-                backgroundColor: Colors.purple.shade50,
-                child: Icon(
-                  Ionicons.help,
-                  size: 30,
-                  color: Colors.deepPurple,
-                ),
-              ),
-              title: Text(
-                AppLocalizations.of(context)!.help ?? '',
-                style: TextStyle(
-                  fontSize: 18,
-                  fontWeight: FontWeight.w500,
-                ),
-              ),
-              onTap: () {
-                  {
-                    Navigator.push(
-                      context, MaterialPageRoute(builder: (context) => const HelpDemo()),//redirect to help page
-                    );
-                  };
-               },
-            ),
-            ListTile(
-              leading: CircleAvatar(
-                radius: 30,
-                backgroundColor: Colors.purple.shade50,
-                child: Icon(
-                  Ionicons.shield,
-                  size: 30,
-                  color: Colors.deepPurple,
-                ),
-              ),
-              title: Text(
-                AppLocalizations.of(context)!.privacy ?? '',
-                style: TextStyle(
-                  fontSize: 18,
-                  fontWeight: FontWeight.w500,
-                ),
-              ),
-            ),
-            ListTile(
-              leading: CircleAvatar(
-                radius: 30,
-                backgroundColor: Colors.purple.shade50,
-                child: Icon(
-                  Ionicons.log_out_outline,
-                  size: 30,
-                  color: Colors.deepPurple,
-                ),
-              ),
-              title: Text(
-                AppLocalizations.of(context)!.log_Out ?? '',
-                style: TextStyle(
-                  fontSize: 18,
-                  fontWeight: FontWeight.w500,
-                ),
-              ),
-              onTap: () {
-                showDialog(
-                  context: context,
-                  builder: (BuildContext context) {
-                    return AlertDialog(
-                      title: Text(
-                          AppLocalizations.of(context)!.log_Out ?? ''),
-                      content: Text("Do you really want to log out?"),
-                      actions: [
-                        TextButton(
-                          onPressed: () {
-                            Navigator.of(context).pop();
-                          },
-                          child:
-                          Text(AppLocalizations.of(context)!.cancel ??
-                              ''),
-                        ),
-                        TextButton(
-                          onPressed: () async {
-                            await logOut(context);
-                            await refreshUserData();
-                          },
-                          child: Text(
-                              AppLocalizations.of(context)!.log_Out ??
-                                  "Log Out"),
-                        ),
-                      ],
-                    );
-                  },
-                );
-              },
-            ),
-          ],
-        ),
       ),
     );
   }
