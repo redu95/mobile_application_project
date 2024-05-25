@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+import 'booking.dart';
+
 class Detail extends StatelessWidget {
   final String imageurl;
   final String hotelName;
@@ -21,14 +23,24 @@ class Detail extends StatelessWidget {
               height: 60,
               child: MaterialButton(
                 minWidth: 280,
-                onPressed:(){},
+                onPressed:(){
+
+                    {
+                      Navigator.push(
+                        context, MaterialPageRoute(builder: (context) => const BookingDemo()),//redirect to booking form
+                      );
+                    };
+
+                },
                 shape: RoundedRectangleBorder(
                   borderRadius:BorderRadius.circular(12),),
                 color: const Color(0xff3C4657),
                 child: const Text(
                   "Select room",style: TextStyle(fontSize:22,color: Colors.white ),
                 ),
+
               ),
+
             )
           ],
 
