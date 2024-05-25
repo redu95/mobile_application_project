@@ -41,7 +41,7 @@ class Detail extends StatelessWidget {
                   style: TextStyle(fontSize: 22, color: Colors.white),
                 ),
               ),
-            )
+            ),
           ],
         ),
       ),
@@ -77,8 +77,11 @@ class Detail extends StatelessWidget {
                                   onPressed: () {
                                     Navigator.pop(context);
                                   },
-                                  icon: const Icon(Icons.arrow_back_ios,
-                                      size: 20, color: Colors.purple),
+                                  icon: const Icon(
+                                    Icons.arrow_back_ios,
+                                    size: 20,
+                                    color: Colors.purple,
+                                  ),
                                 ),
                               ),
                             ),
@@ -94,8 +97,11 @@ class Detail extends StatelessWidget {
                                 ),
                                 child: IconButton(
                                   onPressed: () {},
-                                  icon: const Icon(Icons.favorite_border,
-                                      size: 20, color: Colors.purple),
+                                  icon: const Icon(
+                                    Icons.favorite_border,
+                                    size: 20,
+                                    color: Colors.purple,
+                                  ),
                                 ),
                               ),
                             ),
@@ -121,8 +127,7 @@ class Detail extends StatelessWidget {
                 ),
               ),
               Padding(
-                padding:
-                const EdgeInsets.symmetric(horizontal: 12.0, vertical: 12),
+                padding: const EdgeInsets.symmetric(horizontal: 12.0, vertical: 12),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
@@ -194,8 +199,7 @@ class Detail extends StatelessWidget {
               SingleChildScrollView(
                 scrollDirection: Axis.horizontal,
                 child: Padding(
-                  padding:
-                  const EdgeInsets.symmetric(horizontal: 12.0, vertical: 10),
+                  padding: const EdgeInsets.symmetric(horizontal: 12.0, vertical: 10),
                   child: Row(
                     children: [
                       SizedBox(
@@ -247,8 +251,7 @@ class Detail extends StatelessWidget {
                 ),
               ),
               Padding(
-                padding:
-                const EdgeInsets.symmetric(horizontal: 12.0, vertical: 10),
+                padding: const EdgeInsets.symmetric(horizontal: 12.0, vertical: 10),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
@@ -268,6 +271,23 @@ class Detail extends StatelessWidget {
                     ),
                   ],
                 ),
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.end,
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.all(12.0),
+                    child: Row(
+                      children: [
+                        Icon(Icons.phone, size: 30),
+                        Text(
+                          "+1 123-456-7890",
+                          style: const TextStyle(fontSize: 24),
+                        ),
+                      ],
+                    ),
+                  ),
+                ],
               ),
             ],
           ),
