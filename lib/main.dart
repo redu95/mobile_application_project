@@ -32,6 +32,7 @@ class MyApp extends StatefulWidget {
 
 class _MyAppState extends State<MyApp> {
   Locale? _locale;
+  bool _isDarkModeEnabled = false;
 
   setLocale(Locale locale) {
     setState(() {
@@ -60,20 +61,20 @@ class _MyAppState extends State<MyApp> {
   Widget build(BuildContext context) {
     return LocaleBuilder(
       builder: (locale) => ChangeNotifierProvider(
-        create: (context) => ThemeSettings(false), // Provide the initial dark mode value
-        builder: (context, _) {
-          final settings = Provider.of<ThemeSettings>(context); // Access the ThemeSettings instance
-          return MaterialApp(
-            title: 'Addis Stay',
-            theme: settings.currentTheme,
-            localizationsDelegates: AppLocalizations.localizationsDelegates,
-            supportedLocales: AppLocalizations.supportedLocales,
-
-            locale: _locale,
-            home: const WelcomePage(),
-            debugShowCheckedModeBanner: false,
-          );
-        },
+        create: (context) => ThemeSettings(), // Provide the initial dark mode value
+        child: Consumer<ThemeSettings>(
+          builder: (context, themeSettings, _) {
+            return MaterialApp(
+              title: 'Addis Stay',
+              localizationsDelegates: AppLocalizations.localizationsDelegates,
+              supportedLocales: AppLocalizations.supportedLocales,
+              theme: themeSettings.currentTheme,
+              locale: _locale,
+              home: const WelcomePage(),
+              debugShowCheckedModeBanner: false,
+            );
+          },
+        ),
       ),
     );
   }
@@ -128,6 +129,7 @@ class _WelcomePageState extends State<WelcomePage> {
 
   @override
   Widget build(BuildContext context) {
+    final themeProvider = Provider.of<ThemeSettings>(context);
     return Scaffold(
       body: Stack(
         children: [

@@ -57,7 +57,7 @@ class PlaceListData{
         perNight: 180
     ),
     PlaceListData(
-        imgPath: "assets/images/hotel_im/skycityb.jpg.",
+        imgPath: "assets/images/hotel_im/skycityb.jpg",
         title: "SkyCity Hotel",
         sub: "Addis Ababa, Ethiopia",
         distance: 2.0,

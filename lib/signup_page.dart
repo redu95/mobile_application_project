@@ -45,7 +45,7 @@ class _SignUpPageState extends State<SignUpPage> {
           await FirebaseFirestore.instance.collection('users').doc(userCredential.user!.uid).set({
             'userName': userNameController.text.trim(),
             'email': emailController.text.trim(),
-            'bio': '',
+            'isDarkModeEnabled': false,
             'photoUrl': null,
             'gender': '',
           });
