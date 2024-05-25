@@ -77,7 +77,8 @@ class Detail extends StatelessWidget {
                                   onPressed: () {
                                     Navigator.pop(context);
                                   },
-                                  icon: const Icon(Icons.arrow_back_ios, size: 20, color: Colors.purple),
+                                  icon: const Icon(Icons.arrow_back_ios,
+                                      size: 20, color: Colors.purple),
                                 ),
                               ),
                             ),
@@ -93,7 +94,8 @@ class Detail extends StatelessWidget {
                                 ),
                                 child: IconButton(
                                   onPressed: () {},
-                                  icon: const Icon(Icons.favorite_border, size: 20, color: Colors.purple),
+                                  icon: const Icon(Icons.favorite_border,
+                                      size: 20, color: Colors.purple),
                                 ),
                               ),
                             ),
@@ -119,7 +121,8 @@ class Detail extends StatelessWidget {
                 ),
               ),
               Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 12.0, vertical: 12),
+                padding:
+                const EdgeInsets.symmetric(horizontal: 12.0, vertical: 12),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
@@ -181,57 +184,58 @@ class Detail extends StatelessWidget {
                       "Detail",
                       style: TextStyle(fontSize: 22),
                     ),
-                    Text("Welcome to our luxurious hotel! Located in the heart of the city, our hotel offers a comfortable and elegant stay for both business and leisure travelers. With our world-class amenities and exceptional service, we strive to make your stay truly memorable.",
+                    Text(
+                      "Welcome to our luxurious hotel! Located in the heart of the city, our hotel offers a comfortable and elegant stay for both business and leisure travelers. With our world-class amenities and exceptional service, we strive to make your stay truly memorable.",
                       style: TextStyle(fontSize: 14),
                     ),
                   ],
-
                 ),
               ),
               SingleChildScrollView(
                 scrollDirection: Axis.horizontal,
                 child: Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 12.0, vertical: 10),
+                  padding:
+                  const EdgeInsets.symmetric(horizontal: 12.0, vertical: 10),
                   child: Row(
                     children: [
                       SizedBox(
-                        width: 140, // Adjust the width and spacing here
+                        width: 140,
                         child: _buildIconBox(
                           Icons.wifi,
                           "Free WiFi",
                           const Color.fromARGB(255, 145, 233, 148),
                         ),
                       ),
-                      SizedBox(width: 40), // Add spacing between icons
+                      SizedBox(width: 40),
                       SizedBox(
-                        width: 140, // Adjust the width and spacing here
+                        width: 140,
                         child: _buildIconBox(
                           Icons.ac_unit,
                           "Air Conditioning",
                           const Color.fromARGB(255, 158, 228, 221),
                         ),
                       ),
-                      SizedBox(width: 40), // Add spacing between icons
+                      SizedBox(width: 40),
                       SizedBox(
-                        width: 140, // Adjust the width and spacing here
+                        width: 140,
                         child: _buildIconBox(
                           Icons.restaurant,
                           "Restaurant",
                           const Color.fromARGB(255, 245, 214, 167),
                         ),
                       ),
-                      SizedBox(width: 40), // Add spacing between icons
+                      SizedBox(width: 40),
                       SizedBox(
-                        width: 140, // Adjust the width and spacing here
+                        width: 140,
                         child: _buildIconBox(
                           Icons.car_rental,
                           "Car Rental",
                           const Color.fromARGB(255, 145, 233, 148),
                         ),
                       ),
-                      SizedBox(width: 40), // Add spacing between icons
+                      SizedBox(width: 40),
                       SizedBox(
-                        width: 140, // Adjust the width and spacing here
+                        width: 140,
                         child: _buildIconBox(
                           Icons.pool,
                           "Swimming Pool",
@@ -241,7 +245,30 @@ class Detail extends StatelessWidget {
                     ],
                   ),
                 ),
-              )
+              ),
+              Padding(
+                padding:
+                const EdgeInsets.symmetric(horizontal: 12.0, vertical: 10),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      'Additional Information',
+                      style: TextStyle(fontSize: 22),
+                    ),
+                    const SizedBox(height: 10),
+                    Text(
+                      'Our hotel features a state-of-the-art fitness center, relaxing spa, and a rooftop swimming pool with stunning city views. Guests can indulge in a variety of dining options at our on-site restaurants, serving a wide range of international cuisines.',
+                      style: TextStyle(fontSize: 16),
+                    ),
+                    const SizedBox(height: 10),
+                    Text(
+                      'We are conveniently located near major attractions and shopping centers, making it easy for you to explore the city and enjoy your leisure time. Our dedicated and friendly staff is available 24/7 to assist you with any requests or inquiries you may have.',
+                      style: TextStyle(fontSize: 16),
+                    ),
+                  ],
+                ),
+              ),
             ],
           ),
         ),
@@ -253,13 +280,13 @@ class Detail extends StatelessWidget {
     return Container(
       margin: const EdgeInsets.only(right: 10.0),
       height: 80,
-      width: 100, // Increase the width to provide more space for the text
+      width: 100,
       decoration: BoxDecoration(
         color: color,
         borderRadius: BorderRadius.circular(12),
       ),
       child: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 8.0), // Add horizontal padding
+        padding: const EdgeInsets.symmetric(horizontal: 8.0),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
@@ -272,43 +299,16 @@ class Detail extends StatelessWidget {
             Flexible(
               child: Text(
                 text,
-                textAlign: TextAlign.center, // Align the text at the center
+                textAlign: TextAlign.center,
                 style: const TextStyle(
                   fontSize: 12,
                   color: Colors.white,
                 ),
               ),
             ),
-            // Inside the `Column` widget, add the following section after the existing code:
-
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 12.0, vertical: 10),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    'Additional Information',
-                    style: TextStyle(fontSize: 22),
-                  ),
-
-                  const SizedBox(height: 10),
-                  Text(
-                    'Our hotel features a state-of-the-art fitness center, relaxing spa, and a rooftop swimming pool with stunning city views. Guests can indulge in a variety of dining options at our on-site restaurants, serving a wide range of international cuisines.',
-                    style: TextStyle(fontSize: 16),
-                  ),
-                  const SizedBox(height: 10),
-                  Text(
-                    'We are conveniently located near major attractions and shopping centers, making it easy for you to explore the city and enjoy your leisure time. Our dedicated and friendly staff is available 24/7 to assist you with any requests or inquiries you may have.',
-                    style: TextStyle(fontSize: 16),
-                  ),
-                ],
-              ),
-            ),
           ],
         ),
-
       ),
-
     );
   }
 }
