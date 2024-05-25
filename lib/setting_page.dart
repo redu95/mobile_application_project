@@ -16,6 +16,7 @@ import 'languagerelatedclass/language_constants.dart';
 import 'package:provider/provider.dart';
 import 'login_page.dart';
 import 'package:mobile_application_project/theme_provider.dart';
+import 'package:mobile_application_project/help.dart';
 
 
 
@@ -300,7 +301,14 @@ class _SettingPageState extends State<SettingPage> {
               buildSettingItem(
                 title: AppLocalizations.of(context)!.help ?? '' ,
                 icon: Ionicons.help_outline,
-                onTap: () {},
+                onTap: () {
+                  {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => const HelpDemo()),
+                    );
+                  };
+                },
               ),
               SizedBox(height: 20),
               buildSettingItem(
