@@ -13,6 +13,7 @@ import 'package:mobile_application_project/languagerelatedclass/language_constan
 import 'package:provider/provider.dart';
 import 'login_page.dart';
 import 'package:mobile_application_project/theme_provider.dart';
+import 'package:mobile_application_project/help.dart';
 
 class SettingPage extends StatefulWidget {
   final String userName;
@@ -323,6 +324,13 @@ class _SettingPageState extends State<SettingPage> {
                   fontWeight: FontWeight.w500,
                 ),
               ),
+              onTap: () {
+                  {
+                    Navigator.push(
+                      context, MaterialPageRoute(builder: (context) => const HelpDemo()),//redirect to help page
+                    );
+                  };
+               },
             ),
             ListTile(
               leading: CircleAvatar(
