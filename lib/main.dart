@@ -1,6 +1,4 @@
 
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -48,7 +46,6 @@ class _MyAppState extends State<MyApp> {
   void initState() {
     super.initState();
     _loadLanguagePreference();
-    _loadThemePreference();
   }
 
   _loadLanguagePreference() async {
@@ -59,38 +56,25 @@ class _MyAppState extends State<MyApp> {
       setLocale(newLocale);
     }
   }
-  Future<void> _loadThemePreference() async {
-    final user = FirebaseAuth.instance.currentUser;
-    if (user != null) {
-      DocumentSnapshot userDoc = await FirebaseFirestore.instance.collection('users').doc(user.uid).get();
-      if (userDoc.exists && userDoc.data() != null) {
-        _isDarkModeEnabled = userDoc['isDarkModeEnabled'] ?? false;
-        Provider.of<ThemeSettings>(context, listen: false).setThemeMode(
-          _isDarkModeEnabled ? ThemeMode.dark : ThemeMode.light,
-          user.uid,
-        );
-      }
-    }
-  }
   
   @override
   Widget build(BuildContext context) {
     return LocaleBuilder(
       builder: (locale) => ChangeNotifierProvider(
-        create: (context) => ThemeSettings(false), // Provide the initial dark mode value
-        builder: (context, _) {
-          final settings = Provider.of<ThemeSettings>(context); // Access the ThemeSettings instance
-          return MaterialApp(
-            title: 'Addis Stay',
-            localizationsDelegates: AppLocalizations.localizationsDelegates,
-            supportedLocales: AppLocalizations.supportedLocales,
-            theme: settings.currentTheme,
-            darkTheme: ThemeData.dark(),
-            locale: _locale,
-            home: const WelcomePage(),
-            debugShowCheckedModeBanner: false,
-          );
-        },
+        create: (context) => ThemeSettings(), // Provide the initial dark mode value
+        child: Consumer<ThemeSettings>(
+          builder: (context, themeSettings, _) {
+            return MaterialApp(
+              title: 'Addis Stay',
+              localizationsDelegates: AppLocalizations.localizationsDelegates,
+              supportedLocales: AppLocalizations.supportedLocales,
+              theme: themeSettings.currentTheme,
+              locale: _locale,
+              home: const WelcomePage(),
+              debugShowCheckedModeBanner: false,
+            );
+          },
+        ),
       ),
     );
   }
@@ -145,6 +129,7 @@ class _WelcomePageState extends State<WelcomePage> {
 
   @override
   Widget build(BuildContext context) {
+    final themeProvider = Provider.of<ThemeSettings>(context);
     return Scaffold(
       body: Stack(
         children: [
