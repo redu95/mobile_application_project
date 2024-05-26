@@ -1,4 +1,5 @@
 import 'package:mobile_application_project/data.dart';
+import 'package:mobile_application_project/detail_screen.dart';
 class DataHome{
 
 
@@ -17,14 +18,15 @@ class DataHome{
     Data("assets/images/hotel_im/skylight.jpeg","skylight Hotel","Bole,Addis Ababa"),
     Data("assets/images/hotel_im/Capital.jpeg","Capital Hotel","Saris,Addis Ababa"),];
 
-  List<Data>  getRoomimg=[
-  Data("assets/images/hotel_im/hiltonb.jpg","assets/images/hotel_im/hiltonb2.jpg","assets/images/hotel_im/hiltonb3.jpg"),
-    Data("assets/images/hotel_im/sheratonb.jpg","assets/images/hotel_im/sheratonb2.jpeg","assets/images/hotel_im/sheratonb3.jpg"),
-    Data("assets/images/hotel_im/skyb.jpg","assets/images/hotel_im/skyb2.jpg","assets/images/hotel_im/skyb3.jpg"),
-    Data("assets/images/hotel_im/capitalb.jpg","assets/images/hotel_im/capitalb2.jpg","assets/images/hotel_im/capitalb3.jpg"),
-    Data("assets/images/hotel_im/harmony.jpeg","assets/images/hotel_im/harmonyb2.jpg","assets/images/hotel_im/harmnyb3.jpg"),
-    Data("assets/images/hotel_im/skycityb","assets/images/hotel_im/skycb2.jpg","assets/images/hotel_im/skyb3.jpg"),
-    Data("assets/images/hotel_im/Ililib","assets/images/hotel_im/ililib2.jpg","assets/images/hotel_im/ililib3.jpg"),
+  List<Detail>  getRoomimg=[
+
+    Detail("assets/images/hotel_im/hiltonb.jpg","assets/images/hotel_im/capitalb2.jpg","assets/images/hotel_im/hiltonb3.jpg","Hilton Hotel","kirskos,Addis Ababa"),
+    Detail("assets/images/hotel_im/sheratonb.jpg","assets/images/hotel_im/sheratonb2.jpeg","assets/images/hotel_im/sheratonb3.jpg","sheraton Hotel","piasa,Addis Ababa"),
+    Detail("assets/images/hotel_im/skyb.jpg","assets/images/hotel_im/capitalb2.jpg","assets/images/hotel_im/skybb2.jpg","skylight Hotel","Bole,Addis Ababa"),
+    Detail("assets/images/hotel_im/capitalb.jpg","assets/images/hotel_im/capitalb2.jpg","assets/images/hotel_im/capitalb3.png","Capital Hotel","Sar,Addis Ababa"),
+    Detail("assets/images/hotel_im/harmony.jpeg","assets/images/hotel_im/harmonyb2.jpg","assets/images/hotel_im/harmnyb3.jpg","Harmony Hotel","Bole,Addis Ababa"),
+    Detail("assets/images/hotel_im/skycityb.jpg","assets/images/hotel_im/skycb2.jpg","assets/images/hotel_im/skyb3.jpg","Sky city Hotel","Aratkilo,Addis Ababa"),
+    Detail("assets/images/hotel_im/Ililib.jpeg","assets/images/hotel_im/ililib2.jpg","assets/images/hotel_im/ililib3.jpg","Ilili Hotel","piasa,Addis Ababa"),
 
   ];
 

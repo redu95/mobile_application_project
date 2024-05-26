@@ -269,9 +269,11 @@ class _HomePageState extends State<HomePage> {
                                 context,
                                 MaterialPageRoute(
                                   builder: (context) => Detail(
-                                    object.getData[index].imageurl,
-                                    object.getData[index].name,
-                                    object.getData[index].location,
+                                    object.getRoomimg[index].imageurl1,
+                                    object.getRoomimg[index].imageurl2,
+                                    object.getRoomimg[index].imageurl3,
+                                    object.getRoomimg[index].hotelName,
+                                    object.getRoomimg[index].hotelLocation,
                                   ),
                                 ),
                               );
@@ -388,9 +390,11 @@ class _HomePageState extends State<HomePage> {
                                 context,
                                 MaterialPageRoute(
                                   builder: (context) => Detail(
-                                    object.getData[index].imageurl,
-                                    object.getData[index].name,
-                                    object.getData[index].location,
+                                    object.getRoomimg[index].imageurl1,
+                                    object.getRoomimg[index].imageurl2,
+                                    object.getRoomimg[index].imageurl3,
+                                    object.getRoomimg[index].hotelName,
+                                    object.getRoomimg[index].hotelLocation,
                                   ),
                                 ),
                               );
