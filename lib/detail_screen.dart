@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+import 'booking.dart';
+
 class Detail extends StatelessWidget {
   final String imageurl1;
   final String imageurl2;
@@ -31,7 +33,14 @@ class Detail extends StatelessWidget {
               height: 60,
               child: MaterialButton(
                 minWidth: 280,
-                onPressed: () {},
+                onPressed:(){
+                    {
+                      Navigator.push(
+                        context, MaterialPageRoute(builder: (context) => const BookingDemo()),//redirect to booking form
+                      );
+                    };
+                },
+
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(12),
                 ),
