@@ -59,7 +59,12 @@
   "confirm_logout": "¿Estás seguro de que quieres cerrar sesión?",
   "save": "Guardar",
   "edit_account": "Editar Cuenta",
-  "refresh": "Actualizar"
+  "refresh": "Actualizar",
+  "frequentlyAskedQuestions": "Preguntas frecuentes",
+  "canICancelMyReservation": "¿Puedo cancelar mi reserva?",
+  "youMayCancelYourReservationAtAnyTimeButThereWillBeA5Cost": "Puede cancelar su reserva en cualquier momento, pero habrá un costo del 5%.",
+  "whatPaymentMethodsAreApplicable": "¿Qué métodos de pago son aplicables?",
+  "anyEthiopianInternetBankIncludingCEBApoloAndMobileBankingAcceptsOnlinePayments": "Cualquier banco de Internet etíope, incluidos CEB, Apolo y la banca móvil, acepta pagos en línea."
 
 
 }

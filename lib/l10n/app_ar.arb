@@ -59,7 +59,12 @@
   "confirm_logout": "هل أنت متأكد أنك تريد تسجيل الخروج؟",
   "save": "حفظ",
   "edit_account": "تعديل الحساب",
-  "refresh": "تحديث"
+  "refresh": "تحديث",
+  "frequentlyAskedQuestions": "أسئلة متكررة",
+  "canICancelMyReservation": "هل أستطيع إلغاء حجزي",
+  "youMayCancelYourReservationAtAnyTimeButThereWillBeA5Cost": "يمكنك إلغاء حجزك في أي وقت ، ولكن هناك سيكون هناك تكلفة بنسبة 5٪.",
+  "whatPaymentMethodsAreApplicable": "ما هي طرق الدفع المطبقة",
+  "anyEthiopianInternetBankIncludingCEBApoloAndMobileBankingAcceptsOnlinePayments": "أي بنك إنترنت إثيوبي بما في ذلك CEB و Apolo والخدمات المصرفية عبر الهاتف المحمول يقبل المدفوعات عبر الإنترنت."
 
 
 
