@@ -350,15 +350,6 @@ class _HomePageState extends State<HomePage> {
                                             ),
                                             Row(
                                               children: [
-                                                Text(
-                                                  object.getData[index].review.toString(),
-                                                  style: TextStyle(
-                                                    fontSize: 16,
-                                                    color: Colors.purple,
-                                                    fontWeight: FontWeight.bold,
-                                                  ),
-                                                ),
-                                                SizedBox(width: 4),
                                                 Row(
                                                   children: List.generate(
                                                     5,
@@ -367,6 +358,15 @@ class _HomePageState extends State<HomePage> {
                                                       color: Colors.purple,
                                                       size: 20,
                                                     ),
+                                                  ),
+                                                ),
+                                                SizedBox(width: 4),
+                                                Text(
+                                                  '${object.getData[index].review} Reviews',
+                                                  style: TextStyle(
+                                                    fontSize: 16,
+                                                    color: Colors.purple,
+                                                    fontWeight: FontWeight.bold,
                                                   ),
                                                 ),
                                               ],
@@ -461,7 +461,7 @@ class _HomePageState extends State<HomePage> {
                             child: Container(
                               height: 140, // Adjust the height to your desired value
                               margin: EdgeInsets.symmetric(horizontal: 8),
-                              width: 280, // Adjust the width to your desired value
+                              width: 350,//adjust the width to your desired value
                               decoration: BoxDecoration(
                                 borderRadius: BorderRadius.circular(12),
                                 border: Border.all(
@@ -530,23 +530,23 @@ class _HomePageState extends State<HomePage> {
                                           ),
                                           Row(
                                             children: [
-                                              Text(
-                                                object.getAnotherData[index].review.toString(),
-                                                style: TextStyle(
-                                                  fontSize: 12,
-                                                  color: Colors.purple,
-                                                  fontWeight: FontWeight.bold,
-                                                ),
-                                              ),
-                                              SizedBox(width: 4),
                                               Row(
                                                 children: List.generate(
                                                   5,
                                                       (starIndex) => Icon(
                                                     Icons.star,
                                                     color: Colors.purple,
-                                                    size: 12,
+                                                    size: 20,
                                                   ),
+                                                ),
+                                              ),
+                                              SizedBox(width: 4),
+                                              Text(
+                                                '${object.getAnotherData[index].review} Reviews',
+                                                style: TextStyle(
+                                                  fontSize: 16,
+                                                  color: Colors.purple,
+                                                  fontWeight: FontWeight.bold,
                                                 ),
                                               ),
                                             ],
@@ -571,7 +571,7 @@ class _HomePageState extends State<HomePage> {
                         },
                       ),
                     ),
-                    const SizedBox(height: 20,)
+                    const SizedBox(height: 20)
                   ],
                 ),
               ),
