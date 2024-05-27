@@ -104,7 +104,7 @@ class PlaceListData{
       querySnapshot.docs.forEach((doc) {
         Map<String, dynamic> data = doc.data() as Map<String, dynamic>;
         // Constructing the location string from city, country, and address
-        String location = "${data['location']['city']}, ${data['location']['country']}, ${data['location']['address']}";
+        String location = "${data['location']['address']}, ${data['location']['city']}, ${data['location']['country']}";
         PlaceListData hotel = PlaceListData(
           title: data['name'] ?? '',
           sub: location,
