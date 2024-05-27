@@ -242,7 +242,7 @@
   "@frequentlyAskedQuestions": {
     "description": "text at the body part"
   },
-  "canICancelMyReservation": "can i cancel my reservation",
+  "canICancelMyReservation": "can i cancel my reservation?",
   "@canICancelMyReservation": {
     "description": "question number one"
   },
@@ -250,7 +250,7 @@
   "@youMayCancelYourReservationAtAnyTimeButThereWillBeA5Cost": {
     "description": "answer"
   },
-  "whatPaymentMethodsAreApplicable": "what payment methods are applicable",
+  "whatPaymentMethodsAreApplicable": "what payment methods are applicable?",
   "@whatPaymentMethodsAreApplicable": {
     "description": "question number two"
   },

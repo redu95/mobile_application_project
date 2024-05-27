@@ -62,9 +62,9 @@
   "refresh": "እንደገና አዘምን",
   "Dont't_Have_an_Account? ": "መለያ የለዎትም።",
   "frequentlyAskedQuestions": "ተደጋግሞ የሚነሱ ጥያቄዎች",
-  "canICancelMyReservation": "ያስያዝኩትን መሰረዝ እችላለሁ",
+  "canICancelMyReservation": "ያስያዝኩትን መሰረዝ እችላለሁ?",
   "youMayCancelYourReservationAtAnyTimeButThereWillBeA5Cost": "በማንኛውም ጊዜ_ያለዎትን_ቦታ_መሰረዝ_ይችላሉ ግን_5%_ወጪ_ይኖራል።",
-   "whatPaymentMethodsAreApplicable": "ምን የመክፈያ ስልቶች ተግባራዊ ናቸው።",
+   "whatPaymentMethodsAreApplicable": "ምን የመክፈያ ስልቶች ተግባራዊ ናቸው?",
    "anyEthiopianInternetBankIncludingCEBApoloAndMobileBankingAcceptsOnlinePayments": "ማንኛውም የኢትዮጵያ ኢንተርኔት ባንክ ሲኢቢ አፖሎ እና ሞባይል ባንኪንግ የኦንላይን ክፍያን ይቀበላል።"
 
 

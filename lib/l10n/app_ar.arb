@@ -61,9 +61,9 @@
   "edit_account": "تعديل الحساب",
   "refresh": "تحديث",
   "frequentlyAskedQuestions": "أسئلة متكررة",
-  "canICancelMyReservation": "هل أستطيع إلغاء حجزي",
+  "canICancelMyReservation": "هل أستطيع إلغاء حجزي?",
   "youMayCancelYourReservationAtAnyTimeButThereWillBeA5Cost": "يمكنك إلغاء حجزك في أي وقت ، ولكن هناك سيكون هناك تكلفة بنسبة 5٪.",
-  "whatPaymentMethodsAreApplicable": "ما هي طرق الدفع المطبقة",
+  "whatPaymentMethodsAreApplicable": "ما هي طرق الدفع المطبقة?",
   "anyEthiopianInternetBankIncludingCEBApoloAndMobileBankingAcceptsOnlinePayments": "أي بنك إنترنت إثيوبي بما في ذلك CEB و Apolo والخدمات المصرفية عبر الهاتف المحمول يقبل المدفوعات عبر الإنترنت."
 
 
