@@ -5,6 +5,22 @@ class Detail extends StatelessWidget {
   final String imageurl1;
   final String imageurl2;
   final String imageurl3;
+  final String room1name;
+  final String room1price;
+  final String room1img;
+  final String room2name;
+  final String room2price;
+  final String room2img;
+  final String room3name;
+  final String room3price;
+  final String room3img;
+  final String room4name;
+  final String room4price;
+  final String room4img;
+  final String room5name;
+  final String room5price;
+  final String room5img;
+  final String review;
   final String hotelName;
   final String hotelLocation;
 
@@ -12,10 +28,25 @@ class Detail extends StatelessWidget {
       this.imageurl1,
       this.imageurl2,
       this.imageurl3,
+      this.review,
+      this.room1img,
+      this.room1name,
+      this.room1price,
+      this.room2img,
+      this.room2name,
+      this.room2price,
+      this.room3img,
+      this.room3name,
+      this.room3price,
+      this.room4img,
+      this.room4name,
+      this.room4price,
+      this.room5img,
+      this.room5name,
+      this.room5price,
       this.hotelName,
       this.hotelLocation,
       );
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
