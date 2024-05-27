@@ -17,15 +17,16 @@ class _BookingDemoState extends State<BookingDemo> {
   final _phoneController = TextEditingController();
   final _emailController = TextEditingController();
   final _checkInDateController = TextEditingController();
-  final _checkInTimeController = TextEditingController();
   final _checkOutDateController = TextEditingController();
-  final _checkOutTimeController = TextEditingController();
+  final _adultsController = TextEditingController();
+
   DateTime? _selectedCheckInDate;
-  TimeOfDay? _selectedCheckInTime;
   DateTime? _selectedCheckOutDate;
-  TimeOfDay? _selectedCheckOutTime;
-  int? _selectedAdults;
+
   String? _selectedRoomPreference;
+  String? _selectedHotel;
+
+  final List<String> _hotels = ['Sheraton Hotel', 'Hilton Hotel', 'Capital Hotel','Skylight Hotel','Harmony Hotel', 'sky city Hotel','llili Hotel'];
 
   @override
   void dispose() {
@@ -36,9 +37,8 @@ class _BookingDemoState extends State<BookingDemo> {
     _phoneController.dispose();
     _emailController.dispose();
     _checkInDateController.dispose();
-    _checkInTimeController.dispose();
     _checkOutDateController.dispose();
-    _checkOutTimeController.dispose();
+    _adultsController.dispose();
     super.dispose();
   }
 
@@ -49,7 +49,7 @@ class _BookingDemoState extends State<BookingDemo> {
       appBar: AppBar(
         title: const Text('Booking'),
       ),
-      body: SingleChildScrollView( // Ensure the content is scrollable
+      body: SingleChildScrollView(
         padding: const EdgeInsets.all(16.0),
         child: Column(
           children: [
@@ -82,6 +82,30 @@ class _BookingDemoState extends State<BookingDemo> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
+                  DropdownButtonFormField<String>(
+                    decoration: const InputDecoration(
+                      labelText: 'Name of Hotel *',
+                    ),
+                    value: _selectedHotel,
+                    items: _hotels.map((hotel) {
+                      return DropdownMenuItem<String>(
+                        value: hotel,
+                        child: Text(hotel),
+                      );
+                    }).toList(),
+                    onChanged: (value) {
+                      setState(() {
+                        _selectedHotel = value;
+                      });
+                    },
+                    validator: (value) {
+                      if (value == null) {
+                        return 'Please select a hotel';
+                      }
+                      return null;
+                    },
+                  ),
+                  const SizedBox(height: 16),
                   TextFormField(
                     controller: _firstNameController,
                     decoration: const InputDecoration(
@@ -209,30 +233,6 @@ class _BookingDemoState extends State<BookingDemo> {
                       const SizedBox(width: 16),
                       Expanded(
                         child: TextFormField(
-                          controller: _checkInTimeController,
-                          decoration: const InputDecoration(
-                            labelText: 'Check-in Time *',
-                            suffixIcon: Icon(Icons.access_time),
-                          ),
-                          readOnly: true,
-                          onTap: () async {
-                            _selectedCheckInTime = await showTimePicker(
-                              context: context,
-                              initialTime: TimeOfDay.now(),
-                            );
-                            if (_selectedCheckInTime != null) {
-                              _checkInTimeController.text = _selectedCheckInTime!.format(context);
-                            }
-                          },
-                        ),
-                      ),
-                    ],
-                  ),
-                  const SizedBox(height: 16),
-                  Row(
-                    children: [
-                      Expanded(
-                        child: TextFormField(
                           controller: _checkOutDateController,
                           decoration: const InputDecoration(
                             labelText: 'Check-out Date *',
@@ -252,115 +252,55 @@ class _BookingDemoState extends State<BookingDemo> {
                           },
                         ),
                       ),
-                      const SizedBox(width: 16),
+                    ],
+                  ),
+                  const SizedBox(height: 16),
+                  Row(
+                    children: [
                       Expanded(
                         child: TextFormField(
-                          controller: _checkOutTimeController,
+                          controller: _adultsController,
                           decoration: const InputDecoration(
-                            labelText: 'Check-out Time *',
-                            suffixIcon: Icon(Icons.access_time),
+                            labelText: 'Number of Adults *',
                           ),
-                          readOnly: true,
-                          onTap: () async {
-                            _selectedCheckOutTime = await showTimePicker(
-                              context: context,
-                              initialTime: TimeOfDay.now(),
-                            );
-                            if (_selectedCheckOutTime != null) {
-                              _checkOutTimeController.text = _selectedCheckOutTime!.format(context);
+                          keyboardType: TextInputType.number,
+                          validator: (value) {
+                            if (value == null || value.isEmpty) {
+                              return 'Please enter the number of adults';
                             }
+                            if (int.tryParse(value) == null || int.parse(value)! <= 0) {
+                              return 'Please enter a valid number';
+                            }
+                            return null;
                           },
                         ),
                       ),
-                    ],
-                  ),
-                  const SizedBox(height: 16),
-                  const Text('Room Preference *'),
-                  const SizedBox(height: 8),
-                  Row(
-                    children: [
-                      Radio<String>(
-                        value: 'Single',
-                        groupValue: _selectedRoomPreference,
-                        onChanged: (value) {
-                          setState(() {
-                            _selectedRoomPreference = value;
-                          });
-                        },
-                      ),
-                      const Text('Single'),
                       const SizedBox(width: 16),
-                      Radio<String>(
-                        value: 'Double',
-                        groupValue: _selectedRoomPreference,
-                        onChanged: (value) {
-                          setState(() {
-                            _selectedRoomPreference = value;
-                          });
-                        },
+                      Expanded(
+                        child: DropdownButtonFormField<String>(
+                          decoration: const InputDecoration(
+                            labelText: 'Room Preference *',
+                          ),
+                          value: _selectedRoomPreference,
+                          items: ['Single', 'Double', 'Suite']
+                              .map((room) => DropdownMenuItem<String>(
+                            value: room,
+                            child: Text(room),
+                          ))
+                              .toList(),
+                          onChanged: (value) {
+                            setState(() {
+                              _selectedRoomPreference = value;
+                            });
+                          },
+                          validator: (value) {
+                            if (value == null) {
+                              return 'Please select a room preference';
+                            }
+                            return null;
+                          },
+                        ),
                       ),
-                      const Text('Double'),
-                      const SizedBox(width: 16),
-                      Radio<String>(
-                        value: 'Suite',
-                        groupValue: _selectedRoomPreference,
-                        onChanged: (value) {
-                          setState(() {
-                            _selectedRoomPreference = value;
-                          });
-                        },
-                      ),
-                      const Text('Suite'),
-                    ],
-                  ),
-                  const SizedBox(height: 16),
-                  const Text('Number of adults *'),
-                  const SizedBox(height: 8),
-                  Row(
-                    children: [
-                      Radio<int>(
-                        value: 1,
-                        groupValue: _selectedAdults,
-                        onChanged: (value) {
-                          setState(() {
-                            _selectedAdults = value;
-                          });
-                        },
-                      ),
-                      const Text('1'),
-                      const SizedBox(width: 16),
-                      Radio<int>(
-                        value: 2,
-                        groupValue: _selectedAdults,
-                        onChanged: (value) {
-                          setState(() {
-                            _selectedAdults = value;
-                          });
-                        },
-                      ),
-                      const Text('2'),
-                      const SizedBox(width: 16),
-                      Radio<int>(
-                        value: 3,
-                        groupValue: _selectedAdults,
-                        onChanged: (value) {
-                          setState(() {
-                            _selectedAdults = value;
-                          });
-                        },
-                      ),
-                      const Text('3'),
-                      const SizedBox(width: 16),
-                      Radio<int>(
-                        value: 4,
-                        groupValue: _selectedAdults,
-                        onChanged: (value) {
-                          setState(() {
-                            _selectedAdults = value;
-                          });
-                        },
-                      ),
-                      const Text('4'),
                     ],
                   ),
                   const SizedBox(height: 32),
