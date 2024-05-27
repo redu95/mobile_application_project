@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
@@ -51,6 +52,43 @@ class _BookingDemoState extends State<BookingDemo> {
     _numberOfChildren.dispose();
     super.dispose();
   }
+
+  // Function for submit bookings
+  Future<void> _submitBooking() async {
+    if (_formKey.currentState!.validate()) {
+      try {
+        await FirebaseFirestore.instance.collection('bookings').add({
+          'guest_name': _firstNameController.text + ' ' + _lastNameController.text,
+          'guest_contact': _phoneController.text,
+          'guest_email': _emailController.text,
+          'check_in': {
+            'date': _checkInDateController.text,
+            'time': _checkInTimeController.text,
+          },
+          'check_out': {
+            'date': _checkOutDateController.text,
+            'time': _checkOutTimeController.text,
+          },
+          'location': {
+            'city': _cityController.text,
+            'state': _stateController.text,
+          },
+          'room_preference': _selectedRoomPreference,
+          'number_of_adults': _selectedAdults,
+          'created_at': FieldValue.serverTimestamp(),
+        });
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text('Booking successful!')),
+        );
+      } catch (e) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text('Failed to book. Please try again later.')),
+        );
+      }
+    }
+  }
+
+
 
   @override
   Widget build(BuildContext context) {

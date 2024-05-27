@@ -3,6 +3,7 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:mobile_application_project/auth_page.dart';
+import 'package:mobile_application_project/login_page.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:mobile_application_project/introduction_screen.dart';
 import 'package:mobile_application_project/languageMenu.dart';
@@ -70,7 +71,7 @@ class _MyAppState extends State<MyApp> {
               supportedLocales: AppLocalizations.supportedLocales,
               theme: themeSettings.currentTheme,
               locale: _locale,
-              home: const WelcomePage(),
+              home: const AuthPage(),
               debugShowCheckedModeBanner: false,
             );
           },
@@ -234,7 +235,7 @@ class _WelcomePageState extends State<WelcomePage> {
             bottom: 100,
             child: GestureDetector(
               onTap: () {
-                Navigator.push(context, MaterialPageRoute(builder: (context) => AuthPage()));
+                Navigator.push(context, MaterialPageRoute(builder: (context) => LogInPage()));
               },
               child: Text(
                 AppLocalizations.of(context)?.already_have_an_account ?? '',

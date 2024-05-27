@@ -47,7 +47,6 @@ class _SignUpPageState extends State<SignUpPage> {
             'email': emailController.text.trim(),
             'isDarkModeEnabled': false,
             'photoUrl': null,
-            'gender': '',
           });
 
           ScaffoldMessenger.of(context).showSnackBar(
