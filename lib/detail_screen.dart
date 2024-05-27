@@ -156,7 +156,6 @@ class Detail extends StatelessWidget {
                       color: Colors.black,
                     ),
                   ),
-
                   Row(
                     children: [
                       Icon(Icons.location_on, size: 30),
@@ -333,10 +332,10 @@ class Detail extends StatelessWidget {
   Widget _buildRoomBox(BuildContext context, String image, String roomName, String roomPrice) {
     return Container(
       width: 260, // Increased width to accommodate larger image
-      height: 250, // Increased height to accommodate larger image and room details
+      height: 320, // Increased height to accommodate larger image and room details
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(12),
-        color: Colors.grey[300],
+        color: Colors.grey[200],
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -347,30 +346,27 @@ class Detail extends StatelessWidget {
                 image,
                 fit: BoxFit.cover,
                 width: double.infinity,
-                height: 180, // Increased height of the image
+                height: 250, // Increased height of the image
               ),
               Positioned(
-                bottom: 0,
-                left: 0,
-                child: Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: SizedBox(
-                    width: 100,
-                    child: MaterialButton(
-                      onPressed: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(builder: (context) => const BookingDemo()),
-                        );
-                      },
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(12),
-                      ),
-                      color: const Color(0xff3C4657),
-                      child: const Text(
-                        "Book Now",
-                        style: TextStyle(fontSize: 16, color: Colors.white),
-                      ),
+                bottom: 1, // Adjusted position
+                right: 8, // Adjusted position
+                child: SizedBox(
+                  width: 100,
+                  child: MaterialButton(
+                    onPressed: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (context) => const BookingDemo()),
+                      );
+                    },
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(12),
+                    ),
+                    color: Colors.purpleAccent,
+                    child: const Text(
+                      "Book Now",
+                      style: TextStyle(fontSize: 16, color: Colors.white),
                     ),
                   ),
                 ),
@@ -398,4 +394,5 @@ class Detail extends StatelessWidget {
       ),
     );
   }
+
 }
