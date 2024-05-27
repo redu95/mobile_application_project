@@ -1,4 +1,3 @@
-// home page
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -58,7 +57,7 @@ class _HomeState extends State<Home> {
         child: _widgetOptions.elementAt(_selectedIndex),
       ),
       bottomNavigationBar: BottomNavigationBar(
-        items:  <BottomNavigationBarItem>[
+        items: <BottomNavigationBarItem>[
           BottomNavigationBarItem(
             icon: Icon(Icons.home),
             label: 'home',
@@ -88,17 +87,15 @@ class _HomeState extends State<Home> {
 class HomePage extends StatefulWidget {
   HomePage({Key? key}) : super(key: key);
 
-
-
   @override
   _HomePageState createState() => _HomePageState();
 }
 
 class _HomePageState extends State<HomePage> {
   MenuSelection selectedOne = MenuSelection.menu1;
-  DataHome object=DataHome();
-  String userName ='';
-  String email ="";
+  DataHome object = DataHome();
+  String userName = '';
+  String email = "";
   String? photoUrl; // Add this variable to hold profile picture URL
   late User user; // Add this variable to hold the authenticated user
   bool isLoading = true; // Track loading state
@@ -141,11 +138,11 @@ class _HomePageState extends State<HomePage> {
   Widget build(BuildContext context) {
     return MaterialApp(
         debugShowCheckedModeBanner: false,
-        theme: ThemeData(scaffoldBackgroundColor: Color(0xffF8FCFF),primaryColor:Color(0xffF8FCFF) ),
+        theme: ThemeData(scaffoldBackgroundColor: Color(0xffF8FCFF), primaryColor: Color(0xffF8FCFF)),
         home: Scaffold(
-            body:SafeArea(
-              child:SingleChildScrollView(
-                child:Column(
+            body: SafeArea(
+              child: SingleChildScrollView(
+                child: Column(
                   children: [
                     Padding(
                       padding: const EdgeInsets.symmetric(
@@ -155,17 +152,19 @@ class _HomePageState extends State<HomePage> {
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceAround,
                         children: [
-                          // const Icon(Icons.menu_rounded, size: 40,color: Colors.purple,),
                           CircleAvatar(
                             radius: 30,
-                            backgroundImage: photoUrl != null ? NetworkImage(photoUrl!) : NetworkImage('https://static.vecteezy.com/system/resources/previews/004/026/956/non_2x/person-avatar-icon-free-vector.jpg'),
+                            backgroundImage: photoUrl != null
+                                ? NetworkImage(photoUrl!)
+                                : NetworkImage(
+                                'https://static.vecteezy.com/system/resources/previews/004/026/956/non_2x/person-avatar-icon-free-vector.jpg'),
                           ),
                           Text(
                             'Welcome, $userName!', // Replace $userName with the actual username variable
                             style: TextStyle(
                               fontWeight: FontWeight.bold,
                               fontSize: 18,
-                              color:Colors.purpleAccent,
+                              color: Colors.purpleAccent,
                             ),
                           ),
                           Icon(
@@ -182,14 +181,11 @@ class _HomePageState extends State<HomePage> {
                               color: Colors.purpleAccent,
                             ),
                           ),
-
-
                           Icon(
                             Ionicons.notifications,
                             size: 30,
                             color: Colors.purple,
                           ),
-
                         ],
                       ),
                     ),
@@ -241,19 +237,14 @@ class _HomePageState extends State<HomePage> {
                               backgroundImage: AssetImage('assets/images/hotel_im/Ililib.jpeg'),
                               radius: 40,
                             ),
-
                           ],
                         ),
                       ),
-
                     ),
                     const SizedBox(
                       height: 20,
                     ),
-
-                    SizedBox(
-                        height:15
-                    ),
+                    SizedBox(height: 15),
                     Container(
                       margin: EdgeInsets.symmetric(horizontal: 4, vertical: 12),
                       height: 300,
@@ -289,7 +280,6 @@ class _HomePageState extends State<HomePage> {
                                     object.getRoomimg[index].room5price,
                                     object.getRoomimg[index].hotelName,
                                     object.getRoomimg[index].hotelLocation,
-
                                   ),
                                 ),
                               );
@@ -358,6 +348,29 @@ class _HomePageState extends State<HomePage> {
                                                 ),
                                               ],
                                             ),
+                                            Row(
+                                              children: [
+                                                Text(
+                                                  object.getData[index].review.toString(),
+                                                  style: TextStyle(
+                                                    fontSize: 16,
+                                                    color: Colors.purple,
+                                                    fontWeight: FontWeight.bold,
+                                                  ),
+                                                ),
+                                                SizedBox(width: 4),
+                                                Row(
+                                                  children: List.generate(
+                                                    5,
+                                                        (starIndex) => Icon(
+                                                      Icons.star,
+                                                      color: Colors.purple,
+                                                      size: 20,
+                                                    ),
+                                                  ),
+                                                ),
+                                              ],
+                                            ),
                                           ],
                                         ),
                                       ),
@@ -383,20 +396,24 @@ class _HomePageState extends State<HomePage> {
                         },
                       ),
                     ),
-                    const Padding(padding: const EdgeInsets.only(left:12.0 ,top: 12),
-                        child:Text("Popular Hotels",style: TextStyle(
-                          fontSize: 24,
-                          color:Color(0xff3c4657),
-                          fontWeight:FontWeight.w500,),
+                    const Padding(
+                        padding: const EdgeInsets.only(left: 12.0, top: 12),
+                        child: Text(
+                          "Popular Hotels",
+                          style: TextStyle(
+                            fontSize: 24,
+                            color: Color(0xff3c4657),
+                            fontWeight: FontWeight.w500,
+                          ),
                         )),
-                    const SizedBox(height: 10,),
+                    const SizedBox(height: 10),
                     Container(
                       margin: EdgeInsets.symmetric(horizontal: 4, vertical: 12),
                       height: 160, // Adjust the height to your desired value
                       width: double.infinity,
                       child: ListView.builder(
                         scrollDirection: Axis.horizontal,
-                        itemCount: object.getData.length,
+                        itemCount: object.getAnotherData.length,
                         itemBuilder: (context, index) {
                           bool isFavorite = false;
 
@@ -501,17 +518,39 @@ class _HomePageState extends State<HomePage> {
                                                   fontWeight: FontWeight.w400,
                                                 ),
                                               ),
-
                                             ],
                                           ),
                                           Text(
-                                            "Experience luxury!",style:
-                                          TextStyle(
-                                            fontSize: 12,
-                                            color: Colors.black,
-                                            fontWeight:FontWeight.w300,
+                                            "Experience luxury!",
+                                            style: TextStyle(
+                                              fontSize: 12,
+                                              color: Colors.black,
+                                              fontWeight: FontWeight.w300,
+                                            ),
                                           ),
-                                          )
+                                          Row(
+                                            children: [
+                                              Text(
+                                                object.getAnotherData[index].review.toString(),
+                                                style: TextStyle(
+                                                  fontSize: 12,
+                                                  color: Colors.purple,
+                                                  fontWeight: FontWeight.bold,
+                                                ),
+                                              ),
+                                              SizedBox(width: 4),
+                                              Row(
+                                                children: List.generate(
+                                                  5,
+                                                      (starIndex) => Icon(
+                                                    Icons.star,
+                                                    color: Colors.purple,
+                                                    size: 12,
+                                                  ),
+                                                ),
+                                              ),
+                                            ],
+                                          ),
                                         ],
                                       ),
                                     ),
@@ -532,12 +571,10 @@ class _HomePageState extends State<HomePage> {
                         },
                       ),
                     ),
-                    const  SizedBox(height: 20,)
-
+                    const SizedBox(height: 20,)
                   ],
                 ),
               ),
-
             )));
 
   }
