@@ -47,6 +47,7 @@ class Detail extends StatelessWidget {
       this.hotelName,
       this.hotelLocation,
       );
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -177,35 +178,6 @@ class Detail extends StatelessWidget {
                   ),
                   Row(
                     children: [
-                      Icon(
-                        Icons.star,
-                        color: Colors.yellow,
-                        size: 30,
-                      ),
-                      Icon(
-                        Icons.star,
-                        color: Colors.yellow,
-                        size: 30,
-                      ),
-                      Icon(
-                        Icons.star,
-                        color: Colors.yellow,
-                        size: 30,
-                      ),
-                      Icon(
-                        Icons.star,
-                        color: Colors.yellow,
-                        size: 30,
-                      ),
-                      Icon(
-                        Icons.star,
-                        color: Colors.yellow,
-                        size: 30,
-                      ),
-                    ],
-                  ),
-                  Row(
-                    children: [
                       Icon(Icons.location_on, size: 30),
                       Text(
                         hotelLocation,
@@ -305,15 +277,15 @@ class Detail extends StatelessWidget {
                 padding: const EdgeInsets.symmetric(horizontal: 12.0, vertical: 10),
                 child: Row(
                   children: [
-                    _buildEmptyBox(),
+                    _buildRoomBox(room1img, room1name, room1price),
                     SizedBox(width: 20),
-                    _buildEmptyBox(),
+                    _buildRoomBox(room2img, room2name, room2price),
                     SizedBox(width: 20),
-                    _buildEmptyBox(),
+                    _buildRoomBox(room3img, room3name, room3price),
                     SizedBox(width: 20),
-                    _buildEmptyBox(),
+                    _buildRoomBox(room4img, room4name, room4price),
                     SizedBox(width: 20),
-                    _buildEmptyBox(),
+                    _buildRoomBox(room5img, room5name, room5price),
                   ],
                 ),
               ),
@@ -377,13 +349,40 @@ class Detail extends StatelessWidget {
     );
   }
 
-  Widget _buildEmptyBox() {
+  Widget _buildRoomBox(String image, String name, String price) {
     return Container(
-      width: 100,
-      height: 80,
+      width: 220,
+      height: 240, // Increased height to accommodate room details
       decoration: BoxDecoration(
-        color: Colors.grey[300],
         borderRadius: BorderRadius.circular(12),
+        color: Colors.grey[300],
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Image.asset(
+            image,
+            fit: BoxFit.cover,
+            width: double.infinity,
+            height: 120,
+          ),
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  name,
+                  style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+                ),
+                Text(
+                  price,
+                  style: TextStyle(fontSize: 14),
+                ),
+              ],
+            ),
+          ),
+        ],
       ),
     );
   }
