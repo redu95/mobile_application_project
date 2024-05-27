@@ -259,6 +259,31 @@ class Detail extends StatelessWidget {
               ),
             ),
             Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 12.0, vertical: 10),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    'Additional Information',
+                    style: TextStyle(fontSize: 22),
+                  ),
+                  const SizedBox(height: 10),
+                  Text(
+                    'Our hotel features a state-of-the-art fitness center, relaxing spa, and a rooftop swimming pool with stunning city views. Guests can indulge in a variety of dining options at our on-site restaurants, serving a wide range of international cuisines.',
+                    style: TextStyle(fontSize: 14),
+                  ),
+                  const SizedBox(height: 10),
+                  Text(
+                    'We are conveniently located near major attractions and shopping centers, making it easy for you to explore the city and enjoy your leisure time. Our dedicated and friendly staff is available 24/7 to assist you with any requests or inquiries you may have.',
+                    style: TextStyle(fontSize: 14),
+                  ),
+                ],
+              ),
+            ),
+
+
+
+            Padding(
               padding: const EdgeInsets.all(20),
               child: Column(
                 children: [
@@ -279,6 +304,7 @@ class Detail extends StatelessWidget {
           ],
         ),
       ),
+
     );
   }
 
