@@ -60,26 +60,6 @@ class Detail extends StatelessWidget {
               "\$106",
               style: TextStyle(fontSize: 40),
             ),
-            SizedBox(
-              height: 60,
-              child: MaterialButton(
-                minWidth: 280,
-                onPressed: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(builder: (context) => const BookingDemo()),
-                  );
-                },
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(12),
-                ),
-                color: const Color(0xff3C4657),
-                child: const Text(
-                  "Book Now",
-                  style: TextStyle(fontSize: 22, color: Colors.white),
-                ),
-              ),
-            ),
           ],
         ),
       ),
@@ -176,6 +156,7 @@ class Detail extends StatelessWidget {
                       color: Colors.black,
                     ),
                   ),
+
                   Row(
                     children: [
                       Icon(Icons.location_on, size: 30),
@@ -277,15 +258,15 @@ class Detail extends StatelessWidget {
                 padding: const EdgeInsets.symmetric(horizontal: 12.0, vertical: 10),
                 child: Row(
                   children: [
-                    _buildRoomBox(room1img, room1name, room1price),
+                    _buildRoomBox(context, room1img, room1name, room1price),
                     SizedBox(width: 20),
-                    _buildRoomBox(room2img, room2name, room2price),
+                    _buildRoomBox(context, room2img, room2name, room2price),
                     SizedBox(width: 20),
-                    _buildRoomBox(room3img, room3name, room3price),
+                    _buildRoomBox(context, room3img, room3name, room3price),
                     SizedBox(width: 20),
-                    _buildRoomBox(room4img, room4name, room4price),
+                    _buildRoomBox(context, room4img, room4name, room4price),
                     SizedBox(width: 20),
-                    _buildRoomBox(room5img, room5name, room5price),
+                    _buildRoomBox(context, room5img, room5name, room5price),
                   ],
                 ),
               ),
@@ -349,10 +330,10 @@ class Detail extends StatelessWidget {
     );
   }
 
-  Widget _buildRoomBox(String image, String name, String price) {
+  Widget _buildRoomBox(BuildContext context, String image, String roomName, String roomPrice) {
     return Container(
-      width: 220,
-      height: 240, // Increased height to accommodate room details
+      width: 260, // Increased width to accommodate larger image
+      height: 250, // Increased height to accommodate larger image and room details
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(12),
         color: Colors.grey[300],
@@ -360,24 +341,55 @@ class Detail extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Image.asset(
-            image,
-            fit: BoxFit.cover,
-            width: double.infinity,
-            height: 120,
+          Stack(
+            children: [
+              Image.asset(
+                image,
+                fit: BoxFit.cover,
+                width: double.infinity,
+                height: 180, // Increased height of the image
+              ),
+              Positioned(
+                bottom: 0,
+                left: 0,
+                child: Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: SizedBox(
+                    width: 100,
+                    child: MaterialButton(
+                      onPressed: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(builder: (context) => const BookingDemo()),
+                        );
+                      },
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(12),
+                      ),
+                      color: const Color(0xff3C4657),
+                      child: const Text(
+                        "Book Now",
+                        style: TextStyle(fontSize: 16, color: Colors.white),
+                      ),
+                    ),
+                  ),
+                ),
+              ),
+            ],
           ),
           Padding(
-            padding: const EdgeInsets.all(8.0),
+            padding: const EdgeInsets.fromLTRB(12, 8, 12, 0), // Adjusted padding
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  name,
-                  style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+                  'Room Type: $roomName',
+                  style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
                 ),
+                SizedBox(height: 4),
                 Text(
-                  price,
-                  style: TextStyle(fontSize: 14),
+                  'Room Price: \$$roomPrice', // Added dollar sign before room price
+                  style: TextStyle(fontSize: 16),
                 ),
               ],
             ),
