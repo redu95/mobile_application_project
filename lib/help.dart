@@ -24,7 +24,7 @@ class _HelpDemoState extends State<HelpDemo> {
         title: Text(AppLocalizations.of(context)!.help),
       ),
       body: Padding(
-        padding: const EdgeInsets.all(16),
+        padding: const EdgeInsets.all(16.0),
         child: SingleChildScrollView(
           child: Form(
             key: _key,
@@ -34,11 +34,11 @@ class _HelpDemoState extends State<HelpDemo> {
                 Text(
                   AppLocalizations.of(context)!.frequentlyAskedQuestions,
                   style: TextStyle(
-                    fontSize: 24,
+                    fontSize: 24.0,
                     fontWeight: FontWeight.bold,
                   ),
                 ),
-                const SizedBox(height: 20),
+                const SizedBox(height: 16.0),
                 GestureDetector(
                   onTap: () {
                     setState(() {
@@ -51,7 +51,7 @@ class _HelpDemoState extends State<HelpDemo> {
                         child: Text(
                           AppLocalizations.of(context)!.canICancelMyReservation,
                           style: TextStyle(
-                            fontSize: 16,
+                            fontSize: 16.0,
                           ),
                         ),
                       ),
@@ -59,7 +59,7 @@ class _HelpDemoState extends State<HelpDemo> {
                         _showCancellationText
                             ? Icons.arrow_drop_up
                             : Icons.arrow_drop_down,
-                        size: 24,
+                        size: 24.0,
                       ),
                     ],
                   ),
@@ -69,11 +69,11 @@ class _HelpDemoState extends State<HelpDemo> {
                     AppLocalizations.of(context)!
                         .youMayCancelYourReservationAtAnyTimeButThereWillBeA5Cost,
                     style: TextStyle(
-                      fontSize: 14,
+                      fontSize: 14.0,
                       color: Colors.grey,
                     ),
                   ),
-                const SizedBox(height: 20),
+                const SizedBox(height: 16.0),
                 GestureDetector(
                   onTap: () {
                     setState(() {
@@ -87,7 +87,7 @@ class _HelpDemoState extends State<HelpDemo> {
                           AppLocalizations.of(context)!
                               .whatPaymentMethodsAreApplicable,
                           style: TextStyle(
-                            fontSize: 16,
+                            fontSize: 16.0,
                           ),
                         ),
                       ),
@@ -95,7 +95,7 @@ class _HelpDemoState extends State<HelpDemo> {
                         _showPaymentText
                             ? Icons.arrow_drop_up
                             : Icons.arrow_drop_down,
-                        size: 24,
+                        size: 24.0,
                       ),
                     ],
                   ),
@@ -105,11 +105,11 @@ class _HelpDemoState extends State<HelpDemo> {
                     AppLocalizations.of(context)!
                         .anyEthiopianInternetBankIncludingCEBApoloAndMobileBankingAcceptsOnlinePayments,
                     style: TextStyle(
-                      fontSize: 14,
+                      fontSize: 14.0,
                       color: Colors.grey,
                     ),
                   ),
-                const SizedBox(height: 20),
+                const SizedBox(height: 16.0),
                 GestureDetector(
                   onTap: () {
                     setState(() {
@@ -119,9 +119,9 @@ class _HelpDemoState extends State<HelpDemo> {
                   child: Row(
                     children: [
                       Expanded(
-                        child: Text( 'how Can I Know If My Booking was Successful',
+                        child: Text('how Can I Know If My Booking Successful',
                           style: TextStyle(
-                            fontSize: 16,
+                            fontSize: 16.0,
                           ),
                         ),
                       ),
@@ -129,19 +129,19 @@ class _HelpDemoState extends State<HelpDemo> {
                         _showBookingDetailsText
                             ? Icons.arrow_drop_up
                             : Icons.arrow_drop_down,
-                        size: 24,
+                        size: 24.0,
                       ),
                     ],
                   ),
                 ),
                 if (_showBookingDetailsText)
-                  Text('you Will Receive An Email Confirming Your Reservation ',
+                  Text('you Will Receive An Email Confirming Your Reservation',
                     style: TextStyle(
-                      fontSize: 14,
+                      fontSize: 14.0,
                       color: Colors.grey,
                     ),
                   ),
-                const SizedBox(height: 20),
+                const SizedBox(height: 16.0),
                 GestureDetector(
                   onTap: () {
                     setState(() {
@@ -151,9 +151,9 @@ class _HelpDemoState extends State<HelpDemo> {
                   child: Row(
                     children: [
                       Expanded(
-                        child: Text( 'Do i pay additional payment when i use this app',
+                        child: Text('Do i pay additional payment when i use this app',
                           style: TextStyle(
-                            fontSize: 16,
+                            fontSize: 16.0,
                           ),
                         ),
                       ),
@@ -161,19 +161,20 @@ class _HelpDemoState extends State<HelpDemo> {
                         _showpayText
                             ? Icons.arrow_drop_up
                             : Icons.arrow_drop_down,
-                        size: 24,
+                        size: 24.0,
                       ),
                     ],
                   ),
                 ),
                 if (_showpayText)
-                  Text('When you use our app, you don\'t have to pay more',
+                  Text('When you use our app, you don\'t have to pay more '
+                      'for an extended stay.',
                     style: TextStyle(
-                      fontSize: 14,
+                      fontSize: 14.0,
                       color: Colors.grey,
                     ),
                   ),
-                const SizedBox(height: 20),
+                const SizedBox(height: 16.0),
                 GestureDetector(
                   onTap: () {
                     setState(() {
@@ -183,9 +184,9 @@ class _HelpDemoState extends State<HelpDemo> {
                   child: Row(
                     children: [
                       Expanded(
-                        child: Text( 'is breakfast includede in the price?',
+                        child: Text('is breakfast includede in the price?',
                           style: TextStyle(
-                            fontSize: 16,
+                            fontSize: 16.0,
                           ),
                         ),
                       ),
@@ -193,19 +194,19 @@ class _HelpDemoState extends State<HelpDemo> {
                         _showbreakText
                             ? Icons.arrow_drop_up
                             : Icons.arrow_drop_down,
-                        size: 24,
+                        size: 24.0,
                       ),
                     ],
                   ),
                 ),
-                if (_showbreakText)
-                  Text('Depending on the kind of hotel and the package you selected ',
+                if ( _showbreakText)
+                  Text('Depending on the kind of hotel and the package you selected' ,
                     style: TextStyle(
-                      fontSize: 14,
+                      fontSize: 14.0,
                       color: Colors.grey,
                     ),
                   ),
-                const SizedBox(height: 16),
+                const SizedBox(height: 16.0),
                 GestureDetector(
                   onTap: () {
                     setState(() {
@@ -215,9 +216,9 @@ class _HelpDemoState extends State<HelpDemo> {
                   child: Row(
                     children: [
                       Expanded(
-                        child: Text( 'How do i know if there is parking at the property and how can i reserve it',
+                        child: Text('How do i know if there is parking at the property and how can i reserve it',
                           style: TextStyle(
-                            fontSize: 16,
+                            fontSize: 16.0,
                           ),
                         ),
                       ),
@@ -230,21 +231,22 @@ class _HelpDemoState extends State<HelpDemo> {
                     ],
                   ),
                 ),
-                if (  _showparkingText)
-                  Text('you can see whether or not the property has parking under "facilities" before you make a booking',
+                if ( _showparkingText)
+                  Text('you can see whether or not the property has parking under "facilities" before you make a booking' ,
                     style: TextStyle(
-                      fontSize: 14,
+                      fontSize: 14.0,
                       color: Colors.grey,
                     ),
                   ),
                 const SizedBox(height: 40),
-                  const Text('Please get in touch with us if you have any queries about the services we offer that are not covered by the questions  mentioned above.',
-                    style: TextStyle(
-                      fontSize: 16,
-                    ),
+                const Text(
+                  'Please get in touch with us if you have any queries about the services we offer that are not covered by the questions  mentioned above.',
+                  style: TextStyle(
+                    fontSize: 16.0,
                   ),
-                const SizedBox(height: 16),
-                const SizedBox(height: 16),
+                ),
+                const SizedBox(height: 16.0),
+                const SizedBox(height: 16.0),
                 TextFormField(
                   decoration: const InputDecoration(
                     labelText: 'Your name',
@@ -254,9 +256,9 @@ class _HelpDemoState extends State<HelpDemo> {
                       return 'Please enter your name';
                     }
                     return null;
-                    },
+                  },
                 ),
-                const SizedBox(height: 16),
+                const SizedBox(height: 16.0),
                 TextFormField(
                   decoration: const InputDecoration(
                     labelText: 'Your email',
@@ -266,9 +268,9 @@ class _HelpDemoState extends State<HelpDemo> {
                       return 'Please enter a valid email';
                     }
                     return null;
-                    },
+                  },
                 ),
-                const SizedBox(height: 16),
+                const SizedBox(height: 16.0),
                 TextFormField(
                   decoration: const InputDecoration(
                     labelText: 'Your query',
@@ -279,16 +281,17 @@ class _HelpDemoState extends State<HelpDemo> {
                       return 'Please enter your query';
                     }
                     return null;
-                    },
+                  },
                 ),
-                const SizedBox(height: 16),
+                const SizedBox(height: 16.0),
                 ElevatedButton(
                   onPressed: () {
-                    if (_key.currentState!.validate())
-                    { }
-                    },
+                    if (_key.currentState!.validate()) {
+
+                    }
+                  },
                   child: const Text('Submit'),
-                )
+                ),
               ],
             ),
           ),
