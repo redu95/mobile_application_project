@@ -159,22 +159,15 @@ class _HomePageState extends State<HomePage> {
                                 : NetworkImage(
                                 'https://static.vecteezy.com/system/resources/previews/004/026/956/non_2x/person-avatar-icon-free-vector.jpg'),
                           ),
-                          Text(
-                            'Welcome, $userName!', // Replace $userName with the actual username variable
-                            style: TextStyle(
-                              fontWeight: FontWeight.bold,
-                              fontSize: 18,
-                              color: Colors.purpleAccent,
-                            ),
-                          ),
+
                           Icon(
                             Ionicons.location,
                             size: 30,
                             color: Colors.purple,
                           ),
                           Text(
-                            "Adis"
-                                " Ethiopia",
+                            "Adis Abbaba"
+                                " ,Ethiopia",
                             style: TextStyle(
                               fontWeight: FontWeight.w800,
                               fontSize: 18,
