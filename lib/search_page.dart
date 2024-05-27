@@ -20,11 +20,25 @@ class _SearchPageState extends State<SearchPage> with TickerProviderStateMixin {
 
   int index = 0;
 
-  _fetchData() {
-    int count = PlaceListData.list.length;
-    for (var item in PlaceListData.list) {
+  @override
+  void initState() {
+    super.initState();
+    animationController = AnimationController(
+      vsync: this,
+      duration: Duration(milliseconds: 1000),
+    );
+    _fetchData();
+  }
+
+  Future<void> _fetchData() async {
+    List<PlaceListData> hotelList = await PlaceListData.fetchHotels();
+    int count = hotelList.length;
+    for (var item in hotelList) {
       final Animation<double> animation = Tween<double>(begin: 0, end: 1).animate(
-          CurvedAnimation(parent: animationController!, curve: Interval( (1 / count) * index, 1, curve: Curves.fastOutSlowIn ))
+        CurvedAnimation(
+          parent: animationController!,
+          curve: Interval((1 / count) * index, 1, curve: Curves.fastOutSlowIn),
+        ),
       );
 
       PlacesWidget widget = PlacesWidget(
@@ -290,12 +304,7 @@ class _SearchPageState extends State<SearchPage> with TickerProviderStateMixin {
     );
   }
 
-  @override
-  void initState() {
-    animationController = AnimationController(vsync: this, duration: Duration(milliseconds: 1000));
-    _fetchData();
-    super.initState();
-  }
+
 }
 
 

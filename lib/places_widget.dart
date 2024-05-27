@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:ionicons/ionicons.dart';
 import 'package:mobile_application_project/dummy_data.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 
@@ -131,14 +132,7 @@ class PlacesWidget extends StatelessWidget {
                                       child: Column(
                                         crossAxisAlignment: CrossAxisAlignment.end,
                                         children: [
-                                          Text("\$${item!.perNight}", style: TextStyle(
-                                              fontWeight: FontWeight.w600,
-                                              fontSize: 22
-                                          ),),
-                                          Text("/ per night", style: TextStyle(
-                                              color: Colors.black.withOpacity(0.4),
-                                              fontSize: 14
-                                          ))
+                                          Icon(Ionicons.heart_outline)
                                         ],)
                                   )
 
