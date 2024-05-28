@@ -267,6 +267,10 @@ class Detail extends StatelessWidget {
                     _buildRoomBox(context, room4img, room4name, room4price),
                     SizedBox(width: 20),
                     _buildRoomBox(context, room5img, room5name, room5price),
+                    SizedBox(width: 20),
+                    _buildRoomBox(context, room5img, room5name, room5price),
+                    SizedBox(width: 20),
+                    _buildRoomBox(context, room5img, room5name, room5price),
                   ],
                 ),
               ),
@@ -359,8 +363,8 @@ class Detail extends StatelessWidget {
 
   Widget _buildRoomBox(BuildContext context, String image, String roomName, String roomPrice) {
     return Container(
-      width: 260, // Increased width to accommodate larger image
-      height: 320, // Increased height to accommodate larger image and room details
+      width: 290, // Increased width to accommodate larger image
+      height: 350, // Increased height to accommodate larger image and room details
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(12),
         color: Colors.grey[200],
