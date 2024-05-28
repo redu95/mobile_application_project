@@ -329,6 +329,7 @@ class Detail extends StatelessWidget {
     return Container(
       margin: const EdgeInsets.only(right: 10.0),
       height: 80,
+
       width: 100,
       decoration: BoxDecoration(
         color: color,
