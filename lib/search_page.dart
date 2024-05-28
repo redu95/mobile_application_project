@@ -3,7 +3,6 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:mobile_application_project/dummy_data.dart';
 import 'package:mobile_application_project/places_widget.dart';
 
-
 import 'colors.dart';
 
 class SearchPage extends StatefulWidget {
@@ -15,16 +14,37 @@ class SearchPage extends StatefulWidget {
 
 class _SearchPageState extends State<SearchPage> with TickerProviderStateMixin {
   AnimationController? animationController;
-
   List<PlacesWidget> places = [];
-
+  List<PlaceListData> hotelList = [];
+  List<PlaceListData> filteredHotelList = [];
   int index = 0;
 
-  _fetchData() {
-    int count = PlaceListData.list.length;
-    for (var item in PlaceListData.list) {
+  @override
+  void initState() {
+    super.initState();
+    animationController = AnimationController(
+      vsync: this,
+      duration: Duration(milliseconds: 1000),
+    );
+    _fetchData();
+  }
+
+  Future<void> _fetchData() async {
+    hotelList = await PlaceListData.fetchHotels();
+    filteredHotelList = hotelList;
+    _updatePlacesWidgets();
+  }
+
+  void _updatePlacesWidgets() {
+    places.clear();
+    int count = filteredHotelList.length;
+    for (int i = 0; i < count; i++) {
+      var item = filteredHotelList[i];
       final Animation<double> animation = Tween<double>(begin: 0, end: 1).animate(
-          CurvedAnimation(parent: animationController!, curve: Interval( (1 / count) * index, 1, curve: Curves.fastOutSlowIn ))
+        CurvedAnimation(
+          parent: animationController!,
+          curve: Interval((1 / count) * i, 1, curve: Curves.fastOutSlowIn),
+        ),
       );
 
       PlacesWidget widget = PlacesWidget(
@@ -34,47 +54,50 @@ class _SearchPageState extends State<SearchPage> with TickerProviderStateMixin {
       );
       places.add(widget);
       widget.animationController?.forward();
-
-      setState(() {
-        index++;
-      });
     }
+    setState(() {});
+  }
+
+  void _searchHotels(String query) {
+    filteredHotelList = hotelList
+        .where((hotel) => hotel.title.toLowerCase().contains(query.toLowerCase()))
+        .toList();
+    _updatePlacesWidgets();
   }
 
   @override
   Widget build(BuildContext context) {
-    return  Scaffold(
+    return Scaffold(
       body: _buildBody(context),
     );
   }
 
-  Widget _buildBody(BuildContext context){
+  Widget _buildBody(BuildContext context) {
     return Column(
       children: [
         _buildAppbar(context),
         Expanded(
-          child:
-          NestedScrollView(
+          child: NestedScrollView(
             floatHeaderSlivers: true,
-            headerSliverBuilder:
-                (BuildContext context,bool innerBoxIsScrolled){
-              return<Widget>[
+            headerSliverBuilder: (BuildContext context, bool innerBoxIsScrolled) {
+              return <Widget>[
                 SliverList(
                   delegate: SliverChildBuilderDelegate(
-                      ((context,index){
-                        return Column(
-                          children: [
-                            _buildSerchUI(context)
-                          ],
-                        );
-                      }),childCount: 1
+                    ((context, index) {
+                      return Column(
+                        children: [
+                          _buildSearchUI(context)
+                        ],
+                      );
+                    }),
+                    childCount: 1,
                   ),
                 ),
                 SliverPersistentHeader(
-                  pinned:true,
+                  pinned: true,
                   floating: true,
                   delegate: FilterTabHeader(
-                      _buildFilterUI(context)
+                    _buildFilterUI(context),
                   ),
                 ),
               ];
@@ -86,44 +109,44 @@ class _SearchPageState extends State<SearchPage> with TickerProviderStateMixin {
     );
   }
 
-  Widget _buildContent(){
+  Widget _buildContent() {
     return Container(
       color: white,
       child: ListView.builder(
         itemCount: places.length,
-        itemBuilder: ((context, index){
+        itemBuilder: ((context, index) {
           return places[index];
-        }),),
+        }),
+      ),
     );
   }
 
-  Widget _buildFilterUI(BuildContext context){
+  Widget _buildFilterUI(BuildContext context) {
     return Stack(
       children: [
         Container(
           color: white,
-          padding: EdgeInsets.only(left: 16, right: 16,top: 8, bottom: 8),
+          padding: EdgeInsets.only(left: 16, right: 16, top: 8, bottom: 8),
           child: Row(
             children: [
               Expanded(
-                  child: Container(
-                    padding: EdgeInsets.all(8),
-                    child: Text(
-                      "400 Places Found",
-                      style: TextStyle(
-                        fontWeight: FontWeight.w100,
-                        fontSize: 16,
-
-                      ),
+                child: Container(
+                  padding: EdgeInsets.all(8),
+                  child: Text(
+                    "${filteredHotelList.length} Places Found",
+                    style: TextStyle(
+                      fontWeight: FontWeight.w100,
+                      fontSize: 16,
                     ),
-                  )
+                  ),
+                ),
               ),
               Material(
                 color: Colors.transparent,
                 child: InkWell(
                   splashColor: Colors.grey.withOpacity(0.2),
                   borderRadius: BorderRadius.circular(5),
-                  onTap: (){},
+                  onTap: () {},
                   child: Container(
                     padding: EdgeInsets.only(left: 8),
                     child: Row(
@@ -131,13 +154,13 @@ class _SearchPageState extends State<SearchPage> with TickerProviderStateMixin {
                         Text(
                           "Filter",
                           style: TextStyle(
-                              fontWeight: FontWeight.w100,
-                              fontSize: 16
+                            fontWeight: FontWeight.w100,
+                            fontSize: 16,
                           ),
                         ),
                         Container(
                           padding: EdgeInsets.all(8),
-                          child: Icon(Icons.sort, color: purple,),
+                          child: Icon(Icons.sort, color: purple),
                         )
                       ],
                     ),
@@ -151,7 +174,7 @@ class _SearchPageState extends State<SearchPage> with TickerProviderStateMixin {
     );
   }
 
-  Widget _buildSerchUI(BuildContext context){
+  Widget _buildSearchUI(BuildContext context) {
     return Container(
       padding: EdgeInsets.only(left: 16, right: 16, top: 8, bottom: 8),
       child: Row(
@@ -159,24 +182,26 @@ class _SearchPageState extends State<SearchPage> with TickerProviderStateMixin {
           Expanded(
             child: Container(
               decoration: BoxDecoration(
-                  color: white,
-                  borderRadius: BorderRadius.circular(40),
-                  boxShadow: [
-                    BoxShadow(
-                        color: purple.withOpacity(0.2),
-                        offset: Offset(0,2),
-                        blurRadius: 8
-                    )
-                  ]
+                color: white,
+                borderRadius: BorderRadius.circular(40),
+                boxShadow: [
+                  BoxShadow(
+                    color: purple.withOpacity(0.2),
+                    offset: Offset(0, 2),
+                    blurRadius: 8,
+                  )
+                ],
               ),
               margin: EdgeInsets.only(left: 16, top: 8, bottom: 8),
               child: Padding(
                 padding: EdgeInsets.only(left: 16, right: 16, top: 4, bottom: 4),
                 child: TextField(
-                  onChanged: (value){},
+                  onChanged: (value) {
+                    _searchHotels(value);
+                  },
                   decoration: InputDecoration(
-                      border: InputBorder.none,
-                      hintText: "Where are you going?"
+                    border: InputBorder.none,
+                    hintText: "Where are you going?",
                   ),
                 ),
               ),
@@ -185,24 +210,25 @@ class _SearchPageState extends State<SearchPage> with TickerProviderStateMixin {
           // Creating Search Button
           Container(
             decoration: BoxDecoration(
-                color: Colors.purpleAccent.shade100,
-                borderRadius: BorderRadius.circular(50),
-                boxShadow: [
-                  BoxShadow(
-                      color: Colors.grey.withOpacity(0.4),
-                      offset: Offset(0,2),
-                      blurRadius: 8
-                  )
-                ]
+              color: Colors.purpleAccent.shade100,
+              borderRadius: BorderRadius.circular(50),
+              boxShadow: [
+                BoxShadow(
+                  color: Colors.grey.withOpacity(0.4),
+                  offset: Offset(0, 2),
+                  blurRadius: 8,
+                )
+              ],
             ),
             child: Material(
               color: Colors.transparent,
               child: InkWell(
                 borderRadius: BorderRadius.circular(50),
-                onTap: (){},
+                onTap: () {},
                 child: Container(
                   padding: EdgeInsets.all(16),
-                  child: Icon(FontAwesomeIcons.magnifyingGlass,
+                  child: Icon(
+                    FontAwesomeIcons.magnifyingGlass,
                     size: 20,
                     color: Colors.purple.shade100,
                   ),
@@ -214,20 +240,24 @@ class _SearchPageState extends State<SearchPage> with TickerProviderStateMixin {
       ),
     );
   }
-  Widget _buildAppbar(BuildContext context){
+
+  Widget _buildAppbar(BuildContext context) {
     return Container(
       decoration: BoxDecoration(
-          color: white,
-          boxShadow: [
-            BoxShadow(
-                color: purple,
-                blurRadius: 0.8,
-                spreadRadius: 0.0,
-                blurStyle: BlurStyle.normal),
-          ]
+        color: white,
+        boxShadow: [
+          BoxShadow(
+            color: purple,
+            blurRadius: 0.8,
+            spreadRadius: 0.0,
+            blurStyle: BlurStyle.normal,
+          ),
+        ],
       ),
       padding: EdgeInsets.only(
-          top: MediaQuery.of(context).padding.top, left: 8, right: 8
+        top: MediaQuery.of(context).padding.top,
+        left: 8,
+        right: 8,
       ),
       child: Row(
         children: [
@@ -244,12 +274,12 @@ class _SearchPageState extends State<SearchPage> with TickerProviderStateMixin {
               child: Text(
                 'Explore',
                 style: TextStyle(
-                    fontSize: 22,fontWeight: FontWeight.w800
+                  fontSize: 22,
+                  fontWeight: FontWeight.w800,
                 ),
               ),
             ),
           ),
-
           Container(
             width: AppBar().preferredSize.height + 40,
             height: AppBar().preferredSize.height,
@@ -258,9 +288,7 @@ class _SearchPageState extends State<SearchPage> with TickerProviderStateMixin {
                 Material(
                   color: Colors.transparent,
                   child: InkWell(
-                    onTap: (){
-
-                    },
+                    onTap: () {},
                     borderRadius: BorderRadius.circular(32),
                     child: Padding(
                       padding: EdgeInsets.all(8),
@@ -268,20 +296,17 @@ class _SearchPageState extends State<SearchPage> with TickerProviderStateMixin {
                     ),
                   ),
                 ),
-
                 Material(
                   color: Colors.transparent,
                   child: InkWell(
-                    onTap: (){
-
-                    },
+                    onTap: () {},
                     borderRadius: BorderRadius.circular(32),
                     child: Padding(
                       padding: EdgeInsets.all(8),
                       child: Icon(FontAwesomeIcons.locationDot),
                     ),
                   ),
-                )
+                ),
               ],
             ),
           ),
@@ -289,18 +314,9 @@ class _SearchPageState extends State<SearchPage> with TickerProviderStateMixin {
       ),
     );
   }
-
-  @override
-  void initState() {
-    animationController = AnimationController(vsync: this, duration: Duration(milliseconds: 1000));
-    _fetchData();
-    super.initState();
-  }
 }
 
-
-
-class FilterTabHeader extends SliverPersistentHeaderDelegate{
+class FilterTabHeader extends SliverPersistentHeaderDelegate {
   final Widget filterUI;
   FilterTabHeader(this.filterUI);
 
@@ -319,6 +335,4 @@ class FilterTabHeader extends SliverPersistentHeaderDelegate{
   bool shouldRebuild(covariant SliverPersistentHeaderDelegate oldDelegate) {
     return false;
   }
-
-
 }
