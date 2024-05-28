@@ -20,6 +20,13 @@ class Detail extends StatelessWidget {
   final String room5name;
   final String room5price;
   final String room5img;
+  final String room6name;
+  final String room6price;
+  final String room6img;
+  final String room7name;
+  final String room7price;
+  final String room7img;
+
   final String review;
   final String hotelName;
   final String hotelLocation;
@@ -44,6 +51,12 @@ class Detail extends StatelessWidget {
       this.room5img,
       this.room5name,
       this.room5price,
+      this.room6img,
+      this.room6name,
+      this.room6price,
+      this.room7img,
+      this.room7name,
+      this.room7price,
       this.hotelName,
       this.hotelLocation,
       );
