@@ -1,5 +1,6 @@
 
 //import 'package:firebase_app_check/firebase_app_check.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:mobile_application_project/auth_page.dart';
@@ -87,8 +88,203 @@ void main() async {
     options: DefaultFirebaseOptions.currentPlatform,
   );
   await Locales.init(['en', 'am', 'ar', 'es']); // Initialize flutter_locales
+  //await addHotels();
   runApp(MyApp());
 }
+
+// Future<void> addHotels() async {
+//   FirebaseFirestore firestore = FirebaseFirestore.instance;
+//
+//   List<Map<String, dynamic>> hotels = [
+//     {
+//       'name': 'Addis Hotel',
+//       'location': {'city': 'Addis Ababa', 'country': 'Ethiopia', 'address': '22 Mazoria'},
+//       'rating': 4.5,
+//       'imgUrl': 'https://cdn.adventure-life.com/11/83/16/addis_pool-1600-x-900/1300x820.webp',
+//       'rooms': [
+//         {'roomNumber': '1', 'type': 'Standard King Room', 'pricePerNight': 15000, 'availability': true},
+//         {'roomNumber': '2', 'type': 'Tween Room', 'pricePerNight': 10000, 'availability': true},
+//         {'roomNumber': '3', 'type': 'Queen Room', 'pricePerNight': 12000, 'availability': true},
+//         {'roomNumber': '4', 'type': 'Superior King Room', 'pricePerNight': 13000, 'availability': true},
+//         {'roomNumber': '5', 'type': 'Double', 'pricePerNight': 9000, 'availability': true},
+//         {'roomNumber': '6', 'type': 'Single', 'pricePerNight': 8000, 'availability': true},
+//         {'roomNumber': '8', 'type': 'Suit', 'pricePerNight': 7000, 'availability': true},
+//         {'roomNumber': '9', 'type': 'Studio', 'pricePerNight': 5000, 'availability': true},
+//         {'roomNumber': '10', 'type': 'Standard King Room', 'pricePerNight': 15000, 'availability': true},
+//         {'roomNumber': '11', 'type': 'Tween Room', 'pricePerNight': 10000, 'availability': true},
+//         {'roomNumber': '12', 'type': 'Queen Room', 'pricePerNight': 12000, 'availability': true},
+//         {'roomNumber': '13', 'type': 'Superior King Room', 'pricePerNight': 13000, 'availability': true},
+//         {'roomNumber': '14', 'type': 'Double', 'pricePerNight': 9000, 'availability': true},
+//         {'roomNumber': '15', 'type': 'Single', 'pricePerNight': 8000, 'availability': true},
+//         {'roomNumber': '16', 'type': 'Suit', 'pricePerNight': 7000, 'availability': true},
+//         {'roomNumber': '17', 'type': 'Studio', 'pricePerNight': 5000, 'availability': true},
+//       ],
+//       'reviews': [
+//         {'userId': 'user_123', 'rating': 5, 'comment': 'Great place!', 'createdAt': FieldValue.serverTimestamp()},
+//       ],
+//     },
+//     {
+//       'name': 'Capital Hotel and Spa',
+//       'location': {'city': 'Addis Ababa', 'country': 'Ethiopia', 'address': '22 Mazoria'},
+//       'rating': 4.5,
+//       'imgUrl': 'https://cdn.adventure-life.com/11/83/16/addis_pool-1600-x-900/1300x820.webp',
+//       'rooms': [
+//         {'roomNumber': '1', 'type': 'Standard King Room', 'pricePerNight': 15000, 'availability': true},
+//         {'roomNumber': '2', 'type': 'Tween Room', 'pricePerNight': 10000, 'availability': true},
+//         {'roomNumber': '3', 'type': 'Queen Room', 'pricePerNight': 12000, 'availability': true},
+//         {'roomNumber': '4', 'type': 'Superior King Room', 'pricePerNight': 13000, 'availability': true},
+//         {'roomNumber': '5', 'type': 'Double', 'pricePerNight': 9000, 'availability': true},
+//         {'roomNumber': '6', 'type': 'Single', 'pricePerNight': 8000, 'availability': true},
+//         {'roomNumber': '8', 'type': 'Suit', 'pricePerNight': 7000, 'availability': true},
+//         {'roomNumber': '9', 'type': 'Studio', 'pricePerNight': 5000, 'availability': true},
+//         {'roomNumber': '10', 'type': 'Standard King Room', 'pricePerNight': 15000, 'availability': true},
+//         {'roomNumber': '11', 'type': 'Tween Room', 'pricePerNight': 10000, 'availability': true},
+//         {'roomNumber': '12', 'type': 'Queen Room', 'pricePerNight': 12000, 'availability': true},
+//         {'roomNumber': '13', 'type': 'Superior King Room', 'pricePerNight': 13000, 'availability': true},
+//         {'roomNumber': '14', 'type': 'Double', 'pricePerNight': 9000, 'availability': true},
+//         {'roomNumber': '15', 'type': 'Single', 'pricePerNight': 8000, 'availability': true},
+//         {'roomNumber': '16', 'type': 'Suit', 'pricePerNight': 7000, 'availability': true},
+//         {'roomNumber': '17', 'type': 'Studio', 'pricePerNight': 5000, 'availability': true},
+//       ],
+//       'reviews': [
+//         {'userId': 'user_123', 'rating': 5, 'comment': 'Great place!', 'createdAt': FieldValue.serverTimestamp()},
+//       ],
+//     },
+//     {
+//       'name': 'Hilton Hotel',
+//       'location': {'city': 'Addis Ababa', 'country': 'Ethiopia', 'address': 'Kazanchis'},
+//       'rating': 4.5,
+//       'imgUrl': 'https://cdn.adventure-life.com/11/83/16/addis_pool-1600-x-900/1300x820.webp',
+//       'rooms': [
+//         {'roomNumber': '1', 'type': 'Standard King Room', 'pricePerNight': 15000, 'availability': true},
+//         {'roomNumber': '2', 'type': 'Tween Room', 'pricePerNight': 10000, 'availability': true},
+//         {'roomNumber': '3', 'type': 'Queen Room', 'pricePerNight': 12000, 'availability': true},
+//         {'roomNumber': '4', 'type': 'Superior King Room', 'pricePerNight': 13000, 'availability': true},
+//         {'roomNumber': '5', 'type': 'Double', 'pricePerNight': 9000, 'availability': true},
+//         {'roomNumber': '6', 'type': 'Single', 'pricePerNight': 8000, 'availability': true},
+//         {'roomNumber': '8', 'type': 'Suit', 'pricePerNight': 7000, 'availability': true},
+//         {'roomNumber': '9', 'type': 'Studio', 'pricePerNight': 5000, 'availability': true},
+//         {'roomNumber': '10', 'type': 'Standard King Room', 'pricePerNight': 15000, 'availability': true},
+//         {'roomNumber': '11', 'type': 'Tween Room', 'pricePerNight': 10000, 'availability': true},
+//         {'roomNumber': '12', 'type': 'Queen Room', 'pricePerNight': 12000, 'availability': true},
+//         {'roomNumber': '13', 'type': 'Superior King Room', 'pricePerNight': 13000, 'availability': true},
+//         {'roomNumber': '14', 'type': 'Double', 'pricePerNight': 9000, 'availability': true},
+//         {'roomNumber': '15', 'type': 'Single', 'pricePerNight': 8000, 'availability': true},
+//         {'roomNumber': '16', 'type': 'Suit', 'pricePerNight': 7000, 'availability': true},
+//         {'roomNumber': '17', 'type': 'Studio', 'pricePerNight': 5000, 'availability': true},
+//       ],
+//       'reviews': [
+//         {'userId': 'user_123', 'rating': 5, 'comment': 'Great place!', 'createdAt': FieldValue.serverTimestamp()},
+//       ],
+//     },
+//     {
+//       'name': 'Sheraton Addis Hotel',
+//       'location': {'city': 'Addis Ababa', 'country': 'Ethiopia', 'address': ' 2QC5+4R5, Taitu'},
+//       'rating': 4.5,
+//       'imgUrl': 'https://cdn.adventure-life.com/11/83/16/addis_pool-1600-x-900/1300x820.webp',
+//       'rooms': [
+//         {'roomNumber': '1', 'type': 'Standard King Room', 'pricePerNight': 15000, 'availability': true},
+//         {'roomNumber': '2', 'type': 'Tween Room', 'pricePerNight': 10000, 'availability': true},
+//         {'roomNumber': '3', 'type': 'Queen Room', 'pricePerNight': 12000, 'availability': true},
+//         {'roomNumber': '4', 'type': 'Superior King Room', 'pricePerNight': 13000, 'availability': true},
+//         {'roomNumber': '5', 'type': 'Double', 'pricePerNight': 9000, 'availability': true},
+//         {'roomNumber': '6', 'type': 'Single', 'pricePerNight': 8000, 'availability': true},
+//         {'roomNumber': '8', 'type': 'Suit', 'pricePerNight': 7000, 'availability': true},
+//         {'roomNumber': '9', 'type': 'Studio', 'pricePerNight': 5000, 'availability': true},
+//         {'roomNumber': '10', 'type': 'Standard King Room', 'pricePerNight': 15000, 'availability': true},
+//         {'roomNumber': '11', 'type': 'Tween Room', 'pricePerNight': 10000, 'availability': true},
+//         {'roomNumber': '12', 'type': 'Queen Room', 'pricePerNight': 12000, 'availability': true},
+//         {'roomNumber': '13', 'type': 'Superior King Room', 'pricePerNight': 13000, 'availability': true},
+//         {'roomNumber': '14', 'type': 'Double', 'pricePerNight': 9000, 'availability': true},
+//         {'roomNumber': '15', 'type': 'Single', 'pricePerNight': 8000, 'availability': true},
+//         {'roomNumber': '16', 'type': 'Suit', 'pricePerNight': 7000, 'availability': true},
+//         {'roomNumber': '17', 'type': 'Studio', 'pricePerNight': 5000, 'availability': true},
+//       ],
+//       'reviews': [
+//         {'userId': 'user_123', 'rating': 5, 'comment': 'Great place!', 'createdAt': FieldValue.serverTimestamp()},
+//       ],
+//     },
+//     {
+//       'name': 'Harmony Hotel',
+//       'location': {'city': 'Addis Ababa', 'country': 'Ethiopia', 'address': ' 2QC5+4R5, Taitu'},
+//       'rating': 4.5,
+//       'imgUrl': 'https://cdn.adventure-life.com/11/83/16/addis_pool-1600-x-900/1300x820.webp',
+//       'rooms': [
+//         {'roomNumber': '1', 'type': 'Standard King Room', 'pricePerNight': 15000, 'availability': true},
+//         {'roomNumber': '2', 'type': 'Tween Room', 'pricePerNight': 10000, 'availability': true},
+//         {'roomNumber': '3', 'type': 'Queen Room', 'pricePerNight': 12000, 'availability': true},
+//         {'roomNumber': '4', 'type': 'Superior King Room', 'pricePerNight': 13000, 'availability': true},
+//         {'roomNumber': '5', 'type': 'Double', 'pricePerNight': 9000, 'availability': true},
+//         {'roomNumber': '6', 'type': 'Single', 'pricePerNight': 8000, 'availability': true},
+//         {'roomNumber': '8', 'type': 'Suit', 'pricePerNight': 7000, 'availability': true},
+//         {'roomNumber': '9', 'type': 'Studio', 'pricePerNight': 5000, 'availability': true},
+//         {'roomNumber': '10', 'type': 'Standard King Room', 'pricePerNight': 15000, 'availability': true},
+//         {'roomNumber': '11', 'type': 'Tween Room', 'pricePerNight': 10000, 'availability': true},
+//         {'roomNumber': '12', 'type': 'Queen Room', 'pricePerNight': 12000, 'availability': true},
+//         {'roomNumber': '13', 'type': 'Superior King Room', 'pricePerNight': 13000, 'availability': true},
+//         {'roomNumber': '14', 'type': 'Double', 'pricePerNight': 9000, 'availability': true},
+//         {'roomNumber': '15', 'type': 'Single', 'pricePerNight': 8000, 'availability': true},
+//         {'roomNumber': '16', 'type': 'Suit', 'pricePerNight': 7000, 'availability': true},
+//         {'roomNumber': '17', 'type': 'Studio', 'pricePerNight': 5000, 'availability': true},
+//       ],
+//       'reviews': [
+//         {'userId': 'user_123', 'rating': 5, 'comment': 'Great place!', 'createdAt': FieldValue.serverTimestamp()},
+//       ],
+//     },
+//     // Add more hotels here
+//   ];
+//
+//   for (var hotel in hotels) {
+//     DocumentReference hotelRef = await firestore.collection('hotels').add({
+//       'name': hotel['name'],
+//       'location': hotel['location'],
+//       'rating': hotel['rating'],
+//       'imgUrl': hotel['imgUrl'],
+//     });
+//
+//     // Group rooms by type
+//     Map<String, List<Map<String, dynamic>>> roomsByType = {};
+//     for (var room in hotel['rooms']) {
+//       String type = room['type'];
+//       if (!roomsByType.containsKey(type)) {
+//         roomsByType[type] = [];
+//       }
+//       roomsByType[type]!.add(room);
+//     }
+//
+//     // Add rooms to their respective type collections
+//     for (var entry in roomsByType.entries) {
+//       String roomType = entry.key;
+//       List<Map<String, dynamic>> rooms = entry.value;
+//       DocumentReference roomTypeRef = hotelRef.collection('room_types').doc(roomType);
+//
+//       // Add a document for the room type with imgUrl
+//       await roomTypeRef.set({
+//         'imgUrl': rooms.first['imgUrl'],
+//       });
+//
+//       for (var room in rooms) {
+//         await roomTypeRef.collection('rooms').add({
+//           'roomNumber': room['roomNumber'],
+//           'pricePerNight': room['pricePerNight'],
+//           'availability': room['availability'],
+//         });
+//       }
+//     }
+//
+//     for (var review in hotel['reviews']) {
+//       await hotelRef.collection('reviews').add({
+//         'userId': review['userId'],
+//         'rating': review['rating'],
+//         'comment': review['comment'],
+//         'createdAt': review['createdAt'],
+//       });
+//     }
+//   }
+//
+//   print('Hotels added successfully');
+// }
+
 
 class WelcomePage extends StatefulWidget {
   const WelcomePage({Key? key}) : super(key: key);

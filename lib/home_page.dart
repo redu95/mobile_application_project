@@ -160,6 +160,7 @@ class _HomePageState extends State<HomePage> {
                                 'https://static.vecteezy.com/system/resources/previews/004/026/956/non_2x/person-avatar-icon-free-vector.jpg'),
                           ),
 
+
                           Icon(
                             Ionicons.location,
                             size: 30,
