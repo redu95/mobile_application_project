@@ -412,6 +412,7 @@ class Detail extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
+
                   'Room Type: $roomName',
                   style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
                 ),
