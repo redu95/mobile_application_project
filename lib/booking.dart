@@ -410,7 +410,7 @@ class _BookingDemoState extends State<BookingDemo> {
                       Expanded(
                         child: TextFormField(
                           controller: _numberOfChildrenController,
-                          decoration: const InputDecoration(
+                g          decoration: const InputDecoration(
                             labelText: 'Number of Children *',
                           ),
                           keyboardType: TextInputType.number,
