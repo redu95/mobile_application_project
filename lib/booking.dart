@@ -3,11 +3,29 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:intl/intl.dart';
 
 class BookingDemo extends StatefulWidget {
-  const BookingDemo({Key? key}) : super(key: key);
+  final String hotelName;
+  final String roomName;
+  final String roomPrice;
+  final List<String> imageUrls;
+  final List<String> roomNames; // Add roomNames parameter
+  final List<String> roomPrices; // Add roomPrices parameter
+  final List<String> roomImages; // Add roomImages parameter
+
+  const BookingDemo({
+    Key? key,
+    required this.hotelName,
+    required this.roomName,
+    required this.roomPrice,
+    required this.imageUrls,
+    required this.roomNames, // Add roomNames parameter
+    required this.roomPrices, // Add roomPrices parameter
+    required this.roomImages, // Add roomImages parameter
+  }) : super(key: key);
 
   @override
   State<BookingDemo> createState() => _BookingDemoState();
 }
+
 
 class _BookingDemoState extends State<BookingDemo> {
   final _formKey = GlobalKey<FormState>();
@@ -31,15 +49,11 @@ class _BookingDemoState extends State<BookingDemo> {
   String? _selectedRoomPreference;
   String? _selectedHotel;
 
-  final List<String> _hotels = [
-    'Sheraton Hotel',
-    'Hilton Hotel',
-    'Capital Hotel',
-    'Skylight Hotel',
-    'Harmony Hotel',
-    'Sky City Hotel',
-    'Ilili Hotel'
-  ];
+  @override
+  void initState() {
+    super.initState();
+    _selectedHotel = widget.hotelName; // Set initial hotel name
+  }
 
   @override
   void dispose() {
@@ -55,7 +69,8 @@ class _BookingDemoState extends State<BookingDemo> {
     _numberOfChildrenController.dispose();
     super.dispose();
   }
-  // Function for submit bookings
+
+  // Function for submitting bookings
   Future<void> _submitBooking() async {
     if (_formKey.currentState!.validate()) {
       try {
@@ -76,6 +91,8 @@ class _BookingDemoState extends State<BookingDemo> {
             'state': _stateController.text,
           },
           'room_preference': _selectedRoomPreference,
+          'room_type': widget.roomName,
+
           'number_of_adults': _selectedAdults,
           'created_at': FieldValue.serverTimestamp(),
         });
@@ -89,12 +106,13 @@ class _BookingDemoState extends State<BookingDemo> {
       }
     }
   }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       resizeToAvoidBottomInset: true,
       appBar: AppBar(
-        title: const Text('Booking'),
+        title: Text('Booking'),
       ),
       body: SingleChildScrollView(
         padding: const EdgeInsets.all(16.0),
@@ -108,36 +126,38 @@ class _BookingDemoState extends State<BookingDemo> {
                   height: 200,
                   fit: BoxFit.cover,
                 ),
+                Positioned(
+                  bottom: 10,
+                  left: 10,
+                  child: Text(
+                    "Booking for ${widget.hotelName}",
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontSize: 30,
+                      fontWeight: FontWeight.bold,
+                      backgroundColor: Colors.black54,
+                    ),
+                  ),
+                ),
               ],
             ),
-            const SizedBox(height: 50),
+
+
+            const SizedBox(height: 26),
             Form(
               key: _formKey,
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  DropdownButtonFormField<String>(
-                    decoration: const InputDecoration(
-                      labelText: 'Name of Hotel *',
-                    ),
-                    value: _selectedHotel,
-                    items: _hotels.map((hotel) {
-                      return DropdownMenuItem<String>(
-                        value: hotel,
-                        child: Text(hotel),
-                      );
-                    }).toList(),
-                    onChanged: (value) {
-                      setState(() {
-                        _selectedHotel = value;
-                      });
-                    },
-                    validator: (value) {
-                      if (value == null) {
-                        return 'Please select a hotel';
-                      }
-                      return null;
-                    },
+                  const SizedBox(height: 16),
+                  Text(
+                    "Room Type: ${widget.roomName}",
+                    style: TextStyle(fontSize: 20),
+                  ),
+                  const SizedBox(height: 16),
+                  Text(
+                    "price per night :\$ ${widget.roomPrice}",
+                    style: TextStyle(fontSize: 20),
                   ),
                   const SizedBox(height: 16),
                   TextFormField(
@@ -259,8 +279,7 @@ class _BookingDemoState extends State<BookingDemo> {
                               lastDate: DateTime(2100),
                             );
                             if (_selectedCheckInDate != null) {
-                              _checkInDateController.text =
-                                  _selectedCheckInDate!.toString();
+                              _checkInDateController.text = DateFormat('MM/dd/yyyy').format(_selectedCheckInDate!);
                             }
                           },
                         ),
@@ -280,8 +299,7 @@ class _BookingDemoState extends State<BookingDemo> {
                               initialTime: TimeOfDay.now(),
                             );
                             if (_selectedCheckInTime != null) {
-                              _checkInTimeController.text =
-                                  _selectedCheckInTime!.format(context);
+                              _checkInTimeController.text = _selectedCheckInTime!.format(context);
                             }
                           },
                         ),
@@ -307,8 +325,7 @@ class _BookingDemoState extends State<BookingDemo> {
                               lastDate: DateTime(2100),
                             );
                             if (_selectedCheckOutDate != null) {
-                              _checkOutDateController.text =
-                                  _selectedCheckOutDate!.toString();
+                              _checkOutDateController.text = DateFormat('MM/dd/yyyy').format(_selectedCheckOutDate!);
                             }
                           },
                         ),
@@ -328,57 +345,7 @@ class _BookingDemoState extends State<BookingDemo> {
                               initialTime: TimeOfDay.now(),
                             );
                             if (_selectedCheckOutTime != null) {
-                              _checkOutTimeController.text =
-                                  _selectedCheckOutTime!.format(context);
-                            }
-                          },
-                        ),
-                      ),
-                    ],
-                  ),
-
-                  const SizedBox(height: 16),
-                  Row(
-                    children: [
-                      Expanded(
-                        child: TextFormField(
-                          controller: _checkInDateController,
-                          decoration: const InputDecoration(
-                            labelText: 'Check-in Date *',
-                            suffixIcon: Icon(Icons.calendar_today),
-                          ),
-                          readOnly: true,
-                          onTap: () async {
-                            _selectedCheckInDate = await showDatePicker(
-                              context: context,
-                              initialDate: DateTime.now(),
-                              firstDate: DateTime.now(),
-                              lastDate: DateTime(2100),
-                            );
-                            if (_selectedCheckInDate != null) {
-                              _checkInDateController.text = DateFormat('MM/dd/yyyy').format(_selectedCheckInDate!);
-                            }
-                          },
-                        ),
-                      ),
-                      const SizedBox(width: 16),
-                      Expanded(
-                        child: TextFormField(
-                          controller: _checkOutDateController,
-                          decoration: const InputDecoration(
-                            labelText: 'Check-out Date *',
-                            suffixIcon: Icon(Icons.calendar_today),
-                          ),
-                          readOnly: true,
-                          onTap: () async {
-                            _selectedCheckOutDate = await showDatePicker(
-                              context: context,
-                              initialDate: DateTime.now(),
-                              firstDate: DateTime.now(),
-                              lastDate: DateTime(2100),
-                            );
-                            if (_selectedCheckOutDate != null) {
-                              _checkOutDateController.text = DateFormat('MM/dd/yyyy').format(_selectedCheckOutDate!);
+                              _checkOutTimeController.text = _selectedCheckOutTime!.format(context);
                             }
                           },
                         ),
@@ -428,39 +395,23 @@ class _BookingDemoState extends State<BookingDemo> {
                     ],
                   ),
                   const SizedBox(height: 16),
-                  DropdownButtonFormField<String>(
-                    decoration: const InputDecoration(
-                      labelText: 'Room Preference *',
-                    ),
-                    value: _selectedRoomPreference,
-                    items: ['Single', 'Double', 'Suite']
-                        .map((room) => DropdownMenuItem<String>(
-                      value: room,
-                      child: Text(room),
-                    ))
-                        .toList(),
-                    onChanged: (value) {
-                      setState(() {
-                        _selectedRoomPreference = value;
-                      });
-                    },
-                    validator: (value) {
-                      if (value == null) {
-                        return 'Please select a room preference';
-                      }
-                      return null;
-                    },
+                  Text(
+                    "Total price: ",
+                    style: TextStyle(fontSize: 35),
                   ),
-                  const SizedBox(height: 32),
-                  ElevatedButton(
-                    onPressed: () {
-                      if (_formKey.currentState!.validate()) {
-                        // Submit the form
-                        // ...
-                      }
-                    },
-                    child: const Text('Book Now'),
+              const SizedBox(height: 32),
+              Center(
+                child: ElevatedButton(
+                  onPressed: () {
+                    if (_formKey.currentState!.validate()) {
+                      // Submit the form
+                      _submitBooking();
+                    }
+                  },
+                  child: const Text('Book Now'),
                   ),
+              ),
+
                 ],
               ),
             ),
