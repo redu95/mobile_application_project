@@ -1,5 +1,15 @@
-import 'package:mobile_application_project/data.dart';
 import 'package:mobile_application_project/detail_screen.dart';
+
+class Data {
+  final String imageurl;
+  final String name;
+  final String location;
+  final String review;
+
+
+  Data(this.imageurl, this.name, this.location,this.review);
+}
+
 class DataHome{
 
 

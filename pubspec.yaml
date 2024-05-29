@@ -100,8 +100,22 @@ flutter:
 
     - assets/images/landing_page_images/
     - assets/Icons/
-
-    - assets/
+    - assets/images/
+    - assets/images/hotels/Capital/
+    - assets/images/hotels/Capital/capitalMain.jpg
+    - assets/images/hotels/Capital/cap1.jpg
+    - assets/images/hotels/Capital/cap2.jpg
+    - assets/images/hotels/Capital/cap3.jpg
+    - assets/images/hotels/Capital/cap4.jpg
+    - assets/images/hotels/Capital/cap5.jpg
+    - assets/images/hotels/Capital/cap-6.jpg
+    - assets/images/hotels/Capital/cap-7.jpg
+    - assets/images/hotels/Capital/cap-Satndard-King.jpg
+    - assets/images/hotels/Capital/cap-Sup-King.jpg
+    - assets/images/hotels/Capital/cap-Tween.jpg
+    - assets/images/hotels/Capital/cap-Suit.jpg
+    - assets/images/hotels/Capital/cap-Studio.jpg
+    - assets/images/hotels/Capital/cap-single.jpg
     - assets/images/hotel_im/
     - assets/locales/
     #- images/a_dot_ham.jpegs
