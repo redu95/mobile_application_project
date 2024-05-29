@@ -390,7 +390,17 @@ class Detail extends StatelessWidget {
                     onPressed: () {
                       Navigator.push(
                         context,
-                        MaterialPageRoute(builder: (context) => const BookingDemo()),
+                        MaterialPageRoute(
+                          builder: (context) => BookingDemo(
+                            hotelName: hotelName,
+                            roomName: roomName, // Pass room type here
+                            roomPrice: roomPrice, // Pass room price here
+                            imageUrls: [imageurl1, imageurl2, imageurl3], // Pass image URLs here
+                            roomNames: [room1name, room2name, room3name, room4name, room5name, room6name, room7name], // Pass room names here
+                            roomPrices: [room1price, room2price, room3price, room4price, room5price, room6price, room7price], // Pass room prices here
+                            roomImages: [room1img, room2img, room3img, room4img, room5img, room6img, room7img], // Pass room images here
+                          ),
+                        ),
                       );
                     },
                     shape: RoundedRectangleBorder(
