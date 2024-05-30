@@ -26,18 +26,12 @@ class PlacesWidget extends StatelessWidget {
               transform: Matrix4.translationValues(0, 50 * (1 - animation!.value), 0),
               child:GestureDetector(
                 onTap: () {
-                  // Navigator.push(
-                  //   context,
-                  //   MaterialPageRoute(
-                  //     builder: (context) => Detail(
-                  //       item!.imgPath,
-                  //       'assets/images/hotel_im/backup1.jpg', // Replace with actual image URLs
-                  //       'assets/images/hotel_im/backup2.jpg', // Replace with actual image URLs
-                  //       item!.title,
-                  //       item!.sub,
-                  //     ),
-                  //   ),
-                  // );
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => Detail(hotelId:item!.id),
+                    ),
+                  );
                 },
                 child: Container(
                     color: white,

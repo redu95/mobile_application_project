@@ -75,7 +75,7 @@ class Detail extends StatelessWidget {
                           children: [
                             Icon(Icons.location_on, size: 30),
                             Text(
-                              '${hotelData['location']?['city'] ?? 'No city'}, ${hotelData['location']?['country'] ?? 'No country'}',
+                              '${hotelData['location']?['address'] ?? 'No Address'}, ${hotelData['location']?['city'] ?? 'No city'}, ${hotelData['location']?['country'] ?? 'No country'}',
                               style: const TextStyle(fontSize: 24),
                             ),
                           ],
@@ -84,7 +84,7 @@ class Detail extends StatelessWidget {
                     ),
                   ),
                   Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 0, vertical: 6),
+                    padding: const EdgeInsets.symmetric(horizontal: 12.0, vertical: 6),
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
@@ -133,7 +133,7 @@ class Detail extends StatelessWidget {
                     ),
                   ),
                   Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 0, vertical: 6),
+                    padding: const EdgeInsets.symmetric(horizontal: 12.0, vertical: 6),
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
@@ -326,7 +326,7 @@ class Detail extends StatelessWidget {
                 ),
                 const SizedBox(height: 4),
                 Text(
-                  'Price: \$${pricePerNight.toString()}',
+                  'Price: \ETB${pricePerNight.toString()}',
                   style: const TextStyle(fontSize: 16),
                 ),
               ],

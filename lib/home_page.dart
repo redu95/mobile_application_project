@@ -131,7 +131,7 @@ class _HomePageState extends State<HomePage> {
   }
 
 
-  //Load User Info Dunction
+  //Load User Info Function
   Future<void> loadUserInfo(String uid) async {
     try {
       DocumentSnapshot userDoc =
@@ -190,7 +190,7 @@ class _HomePageState extends State<HomePage> {
                             color: Colors.purple,
                           ),
                           Text(
-                            "Adis Abbaba"
+                            "Addis Ababa"
                                 " ,Ethiopia",
                             style: TextStyle(
                               fontWeight: FontWeight.w800,
@@ -333,9 +333,9 @@ class _HomePageState extends State<HomePage> {
                                                 ),
                                                 SizedBox(width: 4),
                                                 Text(
-                                                  hotel['location']['address'],
+                                                  hotel['location']['address'] +hotel['location']['city'] +hotel ['location']['country'],
                                                   style: TextStyle(
-                                                    fontSize: 18,
+                                                    fontSize: 14,
                                                     color: Colors.black,
                                                     fontWeight: FontWeight.w400,
                                                   ),
@@ -482,9 +482,9 @@ class _HomePageState extends State<HomePage> {
                                               ),
                                               SizedBox(width: 4),
                                               Text(
-                                                hotel['location']['city'],
+                                                hotel['location']['address'] +hotel['location']['city'] +hotel ['location']['country'],
                                                 style: TextStyle(
-                                                  fontSize: 12,
+                                                  fontSize: 14,
                                                   color: Colors.black,
                                                   fontWeight: FontWeight.w400,
                                                 ),
