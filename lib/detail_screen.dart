@@ -1,371 +1,270 @@
 import 'package:flutter/material.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'booking.dart';
 
 class Detail extends StatelessWidget {
-  final String imageurl1;
-  final String imageurl2;
-  final String imageurl3;
-  final String room1name;
-  final String room1price;
-  final String room1img;
-  final String room2name;
-  final String room2price;
-  final String room2img;
-  final String room3name;
-  final String room3price;
-  final String room3img;
-  final String room4name;
-  final String room4price;
-  final String room4img;
-  final String room5name;
-  final String room5price;
-  final String room5img;
-  final String room6name;
-  final String room6price;
-  final String room6img;
-  final String room7name;
-  final String room7price;
-  final String room7img;
+  final String hotelId; // This will be the document ID of the hotel in Firestore
 
-  final String review;
-  final String hotelName;
-  final String hotelLocation;
+  const Detail({required this.hotelId});
 
-  const Detail(
-      this.imageurl1,
-      this.imageurl2,
-      this.imageurl3,
-      this.review,
-      this.room1img,
-      this.room1name,
-      this.room1price,
-      this.room2img,
-      this.room2name,
-      this.room2price,
-      this.room3img,
-      this.room3name,
-      this.room3price,
-      this.room4img,
-      this.room4name,
-      this.room4price,
-      this.room5img,
-      this.room5name,
-      this.room5price,
-      this.room6img,
-      this.room6name,
-      this.room6price,
-      this.room7img,
-      this.room7name,
-      this.room7price,
-      this.hotelName,
-      this.hotelLocation,
-      );
+  Future<Map<String, dynamic>> _fetchHotelDetails() async {
+    DocumentSnapshot documentSnapshot =
+    await FirebaseFirestore.instance.collection('hotels').doc(hotelId).get();
+    Map<String, dynamic> hotelData = documentSnapshot.data() as Map<String, dynamic>;
+
+    // Fetch room types
+    QuerySnapshot roomTypesSnapshot = await documentSnapshot.reference.collection('room_types').get();
+    List<Map<String, dynamic>> roomTypes = roomTypesSnapshot.docs.map((doc) => doc.data() as Map<String, dynamic>).toList();
+
+    // Fetch reviews
+    QuerySnapshot reviewsSnapshot = await documentSnapshot.reference.collection('reviews').get();
+    List<Map<String, dynamic>> reviews = reviewsSnapshot.docs.map((doc) => doc.data() as Map<String, dynamic>).toList();
+
+    hotelData['roomTypes'] = roomTypes;
+    hotelData['reviews'] = reviews;
+
+    return hotelData;
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: SingleChildScrollView(
-        child: Column(
-          children: [
-            SizedBox(
-              height: MediaQuery.of(context).size.height * 0.3,
-              child: SingleChildScrollView(
-                scrollDirection: Axis.horizontal,
-                child: Row(
-                  children: [
-                    Container(
-                      margin: const EdgeInsets.only(right: 10),
-                      child: Stack(
-                        children: [
-                          Image.asset(
-                            imageurl1,
-                            fit: BoxFit.cover,
+      body: FutureBuilder<Map<String, dynamic>>(
+        future: _fetchHotelDetails(),
+        builder: (context, snapshot) {
+          if (snapshot.connectionState == ConnectionState.waiting) {
+            return Center(child: CircularProgressIndicator());
+          } else if (snapshot.hasError) {
+            return Center(child: Text('Error: ${snapshot.error}'));
+          } else if (!snapshot.hasData) {
+            return Center(child: Text('No data found.'));
+          } else {
+            Map<String, dynamic> hotelData = snapshot.data!;
+            List<String> imageUrls = hotelData['images'] != null ? List<String>.from(hotelData['images']) : [];
+            String mainImageUrl = hotelData['imgUrl'] ?? ''; // Add a default empty string if null
+            if (mainImageUrl.isNotEmpty) {
+              imageUrls.insert(0, mainImageUrl);
+            }
+
+            return SingleChildScrollView(
+              child: Column(
+                children: [
+                  SizedBox(
+                    height: MediaQuery.of(context).size.height * 0.3,
+                    child: SingleChildScrollView(
+                      scrollDirection: Axis.horizontal,
+                      child: Row(
+                        children: imageUrls.map((imageUrl) => _buildImageContainer(imageUrl, context)).toList(),
+                      ),
+                    ),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 12.0, vertical: 12),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          hotelData['name'] ?? 'No name', // Add a default value if null
+                          style: const TextStyle(
+                            fontSize: 28,
+                            fontWeight: FontWeight.w800,
+                            color: Colors.black,
                           ),
-                          Positioned(
-                            top: 10,
-                            left: 10,
-                            child: Container(
-                              height: 40,
-                              width: 40,
-                              decoration: BoxDecoration(
-                                color: Colors.white,
-                                borderRadius: BorderRadius.circular(8),
-                              ),
-                              child: IconButton(
-                                onPressed: () {
-                                  Navigator.pop(context);
-                                },
-                                icon: const Icon(
-                                  Icons.arrow_back_ios,
-                                  size: 20,
-                                  color: Colors.purple,
-                                ),
-                              ),
+                        ),
+                        Row(
+                          children: [
+                            Icon(Icons.location_on, size: 30),
+                            Text(
+                              '${hotelData['location']?['address'] ?? 'No Address'}, ${hotelData['location']?['city'] ?? 'No city'}, ${hotelData['location']?['country'] ?? 'No country'}',
+                              style: const TextStyle(fontSize: 24),
                             ),
-                          ),
-                          Positioned(
-                            top: 10,
-                            right: 10,
-                            child: Container(
-                              height: 40,
-                              width: 40,
-                              decoration: BoxDecoration(
-                                color: Colors.white,
-                                borderRadius: BorderRadius.circular(8),
+                          ],
+                        ),
+                      ],
+                    ),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 12.0, vertical: 6),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          "Detail",
+                          style: TextStyle(fontSize: 22),
+                        ),
+                        Text(
+                          hotelData['description'] ?? 'No description', // Add a default value if null
+                          style: TextStyle(fontSize: 14),
+                        ),
+                        SizedBox(height: 10),
+                        Text(
+                          "Policies",
+                          style: TextStyle(fontSize: 22),
+                        ),
+                        Text(
+                          'Check-in: ${hotelData['policies']?['checkIn'] ?? 'No check-in info'}',
+                          style: TextStyle(fontSize: 14),
+                        ),
+                        Text(
+                          'Check-out: ${hotelData['policies']?['checkOut'] ?? 'No check-out info'}',
+                          style: TextStyle(fontSize: 14),
+                        ),
+                        Text(
+                          'Cancellation: ${hotelData['policies']?['cancellation'] ?? 'No cancellation info'}',
+                          style: TextStyle(fontSize: 14),
+                        ),
+                      ],
+                    ),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 0, vertical: 6),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          "Amenities",
+                          style: TextStyle(fontSize: 22),
+                        ),
+                        ...?hotelData['amenities']?.map<Widget>((amenity) => Text(
+                          amenity,
+                          style: TextStyle(fontSize: 14),
+                        )),
+                      ],
+                    ),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 12.0, vertical: 6),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          "Reviews",
+                          style: TextStyle(fontSize: 22),
+                        ),
+                        ...?hotelData['reviews']?.map<Widget>((review) => Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 0,vertical: 4.0),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                'Rating: ${review['rating'] ?? 'No rating'}',
+                                style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold),
                               ),
-                              child: IconButton(
-                                onPressed: () {},
-                                icon: const Icon(
-                                  Icons.favorite_border,
-                                  size: 20,
-                                  color: Colors.purple,
-                                ),
+                              Text(
+                                review['comment'] ?? 'No comment',
+                                style: TextStyle(fontSize: 14),
                               ),
-                            ),
+                            ],
                           ),
-                        ],
-                      ),
-                    ),
-                    Container(
-                      margin: const EdgeInsets.only(right: 10),
-                      child: Image.asset(
-                        imageurl2,
-                        fit: BoxFit.cover,
-                      ),
-                    ),
-                    Container(
-                      margin: const EdgeInsets.only(right: 10),
-                      child: Image.asset(
-                        imageurl3,
-                        fit: BoxFit.cover,
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-            ),
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 12.0, vertical: 12),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    hotelName,
-                    style: const TextStyle(
-                      fontSize: 28,
-                      fontWeight: FontWeight.w800,
-                      color: Colors.black,
+                        )),
+                      ],
                     ),
                   ),
-                  Row(
-                    children: [
-                      Icon(Icons.location_on, size: 30),
-                      Text(
-                        hotelLocation,
-                        style: const TextStyle(fontSize: 24),
+                  const Padding(
+                    padding: EdgeInsets.symmetric(horizontal: 0, vertical: 6),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        SizedBox(height: 10),
+                        Text(
+                          "Our Rooms",
+                          style: TextStyle(fontSize: 22),
+                        ),
+                      ],
+                    ),
+                  ),
+                  SingleChildScrollView(
+                    scrollDirection: Axis.horizontal,
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 12.0, vertical: 10),
+                      child: Row(
+                        children: List.generate(hotelData['roomTypes']?.length ?? 0, (index) {
+                          var roomType = hotelData['roomTypes']?[index];
+                          if (roomType != null) {
+                            return _buildRoomBox(
+                              context,
+                              roomType['imgUrl'] ?? '', // Add a default empty string if null
+                              roomType['type'] ?? 'No type', // Add a default value if null
+                              roomType['pricePerNight'] ?? 0, // Add a default value if null
+                              roomType['rooms'] ?? [], // Add a default empty list if null
+                            );
+                          } else {
+                            // Return a placeholder widget or handle the null case as per your requirement
+                            return SizedBox();
+                          }
+                        }),
                       ),
-                    ],
+                    ),
                   ),
                 ],
               ),
-            ),
-            const Padding(
-              padding: EdgeInsets.symmetric(horizontal: 12.0, vertical: 6),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    "Detail",
-                    style: TextStyle(fontSize: 22),
-                  ),
-                  Text(
-                    "Welcome to our luxurious hotel! Located in the heart of the city, our hotel offers a comfortable and elegant stay for both business and leisure travelers. With our world-class amenities and exceptional service, we strive to make your stay truly memorable.",
-                    style: TextStyle(fontSize: 14),
-                  ),
-                ],
-              ),
-            ),
-            SingleChildScrollView(
-              scrollDirection: Axis.horizontal,
-              child: Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 12.0, vertical: 10),
-                child: Row(
-                  children: [
-                    SizedBox(
-                      width: 140,
-                      child: _buildIconBox(
-                        Icons.wifi,
-                        "Free WiFi",
-                        const Color.fromARGB(255, 145, 233, 148),
-                      ),
-                    ),
-                    SizedBox(width: 40),
-                    SizedBox(
-                      width: 140,
-                      child: _buildIconBox(
-                        Icons.ac_unit,
-                        "Air Conditioning",
-                        const Color.fromARGB(255, 158, 228, 221),
-                      ),
-                    ),
-                    SizedBox(width: 40),
-                    SizedBox(
-                      width: 140,
-                      child: _buildIconBox(
-                        Icons.restaurant,
-                        "Restaurant",
-                        const Color.fromARGB(255, 245, 214, 167),
-                      ),
-                    ),
-                    SizedBox(width: 40),
-                    SizedBox(
-                      width: 140,
-                      child: _buildIconBox(
-                        Icons.car_rental,
-                        "Car Rental",
-                        const Color.fromARGB(255, 145, 233, 148),
-                      ),
-                    ),
-                    SizedBox(width: 40),
-                    SizedBox(
-                      width: 140,
-                      child: _buildIconBox(
-                        Icons.pool,
-                        "Swimming Pool",
-                        const Color.fromARGB(255, 114, 195, 233),
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-            ),
-            const Padding(
-              padding: EdgeInsets.symmetric(horizontal: 12.0, vertical: 6),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  SizedBox(height: 10),
-                  Text(
-                    "Our Rooms",
-                    style: TextStyle(fontSize: 22),
-                  ),
-                ],
-              ),
-            ),
-            SingleChildScrollView(
-              scrollDirection: Axis.horizontal,
-              child: Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 12.0, vertical: 10),
-                child: Row(
-                  children: [
-                    _buildRoomBox(context, room1img, room1name, room1price),
-                    SizedBox(width: 20),
-                    _buildRoomBox(context, room2img, room2name, room2price),
-                    SizedBox(width: 20),
-                    _buildRoomBox(context, room3img, room3name, room3price),
-                    SizedBox(width: 20),
-                    _buildRoomBox(context, room4img, room4name, room4price),
-                    SizedBox(width: 20),
-                    _buildRoomBox(context, room5img, room5name, room5price),
-                    SizedBox(width: 20),
-                    _buildRoomBox(context, room5img, room5name, room5price),
-                    SizedBox(width: 20),
-                    _buildRoomBox(context, room5img, room5name, room5price),
-                  ],
-                ),
-              ),
-            ),
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 12.0, vertical: 10),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    'Additional Information',
-                    style: TextStyle(fontSize: 22),
-                  ),
-                  const SizedBox(height: 10),
-                  Text(
-                    'Our hotel features a state-of-the-art fitness center, relaxing spa, and a rooftop swimming pool with stunning city views. Guests can indulge in a variety of dining options at our on-site restaurants, serving a wide range of international cuisines.',
-                    style: TextStyle(fontSize: 14),
-                  ),
-                  const SizedBox(height: 10),
-                  Text(
-                    'We are conveniently located near major attractions and shopping centers, making it easy for you to explore the city and enjoy your leisure time. Our dedicated and friendly staff is available 24/7 to assist you with any requests or inquiries you may have.',
-                    style: TextStyle(fontSize: 14),
-                  ),
-                ],
-              ),
-            ),
-
-
-
-            Padding(
-              padding: const EdgeInsets.all(20),
-              child: Column(
-                children: [
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Icon(Icons.phone, size: 40),
-                      const SizedBox(width: 10),
-                      Text(
-                        "+1 123-456-7890",
-                        style: const TextStyle(fontSize: 24),
-                      ),
-                    ],
-                  ),
-                ],
-              ),
-            ),
-          ],
-        ),
-      ),
-
-    );
-  }
-
-  Widget _buildIconBox(IconData icon, String text, Color color) {
-    return Container(
-      margin: const EdgeInsets.only(right: 10.0),
-      height: 80,
-
-      width: 100,
-      decoration: BoxDecoration(
-        color: color,
-        borderRadius: BorderRadius.circular(12),
-      ),
-      child: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 8.0),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Icon(
-              icon,
-              size: 40,
-              color: Colors.white,
-            ),
-            const SizedBox(height: 6),
-            Flexible(
-              child: Text(
-                text,
-                textAlign: TextAlign.center,
-                style: const TextStyle(
-                  fontSize: 12,
-                  color: Colors.white,
-                ),
-              ),
-            ),
-          ],
-        ),
+            );
+          }
+        },
       ),
     );
   }
 
-  Widget _buildRoomBox(BuildContext context, String image, String roomName, String roomPrice) {
+  Widget _buildImageContainer(String imageUrl, BuildContext context) {
     return Container(
-      width: 290, // Increased width to accommodate larger image
-      height: 350, // Increased height to accommodate larger image and room details
+      margin: const EdgeInsets.only(right: 10),
+      child: Stack(
+        children: [
+          Image.network(
+            imageUrl,
+            fit: BoxFit.cover,
+          ),
+          Positioned(
+            top: 10,
+            left: 10,
+            child: Container(
+              height: 40,
+              width: 40,
+              decoration: BoxDecoration(
+                color: Colors.white,
+                borderRadius: BorderRadius.circular(8),
+              ),
+              child: IconButton(
+                onPressed: () {
+                  Navigator.pop(context);
+                },
+                icon: const Icon(
+                  Icons.arrow_back_ios,
+                  size: 20,
+                  color: Colors.purple,
+                ),
+              ),
+            ),
+          ),
+          Positioned(
+            top: 10,
+            right: 10,
+            child: Container(
+              height: 40,
+              width: 40,
+              decoration: BoxDecoration(
+                color: Colors.white,
+                borderRadius: BorderRadius.circular(8),
+              ),
+              child: IconButton(
+                onPressed: () {},
+                icon: const Icon(
+                  Icons.favorite_border,
+                  size: 20,
+                  color: Colors.purple,
+                ),
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildRoomBox(BuildContext context, String imageUrl, String roomType, int pricePerNight, List rooms) {
+    return Container(
+      width: 290,
+      height: 350,
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(12),
         color: Colors.grey[200],
@@ -375,15 +274,15 @@ class Detail extends StatelessWidget {
         children: [
           Stack(
             children: [
-              Image.asset(
-                image,
+              Image.network(
+                imageUrl,
                 fit: BoxFit.cover,
                 width: double.infinity,
-                height: 250, // Increased height of the image
+                height: 250,
               ),
               Positioned(
-                bottom: 1, // Adjusted position
-                right: 8, // Adjusted position
+                bottom: 1,
+                right: 8,
                 child: SizedBox(
                   width: 100,
                   child: MaterialButton(
@@ -392,13 +291,13 @@ class Detail extends StatelessWidget {
                         context,
                         MaterialPageRoute(
                           builder: (context) => BookingDemo(
-                            hotelName: hotelName,
-                            roomName: roomName, // Pass room type here
-                            roomPrice: roomPrice, // Pass room price here
-                            imageUrls: [imageurl1, imageurl2, imageurl3], // Pass image URLs here
-                            roomNames: [room1name, room2name, room3name, room4name, room5name, room6name, room7name], // Pass room names here
-                            roomPrices: [room1price, room2price, room3price, room4price, room5price, room6price, room7price], // Pass room prices here
-                            roomImages: [room1img, room2img, room3img, room4img, room5img, room6img, room7img], // Pass room images here
+                            hotelName: hotelId,
+                            roomName: roomType,
+                            roomPrice: pricePerNight.toString(),
+                            imageUrls: [imageUrl], // This needs to be adjusted as per BookingDemo's requirement
+                            roomNames: [roomType], // This needs to be adjusted as per BookingDemo's requirement
+                            roomPrices: [pricePerNight.toString()], // This needs to be adjusted as per BookingDemo's requirement
+                            roomImages: [imageUrl], // This needs to be adjusted as per BookingDemo's requirement
                           ),
                         ),
                       );
@@ -417,19 +316,18 @@ class Detail extends StatelessWidget {
             ],
           ),
           Padding(
-            padding: const EdgeInsets.fromLTRB(12, 8, 12, 0), // Adjusted padding
+            padding: const EdgeInsets.fromLTRB(12, 8, 12, 0),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-
-                  'Room Type: $roomName',
-                  style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                  'Room Type: $roomType',
+                  style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
                 ),
-                SizedBox(height: 4),
+                const SizedBox(height: 4),
                 Text(
-                  'Room Price: \$$roomPrice', // Added dollar sign before room price
-                  style: TextStyle(fontSize: 16),
+                  'Price: \ETB${pricePerNight.toString()}',
+                  style: const TextStyle(fontSize: 16),
                 ),
               ],
             ),
