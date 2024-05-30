@@ -15,6 +15,8 @@ import 'login_page.dart';
 import 'package:mobile_application_project/theme_provider.dart';
 import 'package:mobile_application_project/help.dart';
 
+import 'my_bookings.dart';
+
 class SettingPage extends StatefulWidget {
   final String userName;
   final String email;
@@ -216,6 +218,14 @@ class _SettingPageState extends State<SettingPage> {
                         color: Colors.deepPurple,
                       ),
                     ),
+                    onTap: (){
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => MyBookingsPage(),
+                        ),
+                      );
+                    },
                     title: Text(
                       AppLocalizations.of(context)!.bookings ?? '',
                       style: TextStyle(
