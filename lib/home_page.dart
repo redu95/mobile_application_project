@@ -93,7 +93,6 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   MenuSelection selectedOne = MenuSelection.menu1;
-  DataHome object = DataHome();
   String userName = '';
   String email = "";
   String? photoUrl; // Add this variable to hold profile picture URL
@@ -113,12 +112,17 @@ class _HomePageState extends State<HomePage> {
   Future<List<Map<String, dynamic>>> fetchHotels() async {
     try {
       QuerySnapshot snapshot = await FirebaseFirestore.instance.collection('hotels').get();
-      return snapshot.docs.map((doc) => doc.data() as Map<String, dynamic>).toList();
+      return snapshot.docs.map((doc) {
+        Map<String, dynamic> data = doc.data() as Map<String, dynamic>;
+        data['id'] = doc.id; // Add the document ID to the map
+        return data;
+      }).toList();
     } catch (e) {
       print("Error fetching hotels: $e");
       return [];
     }
   }
+
   Future<void> fetchHotelData() async {
     List<Map<String, dynamic>> fetchedHotels = await fetchHotels();
     setState(() {
@@ -264,7 +268,7 @@ class _HomePageState extends State<HomePage> {
                       width: double.infinity,
                       child: hotels.isEmpty ? Center(child: CircularProgressIndicator()) : ListView.builder(
                         scrollDirection: Axis.horizontal,
-                        itemCount: object.getData.length,
+                        itemCount: hotels.length,
                         itemBuilder: (context, index) {
                           var hotel = hotels[index];
                           return InkWell(
@@ -272,35 +276,7 @@ class _HomePageState extends State<HomePage> {
                               Navigator.push(
                                 context,
                                 MaterialPageRoute(
-                                  builder: (context) => Detail(
-                                    object.getRoomimg[index].imageurl1,
-                                    object.getRoomimg[index].imageurl2,
-                                    object.getRoomimg[index].imageurl3,
-                                    object.getRoomimg[index].review,
-                                    object.getRoomimg[index].room1img,
-                                    object.getRoomimg[index].room1name,
-                                    object.getRoomimg[index].room1price,
-                                    object.getRoomimg[index].room2img,
-                                    object.getRoomimg[index].room2name,
-                                    object.getRoomimg[index].room2price,
-                                    object.getRoomimg[index].room3img,
-                                    object.getRoomimg[index].room3name,
-                                    object.getRoomimg[index].room3price,
-                                    object.getRoomimg[index].room4img,
-                                    object.getRoomimg[index].room4name,
-                                    object.getRoomimg[index].room4price,
-                                    object.getRoomimg[index].room5img,
-                                    object.getRoomimg[index].room5name,
-                                    object.getRoomimg[index].room5price,
-                                    object.getRoomimg[index].room6img,
-                                    object.getRoomimg[index].room6name,
-                                    object.getRoomimg[index].room6price,
-                                    object.getRoomimg[index].room7img,
-                                    object.getRoomimg[index].room7name,
-                                    object.getRoomimg[index].room7price,
-                                    object.getRoomimg[index].hotelName,
-                                    object.getRoomimg[index].hotelLocation,
-                                  ),
+                                  builder: (context) => Detail(hotelId: hotel['id']),
                                 ),
                               );
                             },
@@ -441,35 +417,7 @@ class _HomePageState extends State<HomePage> {
                               Navigator.push(
                                 context,
                                 MaterialPageRoute(
-                                  builder: (context) => Detail(
-                                    object.getRoomimg[index].imageurl1,
-                                    object.getRoomimg[index].imageurl2,
-                                    object.getRoomimg[index].imageurl3,
-                                    object.getRoomimg[index].review,
-                                    object.getRoomimg[index].room1img,
-                                    object.getRoomimg[index].room1name,
-                                    object.getRoomimg[index].room1price,
-                                    object.getRoomimg[index].room2img,
-                                    object.getRoomimg[index].room2name,
-                                    object.getRoomimg[index].room2price,
-                                    object.getRoomimg[index].room3img,
-                                    object.getRoomimg[index].room3name,
-                                    object.getRoomimg[index].room3price,
-                                    object.getRoomimg[index].room4img,
-                                    object.getRoomimg[index].room4name,
-                                    object.getRoomimg[index].room4price,
-                                    object.getRoomimg[index].room5img,
-                                    object.getRoomimg[index].room5name,
-                                    object.getRoomimg[index].room5price,
-                                    object.getRoomimg[index].room6img,
-                                    object.getRoomimg[index].room6name,
-                                    object.getRoomimg[index].room6price,
-                                    object.getRoomimg[index].room7img,
-                                    object.getRoomimg[index].room7name,
-                                    object.getRoomimg[index].room7price,
-                                    object.getRoomimg[index].hotelName,
-                                    object.getRoomimg[index].hotelLocation,
-                                  ),
+                                  builder: (context) => Detail(hotelId: hotel['id']),
                                 ),
                               );
                             },
