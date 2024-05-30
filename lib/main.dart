@@ -1,8 +1,4 @@
 
-import 'dart:io';
-
-import 'package:path/path.dart' as p;
-import 'package:uuid/uuid.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_storage/firebase_storage.dart';
@@ -12,15 +8,11 @@ import 'package:mobile_application_project/auth_page.dart';
 import 'package:mobile_application_project/login_page.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:mobile_application_project/introduction_screen.dart';
-import 'package:mobile_application_project/languageMenu.dart';
 import 'package:flutter_locales/flutter_locales.dart';
-import 'package:mobile_application_project/l10n/l10n.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'firebase_options.dart';
 import 'package:mobile_application_project/theme_provider.dart';
 import 'package:provider/provider.dart';
-import 'package:flutter_cache_manager/flutter_cache_manager.dart';
-import 'package:path_provider/path_provider.dart';
 
 class MyApp extends StatefulWidget {
   const MyApp({Key? key}) : super(key: key);
@@ -95,7 +87,7 @@ void main() async {
       options: DefaultFirebaseOptions.currentPlatform,
   );
   await Locales.init(['en', 'am', 'ar', 'es']); // Initialize flutter_locales
-  await addHotels();
+  //await addHotels();
   runApp(MyApp());
 }
 
@@ -109,45 +101,113 @@ Future<void> addHotels() async {
 
   // Hotel data with file names
   List<Map<String, dynamic>> hotels = [
-    {
-      'name': 'Capital Hotel and Spa',
-      'location': {'city': 'Addis Ababa', 'country': 'Ethiopia', 'address': '22 Mazoria'},
-      'rating': 4.5,
-      'mainImage': 'capitalMain.jpg',
-      'images': ['cap1.jpg', 'cap2.jpg', 'cap3.jpg', 'cap4.jpg', 'cap5.jpg', 'cap-6.jpg', 'cap-7.jpg'],
-      'description': 'A luxurious hotel in the heart of Addis Ababa.',
-      'amenities': ['Free Wi-Fi', 'Swimming Pool', 'Gym', 'Spa'],
-      'policies': {'checkIn': '12:00 PM', 'checkOut': '11:00 AM', 'cancellation': 'Free cancellation within 24 hours'},
-      'roomTypes': [
-        {'type': 'Standard King Room', 'image': 'cap-Satndard-King.jpg', 'pricePerNight': 15000, 'rooms': [
-          {'roomNumber': '1', 'availability': true},
-          {'roomNumber': '2', 'availability': true},
-        ]},
-        {'type': 'Supreme King Room', 'image': 'cap-Sup-King.jpg', 'pricePerNight': 13000, 'rooms': [
-          {'roomNumber': '3', 'availability': true},
-          {'roomNumber': '4', 'availability': true},
-        ]},
-        {'type': 'Tween Room', 'image': 'cap-Tween.jpg', 'pricePerNight': 12000, 'rooms': [
-          {'roomNumber': '3', 'availability': true},
-          {'roomNumber': '4', 'availability': true},
-        ]},
-        {'type': 'Suit Room', 'image': 'cap-Suit.jpg', 'pricePerNight': 11000, 'rooms': [
-          {'roomNumber': '3', 'availability': true},
-          {'roomNumber': '4', 'availability': true},
-        ]},
-        {'type': 'Studio Room', 'image': 'cap-Studio.jpg', 'pricePerNight': 10000, 'rooms': [
-          {'roomNumber': '3', 'availability': true},
-          {'roomNumber': '4', 'availability': true},
-        ]},
-        {'type': 'Single Room', 'image': 'cap-single.jpg', 'pricePerNight': 10000, 'rooms': [
-          {'roomNumber': '3', 'availability': true},
-          {'roomNumber': '4', 'availability': true},
-        ]},
-      ],
-      'reviews': [
-        {'userId': 'user_123', 'rating': 5, 'comment': 'Great place!', 'createdAt': FieldValue.serverTimestamp()},
-      ],
-    },
+    // {
+    //   'name': 'Capital Hotel and Spa',
+    //   'location': {'city': 'Addis Ababa', 'country': 'Ethiopia', 'address': '22 Mazoria'},
+    //   'rating': 4.5,
+    //   'mainImage': 'capitalMain.jpg',
+    //   'images': ['cap1.jpg', 'cap2.jpg', 'cap3.jpg', 'cap4.jpg', 'cap5.jpg', 'cap-6.jpg', 'cap-7.jpg'],
+    //   'description': 'A luxurious hotel in the heart of Addis Ababa.',
+    //   'amenities': ['Free Wi-Fi', 'Swimming Pool', 'Gym', 'Spa'],
+    //   'policies': {'checkIn': '12:00 PM', 'checkOut': '11:00 AM', 'cancellation': 'Free cancellation within 24 hours'},
+    //   'roomTypes': [
+    //     {'type': 'Standard King Room', 'image': 'cap-Satndard-King.jpg', 'pricePerNight': 15000, 'rooms': [
+    //       {'roomNumber': '1', 'availability': true},
+    //       {'roomNumber': '2', 'availability': true},
+    //     ]},
+    //     {'type': 'Supreme King Room', 'image': 'cap-Sup-King.jpg', 'pricePerNight': 13000, 'rooms': [
+    //       {'roomNumber': '3', 'availability': true},
+    //       {'roomNumber': '4', 'availability': true},
+    //     ]},
+    //     {'type': 'Tween Room', 'image': 'cap-Tween.jpg', 'pricePerNight': 12000, 'rooms': [
+    //       {'roomNumber': '3', 'availability': true},
+    //       {'roomNumber': '4', 'availability': true},
+    //     ]},
+    //     {'type': 'Suit Room', 'image': 'cap-Suit.jpg', 'pricePerNight': 11000, 'rooms': [
+    //       {'roomNumber': '3', 'availability': true},
+    //       {'roomNumber': '4', 'availability': true},
+    //     ]},
+    //     {'type': 'Studio Room', 'image': 'cap-Studio.jpg', 'pricePerNight': 10000, 'rooms': [
+    //       {'roomNumber': '3', 'availability': true},
+    //       {'roomNumber': '4', 'availability': true},
+    //     ]},
+    //     {'type': 'Single Room', 'image': 'cap-single.jpg', 'pricePerNight': 10000, 'rooms': [
+    //       {'roomNumber': '3', 'availability': true},
+    //       {'roomNumber': '4', 'availability': true},
+    //     ]},
+    //   ],
+    //   'reviews': [
+    //     {'userId': 'user_123', 'rating': 5, 'comment': 'Great place!', 'createdAt': FieldValue.serverTimestamp()},
+    //   ],
+    // },//Capital
+    //SkyLight
+    // {
+    //   'name': 'Skylight Hotel',
+    //   'location': {'city': 'Addis Ababa', 'country': 'Ethiopia', 'address': 'Bole'},
+    //   'rating': 4.5,
+    //   'mainImage': 'skyMain.jpg',
+    //   'images': ['skyLight1.jpg', 'skyLight2.jpg', 'skyLight3.jpg', 'skyLight4.jpg'],
+    //   'description': 'A luxurious hotel in the heart of Addis Ababa.',
+    //   'amenities': ['Free Wi-Fi', 'Swimming Pool', 'Gym', 'Spa'],
+    //   'policies': {'checkIn': '12:00 PM', 'checkOut': '11:00 AM', 'cancellation': 'Free cancellation within 24 hours'},
+    //   'roomTypes': [
+    //     {'type': 'Standard King Room', 'image': 'skyLight-King.jpg', 'pricePerNight': 15000, 'rooms': [
+    //       {'roomNumber': '1', 'availability': true},
+    //       {'roomNumber': '2', 'availability': true},
+    //     ]},
+    //     {'type': 'Supreme King Room', 'image': 'skyLight-Superior-King.jpg', 'pricePerNight': 13000, 'rooms': [
+    //       {'roomNumber': '3', 'availability': true},
+    //       {'roomNumber': '4', 'availability': true},
+    //     ]},
+    //     {'type': 'Tween Room', 'image': 'skyLight-Tween.jpg', 'pricePerNight': 12000, 'rooms': [
+    //       {'roomNumber': '3', 'availability': true},
+    //       {'roomNumber': '4', 'availability': true},
+    //     ]},
+    //     {'type': 'Execute Suit Room', 'image': 'skyLight-Excutive-Suit.jpg', 'pricePerNight': 11000, 'rooms': [
+    //       {'roomNumber': '3', 'availability': true},
+    //       {'roomNumber': '4', 'availability': true},
+    //     ]},
+    //   ],
+    //   'reviews': [
+    //     {'userId': 'user_123', 'rating': 5, 'comment': 'Great place!', 'createdAt': FieldValue.serverTimestamp()},
+    //   ],
+    // },
+    //BestWest
+    // {
+    //   'name': 'Best Western Hotel',
+    //   'location': {'city': 'Addis Ababa', 'country': 'Ethiopia', 'address': '22 Bole'},
+    //   'rating': 4.5,
+    //   'mainImage': 'bwMain.jpg',
+    //   'images': ['bw1.jpg', 'bw2.jpg', 'bw3.jpg', 'bw4.jpg', 'bw5.jpg'],
+    //   'description': 'A luxurious hotel in the heart of Addis Ababa.',
+    //   'amenities': ['Free Wi-Fi', 'Swimming Pool', 'Gym', 'Spa'],
+    //   'policies': {'checkIn': '12:00 PM', 'checkOut': '11:00 AM', 'cancellation': 'Free cancellation within 24 hours'},
+    //   'roomTypes': [
+    //     {'type': 'Standard King Suit', 'image': 'bw-King-Suit.jpg', 'pricePerNight': 15000, 'rooms': [
+    //       {'roomNumber': '1', 'availability': true},
+    //       {'roomNumber': '2', 'availability': true},
+    //     ]},
+    //     {'type': 'Deluxe Queen Room', 'image': 'bw-Delux-Queen.jpg', 'pricePerNight': 13000, 'rooms': [
+    //       {'roomNumber': '3', 'availability': true},
+    //       {'roomNumber': '4', 'availability': true},
+    //     ]},
+    //     {'type': 'Standard Tween Room', 'image': 'bw-Standard-Tween.jpg', 'pricePerNight': 12000, 'rooms': [
+    //       {'roomNumber': '3', 'availability': true},
+    //       {'roomNumber': '4', 'availability': true},
+    //     ]},
+    //     {'type': 'Standard Queen Room', 'image': 'bw-Standard-Queen.jpg', 'pricePerNight': 11000, 'rooms': [
+    //       {'roomNumber': '3', 'availability': true},
+    //       {'roomNumber': '4', 'availability': true},
+    //     ]},
+    //     {'type': 'Single Room', 'image': 'bw-single.jpg', 'pricePerNight': 10000, 'rooms': [
+    //       {'roomNumber': '3', 'availability': true},
+    //       {'roomNumber': '4', 'availability': true},
+    //     ]},
+    //   ],
+    //   'reviews': [
+    //     {'userId': 'user_123', 'rating': 5, 'comment': 'Great place!', 'createdAt': FieldValue.serverTimestamp()},
+    //   ],
+    // },
     // Add more hotels here...
   ];
 
