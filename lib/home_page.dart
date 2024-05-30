@@ -5,12 +5,8 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:ionicons/ionicons.dart';
 import 'package:mobile_application_project/search_page.dart';
 import 'package:mobile_application_project/setting_page.dart';
-import 'package:mobile_application_project/homeScreen.dart';
-import 'package:mobile_application_project/data_home.dart';
 import 'package:mobile_application_project/detail_screen.dart';
-
 import 'Nearby_page.dart';
-import 'languagerelatedclass/language_constants.dart';
 
 class Home extends StatefulWidget {
   @override
@@ -51,7 +47,7 @@ class _HomeState extends State<Home> {
   }
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context)  {
     return Scaffold(
       body: Center(
         child: _widgetOptions.elementAt(_selectedIndex),
@@ -93,12 +89,12 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   MenuSelection selectedOne = MenuSelection.menu1;
-  DataHome object = DataHome();
   String userName = '';
   String email = "";
   String? photoUrl; // Add this variable to hold profile picture URL
   late User user; // Add this variable to hold the authenticated user
   bool isLoading = true; // Track loading state
+  List<Map<String, dynamic>> hotels = []; // To store fetched hotel data
 
   @override
   // initializing the states
@@ -106,9 +102,32 @@ class _HomePageState extends State<HomePage> {
     super.initState();
     user = FirebaseAuth.instance.currentUser!;
     loadUserInfo(user.uid);
+    fetchHotelData();
+  }
+  // Fetch Hotels Function
+  Future<List<Map<String, dynamic>>> fetchHotels() async {
+    try {
+      QuerySnapshot snapshot = await FirebaseFirestore.instance.collection('hotels').get();
+      return snapshot.docs.map((doc) {
+        Map<String, dynamic> data = doc.data() as Map<String, dynamic>;
+        data['id'] = doc.id; // Add the document ID to the map
+        return data;
+      }).toList();
+    } catch (e) {
+      print("Error fetching hotels: $e");
+      return [];
+    }
   }
 
-  //
+  Future<void> fetchHotelData() async {
+    List<Map<String, dynamic>> fetchedHotels = await fetchHotels();
+    setState(() {
+      hotels = fetchedHotels;
+    });
+  }
+
+
+  //Load User Info Function
   Future<void> loadUserInfo(String uid) async {
     try {
       DocumentSnapshot userDoc =
@@ -167,7 +186,7 @@ class _HomePageState extends State<HomePage> {
                             color: Colors.purple,
                           ),
                           Text(
-                            "Adis Abbaba"
+                            "Addis Ababa"
                                 " ,Ethiopia",
                             style: TextStyle(
                               fontWeight: FontWeight.w800,
@@ -243,44 +262,17 @@ class _HomePageState extends State<HomePage> {
                       margin: EdgeInsets.symmetric(horizontal: 4, vertical: 12),
                       height: 300,
                       width: double.infinity,
-                      child: ListView.builder(
+                      child: hotels.isEmpty ? Center(child: CircularProgressIndicator()) : ListView.builder(
                         scrollDirection: Axis.horizontal,
-                        itemCount: object.getData.length,
+                        itemCount: hotels.length,
                         itemBuilder: (context, index) {
+                          var hotel = hotels[index];
                           return InkWell(
                             onTap: () {
                               Navigator.push(
                                 context,
                                 MaterialPageRoute(
-                                  builder: (context) => Detail(
-                                    object.getRoomimg[index].imageurl1,
-                                    object.getRoomimg[index].imageurl2,
-                                    object.getRoomimg[index].imageurl3,
-                                    object.getRoomimg[index].review,
-                                    object.getRoomimg[index].room1img,
-                                    object.getRoomimg[index].room1name,
-                                    object.getRoomimg[index].room1price,
-                                    object.getRoomimg[index].room2img,
-                                    object.getRoomimg[index].room2name,
-                                    object.getRoomimg[index].room2price,
-                                    object.getRoomimg[index].room3img,
-                                    object.getRoomimg[index].room3name,
-                                    object.getRoomimg[index].room3price,
-                                    object.getRoomimg[index].room4img,
-                                    object.getRoomimg[index].room4name,
-                                    object.getRoomimg[index].room4price,
-                                    object.getRoomimg[index].room5img,
-                                    object.getRoomimg[index].room5name,
-                                    object.getRoomimg[index].room5price,
-                                    object.getRoomimg[index].room6img,
-                                    object.getRoomimg[index].room6name,
-                                    object.getRoomimg[index].room6price,
-                                    object.getRoomimg[index].room7img,
-                                    object.getRoomimg[index].room7name,
-                                    object.getRoomimg[index].room7price,
-                                    object.getRoomimg[index].hotelName,
-                                    object.getRoomimg[index].hotelLocation,
-                                  ),
+                                  builder: (context) => Detail(hotelId: hotel['id']),
                                 ),
                               );
                             },
@@ -308,9 +300,7 @@ class _HomePageState extends State<HomePage> {
                                               topRight: Radius.circular(12),
                                             ),
                                             image: DecorationImage(
-                                              image: AssetImage(
-                                                object.getData[index].imageurl,
-                                              ),
+                                              image: NetworkImage(hotel['imgUrl']),
                                               fit: BoxFit.cover,
                                             ),
                                           ),
@@ -322,7 +312,7 @@ class _HomePageState extends State<HomePage> {
                                           crossAxisAlignment: CrossAxisAlignment.start,
                                           children: [
                                             Text(
-                                              object.getData[index].name,
+                                              hotel['name'],
                                               style: TextStyle(
                                                 fontSize: 24,
                                                 color: Colors.black,
@@ -339,9 +329,9 @@ class _HomePageState extends State<HomePage> {
                                                 ),
                                                 SizedBox(width: 4),
                                                 Text(
-                                                  object.getData[index].location,
+                                                  hotel['location']['address'] +hotel['location']['city'] +hotel ['location']['country'],
                                                   style: TextStyle(
-                                                    fontSize: 18,
+                                                    fontSize: 14,
                                                     color: Colors.black,
                                                     fontWeight: FontWeight.w400,
                                                   ),
@@ -362,7 +352,7 @@ class _HomePageState extends State<HomePage> {
                                                 ),
                                                 SizedBox(width: 4),
                                                 Text(
-                                                  '${object.getData[index].review} Reviews',
+                                                  '${hotel['rating']} Reviews',
                                                   style: TextStyle(
                                                     fontSize: 16,
                                                     color: Colors.purple,
@@ -411,10 +401,11 @@ class _HomePageState extends State<HomePage> {
                       margin: EdgeInsets.symmetric(horizontal: 4, vertical: 12),
                       height: 160, // Adjust the height to your desired value
                       width: double.infinity,
-                      child: ListView.builder(
+                      child: hotels.isEmpty ? Center(child: CircularProgressIndicator()) : ListView.builder(
                         scrollDirection: Axis.horizontal,
-                        itemCount: object.getAnotherData.length,
+                        itemCount: hotels.length,
                         itemBuilder: (context, index) {
+                          var hotel = hotels[index];
                           bool isFavorite = false;
 
                           return InkWell(
@@ -422,35 +413,7 @@ class _HomePageState extends State<HomePage> {
                               Navigator.push(
                                 context,
                                 MaterialPageRoute(
-                                  builder: (context) => Detail(
-                                    object.getRoomimg[index].imageurl1,
-                                    object.getRoomimg[index].imageurl2,
-                                    object.getRoomimg[index].imageurl3,
-                                    object.getRoomimg[index].review,
-                                    object.getRoomimg[index].room1img,
-                                    object.getRoomimg[index].room1name,
-                                    object.getRoomimg[index].room1price,
-                                    object.getRoomimg[index].room2img,
-                                    object.getRoomimg[index].room2name,
-                                    object.getRoomimg[index].room2price,
-                                    object.getRoomimg[index].room3img,
-                                    object.getRoomimg[index].room3name,
-                                    object.getRoomimg[index].room3price,
-                                    object.getRoomimg[index].room4img,
-                                    object.getRoomimg[index].room4name,
-                                    object.getRoomimg[index].room4price,
-                                    object.getRoomimg[index].room5img,
-                                    object.getRoomimg[index].room5name,
-                                    object.getRoomimg[index].room5price,
-                                    object.getRoomimg[index].room6img,
-                                    object.getRoomimg[index].room6name,
-                                    object.getRoomimg[index].room6price,
-                                    object.getRoomimg[index].room7img,
-                                    object.getRoomimg[index].room7name,
-                                    object.getRoomimg[index].room7price,
-                                    object.getRoomimg[index].hotelName,
-                                    object.getRoomimg[index].hotelLocation,
-                                  ),
+                                  builder: (context) => Detail(hotelId: hotel['id']),
                                 ),
                               );
                             },
@@ -485,9 +448,7 @@ class _HomePageState extends State<HomePage> {
                                         bottomLeft: Radius.circular(12),
                                       ),
                                       image: DecorationImage(
-                                        image: AssetImage(
-                                          object.getAnotherData[index].imageurl,
-                                        ),
+                                        image: NetworkImage(hotel['imgUrl']),
                                         fit: BoxFit.cover,
                                       ),
                                     ),
@@ -500,7 +461,7 @@ class _HomePageState extends State<HomePage> {
                                         mainAxisAlignment: MainAxisAlignment.end,
                                         children: [
                                           Text(
-                                            object.getAnotherData[index].name,
+                                            hotel['name'],
                                             style: TextStyle(
                                               fontSize: 16,
                                               color: Colors.black,
@@ -517,9 +478,9 @@ class _HomePageState extends State<HomePage> {
                                               ),
                                               SizedBox(width: 4),
                                               Text(
-                                                object.getAnotherData[index].location,
+                                                hotel['location']['address'] +hotel['location']['city'] +hotel ['location']['country'],
                                                 style: TextStyle(
-                                                  fontSize: 12,
+                                                  fontSize: 14,
                                                   color: Colors.black,
                                                   fontWeight: FontWeight.w400,
                                                 ),
@@ -548,7 +509,7 @@ class _HomePageState extends State<HomePage> {
                                               ),
                                               SizedBox(width: 4),
                                               Text(
-                                                '${object.getAnotherData[index].review} Reviews',
+                                                '${hotel['rating']} Reviews',
                                                 style: TextStyle(
                                                   fontSize: 16,
                                                   color: Colors.purple,
