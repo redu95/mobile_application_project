@@ -184,9 +184,11 @@ class Detail extends StatelessWidget {
                             return _buildRoomBox(
                               context,
                               roomType['imgUrl'] ?? '', // Add a default empty string if null
+                              hotelId,
                               roomType['type'] ?? 'No type', // Add a default value if null
                               roomType['pricePerNight'] ?? 0, // Add a default value if null
-                              roomType['rooms'] ?? [], // Add a default empty list if null
+                              hotelData['name'],
+                              // Add a default empty list if null
                             );
                           } else {
                             // Return a placeholder widget or handle the null case as per your requirement
@@ -261,7 +263,7 @@ class Detail extends StatelessWidget {
     );
   }
 
-  Widget _buildRoomBox(BuildContext context, String imageUrl, String roomType, int pricePerNight, List rooms) {
+  Widget _buildRoomBox(BuildContext context, String imageUrl,String hotelId, String roomType, int pricePerNight, String hotelName) {
     return Container(
       width: 290,
       height: 350,
@@ -291,13 +293,11 @@ class Detail extends StatelessWidget {
                         context,
                         MaterialPageRoute(
                           builder: (context) => BookingDemo(
-                            hotelName: hotelId,
+                            hotelId:hotelId,
+                            hotelName: hotelName,
                             roomName: roomType,
-                            roomPrice: pricePerNight.toString(),
-                            imageUrls: [imageUrl], // This needs to be adjusted as per BookingDemo's requirement
-                            roomNames: [roomType], // This needs to be adjusted as per BookingDemo's requirement
-                            roomPrices: [pricePerNight.toString()], // This needs to be adjusted as per BookingDemo's requirement
-                            roomImages: [imageUrl], // This needs to be adjusted as per BookingDemo's requirement
+                            roomPrice: pricePerNight,
+                            imageUrl: imageUrl,
                           ),
                         ),
                       );
