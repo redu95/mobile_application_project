@@ -357,7 +357,7 @@ class _HomePageState extends State<HomePage> {
                                                 ),
                                                 SizedBox(width: 4),
                                                 Text(
-                                                  hotel['location']['adress'],
+                                                  hotel['location']['address'],
                                                   style: TextStyle(
                                                     fontSize: 18,
                                                     color: Colors.black,

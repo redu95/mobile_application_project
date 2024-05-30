@@ -1,5 +1,8 @@
 
-//import 'package:firebase_app_check/firebase_app_check.dart';
+import 'dart:io';
+
+import 'package:path/path.dart' as p;
+import 'package:uuid/uuid.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_storage/firebase_storage.dart';
@@ -16,6 +19,8 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'firebase_options.dart';
 import 'package:mobile_application_project/theme_provider.dart';
 import 'package:provider/provider.dart';
+import 'package:flutter_cache_manager/flutter_cache_manager.dart';
+import 'package:path_provider/path_provider.dart';
 
 class MyApp extends StatefulWidget {
   const MyApp({Key? key}) : super(key: key);
@@ -87,90 +92,57 @@ class _MyAppState extends State<MyApp> {
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(
-    options: DefaultFirebaseOptions.currentPlatform,
+      options: DefaultFirebaseOptions.currentPlatform,
   );
   await Locales.init(['en', 'am', 'ar', 'es']); // Initialize flutter_locales
   await addHotels();
   runApp(MyApp());
 }
 
+Future<String> getDownloadUrl(String folder, String fileName) async {
+  Reference ref = FirebaseStorage.instance.ref().child('$folder/$fileName');
+  return await ref.getDownloadURL();
+}
+
 Future<void> addHotels() async {
   FirebaseFirestore firestore = FirebaseFirestore.instance;
-  FirebaseStorage storage = FirebaseStorage.instance;
 
+  // Hotel data with file names
   List<Map<String, dynamic>> hotels = [
     {
       'name': 'Capital Hotel and Spa',
       'location': {'city': 'Addis Ababa', 'country': 'Ethiopia', 'address': '22 Mazoria'},
       'rating': 4.5,
-      'imgUrl': 'assets/images/hotels/Capital/capitalMain.jpg',  // Main image from assets
-      'images': [  // Additional images from assets
-        'assets/images/hotels/Capital/cap1.jpg',
-        'assets/images/hotels/Capital/cap2.jpg',
-        'assets/images/hotels/Capital/cap3.jpg',
-        'assets/images/hotels/Capital/cap4.jpg',
-        'assets/images/hotels/Capital/cap5.jpg',
-        'assets/images/hotels/Capital/cap-6.jpg',
-        'assets/images/hotels/Capital/cap-7.jpg',
-      ],
+      'mainImage': 'capitalMain.jpg',
+      'images': ['cap1.jpg', 'cap2.jpg', 'cap3.jpg', 'cap4.jpg', 'cap5.jpg', 'cap-6.jpg', 'cap-7.jpg'],
       'description': 'A luxurious hotel in the heart of Addis Ababa.',
       'amenities': ['Free Wi-Fi', 'Swimming Pool', 'Gym', 'Spa'],
       'policies': {'checkIn': '12:00 PM', 'checkOut': '11:00 AM', 'cancellation': 'Free cancellation within 24 hours'},
       'roomTypes': [
-        {
-          'type': 'Standard King Room',
-          'imgUrl': 'assets/images/hotels/Capital/cap-Satndard-King.jpg',  // Room type image from assets
-          'pricePerNight': 15000,
-          'rooms': [
-            {'roomNumber': '1', 'availability': true},
-            {'roomNumber': '2', 'availability': true},
-          ],
-        },
-        {
-          'type': 'Supreme King Room',
-          'imgUrl': 'assets/images/hotels/Capital/cap-Sup-King.jpg',  // Room type image from assets
-          'pricePerNight': 13000,
-          'rooms': [
-            {'roomNumber': '3', 'availability': true},
-            {'roomNumber': '4', 'availability': true},
-          ],
-        },
-        {
-          'type': 'Tween Room',
-          'imgUrl': 'assets/images/hotels/Capital/cap-Tween.jpg',  // Room type image from assets
-          'pricePerNight': 12000,
-          'rooms': [
-            {'roomNumber': '3', 'availability': true},
-            {'roomNumber': '4', 'availability': true},
-          ],
-        },
-        {
-          'type': 'Suit Room',
-          'imgUrl': 'assets/images/hotels/Capital/cap-Suit.jpg',  // Room type image from assets
-          'pricePerNight': 11000,
-          'rooms': [
-            {'roomNumber': '3', 'availability': true},
-            {'roomNumber': '4', 'availability': true},
-          ],
-        },
-        {
-          'type': 'Studio Room',
-          'imgUrl': 'assets/images/hotels/Capital/cap-Studio.jpg',  // Room type image from assets
-          'pricePerNight': 10000,
-          'rooms': [
-            {'roomNumber': '3', 'availability': true},
-            {'roomNumber': '4', 'availability': true},
-          ],
-        },
-        {
-          'type': 'Single Room',
-          'imgUrl': 'assets/images/hotels/Capital/cap-single.jpg',  // Room type image from assets
-          'pricePerNight': 10000,
-          'rooms': [
-            {'roomNumber': '3', 'availability': true},
-            {'roomNumber': '4', 'availability': true},
-          ],
-        },
+        {'type': 'Standard King Room', 'image': 'cap-Satndard-King.jpg', 'pricePerNight': 15000, 'rooms': [
+          {'roomNumber': '1', 'availability': true},
+          {'roomNumber': '2', 'availability': true},
+        ]},
+        {'type': 'Supreme King Room', 'image': 'cap-Sup-King.jpg', 'pricePerNight': 13000, 'rooms': [
+          {'roomNumber': '3', 'availability': true},
+          {'roomNumber': '4', 'availability': true},
+        ]},
+        {'type': 'Tween Room', 'image': 'cap-Tween.jpg', 'pricePerNight': 12000, 'rooms': [
+          {'roomNumber': '3', 'availability': true},
+          {'roomNumber': '4', 'availability': true},
+        ]},
+        {'type': 'Suit Room', 'image': 'cap-Suit.jpg', 'pricePerNight': 11000, 'rooms': [
+          {'roomNumber': '3', 'availability': true},
+          {'roomNumber': '4', 'availability': true},
+        ]},
+        {'type': 'Studio Room', 'image': 'cap-Studio.jpg', 'pricePerNight': 10000, 'rooms': [
+          {'roomNumber': '3', 'availability': true},
+          {'roomNumber': '4', 'availability': true},
+        ]},
+        {'type': 'Single Room', 'image': 'cap-single.jpg', 'pricePerNight': 10000, 'rooms': [
+          {'roomNumber': '3', 'availability': true},
+          {'roomNumber': '4', 'availability': true},
+        ]},
       ],
       'reviews': [
         {'userId': 'user_123', 'rating': 5, 'comment': 'Great place!', 'createdAt': FieldValue.serverTimestamp()},
@@ -180,13 +152,13 @@ Future<void> addHotels() async {
   ];
 
   for (var hotel in hotels) {
-    // Upload main image
-    String mainImageUrl = await uploadImageAndGetUrl(storage, hotel['imgUrl']);
+    // Get main image URL
+    String mainImageUrl = await getDownloadUrl('hotelImages', hotel['mainImage']);
 
-    // Upload additional images
+    // Get additional image URLs
     List<String> imageUrls = [];
-    for (var imagePath in hotel['images']) {
-      String imageUrl = await uploadImageAndGetUrl(storage, imagePath);
+    for (String imageName in hotel['images']) {
+      String imageUrl = await getDownloadUrl('hotelImages', imageName);
       imageUrls.add(imageUrl);
     }
 
@@ -194,7 +166,7 @@ Future<void> addHotels() async {
       'name': hotel['name'],
       'location': hotel['location'],
       'rating': hotel['rating'],
-      'imgUrl':mainImageUrl,
+      'imgUrl': mainImageUrl,
       'images': imageUrls,
       'description': hotel['description'],
       'amenities': hotel['amenities'],
@@ -202,12 +174,11 @@ Future<void> addHotels() async {
     });
 
     for (var roomType in hotel['roomTypes']) {
-      // Upload room type image
-      String roomImageUrl = await uploadImageAndGetUrl(storage, roomType['imgUrl']);
+      String roomTypeImageUrl = await getDownloadUrl('hotelImages', roomType['image']);
 
       DocumentReference roomTypeRef = await hotelRef.collection('room_types').add({
         'type': roomType['type'],
-        'imgUrl': roomType['imgUrl'],
+        'imgUrl': roomTypeImageUrl,
         'pricePerNight': roomType['pricePerNight'],
       });
 
@@ -232,30 +203,6 @@ Future<void> addHotels() async {
   print('Hotels added successfully');
 }
 
-Future<String> uploadImageAndGetUrl(FirebaseStorage storage, String assetPath) async {
-  try {
-    // Load image data as bytes
-    final ByteData byteData = await rootBundle.load(assetPath);
-    final Uint8List imageData = byteData.buffer.asUint8List();
-
-    // Create a reference to the location where the image will be stored
-    Reference ref = storage.ref().child('hotelImages/${assetPath.split('/').last}');
-
-    // Upload the image data to Firebase Storage
-    UploadTask uploadTask = ref.putData(imageData);
-
-    // Wait until the upload completes
-    TaskSnapshot taskSnapshot = await uploadTask.whenComplete(() => {});
-
-    // Get the download URL of the uploaded image
-    String downloadUrl = await taskSnapshot.ref.getDownloadURL();
-
-    return downloadUrl;
-  } catch (e) {
-    print('Error uploading image: $e');
-    throw e;
-  }
-}
 
 
 class WelcomePage extends StatefulWidget {
