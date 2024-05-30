@@ -5,12 +5,8 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:ionicons/ionicons.dart';
 import 'package:mobile_application_project/search_page.dart';
 import 'package:mobile_application_project/setting_page.dart';
-import 'package:mobile_application_project/homeScreen.dart';
-import 'package:mobile_application_project/data_home.dart';
 import 'package:mobile_application_project/detail_screen.dart';
-
 import 'Nearby_page.dart';
-import 'languagerelatedclass/language_constants.dart';
 
 class Home extends StatefulWidget {
   @override
