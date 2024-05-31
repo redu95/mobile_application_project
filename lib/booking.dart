@@ -1,31 +1,27 @@
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:intl/intl.dart';
+import 'package:firebase_auth/firebase_auth.dart'; // Import for user authentication
 
 class BookingDemo extends StatefulWidget {
   final String hotelName;
+  final String hotelId;
   final String roomName;
-  final String roomPrice;
-  final List<String> imageUrls;
-  final List<String> roomNames; // Add roomNames parameter
-  final List<String> roomPrices; // Add roomPrices parameter
-  final List<String> roomImages; // Add roomImages parameter
+  final int roomPrice;
+  final String imageUrl;
 
   const BookingDemo({
     Key? key,
     required this.hotelName,
+    required this.hotelId,
     required this.roomName,
     required this.roomPrice,
-    required this.imageUrls,
-    required this.roomNames, // Add roomNames parameter
-    required this.roomPrices, // Add roomPrices parameter
-    required this.roomImages, // Add roomImages parameter
+    required this.imageUrl,
   }) : super(key: key);
 
   @override
   State<BookingDemo> createState() => _BookingDemoState();
 }
-
 
 class _BookingDemoState extends State<BookingDemo> {
   final _formKey = GlobalKey<FormState>();
@@ -41,18 +37,19 @@ class _BookingDemoState extends State<BookingDemo> {
   final _checkOutTimeController = TextEditingController();
   final _adultsController = TextEditingController();
   final _numberOfChildrenController = TextEditingController();
+
   DateTime? _selectedCheckInDate;
   TimeOfDay? _selectedCheckInTime;
   DateTime? _selectedCheckOutDate;
   TimeOfDay? _selectedCheckOutTime;
   int? _selectedAdults;
+  int? _numberOfChildren;
   String? _selectedRoomPreference;
-  String? _selectedHotel;
+  int _totalPrice = 0;
 
   @override
   void initState() {
     super.initState();
-    _selectedHotel = widget.hotelName; // Set initial hotel name
   }
 
   @override
@@ -70,11 +67,26 @@ class _BookingDemoState extends State<BookingDemo> {
     super.dispose();
   }
 
-  // Function for submitting bookings
+  void _updateTotalPrice() {
+    if (_selectedCheckInDate != null && _selectedCheckOutDate != null && _selectedAdults != null) {
+      int numberOfNights = _selectedCheckOutDate!.difference(_selectedCheckInDate!).inDays;
+      int roomsNeeded = (_selectedAdults! / 2).ceil();
+      setState(() {
+        _totalPrice = widget.roomPrice * numberOfNights * roomsNeeded;
+      });
+    }
+  }
+
   Future<void> _submitBooking() async {
     if (_formKey.currentState!.validate()) {
       try {
+        String userId = FirebaseAuth.instance.currentUser!.uid;
+        DateTime checkInDate = DateFormat('MM/dd/yyyy').parse(_checkInDateController.text);
+        DateTime checkOutDate = DateFormat('MM/dd/yyyy').parse(_checkOutDateController.text);
+
         await FirebaseFirestore.instance.collection('bookings').add({
+          'user_id': userId,
+          'hotel_id': widget.hotelId,
           'guest_name': _firstNameController.text + ' ' + _lastNameController.text,
           'guest_contact': _phoneController.text,
           'guest_email': _emailController.text,
@@ -92,12 +104,15 @@ class _BookingDemoState extends State<BookingDemo> {
           },
           'room_preference': _selectedRoomPreference,
           'room_type': widget.roomName,
-
           'number_of_adults': _selectedAdults,
+          'number_of_children': _numberOfChildren,
+          'total_price': _totalPrice,
+          'status': 'Pending',
           'created_at': FieldValue.serverTimestamp(),
         });
+
         ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('Booking successful!')),
+          SnackBar(content: Text('Booking Request successfully Sent!')),
         );
       } catch (e) {
         ScaffoldMessenger.of(context).showSnackBar(
@@ -105,6 +120,40 @@ class _BookingDemoState extends State<BookingDemo> {
         );
       }
     }
+  }
+
+  Future<void> _confirmBooking() async {
+    return showDialog<void>(
+      context: context,
+      barrierDismissible: false, // User must tap a button to dismiss the dialog
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text('Confirm Booking'),
+          content: SingleChildScrollView(
+            child: ListBody(
+              children: <Widget>[
+                Text('Are you sure you want to proceed with the booking?'),
+              ],
+            ),
+          ),
+          actions: <Widget>[
+            TextButton(
+              child: Text('Cancel'),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+            ),
+            TextButton(
+              child: Text('Confirm'),
+              onPressed: () {
+                Navigator.of(context).pop();
+                _submitBooking();
+              },
+            ),
+          ],
+        );
+      },
+    );
   }
 
   @override
@@ -120,8 +169,8 @@ class _BookingDemoState extends State<BookingDemo> {
           children: [
             Stack(
               children: [
-                Image.asset(
-                  'assets/images/hotel_im/hotel.jpg',
+                Image.network(
+                  widget.imageUrl,
                   width: double.infinity,
                   height: 200,
                   fit: BoxFit.cover,
@@ -141,8 +190,6 @@ class _BookingDemoState extends State<BookingDemo> {
                 ),
               ],
             ),
-
-
             const SizedBox(height: 26),
             Form(
               key: _formKey,
@@ -156,7 +203,7 @@ class _BookingDemoState extends State<BookingDemo> {
                   ),
                   const SizedBox(height: 16),
                   Text(
-                    "price per night :\$ ${widget.roomPrice}",
+                    "Price per night: \$${widget.roomPrice}",
                     style: TextStyle(fontSize: 20),
                   ),
                   const SizedBox(height: 16),
@@ -280,6 +327,7 @@ class _BookingDemoState extends State<BookingDemo> {
                             );
                             if (_selectedCheckInDate != null) {
                               _checkInDateController.text = DateFormat('MM/dd/yyyy').format(_selectedCheckInDate!);
+                              _updateTotalPrice();
                             }
                           },
                         ),
@@ -326,6 +374,7 @@ class _BookingDemoState extends State<BookingDemo> {
                             );
                             if (_selectedCheckOutDate != null) {
                               _checkOutDateController.text = DateFormat('MM/dd/yyyy').format(_selectedCheckOutDate!);
+                              _updateTotalPrice();
                             }
                           },
                         ),
@@ -371,6 +420,10 @@ class _BookingDemoState extends State<BookingDemo> {
                             }
                             return null;
                           },
+                          onChanged: (value) {
+                            _selectedAdults = int.tryParse(value);
+                            _updateTotalPrice();
+                          },
                         ),
                       ),
                       const SizedBox(width: 16),
@@ -390,28 +443,29 @@ class _BookingDemoState extends State<BookingDemo> {
                             }
                             return null;
                           },
+                          onChanged: (value) {
+                            _numberOfChildren = int.tryParse(value);
+                          },
                         ),
                       ),
                     ],
                   ),
                   const SizedBox(height: 16),
                   Text(
-                    "Total price: ",
+                    "Total price: \$$_totalPrice",
                     style: TextStyle(fontSize: 35),
                   ),
-              const SizedBox(height: 32),
-              Center(
-                child: ElevatedButton(
-                  onPressed: () {
-                    if (_formKey.currentState!.validate()) {
-                      // Submit the form
-                      _submitBooking();
-                    }
-                  },
-                  child: const Text('Book Now'),
+                  const SizedBox(height: 32),
+                  Center(
+                    child: ElevatedButton(
+                      onPressed: () {
+                        if (_formKey.currentState!.validate()) {
+                          _confirmBooking();
+                        }
+                      },
+                      child: const Text('Book Now'),
+                    ),
                   ),
-              ),
-
                 ],
               ),
             ),
