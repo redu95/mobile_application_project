@@ -48,7 +48,7 @@ class _MyFavoritesState extends State<MyFavorites> {
         });
       }
     } catch (e) {
-      print("Error fetching favorites: $e");
+      print("Error fetching the users favorites: $e");
     }
   }
 
