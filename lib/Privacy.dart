@@ -13,10 +13,14 @@ class PrivacyDemo extends StatefulWidget {
 }
 
 class _PrivacyDemoState extends State<PrivacyDemo> {
+  late String email;
+  late String password;
   final GlobalKey<FormState> _key = GlobalKey<FormState>();
-  bool _showCancellationText = false;
-  bool _showPaymentText = false;
-  bool _showBookingDetailsText = false;
+  final _formKey = GlobalKey<FormState>();
+  final _emailController = TextEditingController();
+  final _usernameController = TextEditingController();
+  final _passwordController = TextEditingController();
+  final _confirmPasswordController = TextEditingController();
 
 
   @override
@@ -33,7 +37,7 @@ class _PrivacyDemoState extends State<PrivacyDemo> {
             Text(
               'Change Password',
               style: TextStyle(
-                fontSize: 24.0,
+                fontSize: 28.0,
                 fontWeight: FontWeight.bold,
                 color: Colors.deepPurple,
               ),
@@ -52,8 +56,90 @@ class _PrivacyDemoState extends State<PrivacyDemo> {
                 )
 
               ],
+            ),
+            const SizedBox(height: 16.0),
+            TextFormField(
+              decoration: const InputDecoration(
+                labelText: 'Your UserName',
+              ),
+              validator: (value) {
+                if (value == null || value.isEmpty) {
+                  return 'Please enter your name';
+                }
+                return null;
+              },
+            ),
+            const SizedBox(height: 16.0),
+            TextFormField(
+              decoration: const InputDecoration(
+                labelText: 'Your email',
+              ),
+              validator: (value) {
+                if (value == null || !value.contains('@')) {
+                  return 'Please enter a valid email';
+                }
+                return null;
+              },
+            ),const SizedBox(height: 16.0),
+            TextFormField(
+              decoration: const InputDecoration(
+                labelText: 'Old Password',
+              ),
+              validator: (value) {
+                if (value == null || !value.contains('@')) {
+                  return 'Please enter a valid email';
+                }
+                return null;
+              },
+            ),
+            const SizedBox(height: 16.0),
+            TextFormField(
+              controller: _passwordController,
+              decoration: const InputDecoration(
+                labelText: 'New Password',
+              ),
+              validator: (value) {
+                if (value == null || !value.contains('@')) {
+                  return 'Please enter a valid email';
+                }
+                return null;
+              },
+            ),
+           const SizedBox(height: 16.0),
+           TextFormField(
+             controller: _confirmPasswordController,
+             decoration: InputDecoration(
+               labelText: 'Confirm Password',
+          ),
+          validator: (value) {
+            if (value == null || value.isEmpty) {
+              return 'Please confirm your password';
+            }
+            if (value != _passwordController.text) {
+              return 'Passwords do not match';
+            }
+            return null;
+          },
+        ),
+            const SizedBox(height: 30.0),
+            ElevatedButton(
+              style: ElevatedButton.styleFrom(
+                backgroundColor: Colors.deepPurple,
+                padding: EdgeInsets.symmetric(horizontal: 50, vertical: 16),
+              ),
+              onPressed: () {
+                if (_formKey.currentState!.validate()) {
+                }
+              },
+              child: Text('Submit',
+                style: const TextStyle(
+                color: Colors.white,
+                  fontWeight: FontWeight.bold,
+                  fontSize: 20.0,
+                ),
+            ),
             )
-          ],
+          ]
         ),
       ),
     );
