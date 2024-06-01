@@ -95,6 +95,7 @@ class _HomePageState extends State<HomePage> {
   late User user; // Add this variable to hold the authenticated user
   bool isLoading = true; // Track loading state
   List<Map<String, dynamic>> hotels = []; // To store fetched hotel data
+  List<String> favoriteHotelIds = [];
 
   @override
   // initializing the states
@@ -103,6 +104,7 @@ class _HomePageState extends State<HomePage> {
     user = FirebaseAuth.instance.currentUser!;
     loadUserInfo(user.uid);
     fetchHotelData();
+    fetchFavorites();
   }
   // Fetch Hotels Function
   Future<List<Map<String, dynamic>>> fetchHotels() async {
@@ -150,6 +152,57 @@ class _HomePageState extends State<HomePage> {
       setState(() {
         isLoading = false;
       });
+    }
+  }
+
+  Future<void> fetchFavorites() async {
+    try {
+      QuerySnapshot snapshot = await FirebaseFirestore.instance
+          .collection('favorites')
+          .where('userId', isEqualTo: user.uid)
+          .get();
+
+      setState(() {
+        favoriteHotelIds = snapshot.docs.map((doc) => doc['hotelId'] as String).toList();
+      });
+    } catch (e) {
+      print("Error fetching favorites: $e");
+    }
+  }
+
+  Future<void> addFavorite(String hotelId) async {
+    try {
+      await FirebaseFirestore.instance.collection('favorites').add({
+        'userId': user.uid,
+        'hotelId': hotelId,
+        'createdAt': Timestamp.now(),
+      });
+
+      setState(() {
+        favoriteHotelIds.add(hotelId);
+      });
+    } catch (e) {
+      print("Error adding favorite: $e");
+    }
+  }
+
+  Future<void> removeFavorite(String hotelId) async {
+    try {
+      QuerySnapshot snapshot = await FirebaseFirestore.instance
+          .collection('favorites')
+          .where('userId', isEqualTo: user.uid)
+          .where('hotelId', isEqualTo: hotelId)
+          .get();
+
+      for (var doc in snapshot.docs) {
+        await doc.reference.delete();
+      }
+
+      setState(() {
+        favoriteHotelIds.remove(hotelId);
+      });
+    } catch (e) {
+      print("Error removing favorite: $e");
     }
   }
 
@@ -267,6 +320,7 @@ class _HomePageState extends State<HomePage> {
                         itemCount: hotels.length,
                         itemBuilder: (context, index) {
                           var hotel = hotels[index];
+                          bool isFavorite = favoriteHotelIds.contains(hotel['id']);
                           return InkWell(
                             onTap: () {
                               Navigator.push(
@@ -283,7 +337,7 @@ class _HomePageState extends State<HomePage> {
                               decoration: BoxDecoration(
                                 borderRadius: BorderRadius.circular(12),
                                 border: Border.all(
-                                  color: Colors.grey,
+                                  color: Colors.purpleAccent,
                                   width: 1.5,
                                 ),
                               ),
@@ -329,7 +383,7 @@ class _HomePageState extends State<HomePage> {
                                                 ),
                                                 SizedBox(width: 4),
                                                 Text(
-                                                  hotel['location']['address'] +hotel['location']['city'] +hotel ['location']['country'],
+                                                  hotel['location']['address'] +hotel['location']['city'],
                                                   style: TextStyle(
                                                     fontSize: 14,
                                                     color: Colors.black,
@@ -367,16 +421,24 @@ class _HomePageState extends State<HomePage> {
                                     ],
                                   ),
                                   Positioned(
-                                    bottom: 10,
-                                    right: 10,
-                                    child: IconButton(
-                                      icon: Icon(
-                                        Icons.favorite_border,
-                                        color: Colors.black,
-                                      ),
-                                      onPressed: () {
-                                        // Handle favorite button press
+                                    top: 250,
+                                    right: 8,
+                                    child: GestureDetector(
+                                      onTap: () {
+                                        setState(() {
+                                          isFavorite = !isFavorite;
+                                        });
+                                        if (isFavorite) {
+                                          addFavorite(hotel['id']);
+                                        } else {
+                                          removeFavorite(hotel['id']);
+                                        }
                                       },
+                                      child: Icon(
+                                        isFavorite ? Icons.favorite : Icons.favorite_border,
+                                        size: 30,
+                                        color: isFavorite ? Colors.purple : Colors.grey,
+                                      ),
                                     ),
                                   ),
                                 ],
@@ -386,6 +448,9 @@ class _HomePageState extends State<HomePage> {
                         },
                       ),
                     ),
+
+                    //POPULAR HOTELS
+
                     const Padding(
                         padding: const EdgeInsets.only(left: 12.0, top: 12),
                         child: Text(
@@ -406,7 +471,7 @@ class _HomePageState extends State<HomePage> {
                         itemCount: hotels.length,
                         itemBuilder: (context, index) {
                           var hotel = hotels[index];
-                          bool isFavorite = false;
+                          bool isFavorite = favoriteHotelIds.contains(hotel['id']);
 
                           return InkWell(
                             onTap: () {
@@ -478,7 +543,7 @@ class _HomePageState extends State<HomePage> {
                                               ),
                                               SizedBox(width: 4),
                                               Text(
-                                                hotel['location']['address'] +hotel['location']['city'] +hotel ['location']['country'],
+                                                hotel['location']['address'] +hotel['location']['city'],
                                                 style: TextStyle(
                                                   fontSize: 14,
                                                   color: Colors.black,
