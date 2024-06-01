@@ -1,5 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:mobile_application_project/main.dart';
 
 
 
@@ -20,7 +21,7 @@ import 'login_page.dart';class AuthPage extends StatelessWidget {
 
           //user is NOT log in
           else{
-            return const LogInPage();
+            return const WelcomePage();
           }
         },
       ),

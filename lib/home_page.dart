@@ -1,5 +1,3 @@
-import 'dart:math';
-
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -7,12 +5,8 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:ionicons/ionicons.dart';
 import 'package:mobile_application_project/search_page.dart';
 import 'package:mobile_application_project/setting_page.dart';
-import 'package:mobile_application_project/homeScreen.dart';
-import 'package:mobile_application_project/data_home.dart';
 import 'package:mobile_application_project/detail_screen.dart';
-
 import 'Nearby_page.dart';
-import 'languagerelatedclass/language_constants.dart';
 
 class Home extends StatefulWidget {
   @override
@@ -53,13 +47,13 @@ class _HomeState extends State<Home> {
   }
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context)  {
     return Scaffold(
       body: Center(
         child: _widgetOptions.elementAt(_selectedIndex),
       ),
       bottomNavigationBar: BottomNavigationBar(
-        items:  <BottomNavigationBarItem>[
+        items: <BottomNavigationBarItem>[
           BottomNavigationBarItem(
             icon: Icon(Icons.home),
             label: 'home',
@@ -89,20 +83,18 @@ class _HomeState extends State<Home> {
 class HomePage extends StatefulWidget {
   HomePage({Key? key}) : super(key: key);
 
-
-
   @override
   _HomePageState createState() => _HomePageState();
 }
 
 class _HomePageState extends State<HomePage> {
   MenuSelection selectedOne = MenuSelection.menu1;
-  DataHome object=DataHome();
-  String userName ='';
-  String email ="";
+  String userName = '';
+  String email = "";
   String? photoUrl; // Add this variable to hold profile picture URL
   late User user; // Add this variable to hold the authenticated user
   bool isLoading = true; // Track loading state
+  List<Map<String, dynamic>> hotels = []; // To store fetched hotel data
 
   @override
   // initializing the states
@@ -110,9 +102,32 @@ class _HomePageState extends State<HomePage> {
     super.initState();
     user = FirebaseAuth.instance.currentUser!;
     loadUserInfo(user.uid);
+    fetchHotelData();
+  }
+  // Fetch Hotels Function
+  Future<List<Map<String, dynamic>>> fetchHotels() async {
+    try {
+      QuerySnapshot snapshot = await FirebaseFirestore.instance.collection('hotels').get();
+      return snapshot.docs.map((doc) {
+        Map<String, dynamic> data = doc.data() as Map<String, dynamic>;
+        data['id'] = doc.id; // Add the document ID to the map
+        return data;
+      }).toList();
+    } catch (e) {
+      print("Error fetching hotels: $e");
+      return [];
+    }
   }
 
-  //
+  Future<void> fetchHotelData() async {
+    List<Map<String, dynamic>> fetchedHotels = await fetchHotels();
+    setState(() {
+      hotels = fetchedHotels;
+    });
+  }
+
+
+  //Load User Info Function
   Future<void> loadUserInfo(String uid) async {
     try {
       DocumentSnapshot userDoc =
@@ -142,11 +157,11 @@ class _HomePageState extends State<HomePage> {
   Widget build(BuildContext context) {
     return MaterialApp(
         debugShowCheckedModeBanner: false,
-        theme: ThemeData(scaffoldBackgroundColor: Color(0xffF8FCFF),primaryColor:Color(0xffF8FCFF) ),
+        theme: ThemeData(scaffoldBackgroundColor: Color(0xffF8FCFF), primaryColor: Color(0xffF8FCFF)),
         home: Scaffold(
-            body:SafeArea(
-              child:SingleChildScrollView(
-                child:Column(
+            body: SafeArea(
+              child: SingleChildScrollView(
+                child: Column(
                   children: [
                     Padding(
                       padding: const EdgeInsets.symmetric(
@@ -156,41 +171,34 @@ class _HomePageState extends State<HomePage> {
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceAround,
                         children: [
-                          // const Icon(Icons.menu_rounded, size: 40,color: Colors.purple,),
                           CircleAvatar(
                             radius: 30,
-                            backgroundImage: photoUrl != null ? NetworkImage(photoUrl!) : NetworkImage('https://static.vecteezy.com/system/resources/previews/004/026/956/non_2x/person-avatar-icon-free-vector.jpg'),
+                            backgroundImage: photoUrl != null
+                                ? NetworkImage(photoUrl!)
+                                : NetworkImage(
+                                'https://static.vecteezy.com/system/resources/previews/004/026/956/non_2x/person-avatar-icon-free-vector.jpg'),
                           ),
-                          Text(
-                            'Welcome, $userName!', // Replace $userName with the actual username variable
-                            style: TextStyle(
-                              fontWeight: FontWeight.bold,
-                              fontSize: 18,
-                              color:Colors.purpleAccent,
-                            ),
-                          ),
+
+
                           Icon(
                             Ionicons.location,
                             size: 30,
                             color: Colors.purple,
                           ),
                           Text(
-                            "Adis"
-                                " Ethiopia",
+                            "Addis Ababa"
+                                " ,Ethiopia",
                             style: TextStyle(
                               fontWeight: FontWeight.w800,
                               fontSize: 18,
                               color: Colors.purpleAccent,
                             ),
                           ),
-
-
                           Icon(
                             Ionicons.notifications,
                             size: 30,
                             color: Colors.purple,
                           ),
-
                         ],
                       ),
                     ),
@@ -242,39 +250,29 @@ class _HomePageState extends State<HomePage> {
                               backgroundImage: AssetImage('assets/images/hotel_im/Ililib.jpeg'),
                               radius: 40,
                             ),
-
                           ],
                         ),
                       ),
-
                     ),
                     const SizedBox(
                       height: 20,
                     ),
-
-                    SizedBox(
-                        height:15
-                    ),
+                    SizedBox(height: 15),
                     Container(
                       margin: EdgeInsets.symmetric(horizontal: 4, vertical: 12),
                       height: 300,
                       width: double.infinity,
-                      child: ListView.builder(
+                      child: hotels.isEmpty ? Center(child: CircularProgressIndicator()) : ListView.builder(
                         scrollDirection: Axis.horizontal,
-                        itemCount: object.getData.length,
+                        itemCount: hotels.length,
                         itemBuilder: (context, index) {
+                          var hotel = hotels[index];
                           return InkWell(
                             onTap: () {
                               Navigator.push(
                                 context,
                                 MaterialPageRoute(
-                                  builder: (context) => Detail(
-                                    object.getRoomimg[index].imageurl1,
-                                    object.getRoomimg[index].imageurl2,
-                                    object.getRoomimg[index].imageurl3,
-                                    object.getRoomimg[index].hotelName,
-                                    object.getRoomimg[index].hotelLocation,
-                                  ),
+                                  builder: (context) => Detail(hotelId: hotel['id']),
                                 ),
                               );
                             },
@@ -302,9 +300,7 @@ class _HomePageState extends State<HomePage> {
                                               topRight: Radius.circular(12),
                                             ),
                                             image: DecorationImage(
-                                              image: AssetImage(
-                                                object.getData[index].imageurl,
-                                              ),
+                                              image: NetworkImage(hotel['imgUrl']),
                                               fit: BoxFit.cover,
                                             ),
                                           ),
@@ -316,7 +312,7 @@ class _HomePageState extends State<HomePage> {
                                           crossAxisAlignment: CrossAxisAlignment.start,
                                           children: [
                                             Text(
-                                              object.getData[index].name,
+                                              hotel['name'],
                                               style: TextStyle(
                                                 fontSize: 24,
                                                 color: Colors.black,
@@ -333,11 +329,34 @@ class _HomePageState extends State<HomePage> {
                                                 ),
                                                 SizedBox(width: 4),
                                                 Text(
-                                                  object.getData[index].location,
+                                                  hotel['location']['address'] +hotel['location']['city'] +hotel ['location']['country'],
                                                   style: TextStyle(
-                                                    fontSize: 18,
+                                                    fontSize: 14,
                                                     color: Colors.black,
                                                     fontWeight: FontWeight.w400,
+                                                  ),
+                                                ),
+                                              ],
+                                            ),
+                                            Row(
+                                              children: [
+                                                Row(
+                                                  children: List.generate(
+                                                    5,
+                                                        (starIndex) => Icon(
+                                                      Icons.star,
+                                                      color: Colors.purple,
+                                                      size: 20,
+                                                    ),
+                                                  ),
+                                                ),
+                                                SizedBox(width: 4),
+                                                Text(
+                                                  '${hotel['rating']} Reviews',
+                                                  style: TextStyle(
+                                                    fontSize: 16,
+                                                    color: Colors.purple,
+                                                    fontWeight: FontWeight.bold,
                                                   ),
                                                 ),
                                               ],
@@ -367,21 +386,26 @@ class _HomePageState extends State<HomePage> {
                         },
                       ),
                     ),
-                    const Padding(padding: const EdgeInsets.only(left:12.0 ,top: 12),
-                        child:Text("Popular Hotels",style: TextStyle(
-                          fontSize: 24,
-                          color:Color(0xff3c4657),
-                          fontWeight:FontWeight.w500,),
+                    const Padding(
+                        padding: const EdgeInsets.only(left: 12.0, top: 12),
+                        child: Text(
+                          "Popular Hotels",
+                          style: TextStyle(
+                            fontSize: 24,
+                            color: Color(0xff3c4657),
+                            fontWeight: FontWeight.w500,
+                          ),
                         )),
-                    const SizedBox(height: 10,),
+                    const SizedBox(height: 10),
                     Container(
                       margin: EdgeInsets.symmetric(horizontal: 4, vertical: 12),
                       height: 160, // Adjust the height to your desired value
                       width: double.infinity,
-                      child: ListView.builder(
+                      child: hotels.isEmpty ? Center(child: CircularProgressIndicator()) : ListView.builder(
                         scrollDirection: Axis.horizontal,
-                        itemCount: object.getData.length,
+                        itemCount: hotels.length,
                         itemBuilder: (context, index) {
+                          var hotel = hotels[index];
                           bool isFavorite = false;
 
                           return InkWell(
@@ -389,13 +413,7 @@ class _HomePageState extends State<HomePage> {
                               Navigator.push(
                                 context,
                                 MaterialPageRoute(
-                                  builder: (context) => Detail(
-                                    object.getRoomimg[index].imageurl1,
-                                    object.getRoomimg[index].imageurl2,
-                                    object.getRoomimg[index].imageurl3,
-                                    object.getRoomimg[index].hotelName,
-                                    object.getRoomimg[index].hotelLocation,
-                                  ),
+                                  builder: (context) => Detail(hotelId: hotel['id']),
                                 ),
                               );
                             },
@@ -412,7 +430,7 @@ class _HomePageState extends State<HomePage> {
                             child: Container(
                               height: 140, // Adjust the height to your desired value
                               margin: EdgeInsets.symmetric(horizontal: 8),
-                              width: 280, // Adjust the width to your desired value
+                              width: 350,//adjust the width to your desired value
                               decoration: BoxDecoration(
                                 borderRadius: BorderRadius.circular(12),
                                 border: Border.all(
@@ -430,9 +448,7 @@ class _HomePageState extends State<HomePage> {
                                         bottomLeft: Radius.circular(12),
                                       ),
                                       image: DecorationImage(
-                                        image: AssetImage(
-                                          object.getAnotherData[index].imageurl,
-                                        ),
+                                        image: NetworkImage(hotel['imgUrl']),
                                         fit: BoxFit.cover,
                                       ),
                                     ),
@@ -445,7 +461,7 @@ class _HomePageState extends State<HomePage> {
                                         mainAxisAlignment: MainAxisAlignment.end,
                                         children: [
                                           Text(
-                                            object.getAnotherData[index].name,
+                                            hotel['name'],
                                             style: TextStyle(
                                               fontSize: 16,
                                               color: Colors.black,
@@ -462,24 +478,46 @@ class _HomePageState extends State<HomePage> {
                                               ),
                                               SizedBox(width: 4),
                                               Text(
-                                                object.getAnotherData[index].location,
+                                                hotel['location']['address'] +hotel['location']['city'] +hotel ['location']['country'],
                                                 style: TextStyle(
-                                                  fontSize: 12,
+                                                  fontSize: 14,
                                                   color: Colors.black,
                                                   fontWeight: FontWeight.w400,
                                                 ),
                                               ),
-
                                             ],
                                           ),
                                           Text(
-                                            "Experience luxury!",style:
-                                          TextStyle(
-                                            fontSize: 12,
-                                            color: Colors.black,
-                                            fontWeight:FontWeight.w300,
+                                            "Experience luxury!",
+                                            style: TextStyle(
+                                              fontSize: 12,
+                                              color: Colors.black,
+                                              fontWeight: FontWeight.w300,
+                                            ),
                                           ),
-                                          )
+                                          Row(
+                                            children: [
+                                              Row(
+                                                children: List.generate(
+                                                  5,
+                                                      (starIndex) => Icon(
+                                                    Icons.star,
+                                                    color: Colors.purple,
+                                                    size: 20,
+                                                  ),
+                                                ),
+                                              ),
+                                              SizedBox(width: 4),
+                                              Text(
+                                                '${hotel['rating']} Reviews',
+                                                style: TextStyle(
+                                                  fontSize: 16,
+                                                  color: Colors.purple,
+                                                  fontWeight: FontWeight.bold,
+                                                ),
+                                              ),
+                                            ],
+                                          ),
                                         ],
                                       ),
                                     ),
@@ -500,12 +538,10 @@ class _HomePageState extends State<HomePage> {
                         },
                       ),
                     ),
-                    const  SizedBox(height: 20,)
-
+                    const SizedBox(height: 20)
                   ],
                 ),
               ),
-
             )));
 
   }

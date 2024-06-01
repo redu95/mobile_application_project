@@ -1,13 +1,14 @@
 
-//import 'package:firebase_app_check/firebase_app_check.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:mobile_application_project/auth_page.dart';
+import 'package:mobile_application_project/login_page.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:mobile_application_project/introduction_screen.dart';
-import 'package:mobile_application_project/languageMenu.dart';
 import 'package:flutter_locales/flutter_locales.dart';
-import 'package:mobile_application_project/l10n/l10n.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'firebase_options.dart';
 import 'package:mobile_application_project/theme_provider.dart';
@@ -70,7 +71,7 @@ class _MyAppState extends State<MyApp> {
               supportedLocales: AppLocalizations.supportedLocales,
               theme: themeSettings.currentTheme,
               locale: _locale,
-              home: const WelcomePage(),
+              home: const AuthPage(),
               debugShowCheckedModeBanner: false,
             );
           },
@@ -83,11 +84,79 @@ class _MyAppState extends State<MyApp> {
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(
-    options: DefaultFirebaseOptions.currentPlatform,
+      options: DefaultFirebaseOptions.currentPlatform,
   );
   await Locales.init(['en', 'am', 'ar', 'es']); // Initialize flutter_locales
+  //await addHotels();
   runApp(MyApp());
 }
+
+Future<String> getDownloadUrl(String folder, String fileName) async {
+  Reference ref = FirebaseStorage.instance.ref().child('$folder/$fileName');
+  return await ref.getDownloadURL();
+}
+
+Future<void> addHotels() async {
+  FirebaseFirestore firestore = FirebaseFirestore.instance;
+
+  // Hotel data with file names
+  List<Map<String, dynamic>> hotels = [
+    // Add hotels here...
+  ];
+
+  for (var hotel in hotels) {
+    // Get main image URL
+    String mainImageUrl = await getDownloadUrl('hotelImages', hotel['mainImage']);
+
+    // Get additional image URLs
+    List<String> imageUrls = [];
+    for (String imageName in hotel['images']) {
+      String imageUrl = await getDownloadUrl('hotelImages', imageName);
+      imageUrls.add(imageUrl);
+    }
+
+    DocumentReference hotelRef = await firestore.collection('hotels').add({
+      'name': hotel['name'],
+      'location': hotel['location'],
+      'rating': hotel['rating'],
+      'imgUrl': mainImageUrl,
+      'images': imageUrls,
+      'description': hotel['description'],
+      'amenities': hotel['amenities'],
+      'policies': hotel['policies'],
+    });
+
+    for (var roomType in hotel['roomTypes']) {
+      String roomTypeImageUrl = await getDownloadUrl('hotelImages', roomType['image']);
+
+      DocumentReference roomTypeRef = await hotelRef.collection('room_types').add({
+        'type': roomType['type'],
+        'imgUrl': roomTypeImageUrl,
+        'pricePerNight': roomType['pricePerNight'],
+      });
+
+      for (var room in roomType['rooms']) {
+        await roomTypeRef.collection('rooms').add({
+          'roomNumber': room['roomNumber'],
+          'availability': room['availability'],
+        });
+      }
+    }
+
+    for (var review in hotel['reviews']) {
+      await hotelRef.collection('reviews').add({
+        'userId': review['userId'],
+        'rating': review['rating'],
+        'comment': review['comment'],
+        'createdAt': review['createdAt'],
+      });
+    }
+  }
+
+  print('Hotels added successfully');
+}
+
+
 
 class WelcomePage extends StatefulWidget {
   const WelcomePage({Key? key}) : super(key: key);
@@ -234,7 +303,7 @@ class _WelcomePageState extends State<WelcomePage> {
             bottom: 100,
             child: GestureDetector(
               onTap: () {
-                Navigator.push(context, MaterialPageRoute(builder: (context) => AuthPage()));
+                Navigator.push(context, MaterialPageRoute(builder: (context) => LogInPage()));
               },
               child: Text(
                 AppLocalizations.of(context)?.already_have_an_account ?? '',
