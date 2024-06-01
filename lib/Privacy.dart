@@ -17,8 +17,6 @@ class _PrivacyDemoState extends State<PrivacyDemo> {
   late String password;
   final GlobalKey<FormState> _key = GlobalKey<FormState>();
   final _formKey = GlobalKey<FormState>();
-  final _emailController = TextEditingController();
-  final _usernameController = TextEditingController();
   final _passwordController = TextEditingController();
   final _confirmPasswordController = TextEditingController();
 
