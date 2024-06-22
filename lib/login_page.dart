@@ -23,19 +23,41 @@ class _LogInPageState extends State<LogInPage> {
   TextEditingController passwordController = TextEditingController();
 
   void signIn() async {
+    // Validate form before proceeding
+    if (!_formKey.currentState!.validate()) {
+      return; // Form is not valid, do not proceed
+    }
+
     // Check for internet connection
     var connectivityResult = await (Connectivity().checkConnectivity());
     if (connectivityResult == ConnectivityResult.none) {
       // Show a dialog indicating no internet connection
       showDialog(
         context: context,
+        barrierDismissible: false,
         builder: (context) {
-          return const AlertDialog(
-            title: Text(
-              'No Internet Connection',
-              style: TextStyle(fontSize: 18.0),
+          return AlertDialog(
+            titlePadding: EdgeInsets.zero, // Remove default padding
+            contentPadding: const EdgeInsets.all(16.0), // Adjust content padding
+            title: Container(
+              padding: const EdgeInsets.all(16.0),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  const Text(
+                    'No Internet Connection',
+                    style: TextStyle(fontSize: 18.0),
+                  ),
+                  IconButton(
+                    icon: const Icon(Icons.close),
+                    onPressed: () {
+                      Navigator.of(context).pop();
+                    },
+                  ),
+                ],
+              ),
             ),
-            content: Text(
+            content: const Text(
               'Please check your internet connection and try again.',
               style: TextStyle(fontSize: 16.0),
             ),
@@ -87,6 +109,22 @@ class _LogInPageState extends State<LogInPage> {
               title: Text(
                 'Wrong Password Provided by the user',
                 style: TextStyle(fontSize: 18.0),),
+            );
+          },
+        );
+      }else if (e.code == 'network-request-failed') {
+        showDialog(
+          context: context,
+          builder: (context) {
+            return const AlertDialog(
+              title: Text(
+                'Network Error',
+                style: TextStyle(fontSize: 18.0),
+              ),
+              content: Text(
+                'A network error occurred. Please check your connection and try again.',
+                style: TextStyle(fontSize: 16.0),
+              ),
             );
           },
         );

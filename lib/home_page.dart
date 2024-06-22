@@ -112,6 +112,10 @@ class _HomePageState extends State<HomePage> {
     fetchHotelData();
     fetchFavorites();
   }
+  Future<bool> isConnected() async {
+    var connectivityResult = await (Connectivity().checkConnectivity());
+    return connectivityResult != ConnectivityResult.none;
+  }
   // Fetch Hotels Function
   Future<List<Map<String, dynamic>>> fetchHotels() async {
     try {
@@ -128,6 +132,24 @@ class _HomePageState extends State<HomePage> {
   }
 
   Future<void> fetchHotelData() async {
+    if (!await isConnected()) {
+      showDialog(
+        context: context,
+        builder: (context) {
+          return const AlertDialog(
+            title: Text(
+              'No Internet Connection',
+              style: TextStyle(fontSize: 18.0),
+            ),
+            content: Text(
+              'Please check your internet connection and try again.',
+              style: TextStyle(fontSize: 16.0),
+            ),
+          );
+        },
+      );
+      return;
+    }
     List<Map<String, dynamic>> fetchedHotels = await fetchHotels();
     setState(() {
       hotels = fetchedHotels;
@@ -137,6 +159,27 @@ class _HomePageState extends State<HomePage> {
 
   //Load User Info Function
   Future<void> loadUserInfo(String uid) async {
+    if (!await isConnected()) {
+      showDialog(
+        context: context,
+        builder: (context) {
+          return const AlertDialog(
+            title: Text(
+              'No Internet Connection',
+              style: TextStyle(fontSize: 18.0),
+            ),
+            content: Text(
+              'Please check your internet connection and try again.',
+              style: TextStyle(fontSize: 16.0),
+            ),
+          );
+        },
+      );
+      setState(() {
+        isLoading = false;
+      });
+      return;
+    }
     try {
       DocumentSnapshot userDoc =
       await FirebaseFirestore.instance.collection('users').doc(uid).get();
@@ -162,6 +205,24 @@ class _HomePageState extends State<HomePage> {
   }
 
   Future<void> fetchFavorites() async {
+    if (!await isConnected()) {
+      showDialog(
+        context: context,
+        builder: (context) {
+          return const AlertDialog(
+            title: Text(
+              'No Internet Connection',
+              style: TextStyle(fontSize: 18.0),
+            ),
+            content: Text(
+              'Please check your internet connection and try again.',
+              style: TextStyle(fontSize: 16.0),
+            ),
+          );
+        },
+      );
+      return;
+    }
     try {
       QuerySnapshot snapshot = await FirebaseFirestore.instance
           .collection('favorites')
@@ -177,6 +238,24 @@ class _HomePageState extends State<HomePage> {
   }
 
   Future<void> addFavorite(String hotelId) async {
+    if (!await isConnected()) {
+      showDialog(
+        context: context,
+        builder: (context) {
+          return const AlertDialog(
+            title: Text(
+              'No Internet Connection',
+              style: TextStyle(fontSize: 18.0),
+            ),
+            content: Text(
+              'Please check your internet connection and try again.',
+              style: TextStyle(fontSize: 16.0),
+            ),
+          );
+        },
+      );
+      return;
+    }
     try {
       await FirebaseFirestore.instance.collection('favorites').add({
         'userId': user.uid,
@@ -193,6 +272,24 @@ class _HomePageState extends State<HomePage> {
   }
 
   Future<void> removeFavorite(String hotelId) async {
+    if (!await isConnected()) {
+      showDialog(
+        context: context,
+        builder: (context) {
+          return const AlertDialog(
+            title: Text(
+              'No Internet Connection',
+              style: TextStyle(fontSize: 18.0),
+            ),
+            content: Text(
+              'Please check your internet connection and try again.',
+              style: TextStyle(fontSize: 16.0),
+            ),
+          );
+        },
+      );
+      return;
+    }
     try {
       QuerySnapshot snapshot = await FirebaseFirestore.instance
           .collection('favorites')
