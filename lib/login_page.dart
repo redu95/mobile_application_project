@@ -1,5 +1,6 @@
 // login_page.dart
 
+import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:mobile_application_project/home_page.dart';
@@ -22,6 +23,28 @@ class _LogInPageState extends State<LogInPage> {
   TextEditingController passwordController = TextEditingController();
 
   void signIn() async {
+    // Check for internet connection
+    var connectivityResult = await (Connectivity().checkConnectivity());
+    if (connectivityResult == ConnectivityResult.none) {
+      // Show a dialog indicating no internet connection
+      showDialog(
+        context: context,
+        builder: (context) {
+          return const AlertDialog(
+            title: Text(
+              'No Internet Connection',
+              style: TextStyle(fontSize: 18.0),
+            ),
+            content: Text(
+              'Please check your internet connection and try again.',
+              style: TextStyle(fontSize: 16.0),
+            ),
+          );
+        },
+      );
+      return; // Exit the signIn method
+    }
+
     //show loading Circle
     showDialog(
         context: context,
@@ -37,7 +60,6 @@ class _LogInPageState extends State<LogInPage> {
         email: emailController.text.trim(),
         password: passwordController.text,
       );
-
       // If successful, navigate to home page
       Navigator.pop(context); // Dismiss the loading indicator
       Navigator.pushReplacement(
