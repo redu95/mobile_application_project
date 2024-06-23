@@ -3,7 +3,8 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:ionicons/ionicons.dart';
 import 'package:mobile_application_project/dummy_data.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
-
+import 'package:mobile_application_project/theme_provider.dart';
+import 'package:provider/provider.dart';
 import 'colors.dart';
 import 'detail_screen.dart';
 
@@ -15,9 +16,9 @@ class PlacesWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final themeSettings = Provider.of<ThemeSettings>(context);
     return AnimatedBuilder(
         animation: animationController!,
-
         builder: (context, child) {
           return FadeTransition(
             opacity: animation!,
@@ -34,7 +35,6 @@ class PlacesWidget extends StatelessWidget {
                   );
                 },
                 child: Container(
-                    color: white,
                     padding: EdgeInsets.only(left: 25, right: 25, top:8, bottom: 16),
                     child: Container(
                       decoration: BoxDecoration(
@@ -61,7 +61,7 @@ class PlacesWidget extends StatelessWidget {
                               ),
 
                               Container(
-                                color: white,
+                                color: themeSettings.isDarkModeEnabled ? Colors.black : Colors.white,
                                 child: Row(
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
@@ -84,11 +84,11 @@ class PlacesWidget extends StatelessWidget {
                                                 Icon(
                                                   FontAwesomeIcons.locationDot,
                                                   size: 13,
-                                                  color: purple,
+                                                  color: primaryColor,
                                                 ),
                                                 SizedBox(width: 5,),
                                                 Text(item!.sub, style: TextStyle(
-                                                    color: Colors.black.withOpacity(0.4),
+                                                    //color: Colors.black.withOpacity(0.4),
                                                     fontSize: 14
                                                 ),),
                                               ],
@@ -105,9 +105,9 @@ class PlacesWidget extends StatelessWidget {
                                                         itemCount: 5,
                                                         itemSize: 24,
                                                         ratingWidget: RatingWidget(
-                                                            full: Icon(Icons.star_rate_rounded, color: purple,),
-                                                            half: Icon(Icons.star_half_rounded, color: purple,),
-                                                            empty: Icon(Icons.star_border_rounded, color: purple,)
+                                                            full: Icon(Icons.star_rate_rounded, color: accentColor,),
+                                                            half: Icon(Icons.star_half_rounded, color: accentColor,),
+                                                            empty: Icon(Icons.star_border_rounded, color: accentColor,)
                                                         ),
                                                         itemPadding: EdgeInsets.zero,
                                                         onRatingUpdate: (value) {
@@ -116,7 +116,7 @@ class PlacesWidget extends StatelessWidget {
                                                     ),
                                                     Text("${item!.reviews} Reviews",
                                                       style: TextStyle(
-                                                          color: Colors.black.withOpacity(0.4),
+                                                          //color: Colors.black.withOpacity(0.4),
                                                           fontSize: 14
                                                       ),)
                                                   ]
