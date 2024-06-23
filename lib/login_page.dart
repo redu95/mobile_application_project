@@ -104,6 +104,7 @@ class _LogInPageState extends State<LogInPage> {
       else if(e.code=='wrong-password'){
         showDialog(
           context: context,
+
           builder: (context){
             return const AlertDialog(
               title: Text(
@@ -115,14 +116,32 @@ class _LogInPageState extends State<LogInPage> {
       }else if (e.code == 'network-request-failed') {
         showDialog(
           context: context,
+          barrierDismissible: false,
           builder: (context) {
-            return const AlertDialog(
-              title: Text(
-                'Network Error',
-                style: TextStyle(fontSize: 18.0),
+            return AlertDialog(
+              titlePadding: EdgeInsets.zero, // Remove default padding
+              contentPadding: const EdgeInsets.all(5.0), // Adjust content padding
+              title: Container(
+                padding: const EdgeInsets.all(5.0),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    const Text(
+                      'No Internet Connection',
+                      style: TextStyle(fontSize: 18.0),
+                    ),
+                    IconButton(
+                      icon: const Icon(Icons.close),
+                      onPressed: () {
+                        Navigator.of(context).pop();
+                        Navigator.of(context).pop();
+                      },
+                    ),
+                  ],
+                ),
               ),
-              content: Text(
-                'A network error occurred. Please check your connection and try again.',
+              content: const Text(
+                'Please check your internet connection and try again.',
                 style: TextStyle(fontSize: 16.0),
               ),
             );

@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -8,6 +9,8 @@ import 'package:mobile_application_project/search_page.dart';
 import 'package:mobile_application_project/setting_page.dart';
 import 'package:mobile_application_project/detail_screen.dart';
 import 'Nearby_page.dart';
+
+
 
 class Home extends StatefulWidget {
   @override
@@ -25,6 +28,9 @@ class _HomeState extends State<Home> {
   final User user = FirebaseAuth.instance.currentUser!;
   int _selectedIndex = 0;
   late List<Widget> _widgetOptions;
+  bool isConnected = true;
+  late StreamSubscription<ConnectivityResult> connectivitySubscription;
+
 
   @override
   void initState() {
@@ -39,6 +45,18 @@ class _HomeState extends State<Home> {
         photoUrl: user.photoURL,
       ),
     ];
+    // Initial check
+    checkConnection();
+    // // Listen for connectivity changes
+    // connectivitySubscription = Connectivity().onConnectivityChanged.listen((ConnectivityResult result) {
+    //   checkConnection();
+    // });
+  }
+
+  @override
+  void dispose() {
+    connectivitySubscription.cancel();
+    super.dispose();
   }
 
   void _onItemTapped(int index) {
@@ -47,22 +65,50 @@ class _HomeState extends State<Home> {
     });
   }
 
-  Future<bool> isConnected() async {
+  Future<void> checkConnection() async {
     var connectivityResult = await (Connectivity().checkConnectivity());
-    return connectivityResult != ConnectivityResult.none;
+    setState(() {
+      isConnected = connectivityResult != ConnectivityResult.none;
+    });
   }
 
+
   @override
-  Widget build(BuildContext context)  {
+  Widget build(BuildContext context) {
     return Scaffold(
-      body: Center(
-        child: _widgetOptions.elementAt(_selectedIndex),
+      body: Stack(
+        children: [
+          Center(
+            child: _widgetOptions.elementAt(_selectedIndex),
+          ),
+          if (!isConnected)
+            Positioned(
+              top: 0,
+              left: 0,
+              right: 0,
+              child: Container(
+                color: Colors.red,
+                padding: EdgeInsets.all(8),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Icon(Icons.warning, color: Colors.white),
+                    SizedBox(width: 8),
+                    Text(
+                      'No Internet Connection',
+                      style: TextStyle(color: Colors.white),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+        ],
       ),
       bottomNavigationBar: BottomNavigationBar(
         items: <BottomNavigationBarItem>[
           BottomNavigationBarItem(
             icon: Icon(Icons.home),
-            label: 'home',
+            label: 'Home',
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.search),
@@ -84,6 +130,7 @@ class _HomeState extends State<Home> {
       ),
     );
   }
+
 }
 
 class HomePage extends StatefulWidget {
@@ -102,6 +149,7 @@ class _HomePageState extends State<HomePage> {
   bool isLoading = true; // Track loading state
   List<Map<String, dynamic>> hotels = []; // To store fetched hotel data
   List<String> favoriteHotelIds = [];
+  bool isConnected = true;
 
   @override
   // initializing the states
@@ -111,10 +159,13 @@ class _HomePageState extends State<HomePage> {
     loadUserInfo(user.uid);
     fetchHotelData();
     fetchFavorites();
+    checkConnection();
   }
-  Future<bool> isConnected() async {
+  Future<void> checkConnection() async {
     var connectivityResult = await (Connectivity().checkConnectivity());
-    return connectivityResult != ConnectivityResult.none;
+    setState(() {
+      isConnected = connectivityResult != ConnectivityResult.none;
+    });
   }
   // Fetch Hotels Function
   Future<List<Map<String, dynamic>>> fetchHotels() async {
@@ -132,22 +183,7 @@ class _HomePageState extends State<HomePage> {
   }
 
   Future<void> fetchHotelData() async {
-    if (!await isConnected()) {
-      showDialog(
-        context: context,
-        builder: (context) {
-          return const AlertDialog(
-            title: Text(
-              'No Internet Connection',
-              style: TextStyle(fontSize: 18.0),
-            ),
-            content: Text(
-              'Please check your internet connection and try again.',
-              style: TextStyle(fontSize: 16.0),
-            ),
-          );
-        },
-      );
+    if (!isConnected) {
       return;
     }
     List<Map<String, dynamic>> fetchedHotels = await fetchHotels();
@@ -159,22 +195,7 @@ class _HomePageState extends State<HomePage> {
 
   //Load User Info Function
   Future<void> loadUserInfo(String uid) async {
-    if (!await isConnected()) {
-      showDialog(
-        context: context,
-        builder: (context) {
-          return const AlertDialog(
-            title: Text(
-              'No Internet Connection',
-              style: TextStyle(fontSize: 18.0),
-            ),
-            content: Text(
-              'Please check your internet connection and try again.',
-              style: TextStyle(fontSize: 16.0),
-            ),
-          );
-        },
-      );
+    if (!isConnected) {
       setState(() {
         isLoading = false;
       });
@@ -205,22 +226,7 @@ class _HomePageState extends State<HomePage> {
   }
 
   Future<void> fetchFavorites() async {
-    if (!await isConnected()) {
-      showDialog(
-        context: context,
-        builder: (context) {
-          return const AlertDialog(
-            title: Text(
-              'No Internet Connection',
-              style: TextStyle(fontSize: 18.0),
-            ),
-            content: Text(
-              'Please check your internet connection and try again.',
-              style: TextStyle(fontSize: 16.0),
-            ),
-          );
-        },
-      );
+    if (!isConnected) {
       return;
     }
     try {
@@ -238,22 +244,7 @@ class _HomePageState extends State<HomePage> {
   }
 
   Future<void> addFavorite(String hotelId) async {
-    if (!await isConnected()) {
-      showDialog(
-        context: context,
-        builder: (context) {
-          return const AlertDialog(
-            title: Text(
-              'No Internet Connection',
-              style: TextStyle(fontSize: 18.0),
-            ),
-            content: Text(
-              'Please check your internet connection and try again.',
-              style: TextStyle(fontSize: 16.0),
-            ),
-          );
-        },
-      );
+    if (!isConnected) {
       return;
     }
     try {
@@ -272,22 +263,7 @@ class _HomePageState extends State<HomePage> {
   }
 
   Future<void> removeFavorite(String hotelId) async {
-    if (!await isConnected()) {
-      showDialog(
-        context: context,
-        builder: (context) {
-          return const AlertDialog(
-            title: Text(
-              'No Internet Connection',
-              style: TextStyle(fontSize: 18.0),
-            ),
-            content: Text(
-              'Please check your internet connection and try again.',
-              style: TextStyle(fontSize: 16.0),
-            ),
-          );
-        },
-      );
+    if (!isConnected) {
       return;
     }
     try {
