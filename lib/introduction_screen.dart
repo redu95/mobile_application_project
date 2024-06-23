@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_locales/flutter_locales.dart';
 import 'package:mobile_application_project/auth_page.dart';
 import 'package:introduction_screen/introduction_screen.dart';
+import 'package:mobile_application_project/login_page.dart';
 import 'package:mobile_application_project/signup_page.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
@@ -85,7 +86,7 @@ class _IntroScreenDemoState extends State<IntroScreenDemo> {
                     onPressed: () {
                       Navigator.push(
                         context,
-                        MaterialPageRoute(builder: (context) => AuthPage()),
+                        MaterialPageRoute(builder: (context) => LogInPage()),
                       );
                     },
                     child: Text(AppLocalizations.of(context)?.log_in?? '',
