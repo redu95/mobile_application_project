@@ -2,7 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:mobile_application_project/dummy_data.dart';
 import 'package:mobile_application_project/places_widget.dart';
-
+import 'package:mobile_application_project/theme_provider.dart';
+import 'package:provider/provider.dart';
 import 'colors.dart';
 
 class SearchPage extends StatefulWidget {
@@ -67,7 +68,18 @@ class _SearchPageState extends State<SearchPage> with TickerProviderStateMixin {
 
   @override
   Widget build(BuildContext context) {
+    final themeSettings = Provider.of<ThemeSettings>(context);
     return Scaffold(
+      backgroundColor: themeSettings.currentTheme.primaryColor,
+      appBar: AppBar(
+        leading: IconButton(
+          icon: Icon(Icons.arrow_back),
+          onPressed: () {
+            Navigator.pop(context);
+          },
+        ),
+        title: Text('Explore'),
+      ),
       body: _buildBody(context),
     );
   }
@@ -75,7 +87,6 @@ class _SearchPageState extends State<SearchPage> with TickerProviderStateMixin {
   Widget _buildBody(BuildContext context) {
     return Column(
       children: [
-        _buildAppbar(context),
         Expanded(
           child: NestedScrollView(
             floatHeaderSlivers: true,
@@ -110,8 +121,9 @@ class _SearchPageState extends State<SearchPage> with TickerProviderStateMixin {
   }
 
   Widget _buildContent() {
+    final themeSettings = Provider.of<ThemeSettings>(context);
     return Container(
-      color: white,
+      color: themeSettings.isDarkModeEnabled ? Colors.black : Colors.white,
       child: ListView.builder(
         itemCount: places.length,
         itemBuilder: ((context, index) {
@@ -122,10 +134,11 @@ class _SearchPageState extends State<SearchPage> with TickerProviderStateMixin {
   }
 
   Widget _buildFilterUI(BuildContext context) {
+    final themeSettings = Provider.of<ThemeSettings>(context);
     return Stack(
       children: [
         Container(
-          color: white,
+          color: themeSettings.isDarkModeEnabled ? Colors.black : Colors.white,
           padding: EdgeInsets.only(left: 16, right: 16, top: 8, bottom: 8),
           child: Row(
             children: [
@@ -160,7 +173,7 @@ class _SearchPageState extends State<SearchPage> with TickerProviderStateMixin {
                         ),
                         Container(
                           padding: EdgeInsets.all(8),
-                          child: Icon(Icons.sort, color: purple),
+                          child: Icon(Icons.sort, color: accentColor),
                         )
                       ],
                     ),
@@ -175,18 +188,20 @@ class _SearchPageState extends State<SearchPage> with TickerProviderStateMixin {
   }
 
   Widget _buildSearchUI(BuildContext context) {
+    final themeSettings = Provider.of<ThemeSettings>(context);
     return Container(
       padding: EdgeInsets.only(left: 16, right: 16, top: 8, bottom: 8),
+      color: themeSettings.isDarkModeEnabled ? primaryColor : primaryColor,
       child: Row(
         children: [
           Expanded(
             child: Container(
               decoration: BoxDecoration(
-                color: white,
+                color: themeSettings.isDarkModeEnabled ? Colors.black : Colors.white,
                 borderRadius: BorderRadius.circular(40),
                 boxShadow: [
                   BoxShadow(
-                    color: purple.withOpacity(0.2),
+                    color: accentColor.withOpacity(0.2),
                     offset: Offset(0, 2),
                     blurRadius: 8,
                   )
@@ -210,7 +225,7 @@ class _SearchPageState extends State<SearchPage> with TickerProviderStateMixin {
           // Creating Search Button
           Container(
             decoration: BoxDecoration(
-              color: Colors.purpleAccent.shade100,
+              color: accentColor,
               borderRadius: BorderRadius.circular(50),
               boxShadow: [
                 BoxShadow(
@@ -230,7 +245,7 @@ class _SearchPageState extends State<SearchPage> with TickerProviderStateMixin {
                   child: Icon(
                     FontAwesomeIcons.magnifyingGlass,
                     size: 20,
-                    color: Colors.purple.shade100,
+                   // color: Colors.white,
                   ),
                 ),
               ),
@@ -241,79 +256,6 @@ class _SearchPageState extends State<SearchPage> with TickerProviderStateMixin {
     );
   }
 
-  Widget _buildAppbar(BuildContext context) {
-    return Container(
-      decoration: BoxDecoration(
-        color: white,
-        boxShadow: [
-          BoxShadow(
-            color: purple,
-            blurRadius: 0.8,
-            spreadRadius: 0.0,
-            blurStyle: BlurStyle.normal,
-          ),
-        ],
-      ),
-      padding: EdgeInsets.only(
-        top: MediaQuery.of(context).padding.top,
-        left: 8,
-        right: 8,
-      ),
-      child: Row(
-        children: [
-          Container(
-            width: AppBar().preferredSize.height + 40,
-            height: AppBar().preferredSize.height,
-            child: Padding(
-              padding: EdgeInsets.all(8),
-              child: Icon(Icons.arrow_back_ios_new),
-            ),
-          ),
-          Expanded(
-            child: Container(
-              child: Text(
-                'Explore',
-                style: TextStyle(
-                  fontSize: 22,
-                  fontWeight: FontWeight.w800,
-                ),
-              ),
-            ),
-          ),
-          Container(
-            width: AppBar().preferredSize.height + 40,
-            height: AppBar().preferredSize.height,
-            child: Row(
-              children: [
-                Material(
-                  color: Colors.transparent,
-                  child: InkWell(
-                    onTap: () {},
-                    borderRadius: BorderRadius.circular(32),
-                    child: Padding(
-                      padding: EdgeInsets.all(8),
-                      child: Icon(Icons.favorite_border),
-                    ),
-                  ),
-                ),
-                Material(
-                  color: Colors.transparent,
-                  child: InkWell(
-                    onTap: () {},
-                    borderRadius: BorderRadius.circular(32),
-                    child: Padding(
-                      padding: EdgeInsets.all(8),
-                      child: Icon(FontAwesomeIcons.locationDot),
-                    ),
-                  ),
-                ),
-              ],
-            ),
-          ),
-        ],
-      ),
-    );
-  }
 }
 
 class FilterTabHeader extends SliverPersistentHeaderDelegate {

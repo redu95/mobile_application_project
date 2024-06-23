@@ -8,7 +8,10 @@ import 'package:ionicons/ionicons.dart';
 import 'package:mobile_application_project/search_page.dart';
 import 'package:mobile_application_project/setting_page.dart';
 import 'package:mobile_application_project/detail_screen.dart';
+import 'package:mobile_application_project/theme_provider.dart';
+import 'package:provider/provider.dart';
 import 'Nearby_page.dart';
+import 'colors.dart';
 
 
 
@@ -124,7 +127,7 @@ class _HomeState extends State<Home> {
           ),
         ],
         currentIndex: _selectedIndex,
-        selectedItemColor: Colors.purple,
+        selectedItemColor: primaryColor,
         unselectedItemColor: Colors.grey,
         onTap: _onItemTapped,
       ),
@@ -150,6 +153,7 @@ class _HomePageState extends State<HomePage> {
   List<Map<String, dynamic>> hotels = []; // To store fetched hotel data
   List<String> favoriteHotelIds = [];
   bool isConnected = true;
+
 
   @override
   // initializing the states
@@ -287,9 +291,10 @@ class _HomePageState extends State<HomePage> {
 
   @override
   Widget build(BuildContext context) {
+    final themeSettings = Provider.of<ThemeSettings>(context);
     return MaterialApp(
         debugShowCheckedModeBanner: false,
-        theme: ThemeData(scaffoldBackgroundColor: Color(0xffF8FCFF), primaryColor: Color(0xffF8FCFF)),
+        theme: themeSettings.currentTheme,
         home: Scaffold(
             body: SafeArea(
               child: SingleChildScrollView(
@@ -315,7 +320,7 @@ class _HomePageState extends State<HomePage> {
                           Icon(
                             Ionicons.location,
                             size: 30,
-                            color: Colors.purple,
+                            color: primaryColor,
                           ),
                           Text(
                             "Addis Ababa"
@@ -323,13 +328,13 @@ class _HomePageState extends State<HomePage> {
                             style: TextStyle(
                               fontWeight: FontWeight.w800,
                               fontSize: 18,
-                              color: Colors.purpleAccent,
+                              color: primaryColorAccent,
                             ),
                           ),
                           Icon(
                             Ionicons.notifications,
                             size: 30,
-                            color: Colors.purple,
+                            color: primaryColor,
                           ),
                         ],
                       ),
@@ -448,7 +453,7 @@ class _HomePageState extends State<HomePage> {
                                               hotel['name'],
                                               style: TextStyle(
                                                 fontSize: 24,
-                                                color: Colors.black,
+                                                //fontFamily: ,  // font family!!!!
                                                 fontWeight: FontWeight.w600,
                                               ),
                                             ),
@@ -458,14 +463,14 @@ class _HomePageState extends State<HomePage> {
                                                 Icon(
                                                   Icons.location_on,
                                                   size: 20,
-                                                  color: Colors.black,
+                                                  color: primaryColor,
                                                 ),
                                                 SizedBox(width: 4),
                                                 Text(
                                                   hotel['location']['address'] +hotel['location']['city'],
                                                   style: TextStyle(
                                                     fontSize: 14,
-                                                    color: Colors.black,
+                                                    // color: Colors.black,
                                                     fontWeight: FontWeight.w400,
                                                   ),
                                                 ),
@@ -478,7 +483,7 @@ class _HomePageState extends State<HomePage> {
                                                     5,
                                                         (starIndex) => Icon(
                                                       Icons.star,
-                                                      color: Colors.purple,
+                                                      color: accentColor,
                                                       size: 20,
                                                     ),
                                                   ),
@@ -488,7 +493,7 @@ class _HomePageState extends State<HomePage> {
                                                   '${hotel['rating']} Reviews',
                                                   style: TextStyle(
                                                     fontSize: 16,
-                                                    color: Colors.purple,
+                                                    color: accentColor,
                                                     fontWeight: FontWeight.bold,
                                                   ),
                                                 ),
@@ -608,7 +613,7 @@ class _HomePageState extends State<HomePage> {
                                             hotel['name'],
                                             style: TextStyle(
                                               fontSize: 16,
-                                              color: Colors.black,
+                                              //color: Colors.black,
                                               fontWeight: FontWeight.w600,
                                             ),
                                           ),
@@ -618,14 +623,14 @@ class _HomePageState extends State<HomePage> {
                                               Icon(
                                                 Icons.location_on,
                                                 size: 14,
-                                                color: Colors.black,
+                                                color: primaryColor,
                                               ),
                                               SizedBox(width: 4),
                                               Text(
                                                 hotel['location']['address'] +hotel['location']['city'],
                                                 style: TextStyle(
                                                   fontSize: 14,
-                                                  color: Colors.black,
+                                                  //color: Colors.black,
                                                   fontWeight: FontWeight.w400,
                                                 ),
                                               ),
@@ -635,7 +640,7 @@ class _HomePageState extends State<HomePage> {
                                             "Experience luxury!",
                                             style: TextStyle(
                                               fontSize: 12,
-                                              color: Colors.black,
+                                              // color: Colors.black,
                                               fontWeight: FontWeight.w300,
                                             ),
                                           ),
@@ -646,7 +651,7 @@ class _HomePageState extends State<HomePage> {
                                                   5,
                                                       (starIndex) => Icon(
                                                     Icons.star,
-                                                    color: Colors.purple,
+                                                    color: accentColor,
                                                     size: 20,
                                                   ),
                                                 ),
@@ -656,7 +661,7 @@ class _HomePageState extends State<HomePage> {
                                                 '${hotel['rating']} Reviews',
                                                 style: TextStyle(
                                                   fontSize: 16,
-                                                  color: Colors.purple,
+                                                  color: accentColor,
                                                   fontWeight: FontWeight.bold,
                                                 ),
                                               ),
@@ -672,7 +677,7 @@ class _HomePageState extends State<HomePage> {
                                     child: Icon(
                                       isFavorite ? Icons.favorite : Icons.favorite_border,
                                       size: 24,
-                                      color: isFavorite ? Colors.purple : Colors.grey,
+                                      color: isFavorite ? primaryColor : Colors.grey,
                                     ),
                                   ),
                                 ],
