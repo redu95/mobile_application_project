@@ -9,6 +9,8 @@ Future<void> updateUserThemePreference(String userId, bool isDarkModeEnabled) as
     'isDarkModeEnabled': isDarkModeEnabled,
   });
 }
+
+
 class ThemeSettings extends ChangeNotifier {
   ThemeData _currentTheme = ThemeData.light();  // Default theme is light
   ThemeData get currentTheme => _currentTheme;  // Getter for the current theme

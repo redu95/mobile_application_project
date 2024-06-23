@@ -6,6 +6,8 @@ import 'package:ionicons/ionicons.dart';
 import 'package:mobile_application_project/search_page.dart';
 import 'package:mobile_application_project/setting_page.dart';
 import 'package:mobile_application_project/detail_screen.dart';
+import 'package:mobile_application_project/theme_provider.dart';
+import 'package:provider/provider.dart';
 import 'Nearby_page.dart';
 
 class Home extends StatefulWidget {
@@ -155,9 +157,10 @@ class _HomePageState extends State<HomePage> {
 
   @override
   Widget build(BuildContext context) {
+    final themeSettings = Provider.of<ThemeSettings>(context);
     return MaterialApp(
         debugShowCheckedModeBanner: false,
-        theme: ThemeData(scaffoldBackgroundColor: Color(0xffF8FCFF), primaryColor: Color(0xffF8FCFF)),
+        theme: themeSettings.currentTheme,
         home: Scaffold(
             body: SafeArea(
               child: SingleChildScrollView(
@@ -315,7 +318,7 @@ class _HomePageState extends State<HomePage> {
                                               hotel['name'],
                                               style: TextStyle(
                                                 fontSize: 24,
-                                                color: Colors.black,
+                                                //fontFamily: ,  // font family!!!!
                                                 fontWeight: FontWeight.w600,
                                               ),
                                             ),
@@ -325,14 +328,14 @@ class _HomePageState extends State<HomePage> {
                                                 Icon(
                                                   Icons.location_on,
                                                   size: 20,
-                                                  color: Colors.black,
+                                                  // color: Colors.black,
                                                 ),
                                                 SizedBox(width: 4),
                                                 Text(
                                                   hotel['location']['address'] +hotel['location']['city'] +hotel ['location']['country'],
                                                   style: TextStyle(
                                                     fontSize: 14,
-                                                    color: Colors.black,
+                                                    // color: Colors.black,
                                                     fontWeight: FontWeight.w400,
                                                   ),
                                                 ),
@@ -372,7 +375,7 @@ class _HomePageState extends State<HomePage> {
                                     child: IconButton(
                                       icon: Icon(
                                         Icons.favorite_border,
-                                        color: Colors.black,
+                                        //color: Colors.black,
                                       ),
                                       onPressed: () {
                                         // Handle favorite button press
@@ -464,7 +467,7 @@ class _HomePageState extends State<HomePage> {
                                             hotel['name'],
                                             style: TextStyle(
                                               fontSize: 16,
-                                              color: Colors.black,
+                                              //color: Colors.black,
                                               fontWeight: FontWeight.w600,
                                             ),
                                           ),
@@ -474,14 +477,14 @@ class _HomePageState extends State<HomePage> {
                                               Icon(
                                                 Icons.location_on,
                                                 size: 14,
-                                                color: Colors.black,
+                                                // color: Colors.black,
                                               ),
                                               SizedBox(width: 4),
                                               Text(
                                                 hotel['location']['address'] +hotel['location']['city'] +hotel ['location']['country'],
                                                 style: TextStyle(
                                                   fontSize: 14,
-                                                  color: Colors.black,
+                                                  //color: Colors.black,
                                                   fontWeight: FontWeight.w400,
                                                 ),
                                               ),
@@ -491,7 +494,7 @@ class _HomePageState extends State<HomePage> {
                                             "Experience luxury!",
                                             style: TextStyle(
                                               fontSize: 12,
-                                              color: Colors.black,
+                                              // color: Colors.black,
                                               fontWeight: FontWeight.w300,
                                             ),
                                           ),

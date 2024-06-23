@@ -125,7 +125,7 @@ class _SearchPageState extends State<SearchPage> with TickerProviderStateMixin {
     return Stack(
       children: [
         Container(
-          color: white,
+          //color: white,
           padding: EdgeInsets.only(left: 16, right: 16, top: 8, bottom: 8),
           child: Row(
             children: [
@@ -182,7 +182,7 @@ class _SearchPageState extends State<SearchPage> with TickerProviderStateMixin {
           Expanded(
             child: Container(
               decoration: BoxDecoration(
-                color: white,
+                //color: white,
                 borderRadius: BorderRadius.circular(40),
                 boxShadow: [
                   BoxShadow(
@@ -244,7 +244,7 @@ class _SearchPageState extends State<SearchPage> with TickerProviderStateMixin {
   Widget _buildAppbar(BuildContext context) {
     return Container(
       decoration: BoxDecoration(
-        color: white,
+        //color: white,
         boxShadow: [
           BoxShadow(
             color: purple,
