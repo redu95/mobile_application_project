@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:mobile_application_project/colors.dart';
 import 'booking.dart';
 
 class Detail extends StatelessWidget {
@@ -68,14 +69,14 @@ class Detail extends StatelessWidget {
                           style: const TextStyle(
                             fontSize: 28,
                             fontWeight: FontWeight.w800,
-                            color: Colors.black,
+                            //color: Colors.black,
                           ),
                         ),
                         Row(
                           children: [
-                            Icon(Icons.location_on, size: 30),
+                            Icon(Icons.location_on, size: 30,color: primaryColor,),
                             Text(
-                              '${hotelData['location']?['address'] ?? 'No Address'}, ${hotelData['location']?['city'] ?? 'No city'}, ${hotelData['location']?['country'] ?? 'No country'}',
+                              '${hotelData['location']?['address'] ?? 'No Address'}, ${hotelData['location']?['city'] ?? 'No city'}}',
                               style: const TextStyle(fontSize: 24),
                             ),
                           ],
@@ -113,14 +114,6 @@ class Detail extends StatelessWidget {
                           'Cancellation: ${hotelData['policies']?['cancellation'] ?? 'No cancellation info'}',
                           style: TextStyle(fontSize: 14),
                         ),
-                      ],
-                    ),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 0, vertical: 6),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
                         Text(
                           "Amenities",
                           style: TextStyle(fontSize: 22),
@@ -223,7 +216,7 @@ class Detail extends StatelessWidget {
               height: 40,
               width: 40,
               decoration: BoxDecoration(
-                color: Colors.white,
+                //color: Colors.white,
                 borderRadius: BorderRadius.circular(8),
               ),
               child: IconButton(
@@ -245,7 +238,7 @@ class Detail extends StatelessWidget {
               height: 40,
               width: 40,
               decoration: BoxDecoration(
-                color: Colors.white,
+                // color: Colors.white,
                 borderRadius: BorderRadius.circular(8),
               ),
               child: IconButton(
@@ -264,75 +257,78 @@ class Detail extends StatelessWidget {
   }
 
   Widget _buildRoomBox(BuildContext context, String imageUrl,String hotelId, String roomType, int pricePerNight, String hotelName) {
-    return Container(
-      width: 290,
-      height: 350,
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(12),
-        color: Colors.grey[200],
-      ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Stack(
-            children: [
-              Image.network(
-                imageUrl,
-                fit: BoxFit.cover,
-                width: double.infinity,
-                height: 250,
-              ),
-              Positioned(
-                bottom: 1,
-                right: 8,
-                child: SizedBox(
-                  width: 100,
-                  child: MaterialButton(
-                    onPressed: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => BookingDemo(
-                            hotelId:hotelId,
-                            hotelName: hotelName,
-                            roomName: roomType,
-                            roomPrice: pricePerNight,
-                            imageUrl: imageUrl,
+    return Padding(
+      padding: EdgeInsets.all(8.0),
+      child: Container(
+        width: 290,
+        height: 350,
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(12),
+          //color: Colors.grey[200],
+        ),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Stack(
+              children: [
+                Image.network(
+                  imageUrl,
+                  fit: BoxFit.cover,
+                  width: double.infinity,
+                  height: 250,
+                ),
+                Positioned(
+                  bottom: 1,
+                  right: 8,
+                  child: SizedBox(
+                    width: 100,
+                    child: MaterialButton(
+                      onPressed: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => BookingDemo(
+                              hotelId:hotelId,
+                              hotelName: hotelName,
+                              roomName: roomType,
+                              roomPrice: pricePerNight,
+                              imageUrl: imageUrl,
+                            ),
                           ),
-                        ),
-                      );
-                    },
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(12),
-                    ),
-                    color: Colors.purpleAccent,
-                    child: const Text(
-                      "Book Now",
-                      style: TextStyle(fontSize: 16, color: Colors.white),
+                        );
+                      },
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(12),
+                      ),
+                      color: accentColor,
+                      child: const Text(
+                        "Book Now",
+                        style: TextStyle(fontSize: 16, color: Colors.white),
+                      ),
                     ),
                   ),
                 ),
-              ),
-            ],
-          ),
-          Padding(
-            padding: const EdgeInsets.fromLTRB(12, 8, 12, 0),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  'Room Type: $roomType',
-                  style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-                ),
-                const SizedBox(height: 4),
-                Text(
-                  'Price: \ETB${pricePerNight.toString()}',
-                  style: const TextStyle(fontSize: 16),
-                ),
               ],
             ),
-          ),
-        ],
+            Padding(
+              padding: const EdgeInsets.fromLTRB(12, 8, 12, 0),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    'Room Type: $roomType',
+                    style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                  ),
+                  const SizedBox(height: 4),
+                  Text(
+                    'Price: \ETB${pricePerNight.toString()}',
+                    style: const TextStyle(fontSize: 16),
+                  ),
+                ],
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }
