@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:mobile_application_project/colors.dart';
+
 import 'booking.dart';
 
 class Detail extends StatelessWidget {
