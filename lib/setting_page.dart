@@ -17,6 +17,7 @@ import 'package:mobile_application_project/help.dart';
 import 'package:mobile_application_project/Privacy.dart';
 
 import 'my_bookings.dart';
+import 'my_favorites.dart';
 
 class SettingPage extends StatefulWidget {
   final String userName;
@@ -246,6 +247,14 @@ class _SettingPageState extends State<SettingPage> {
                         color: Colors.deepPurple,
                       ),
                     ),
+                    onTap: (){
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => MyFavorites(),
+                        ),
+                      );
+                    },
                     title: Text(
                       AppLocalizations.of(context)!.favorites ?? '',
                       style: TextStyle(

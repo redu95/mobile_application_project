@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_locales/flutter_locales.dart';
@@ -27,6 +28,27 @@ class _SignUpPageState extends State<SignUpPage> {
   }
 
   registration() async {
+    // Check for internet connection
+    var connectivityResult = await (Connectivity().checkConnectivity());
+    if (connectivityResult == ConnectivityResult.none) {
+      // Show a dialog indicating no internet connection
+      showDialog(
+        context: context,
+        builder: (context) {
+          return const AlertDialog(
+            title: Text(
+              'No Internet Connection',
+              style: TextStyle(fontSize: 18.0),
+            ),
+            content: Text(
+              'Please check your internet connection and try again.',
+              style: TextStyle(fontSize: 16.0),
+            ),
+          );
+        },
+      );
+      return; // Exit the signIn method
+    }
     showDialog(
       context: context,
       builder: (context) {

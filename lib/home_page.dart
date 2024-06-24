@@ -1,4 +1,6 @@
+import 'dart:async';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -6,7 +8,12 @@ import 'package:ionicons/ionicons.dart';
 import 'package:mobile_application_project/search_page.dart';
 import 'package:mobile_application_project/setting_page.dart';
 import 'package:mobile_application_project/detail_screen.dart';
+import 'package:mobile_application_project/theme_provider.dart';
+import 'package:provider/provider.dart';
 import 'Nearby_page.dart';
+import 'colors.dart';
+
+
 
 class Home extends StatefulWidget {
   @override
@@ -24,6 +31,9 @@ class _HomeState extends State<Home> {
   final User user = FirebaseAuth.instance.currentUser!;
   int _selectedIndex = 0;
   late List<Widget> _widgetOptions;
+  bool isConnected = true;
+  late StreamSubscription<ConnectivityResult> connectivitySubscription;
+
 
   @override
   void initState() {
@@ -38,6 +48,18 @@ class _HomeState extends State<Home> {
         photoUrl: user.photoURL,
       ),
     ];
+    // Initial check
+    checkConnection();
+    // // Listen for connectivity changes
+    // connectivitySubscription = Connectivity().onConnectivityChanged.listen((ConnectivityResult result) {
+    //   checkConnection();
+    // });
+  }
+
+  @override
+  void dispose() {
+    connectivitySubscription.cancel();
+    super.dispose();
   }
 
   void _onItemTapped(int index) {
@@ -46,17 +68,50 @@ class _HomeState extends State<Home> {
     });
   }
 
+  Future<void> checkConnection() async {
+    var connectivityResult = await (Connectivity().checkConnectivity());
+    setState(() {
+      isConnected = connectivityResult != ConnectivityResult.none;
+    });
+  }
+
+
   @override
-  Widget build(BuildContext context)  {
+  Widget build(BuildContext context) {
     return Scaffold(
-      body: Center(
-        child: _widgetOptions.elementAt(_selectedIndex),
+      body: Stack(
+        children: [
+          Center(
+            child: _widgetOptions.elementAt(_selectedIndex),
+          ),
+          if (!isConnected)
+            Positioned(
+              top: 0,
+              left: 0,
+              right: 0,
+              child: Container(
+                color: Colors.red,
+                padding: EdgeInsets.all(8),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Icon(Icons.warning, color: Colors.white),
+                    SizedBox(width: 8),
+                    Text(
+                      'No Internet Connection',
+                      style: TextStyle(color: Colors.white),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+        ],
       ),
       bottomNavigationBar: BottomNavigationBar(
         items: <BottomNavigationBarItem>[
           BottomNavigationBarItem(
             icon: Icon(Icons.home),
-            label: 'home',
+            label: 'Home',
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.search),
@@ -72,12 +127,13 @@ class _HomeState extends State<Home> {
           ),
         ],
         currentIndex: _selectedIndex,
-        selectedItemColor: Colors.purple,
+        selectedItemColor: primaryColor,
         unselectedItemColor: Colors.grey,
         onTap: _onItemTapped,
       ),
     );
   }
+
 }
 
 class HomePage extends StatefulWidget {
@@ -95,6 +151,9 @@ class _HomePageState extends State<HomePage> {
   late User user; // Add this variable to hold the authenticated user
   bool isLoading = true; // Track loading state
   List<Map<String, dynamic>> hotels = []; // To store fetched hotel data
+  List<String> favoriteHotelIds = [];
+  bool isConnected = true;
+
 
   @override
   // initializing the states
@@ -103,6 +162,14 @@ class _HomePageState extends State<HomePage> {
     user = FirebaseAuth.instance.currentUser!;
     loadUserInfo(user.uid);
     fetchHotelData();
+    fetchFavorites();
+    checkConnection();
+  }
+  Future<void> checkConnection() async {
+    var connectivityResult = await (Connectivity().checkConnectivity());
+    setState(() {
+      isConnected = connectivityResult != ConnectivityResult.none;
+    });
   }
   // Fetch Hotels Function
   Future<List<Map<String, dynamic>>> fetchHotels() async {
@@ -120,6 +187,9 @@ class _HomePageState extends State<HomePage> {
   }
 
   Future<void> fetchHotelData() async {
+    if (!isConnected) {
+      return;
+    }
     List<Map<String, dynamic>> fetchedHotels = await fetchHotels();
     setState(() {
       hotels = fetchedHotels;
@@ -129,6 +199,12 @@ class _HomePageState extends State<HomePage> {
 
   //Load User Info Function
   Future<void> loadUserInfo(String uid) async {
+    if (!isConnected) {
+      setState(() {
+        isLoading = false;
+      });
+      return;
+    }
     try {
       DocumentSnapshot userDoc =
       await FirebaseFirestore.instance.collection('users').doc(uid).get();
@@ -153,11 +229,72 @@ class _HomePageState extends State<HomePage> {
     }
   }
 
+  Future<void> fetchFavorites() async {
+    if (!isConnected) {
+      return;
+    }
+    try {
+      QuerySnapshot snapshot = await FirebaseFirestore.instance
+          .collection('favorites')
+          .where('userId', isEqualTo: user.uid)
+          .get();
+
+      setState(() {
+        favoriteHotelIds = snapshot.docs.map((doc) => doc['hotelId'] as String).toList();
+      });
+    } catch (e) {
+      print("Error fetching favorites: $e");
+    }
+  }
+
+  Future<void> addFavorite(String hotelId) async {
+    if (!isConnected) {
+      return;
+    }
+    try {
+      await FirebaseFirestore.instance.collection('favorites').add({
+        'userId': user.uid,
+        'hotelId': hotelId,
+        'createdAt': Timestamp.now(),
+      });
+
+      setState(() {
+        favoriteHotelIds.add(hotelId);
+      });
+    } catch (e) {
+      print("Error adding favorite: $e");
+    }
+  }
+
+  Future<void> removeFavorite(String hotelId) async {
+    if (!isConnected) {
+      return;
+    }
+    try {
+      QuerySnapshot snapshot = await FirebaseFirestore.instance
+          .collection('favorites')
+          .where('userId', isEqualTo: user.uid)
+          .where('hotelId', isEqualTo: hotelId)
+          .get();
+
+      for (var doc in snapshot.docs) {
+        await doc.reference.delete();
+      }
+
+      setState(() {
+        favoriteHotelIds.remove(hotelId);
+      });
+    } catch (e) {
+      print("Error removing favorite: $e");
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
+    final themeSettings = Provider.of<ThemeSettings>(context);
     return MaterialApp(
         debugShowCheckedModeBanner: false,
-        theme: ThemeData(scaffoldBackgroundColor: Color(0xffF8FCFF), primaryColor: Color(0xffF8FCFF)),
+        theme: themeSettings.currentTheme,
         home: Scaffold(
             body: SafeArea(
               child: SingleChildScrollView(
@@ -183,7 +320,7 @@ class _HomePageState extends State<HomePage> {
                           Icon(
                             Ionicons.location,
                             size: 30,
-                            color: Colors.purple,
+                            color: primaryColor,
                           ),
                           Text(
                             "Addis Ababa"
@@ -191,13 +328,13 @@ class _HomePageState extends State<HomePage> {
                             style: TextStyle(
                               fontWeight: FontWeight.w800,
                               fontSize: 18,
-                              color: Colors.purpleAccent,
+                              color: primaryColorAccent,
                             ),
                           ),
                           Icon(
                             Ionicons.notifications,
                             size: 30,
-                            color: Colors.purple,
+                            color: primaryColor,
                           ),
                         ],
                       ),
@@ -267,6 +404,7 @@ class _HomePageState extends State<HomePage> {
                         itemCount: hotels.length,
                         itemBuilder: (context, index) {
                           var hotel = hotels[index];
+                          bool isFavorite = favoriteHotelIds.contains(hotel['id']);
                           return InkWell(
                             onTap: () {
                               Navigator.push(
@@ -283,7 +421,7 @@ class _HomePageState extends State<HomePage> {
                               decoration: BoxDecoration(
                                 borderRadius: BorderRadius.circular(12),
                                 border: Border.all(
-                                  color: Colors.grey,
+                                  color: Colors.purpleAccent,
                                   width: 1.5,
                                 ),
                               ),
@@ -315,7 +453,7 @@ class _HomePageState extends State<HomePage> {
                                               hotel['name'],
                                               style: TextStyle(
                                                 fontSize: 24,
-                                                color: Colors.black,
+                                                //fontFamily: ,  // font family!!!!
                                                 fontWeight: FontWeight.w600,
                                               ),
                                             ),
@@ -325,14 +463,14 @@ class _HomePageState extends State<HomePage> {
                                                 Icon(
                                                   Icons.location_on,
                                                   size: 20,
-                                                  color: Colors.black,
+                                                  color: primaryColor,
                                                 ),
                                                 SizedBox(width: 4),
                                                 Text(
-                                                  hotel['location']['address'] +hotel['location']['city'] +hotel ['location']['country'],
+                                                  hotel['location']['address'] +hotel['location']['city'],
                                                   style: TextStyle(
                                                     fontSize: 14,
-                                                    color: Colors.black,
+                                                    // color: Colors.black,
                                                     fontWeight: FontWeight.w400,
                                                   ),
                                                 ),
@@ -345,7 +483,7 @@ class _HomePageState extends State<HomePage> {
                                                     5,
                                                         (starIndex) => Icon(
                                                       Icons.star,
-                                                      color: Colors.purple,
+                                                      color: accentColor,
                                                       size: 20,
                                                     ),
                                                   ),
@@ -355,7 +493,7 @@ class _HomePageState extends State<HomePage> {
                                                   '${hotel['rating']} Reviews',
                                                   style: TextStyle(
                                                     fontSize: 16,
-                                                    color: Colors.purple,
+                                                    color: accentColor,
                                                     fontWeight: FontWeight.bold,
                                                   ),
                                                 ),
@@ -367,16 +505,24 @@ class _HomePageState extends State<HomePage> {
                                     ],
                                   ),
                                   Positioned(
-                                    bottom: 10,
-                                    right: 10,
-                                    child: IconButton(
-                                      icon: Icon(
-                                        Icons.favorite_border,
-                                        color: Colors.black,
-                                      ),
-                                      onPressed: () {
-                                        // Handle favorite button press
+                                    top: 250,
+                                    right: 8,
+                                    child: GestureDetector(
+                                      onTap: () {
+                                        setState(() {
+                                          isFavorite = !isFavorite;
+                                        });
+                                        if (isFavorite) {
+                                          addFavorite(hotel['id']);
+                                        } else {
+                                          removeFavorite(hotel['id']);
+                                        }
                                       },
+                                      child: Icon(
+                                        isFavorite ? Icons.favorite : Icons.favorite_border,
+                                        size: 30,
+                                        color: isFavorite ? Colors.purple : Colors.grey,
+                                      ),
                                     ),
                                   ),
                                 ],
@@ -386,6 +532,9 @@ class _HomePageState extends State<HomePage> {
                         },
                       ),
                     ),
+
+                    //POPULAR HOTELS
+
                     const Padding(
                         padding: const EdgeInsets.only(left: 12.0, top: 12),
                         child: Text(
@@ -406,7 +555,7 @@ class _HomePageState extends State<HomePage> {
                         itemCount: hotels.length,
                         itemBuilder: (context, index) {
                           var hotel = hotels[index];
-                          bool isFavorite = false;
+                          bool isFavorite = favoriteHotelIds.contains(hotel['id']);
 
                           return InkWell(
                             onTap: () {
@@ -464,7 +613,7 @@ class _HomePageState extends State<HomePage> {
                                             hotel['name'],
                                             style: TextStyle(
                                               fontSize: 16,
-                                              color: Colors.black,
+                                              //color: Colors.black,
                                               fontWeight: FontWeight.w600,
                                             ),
                                           ),
@@ -474,14 +623,14 @@ class _HomePageState extends State<HomePage> {
                                               Icon(
                                                 Icons.location_on,
                                                 size: 14,
-                                                color: Colors.black,
+                                                color: primaryColor,
                                               ),
                                               SizedBox(width: 4),
                                               Text(
-                                                hotel['location']['address'] +hotel['location']['city'] +hotel ['location']['country'],
+                                                hotel['location']['address'] +hotel['location']['city'],
                                                 style: TextStyle(
                                                   fontSize: 14,
-                                                  color: Colors.black,
+                                                  //color: Colors.black,
                                                   fontWeight: FontWeight.w400,
                                                 ),
                                               ),
@@ -491,7 +640,7 @@ class _HomePageState extends State<HomePage> {
                                             "Experience luxury!",
                                             style: TextStyle(
                                               fontSize: 12,
-                                              color: Colors.black,
+                                              // color: Colors.black,
                                               fontWeight: FontWeight.w300,
                                             ),
                                           ),
@@ -502,7 +651,7 @@ class _HomePageState extends State<HomePage> {
                                                   5,
                                                       (starIndex) => Icon(
                                                     Icons.star,
-                                                    color: Colors.purple,
+                                                    color: accentColor,
                                                     size: 20,
                                                   ),
                                                 ),
@@ -512,7 +661,7 @@ class _HomePageState extends State<HomePage> {
                                                 '${hotel['rating']} Reviews',
                                                 style: TextStyle(
                                                   fontSize: 16,
-                                                  color: Colors.purple,
+                                                  color: accentColor,
                                                   fontWeight: FontWeight.bold,
                                                 ),
                                               ),
@@ -528,7 +677,7 @@ class _HomePageState extends State<HomePage> {
                                     child: Icon(
                                       isFavorite ? Icons.favorite : Icons.favorite_border,
                                       size: 24,
-                                      color: isFavorite ? Colors.purple : Colors.grey,
+                                      color: isFavorite ? primaryColor : Colors.grey,
                                     ),
                                   ),
                                 ],
