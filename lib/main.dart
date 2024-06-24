@@ -1,8 +1,8 @@
-
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:mobile_application_project/auth_page.dart';
 import 'package:mobile_application_project/login_page.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -11,11 +11,11 @@ import 'package:flutter_locales/flutter_locales.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'firebase_options.dart';
 import 'package:mobile_application_project/theme_provider.dart';
-import 'package:provider/provider.dart';
+import 'package:provider/provider.dart' as legacyProvider; // Aliasing the provider package
 
-// void main(){
-//   runApp(const ProviderScope(child: MyApp()));
-// }
+import 'package:mobile_application_project/search_map_places.dart';
+
+// AIzaSyBiZW77UoNWmvp6xLz7eli-bHn6yQBWw4A
 
 class MyApp extends StatefulWidget {
   const MyApp({Key? key}) : super(key: key);
@@ -45,7 +45,6 @@ class _MyAppState extends State<MyApp> {
     MyApp.saveLanguagePreference(locale.languageCode);
   }
 
-
   @override
   void initState() {
     super.initState();
@@ -60,13 +59,14 @@ class _MyAppState extends State<MyApp> {
       setLocale(newLocale);
     }
   }
-  
+
   @override
   Widget build(BuildContext context) {
     return LocaleBuilder(
-      builder: (locale) => ChangeNotifierProvider(
-        create: (context) => ThemeSettings(), // Provide the initial dark mode value
-        child: Consumer<ThemeSettings>(
+      builder: (locale) => legacyProvider.ChangeNotifierProvider( // Using the aliased version
+        create: (context) =>
+            ThemeSettings(), // Provide the initial dark mode value
+        child: legacyProvider.Consumer<ThemeSettings>(
           builder: (context, themeSettings, _) {
             return MaterialApp(
               title: 'Addis Stay',
@@ -87,11 +87,12 @@ class _MyAppState extends State<MyApp> {
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(
-      options: DefaultFirebaseOptions.currentPlatform,
+    options: DefaultFirebaseOptions.currentPlatform,
   );
   await Locales.init(['en', 'am', 'ar', 'es']); // Initialize flutter_locales
+  runApp(const ProviderScope(child: MyApp()) as Widget);
   //await addHotels();
-  runApp(MyApp());
+  // runApp(MyApp());
 }
 
 Future<String> getDownloadUrl(String folder, String fileName) async {
@@ -109,7 +110,8 @@ Future<void> addHotels() async {
 
   for (var hotel in hotels) {
     // Get main image URL
-    String mainImageUrl = await getDownloadUrl('hotelImages', hotel['mainImage']);
+    String mainImageUrl =
+        await getDownloadUrl('hotelImages', hotel['mainImage']);
 
     // Get additional image URLs
     List<String> imageUrls = [];
@@ -130,9 +132,11 @@ Future<void> addHotels() async {
     });
 
     for (var roomType in hotel['roomTypes']) {
-      String roomTypeImageUrl = await getDownloadUrl('hotelImages', roomType['image']);
+      String roomTypeImageUrl =
+          await getDownloadUrl('hotelImages', roomType['image']);
 
-      DocumentReference roomTypeRef = await hotelRef.collection('room_types').add({
+      DocumentReference roomTypeRef =
+          await hotelRef.collection('room_types').add({
         'type': roomType['type'],
         'imgUrl': roomTypeImageUrl,
         'pricePerNight': roomType['pricePerNight'],
@@ -159,14 +163,11 @@ Future<void> addHotels() async {
   print('Hotels added successfully');
 }
 
-
-
 class WelcomePage extends StatefulWidget {
   const WelcomePage({Key? key}) : super(key: key);
 
   @override
   _WelcomePageState createState() => _WelcomePageState();
-
 }
 
 class _WelcomePageState extends State<WelcomePage> {
@@ -201,7 +202,7 @@ class _WelcomePageState extends State<WelcomePage> {
 
   @override
   Widget build(BuildContext context) {
-    final themeProvider = Provider.of<ThemeSettings>(context);
+    final themeProvider = legacyProvider.Provider.of<ThemeSettings>(context);
     return Scaffold(
       body: Stack(
         children: [
@@ -306,7 +307,8 @@ class _WelcomePageState extends State<WelcomePage> {
             bottom: 100,
             child: GestureDetector(
               onTap: () {
-                Navigator.push(context, MaterialPageRoute(builder: (context) => LogInPage()));
+                Navigator.push(context,
+                    MaterialPageRoute(builder: (context) => LogInPage()));
               },
               child: Text(
                 AppLocalizations.of(context)?.already_have_an_account ?? '',

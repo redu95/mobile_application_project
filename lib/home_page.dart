@@ -13,8 +13,6 @@ import 'package:provider/provider.dart';
 import 'Nearby_page.dart';
 import 'colors.dart';
 
-
-
 class Home extends StatefulWidget {
   @override
   State<Home> createState() => _HomeState();
