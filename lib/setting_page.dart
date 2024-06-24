@@ -11,6 +11,8 @@ import 'package:mobile_application_project/languageMenu.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:mobile_application_project/languagerelatedclass/language_constants.dart';
 import 'package:provider/provider.dart';
+import 'colors.dart';
+import 'home_page.dart';
 import 'login_page.dart';
 import 'package:mobile_application_project/theme_provider.dart';
 import 'package:mobile_application_project/help.dart';
@@ -128,7 +130,11 @@ class _SettingPageState extends State<SettingPage> {
         leading: IconButton(
           icon: Icon(Icons.arrow_back),
           onPressed: () {
-            Navigator.pop(context);
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                  builder: (context) => Home()), // Navigate to your bookings page
+            );
           },
         ),
         actions: [
@@ -213,11 +219,11 @@ class _SettingPageState extends State<SettingPage> {
                   ListTile( // Bookings
                     leading: CircleAvatar(
                       radius: 30,
-                      backgroundColor: Colors.purple.shade50,
+                      backgroundColor: accentColorShade,
                       child: Icon(
                         Ionicons.calendar,
                         size: 30,
-                        color: Colors.deepPurple,
+                        color: primaryColor,
                       ),
                     ),
                     onTap: (){
@@ -240,11 +246,11 @@ class _SettingPageState extends State<SettingPage> {
                   ListTile( // Favorites
                     leading: CircleAvatar(
                       radius: 30,
-                      backgroundColor: Colors.purple.shade50,
+                      backgroundColor: accentColorShade,
                       child: Icon(
                         Ionicons.heart,
                         size: 30,
-                        color: Colors.deepPurple,
+                        color: primaryColor,
                       ),
                     ),
                     onTap: (){
@@ -275,11 +281,11 @@ class _SettingPageState extends State<SettingPage> {
                   ListTile(
                     leading: CircleAvatar(
                       radius: 30,
-                      backgroundColor: Colors.purple.shade50,
+                      backgroundColor: accentColorShade,
                       child: Icon(
                         Ionicons.language_outline,
                         size: 30,
-                        color: Colors.deepPurple,
+                        color: primaryColor,
                       ),
                     ),
                     title: Text(
@@ -301,11 +307,11 @@ class _SettingPageState extends State<SettingPage> {
                   ListTile( // Dark Mode
                     leading: CircleAvatar(
                       radius: 30,
-                      backgroundColor: Colors.purple.shade50,
+                      backgroundColor: accentColorShade,
                       child: Icon(
                         Ionicons.moon_outline,
                         size: 30,
-                        color: Colors.deepPurple,
+                        color: primaryColor,
                       ),
                     ),
                     title: Text(
@@ -320,6 +326,7 @@ class _SettingPageState extends State<SettingPage> {
                       onChanged: (value) {
                         themeProvider.setThemeMode(value, user.uid);
                       },
+                      activeColor: accentColor,
                     ),
                   ),
                   SizedBox(height: 30),
@@ -334,11 +341,11 @@ class _SettingPageState extends State<SettingPage> {
                   ListTile(
                     leading: CircleAvatar(
                       radius: 30,
-                      backgroundColor: Colors.purple.shade50,
+                      backgroundColor: accentColorShade,
                       child: Icon(
                         Ionicons.help,
                         size: 30,
-                        color: Colors.deepPurple,
+                        color: primaryColor,
                       ),
                     ),
                     title: Text(
@@ -360,11 +367,11 @@ class _SettingPageState extends State<SettingPage> {
                   ListTile(
                     leading: CircleAvatar(
                       radius: 30,
-                      backgroundColor: Colors.purple.shade50,
+                      backgroundColor: accentColorShade,
                       child: Icon(
                         Ionicons.shield,
                         size: 30,
-                        color: Colors.deepPurple,
+                        color: primaryColor,
                       ),
                     ),
                     title: Text(
@@ -386,11 +393,11 @@ class _SettingPageState extends State<SettingPage> {
                   ListTile(
                     leading: CircleAvatar(
                       radius: 30,
-                      backgroundColor: Colors.purple.shade50,
+                      backgroundColor: accentColorShade,
                       child: Icon(
                         Ionicons.log_out_outline,
                         size: 30,
-                        color: Colors.deepPurple,
+                        color: primaryColor,
                       ),
                     ),
                     title: Text(
@@ -480,10 +487,10 @@ class _SettingPageState extends State<SettingPage> {
               ],
             ),
             Spacer(),
-            const Icon(
+             Icon(
               Icons.settings,
               size: 30,
-              color: Colors.purple,
+              color: primaryColor,
             )
           ],
         ),
