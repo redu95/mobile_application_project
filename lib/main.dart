@@ -13,6 +13,10 @@ import 'firebase_options.dart';
 import 'package:mobile_application_project/theme_provider.dart';
 import 'package:provider/provider.dart';
 
+// void main(){
+//   runApp(const ProviderScope(child: MyApp()));
+// }
+
 class MyApp extends StatefulWidget {
   const MyApp({Key? key}) : super(key: key);
 
