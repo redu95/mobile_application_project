@@ -391,7 +391,7 @@ class _SettingPageState extends State<SettingPage> {
                       child: Icon(
                         Ionicons.log_out_outline,
                         size: 30,
-                        color: Colors.deepPurple,
+                        color: primaryColor,
                       ),
                     ),
                     title: Text(
