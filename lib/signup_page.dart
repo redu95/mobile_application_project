@@ -3,6 +3,7 @@ import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_locales/flutter_locales.dart';
+import 'package:mobile_application_project/colors.dart';
 import 'package:mobile_application_project/home_page.dart';
 import 'package:mobile_application_project/login_page.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
@@ -207,7 +208,7 @@ class _SignUpPageState extends State<SignUpPage> {
                 width: 140,
                 padding: const EdgeInsets.all(10),
                 decoration: BoxDecoration(
-                    color: Colors.deepPurpleAccent,
+                    color: primaryColor,
                     borderRadius: BorderRadius.circular(30)),
                 child: GestureDetector(
                   onTap: registration,
@@ -227,7 +228,7 @@ class _SignUpPageState extends State<SignUpPage> {
                 children: [
                   Text( AppLocalizations.of(context)!.already_have_an_account?? '',
                     style: TextStyle(
-                      fontSize: 18.0,color: Colors.black,
+                      fontSize: 18.0,//color: Colors.black,
                     ),
                   ),
                   SizedBox(width: 5.0,),
@@ -237,7 +238,7 @@ class _SignUpPageState extends State<SignUpPage> {
                     },
                     child: Text( AppLocalizations.of(context)!.log_in ?? '',
                       style: TextStyle(
-                        color: Colors.deepPurpleAccent,
+                        color: accentColor,
                         fontSize: 20.0,
                         fontWeight: FontWeight.w500,
                       ),
