@@ -12,6 +12,7 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:mobile_application_project/languagerelatedclass/language_constants.dart';
 import 'package:provider/provider.dart';
 import 'colors.dart';
+import 'home_page.dart';
 import 'login_page.dart';
 import 'package:mobile_application_project/theme_provider.dart';
 import 'package:mobile_application_project/help.dart';
@@ -129,7 +130,11 @@ class _SettingPageState extends State<SettingPage> {
         leading: IconButton(
           icon: Icon(Icons.arrow_back),
           onPressed: () {
-            Navigator.pop(context);
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                  builder: (context) => Home()), // Navigate to your bookings page
+            );
           },
         ),
         actions: [

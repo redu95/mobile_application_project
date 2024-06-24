@@ -65,6 +65,7 @@ dependencies:
   flutter_rating_bar: ^4.0.1
   uuid: ^4.4.0
   flutter_cache_manager: ^3.3.2
+  badges: ^3.0.1
 
 
   path: any
