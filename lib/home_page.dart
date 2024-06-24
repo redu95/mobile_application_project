@@ -316,7 +316,6 @@ class _HomePageState extends State<HomePage> {
                                 'https://static.vecteezy.com/system/resources/previews/004/026/956/non_2x/person-avatar-icon-free-vector.jpg'),
                           ),
 
-
                           Icon(
                             Ionicons.location,
                             size: 30,
@@ -328,7 +327,7 @@ class _HomePageState extends State<HomePage> {
                             style: TextStyle(
                               fontWeight: FontWeight.w800,
                               fontSize: 18,
-                              color: primaryColorAccent,
+                              color: primaryColor,
                             ),
                           ),
                           Icon(
