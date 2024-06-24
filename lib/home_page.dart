@@ -316,7 +316,6 @@ class _HomePageState extends State<HomePage> {
                                 'https://static.vecteezy.com/system/resources/previews/004/026/956/non_2x/person-avatar-icon-free-vector.jpg'),
                           ),
 
-
                           Icon(
                             Ionicons.location,
                             size: 30,
@@ -421,7 +420,7 @@ class _HomePageState extends State<HomePage> {
                               decoration: BoxDecoration(
                                 borderRadius: BorderRadius.circular(12),
                                 border: Border.all(
-                                  color: Colors.purpleAccent,
+                                  color: primaryColor,
                                   width: 1.5,
                                 ),
                               ),
@@ -493,7 +492,7 @@ class _HomePageState extends State<HomePage> {
                                                   '${hotel['rating']} Reviews',
                                                   style: TextStyle(
                                                     fontSize: 16,
-                                                    color: accentColor,
+                                                    color: primaryColor,
                                                     fontWeight: FontWeight.bold,
                                                   ),
                                                 ),
@@ -521,7 +520,7 @@ class _HomePageState extends State<HomePage> {
                                       child: Icon(
                                         isFavorite ? Icons.favorite : Icons.favorite_border,
                                         size: 30,
-                                        color: isFavorite ? Colors.purple : Colors.grey,
+                                        color: isFavorite ? Colors.red  : Colors.grey,
                                       ),
                                     ),
                                   ),
@@ -583,7 +582,7 @@ class _HomePageState extends State<HomePage> {
                               decoration: BoxDecoration(
                                 borderRadius: BorderRadius.circular(12),
                                 border: Border.all(
-                                  color: Colors.grey,
+                                  color: primaryColor ,
                                   width: 1.5,
                                 ),
                               ),
@@ -661,7 +660,7 @@ class _HomePageState extends State<HomePage> {
                                                 '${hotel['rating']} Reviews',
                                                 style: TextStyle(
                                                   fontSize: 16,
-                                                  color: accentColor,
+                                                  color: primaryColor,
                                                   fontWeight: FontWeight.bold,
                                                 ),
                                               ),
@@ -677,7 +676,7 @@ class _HomePageState extends State<HomePage> {
                                     child: Icon(
                                       isFavorite ? Icons.favorite : Icons.favorite_border,
                                       size: 24,
-                                      color: isFavorite ? primaryColor : Colors.grey,
+                                      color: isFavorite ? Colors.red : Colors.grey,
                                     ),
                                   ),
                                 ],

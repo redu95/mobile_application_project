@@ -9,6 +9,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:mobile_application_project/introduction_screen.dart';
 import 'package:flutter_locales/flutter_locales.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'colors.dart';
 import 'firebase_options.dart';
 import 'package:mobile_application_project/theme_provider.dart';
 import 'package:provider/provider.dart';
@@ -246,7 +247,7 @@ class _WelcomePageState extends State<WelcomePage> {
               width: 50,
               height: 50,
               color: Colors.white,
-              child: Icon(Icons.hotel, color: Colors.deepPurple),
+              child: Icon(Icons.hotel, color: primaryColor),
             ),
           ),
           Positioned(
@@ -285,7 +286,7 @@ class _WelcomePageState extends State<WelcomePage> {
                   );
                 },
                 style: ElevatedButton.styleFrom(
-                  backgroundColor: Colors.deepPurple,
+                  backgroundColor: primaryColor,
                   padding: EdgeInsets.symmetric(horizontal: 100, vertical: 16),
                 ),
                 child: Text(
