@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
+import 'colors.dart';
+
 class MyBookingsPage extends StatefulWidget {
   @override
   _MyBookingsPageState createState() => _MyBookingsPageState();
@@ -36,7 +38,7 @@ class _MyBookingsPageState extends State<MyBookingsPage> {
     return Scaffold(
       appBar: AppBar(
         title: Text('My Bookings'),
-        backgroundColor: Colors.purple,
+        backgroundColor: primaryColor,
       ),
       body: StreamBuilder<QuerySnapshot>(
         stream: _firestore
@@ -80,7 +82,7 @@ class _MyBookingsPageState extends State<MyBookingsPage> {
                         children: [
                           Text(
                             'Hotel: ${hotelData['name']}',
-                            style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold, color: Colors.purple),
+                            style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold, color: accentColor),
                           ),
                           const SizedBox(height: 10),
                           Text('Guest Name: ${booking['guest_name']}'),
@@ -116,7 +118,7 @@ class _MyBookingsPageState extends State<MyBookingsPage> {
                               : ElevatedButton(
                             onPressed: () => _cancelBooking(document.id),
                             style: ElevatedButton.styleFrom(
-                              backgroundColor: Colors.purple,
+                              backgroundColor: accentColor,
                             ),
                             child: Text('Cancel Booking'),
                           ),
