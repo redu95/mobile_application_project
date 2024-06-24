@@ -11,6 +11,7 @@ import 'package:mobile_application_project/languageMenu.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:mobile_application_project/languagerelatedclass/language_constants.dart';
 import 'package:provider/provider.dart';
+import 'colors.dart';
 import 'login_page.dart';
 import 'package:mobile_application_project/theme_provider.dart';
 import 'package:mobile_application_project/help.dart';
@@ -217,7 +218,7 @@ class _SettingPageState extends State<SettingPage> {
                       child: Icon(
                         Ionicons.calendar,
                         size: 30,
-                        color: Colors.deepPurple,
+                        color: primaryColor,
                       ),
                     ),
                     onTap: (){
@@ -244,7 +245,7 @@ class _SettingPageState extends State<SettingPage> {
                       child: Icon(
                         Ionicons.heart,
                         size: 30,
-                        color: Colors.deepPurple,
+                        color: primaryColor,
                       ),
                     ),
                     onTap: (){
@@ -279,7 +280,7 @@ class _SettingPageState extends State<SettingPage> {
                       child: Icon(
                         Ionicons.language_outline,
                         size: 30,
-                        color: Colors.deepPurple,
+                        color: primaryColor,
                       ),
                     ),
                     title: Text(
@@ -305,7 +306,7 @@ class _SettingPageState extends State<SettingPage> {
                       child: Icon(
                         Ionicons.moon_outline,
                         size: 30,
-                        color: Colors.deepPurple,
+                        color: primaryColor,
                       ),
                     ),
                     title: Text(
@@ -338,7 +339,7 @@ class _SettingPageState extends State<SettingPage> {
                       child: Icon(
                         Ionicons.help,
                         size: 30,
-                        color: Colors.deepPurple,
+                        color: primaryColor,
                       ),
                     ),
                     title: Text(
@@ -364,7 +365,7 @@ class _SettingPageState extends State<SettingPage> {
                       child: Icon(
                         Ionicons.shield,
                         size: 30,
-                        color: Colors.deepPurple,
+                        color: primaryColor,
                       ),
                     ),
                     title: Text(
