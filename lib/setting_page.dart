@@ -214,7 +214,7 @@ class _SettingPageState extends State<SettingPage> {
                   ListTile( // Bookings
                     leading: CircleAvatar(
                       radius: 30,
-                      backgroundColor: Colors.purple.shade50,
+                      backgroundColor: accentColorShade,
                       child: Icon(
                         Ionicons.calendar,
                         size: 30,
@@ -241,7 +241,7 @@ class _SettingPageState extends State<SettingPage> {
                   ListTile( // Favorites
                     leading: CircleAvatar(
                       radius: 30,
-                      backgroundColor: Colors.purple.shade50,
+                      backgroundColor: accentColorShade,
                       child: Icon(
                         Ionicons.heart,
                         size: 30,
@@ -276,7 +276,7 @@ class _SettingPageState extends State<SettingPage> {
                   ListTile(
                     leading: CircleAvatar(
                       radius: 30,
-                      backgroundColor: Colors.purple.shade50,
+                      backgroundColor: accentColorShade,
                       child: Icon(
                         Ionicons.language_outline,
                         size: 30,
@@ -302,7 +302,7 @@ class _SettingPageState extends State<SettingPage> {
                   ListTile( // Dark Mode
                     leading: CircleAvatar(
                       radius: 30,
-                      backgroundColor: Colors.purple.shade50,
+                      backgroundColor: accentColorShade,
                       child: Icon(
                         Ionicons.moon_outline,
                         size: 30,
@@ -321,6 +321,7 @@ class _SettingPageState extends State<SettingPage> {
                       onChanged: (value) {
                         themeProvider.setThemeMode(value, user.uid);
                       },
+                      activeColor: accentColor,
                     ),
                   ),
                   SizedBox(height: 30),
@@ -335,7 +336,7 @@ class _SettingPageState extends State<SettingPage> {
                   ListTile(
                     leading: CircleAvatar(
                       radius: 30,
-                      backgroundColor: Colors.purple.shade50,
+                      backgroundColor: accentColorShade,
                       child: Icon(
                         Ionicons.help,
                         size: 30,
@@ -361,7 +362,7 @@ class _SettingPageState extends State<SettingPage> {
                   ListTile(
                     leading: CircleAvatar(
                       radius: 30,
-                      backgroundColor: Colors.purple.shade50,
+                      backgroundColor: accentColorShade,
                       child: Icon(
                         Ionicons.shield,
                         size: 30,
@@ -387,7 +388,7 @@ class _SettingPageState extends State<SettingPage> {
                   ListTile(
                     leading: CircleAvatar(
                       radius: 30,
-                      backgroundColor: Colors.purple.shade50,
+                      backgroundColor: accentColorShade,
                       child: Icon(
                         Ionicons.log_out_outline,
                         size: 30,
@@ -481,10 +482,10 @@ class _SettingPageState extends State<SettingPage> {
               ],
             ),
             Spacer(),
-            const Icon(
+             Icon(
               Icons.settings,
               size: 30,
-              color: Colors.purple,
+              color: primaryColor,
             )
           ],
         ),

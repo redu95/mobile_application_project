@@ -123,7 +123,7 @@ class _MyFavoritesState extends State<MyFavorites> {
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(12),
                   border: Border.all(
-                    color: accentColor,
+                    color: primaryColor,
                     width: 1.5,
                   ),
                 ),
@@ -165,7 +165,7 @@ class _MyFavoritesState extends State<MyFavorites> {
                                   Icon(
                                     Icons.location_on,
                                     size: 20,
-                                    //color: Colors.black,
+                                    color: primaryColor,
                                   ),
                                   SizedBox(width: 4),
                                   Text(
@@ -196,7 +196,7 @@ class _MyFavoritesState extends State<MyFavorites> {
                                     '${hotel['rating']} Reviews',
                                     style: TextStyle(
                                       fontSize: 16,
-                                      color: accentColor,
+                                      color: primaryColor,
                                       fontWeight: FontWeight.bold,
                                     ),
                                   ),
@@ -224,7 +224,7 @@ class _MyFavoritesState extends State<MyFavorites> {
                         child: Icon(
                           isFavorite ? Icons.favorite : Icons.favorite_border,
                           size: 30,
-                          color: isFavorite ? accentColor  : Colors.grey,
+                          color: isFavorite ? Colors.red  : Colors.grey,
                         ),
                       ),
                     ),

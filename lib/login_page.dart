@@ -234,7 +234,7 @@ class _LogInPageState extends State<LogInPage> {
                     borderRadius: BorderRadius.circular(30)),
                 child: GestureDetector(
                   onTap: signIn,
-                  child: const Center(
+                  child: Center(
                     child: Text(
                       "Log In",
                       style: TextStyle(
