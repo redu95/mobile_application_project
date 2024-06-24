@@ -12,10 +12,11 @@ class NearbyPage extends StatefulWidget {
 class _NearbyPageState extends State<NearbyPage> {
   Completer<GoogleMapController> _controller = Completer();
 
-  static final CameraPosition _kGooglePlex = CameraPosition(
-    target: LatLng(37.42796133580664, -122.085749655962),
-    zoom: 14.4746,
-  );
+static final CameraPosition _kAddisAbaba = CameraPosition(
+  target: LatLng(9.03, 38.74), // Coordinates for Addis Ababa, Ethiopia
+  zoom: 14.4746,
+);
+
 
   @override
   Widget build(BuildContext context) {
@@ -34,7 +35,7 @@ class _NearbyPageState extends State<NearbyPage> {
               // markers: _markers,
               // polylines: _polylines,
               // circles: _circles,
-              initialCameraPosition: _kGooglePlex,
+              initialCameraPosition: _kAddisAbaba,
               onMapCreated: (GoogleMapController controller) {
                 _controller.complete(controller);
               },
