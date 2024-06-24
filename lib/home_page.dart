@@ -328,7 +328,7 @@ class _HomePageState extends State<HomePage> {
                             style: TextStyle(
                               fontWeight: FontWeight.w800,
                               fontSize: 18,
-                              color: primaryColorAccent,
+                              color: primaryColor,
                             ),
                           ),
                           Icon(
