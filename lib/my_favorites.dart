@@ -155,7 +155,7 @@ class _MyFavoritesState extends State<MyFavorites> {
                                 hotel['name'],
                                 style: TextStyle(
                                   fontSize: 24,
-                                  color: Colors.black,
+                                  //color: Colors.black,
                                   fontWeight: FontWeight.w600,
                                 ),
                               ),
@@ -165,14 +165,14 @@ class _MyFavoritesState extends State<MyFavorites> {
                                   Icon(
                                     Icons.location_on,
                                     size: 20,
-                                    color: Colors.black,
+                                    //color: Colors.black,
                                   ),
                                   SizedBox(width: 4),
                                   Text(
                                     hotel['location']['address'] + ', ' + hotel['location']['city'],
                                     style: TextStyle(
                                       fontSize: 14,
-                                      color: Colors.black,
+                                      //color: Colors.black,
                                       fontWeight: FontWeight.w400,
                                     ),
                                   ),
@@ -224,7 +224,7 @@ class _MyFavoritesState extends State<MyFavorites> {
                         child: Icon(
                           isFavorite ? Icons.favorite : Icons.favorite_border,
                           size: 30,
-                          color: isFavorite ? Colors.purple : Colors.grey,
+                          color: isFavorite ? accentColor  : Colors.grey,
                         ),
                       ),
                     ),

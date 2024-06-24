@@ -420,7 +420,7 @@ class _HomePageState extends State<HomePage> {
                               decoration: BoxDecoration(
                                 borderRadius: BorderRadius.circular(12),
                                 border: Border.all(
-                                  color: Colors.purpleAccent,
+                                  color: accentColor,
                                   width: 1.5,
                                 ),
                               ),
@@ -520,7 +520,7 @@ class _HomePageState extends State<HomePage> {
                                       child: Icon(
                                         isFavorite ? Icons.favorite : Icons.favorite_border,
                                         size: 30,
-                                        color: isFavorite ? Colors.purple : Colors.grey,
+                                        color: isFavorite ? accentColor  : Colors.grey,
                                       ),
                                     ),
                                   ),
@@ -582,7 +582,7 @@ class _HomePageState extends State<HomePage> {
                               decoration: BoxDecoration(
                                 borderRadius: BorderRadius.circular(12),
                                 border: Border.all(
-                                  color: Colors.grey,
+                                  color: accentColor ,
                                   width: 1.5,
                                 ),
                               ),
@@ -676,7 +676,7 @@ class _HomePageState extends State<HomePage> {
                                     child: Icon(
                                       isFavorite ? Icons.favorite : Icons.favorite_border,
                                       size: 24,
-                                      color: isFavorite ? primaryColor : Colors.grey,
+                                      color: isFavorite ? accentColor  : Colors.grey,
                                     ),
                                   ),
                                 ],

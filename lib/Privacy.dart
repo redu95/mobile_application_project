@@ -3,6 +3,8 @@ import 'package:flutter/material.dart';
 
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
+import 'colors.dart';
+
 
 const double kDefaultPadding = 16.0;
 class PrivacyDemo extends StatefulWidget {
@@ -37,7 +39,7 @@ class _PrivacyDemoState extends State<PrivacyDemo> {
               style: TextStyle(
                 fontSize: 28.0,
                 fontWeight: FontWeight.bold,
-                color: Colors.deepPurple,
+                color: primaryColor,
               ),
             ),
             SizedBox(
@@ -122,7 +124,7 @@ class _PrivacyDemoState extends State<PrivacyDemo> {
             const SizedBox(height: 30.0),
             ElevatedButton(
               style: ElevatedButton.styleFrom(
-                backgroundColor: Colors.deepPurple,
+                backgroundColor: primaryColor,
                 padding: EdgeInsets.symmetric(horizontal: 50, vertical: 16),
               ),
               onPressed: () {

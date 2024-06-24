@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
+import 'colors.dart';
+
 class HelpDemo extends StatefulWidget {
   const HelpDemo({Key? key}) : super(key: key);
 
@@ -36,7 +38,9 @@ class _HelpDemoState extends State<HelpDemo> {
                   style: TextStyle(
                     fontSize: 24.0,
                     fontWeight: FontWeight.bold,
-                  ),
+                    color: primaryColor,
+                    )
+
                 ),
                 const SizedBox(height: 16.0),
                 GestureDetector(
