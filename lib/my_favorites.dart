@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'colors.dart';
 import 'detail_screen.dart';
 
 class MyFavorites extends StatefulWidget {
@@ -122,7 +123,7 @@ class _MyFavoritesState extends State<MyFavorites> {
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(12),
                   border: Border.all(
-                    color: Colors.purpleAccent,
+                    color: accentColor,
                     width: 1.5,
                   ),
                 ),
@@ -185,7 +186,7 @@ class _MyFavoritesState extends State<MyFavorites> {
                                           (starIndex) =>
                                           Icon(
                                             Icons.star,
-                                            color: Colors.purple,
+                                            color: accentColor,
                                             size: 20,
                                           ),
                                     ),
@@ -195,7 +196,7 @@ class _MyFavoritesState extends State<MyFavorites> {
                                     '${hotel['rating']} Reviews',
                                     style: TextStyle(
                                       fontSize: 16,
-                                      color: Colors.purple,
+                                      color: accentColor,
                                       fontWeight: FontWeight.bold,
                                     ),
                                   ),
