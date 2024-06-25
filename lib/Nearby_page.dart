@@ -58,12 +58,6 @@ class _NearbyPageState extends ConsumerState<NearbyPage> {
   late PageController _pageController;
   int prevPage = 0;
   var tappedPlaceDetail;
-  String placeImg = '';
-  var photoGalleryIndex = 0;
-  bool showBlankCard = false;
-  bool isReviews = true;
-  bool isPhotos = false;
-
 
   final key = 'AIzaSyAJm-6i5bDguI4y73g8AQYYGmo2nrs19gY';
 
@@ -131,44 +125,7 @@ class _NearbyPageState extends ConsumerState<NearbyPage> {
     });
   }
 
-  _setNearMarker(LatLng point, String label, List types, String status) async {
-    var counter = markerIdCounter++;
 
-    final Uint8List markerIcon;
-
-    if (types.contains('restaurants'))
-      markerIcon =
-          await getBytesFromAsset('assets/mapicons/restaurants.png', 100);
-
-    else if (types.contains('food'))
-      markerIcon = await getBytesFromAsset('assets/mapicons/food.png', 75);
-    else if (types.contains('school'))
-      markerIcon = await getBytesFromAsset('assets/mapicons/schools.png', 75);
-    else if (types.contains('bar'))
-      markerIcon = await getBytesFromAsset('assets/mapicons/bars.png', 75);
-    else if (types.contains('lodging'))
-      markerIcon = await getBytesFromAsset('assets/mapicons/hotels.png', 75);
-    else if (types.contains('store'))
-      markerIcon =
-          await getBytesFromAsset('assets/mapicons/retail-stores.png', 75);
-    else if (types.contains('locality'))
-      markerIcon =
-          await getBytesFromAsset('assets/mapicons/local-services.png', 75);
-    else
-      markerIcon = await getBytesFromAsset('assets/mapicons/places.png', 75);
-
-    final Marker marker = Marker(
-        markerId: MarkerId('marker_$counter'),
-        position: point,
-        onTap: () {},
-
-        // ignore: deprecated_member_use
-        icon: BitmapDescriptor.fromBytes(markerIcon));
-
-    setState(() {
-      _markers.add(marker);
-    });
-  }
 
   Future<Uint8List> getBytesFromAsset(String path, int width) async {
     ByteData data = await rootBundle.load(path);
@@ -194,27 +151,11 @@ class _NearbyPageState extends ConsumerState<NearbyPage> {
     if (_pageController.page!.toInt() != prevPage) {
       prevPage = _pageController.page!.toInt();
       cardTapped = false;
-      photoGalleryIndex = 1;
-      showBlankCard = false;
       goToTappedPlace();
-      fetchImage();
+
     }
   }
 
-  //Fetch image to place inside the tile in the pageView
-  void fetchImage() async {
-    if (_pageController.page !=
-        null) if (allFavoritePlaces[_pageController.page!.toInt()]
-            ['photos'] !=
-        null) {
-      setState(() {
-        placeImg = allFavoritePlaces[_pageController.page!.toInt()]['photos'][0]
-            ['photo_reference'];
-      });
-    } else {
-      placeImg = '';
-    }
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -491,15 +432,6 @@ class _NearbyPageState extends ConsumerState<NearbyPage> {
                                                   _destinationController.text);
                                           _markers = {};
                                           _polylines = {};
-                                          gotoPlace(
-                                              directions['start_location']
-                                                  ['lat'],
-                                              directions['start_location']
-                                                  ['lng'],
-                                              directions['end_location']['lat'],
-                                              directions['end_location']['lng'],
-                                              directions['bounds_ne'],
-                                              directions['bounds_sw']);
                                           _setPolyline(
                                               directions['polyline_decoded']);
                                         },
@@ -522,288 +454,15 @@ class _NearbyPageState extends ConsumerState<NearbyPage> {
                   ]),
                 )
               : Container(),
-          radiusSlider
-              ? Padding(
-                  padding: EdgeInsets.fromLTRB(15.0, 30.0, 15.0, 0.0),
-                  child: Container(
-                    height: 50.0,
-                    color: Colors.black.withOpacity(0.2),
-                    child: Row(
-                      children: [
-                        Expanded(
-                            child: Slider(
-                                max: 7000.0,
-                                min: 1000.0,
-                                value: radiusValue,
-                                onChanged: (newVal) {
-                                  radiusValue = newVal;
-                                  pressedNear = false;
-                                  _setCircle(tappedPoint);
-                                })),
-                        !pressedNear
-                            ? IconButton(
-                                onPressed: () {
-                                  if (_debounce?.isActive ?? false)
-                                    _debounce?.cancel();
-                                  _debounce =
-                                      Timer(Duration(seconds: 2), () async {
-                                    var placesResult = await MapServices()
-                                        .getPlaceDetails(
-                                            tappedPoint, radiusValue.toInt());
-
-                                    List<dynamic> placesWithin =
-                                        placesResult['results'] as List;
-
-                                    allFavoritePlaces = placesWithin;
-
-                                    tokenKey =
-                                        placesResult['next_page_token'] ??
-                                            'none';
-                                    _markers = {};
-                                    placesWithin.forEach((element) {
-                                      _setNearMarker(
-                                        LatLng(
-                                            element['geometry']['location']
-                                                ['lat'],
-                                            element['geometry']['location']
-                                                ['lng']),
-                                        element['name'],
-                                        element['types'],
-                                        element['business_status'] ??
-                                            'not available',
-                                      );
-                                    });
-                                    _markersDupe = _markers;
-                                    pressedNear = true;
-                                  });
-                                },
-                                icon: Icon(
-                                  Icons.near_me,
-                                  color: Colors.blue,
-                                ))
-                            : IconButton(
-                                onPressed: () {
-                                  if (_debounce?.isActive ?? false)
-                                    _debounce?.cancel();
-                                  _debounce =
-                                      Timer(Duration(seconds: 2), () async {
-                                    if (tokenKey != 'none') {
-                                      var placesResult = await MapServices()
-                                          .getMorePlaceDetails(tokenKey);
-
-                                      List<dynamic> placesWithin =
-                                          placesResult['results'] as List;
-
-                                      allFavoritePlaces.addAll(placesWithin);
-
-                                      tokenKey =
-                                          placesResult['next_page_token'] ??
-                                              'none';
-
-                                      placesWithin.forEach((element) {
-                                        _setNearMarker(
-                                          LatLng(
-                                              element['geometry']['location']
-                                                  ['lat'],
-                                              element['geometry']['location']
-                                                  ['lng']),
-                                          element['name'],
-                                          element['types'],
-                                          element['business_status'] ??
-                                              'not available',
-                                        );
-                                      });
-                                    } else {
-                                      print('Thats all folks!!');
-                                    }
-                                  });
-                                },
-                                icon:
-                                    Icon(Icons.more_time, color: Colors.blue)),
-                        IconButton(
-                            onPressed: () {
-                              setState(() {
-                                radiusSlider = false;
-                                pressedNear = false;
-                                cardTapped = false;
-                                radiusValue = 3000.0;
-                                _circles = {};
-                                _markers = {};
-                                allFavoritePlaces = [];
-                              });
-                            },
-                            icon: Icon(Icons.close, color: Colors.red))
-                      ],
-                    ),
-                  ),
-                )
-              : Container(),
-          pressedNear
-              ? Positioned(
-                  bottom: 20.0,
-                  child: Container(
-                    height: 200.0,
-                    width: MediaQuery.of(context).size.width,
-                    child: PageView.builder(
-                        controller: _pageController,
-                        itemCount: allFavoritePlaces.length,
-                        itemBuilder: (BuildContext context, int index) {
-                          return _nearbyPlacesList(index);
-                        }),
-                  ))
-              : Container(),
-          cardTapped
-              ? Positioned(
-                  top: 100.0,
-                  left: 15.0,
-                  child: FlipCard(
-                    front: Container(
-                      height: 250.0,
-                      width: 175.0,
-                      decoration: BoxDecoration(
-                          color: Colors.white,
-                          borderRadius: BorderRadius.all(Radius.circular(8.0))),
-                      child: SingleChildScrollView(
-                        child: Column(children: [
-                          Container(
-                            height: 150.0,
-                            width: 175.0,
-                            decoration: BoxDecoration(
-                                borderRadius: BorderRadius.only(
-                                  topLeft: Radius.circular(8.0),
-                                  topRight: Radius.circular(8.0),
-                                ),
-                                image: DecorationImage(
-                                    image: NetworkImage(placeImg != ''
-                                        ? 'https://maps.googleapis.com/maps/api/place/photo?maxwidth=400&photo_reference=$placeImg&key=$key'
-                                        : 'https://pic.onlinewebfonts.com/svg/img_546302.png'),
-                                    fit: BoxFit.cover)),
-                          ),
-                          Container(
-                            padding: EdgeInsets.all(7.0),
-                            width: 175.0,
-                            child: Row(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Text(
-                                  'Address: ',
-                                  style: TextStyle(
-                                      fontFamily: 'WorkSans',
-                                      fontSize: 12.0,
-                                      fontWeight: FontWeight.w500),
-                                ),
-                                Container(
-                                    width: 105.0,
-                                    child: Text(
-                                      tappedPlaceDetail['formatted_address'] ??
-                                          'none given',
-                                      style: TextStyle(
-                                          fontFamily: 'WorkSans',
-                                          fontSize: 11.0,
-                                          fontWeight: FontWeight.w400),
-                                    ))
-                              ],
-                            ),
-                          ),
-                          Container(
-                            padding: EdgeInsets.fromLTRB(7.0, 0.0, 7.0, 0.0),
-                            width: 175.0,
-                            child: Row(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Text(
-                                  'Contact: ',
-                                  style: TextStyle(
-                                      fontFamily: 'WorkSans',
-                                      fontSize: 12.0,
-                                      fontWeight: FontWeight.w500),
-                                ),
-                                Container(
-                                    width: 105.0,
-                                    child: Text(
-                                      tappedPlaceDetail[
-                                              'formatted_phone_number'] ??
-                                          'none given',
-                                      style: TextStyle(
-                                          fontFamily: 'WorkSans',
-                                          fontSize: 11.0,
-                                          fontWeight: FontWeight.w400),
-                                    ))
-                              ],
-                            ),
-                          ),
-                        ]),
-                      ),
-                    ),
-                    back: Container(
-                      height: 300.0,
-                      width: 225.0,
-                      decoration: BoxDecoration(
-                          color: Colors.white.withOpacity(0.95),
-                          borderRadius: BorderRadius.circular(8.0)),
-                      child: Column(
-                        children: [
-                          Padding(
-                            padding: EdgeInsets.all(8.0),
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                              children: [
-                                GestureDetector(
-                                  onTap: () {
-                                    setState(() {
-                                      isReviews = true;
-                                      isPhotos = false;
-                                    });
-                                  },
-                                  child: AnimatedContainer(
-                                    duration: Duration(milliseconds: 700),
-                                    curve: Curves.easeIn,
-                                    padding:
-                                        EdgeInsets.fromLTRB(7.0, 4.0, 7.0, 4.0),
-                                    decoration: BoxDecoration(
-                                        borderRadius:
-                                            BorderRadius.circular(11.0),
-                                        color: isReviews
-                                            ? Colors.green.shade300
-                                            : Colors.white),
-                                    child: Text(
-                                      'Reviews',
-                                      style: TextStyle(
-                                          color: isReviews
-                                              ? Colors.white
-                                              : Colors.black87,
-                                          fontFamily: 'WorkSans',
-                                          fontSize: 12.0,
-                                          fontWeight: FontWeight.w500),
-                                    ),
-                                  ),
-                                ),
-                                GestureDetector(
-                                  onTap: () {
-                                    setState(() {
-                                      isReviews = false;
-                                      isPhotos = true;
-                                    });
-                                  },
-                                  child: AnimatedContainer(
-                                    duration: Duration(milliseconds: 700),
-                                    curve: Curves.easeIn,
-                                    padding:
-                                        EdgeInsets.fromLTRB(7.0, 4.0, 7.0, 4.0),
-                                    decoration: BoxDecoration(
-                                        borderRadius:
-                                            BorderRadius.circular(11.0),
-                                        color: isPhotos
-                                            ? Colors.green.shade300
-                                            : Colors.white),
-                                    child: Text(
-                                      'Photos',
-                                      style: TextStyle(
-                                          color: isPhotos
-                                              ? Colors.white
-                                              : Colors.black87,
-                                          fontFamily: 'WorkSans',
-                                          fontSize: 12.0,
+        ])
+      ])),
+      floatingActionButton: FabCircularMenu(
+          alignment: Alignment.bottomLeft,
+          fabColor: Colors.blue.shade50,
+          fabOpenColor: primaryColor,
+          ringDiameter: 250.0,
+          ringWidth: 60.0,
+          ringColor: Colors.blue.shade50,
 
           fabSize: 60.0,
           children: [
@@ -832,4 +491,55 @@ class _NearbyPageState extends ConsumerState<NearbyPage> {
           ]),
     );
   }
+
+  Future<void> goToTappedPlace() async {
+    final GoogleMapController controller = await _controller.future;
+
+    _markers = {};
+
+    var selectedPlace = allFavoritePlaces[_pageController.page!.toInt()];
+
+  }
+
+  Future<void> gotoSearchedPlace(double lat, double lng) async {
+    final GoogleMapController controller = await _controller.future;
+
+    controller.animateCamera(CameraUpdate.newCameraPosition(
+        CameraPosition(target: LatLng(lat, lng), zoom: 12)));
+
+    _setMarker(LatLng(lat, lng));
+  }
+
+  Widget buildListItem(AutoCompleteResult placeItem, searchFlag) {
+    return Padding(
+      padding: EdgeInsets.all(5.0),
+      child: GestureDetector(
+        onTapDown: (_) {
+          FocusManager.instance.primaryFocus?.unfocus();
+        },
+        onTap: () async {
+          var place = await MapServices().getPlace(placeItem.placeId);
+          gotoSearchedPlace(place['geometry']['location']['lat'],
+              place['geometry']['location']['lng']);
+          searchFlag.toggleSearch();
+        },
+        child: Row(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            Icon(Icons.location_on, color: Colors.green, size: 25.0),
+            SizedBox(width: 4.0),
+            Container(
+              height: 40.0,
+              width: MediaQuery.of(context).size.width - 75.0,
+              child: Align(
+                alignment: Alignment.centerLeft,
+                child: Text(placeItem.description ?? ''),
+              ),
+            )
+          ],
+        ),
+      ),
+    );
+  }
+
 }

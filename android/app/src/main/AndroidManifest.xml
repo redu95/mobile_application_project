@@ -1,7 +1,6 @@
 
 <manifest xmlns:android="http://schemas.android.com/apk/res/android">
-    
-        package="com.example.googlemapsapp">
+
       <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
 
   <!-- Include only if your app benefits from precise location access. -->
