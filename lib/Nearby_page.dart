@@ -20,6 +20,7 @@ import 'dart:ui' as ui;
 class NearbyPage extends ConsumerStatefulWidget {
   const NearbyPage({Key? key}) : super(key: key);
 
+
   @override
   _NearbyPageState createState() => _NearbyPageState();
 }
@@ -63,11 +64,13 @@ class _NearbyPageState extends ConsumerState<NearbyPage> {
   bool isReviews = true;
   bool isPhotos = false;
 
+
   final key = 'AIzaSyAJm-6i5bDguI4y73g8AQYYGmo2nrs19gY';
 
   var selectedPlaceDetails;
 
 //Circle
+
   Set<Circle> _circles = Set<Circle>();
 
 //Text Editing Controllers
@@ -77,7 +80,9 @@ class _NearbyPageState extends ConsumerState<NearbyPage> {
 
 // Initial map position on load
   static final CameraPosition _kGooglePlex = CameraPosition(
+
     target: LatLng(9.030856, 38.761612),
+
     zoom: 14.4746,
   );
 
@@ -134,6 +139,7 @@ class _NearbyPageState extends ConsumerState<NearbyPage> {
     if (types.contains('restaurants'))
       markerIcon =
           await getBytesFromAsset('assets/mapicons/restaurants.png', 100);
+
     else if (types.contains('food'))
       markerIcon = await getBytesFromAsset('assets/mapicons/food.png', 75);
     else if (types.contains('school'))
@@ -155,6 +161,8 @@ class _NearbyPageState extends ConsumerState<NearbyPage> {
         markerId: MarkerId('marker_$counter'),
         position: point,
         onTap: () {},
+
+        // ignore: deprecated_member_use
         icon: BitmapDescriptor.fromBytes(markerIcon));
 
     setState(() {
@@ -171,6 +179,41 @@ class _NearbyPageState extends ConsumerState<NearbyPage> {
     return (await fi.image.toByteData(format: ui.ImageByteFormat.png))!
         .buffer
         .asUint8List();
+  }
+
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    _pageController = PageController(initialPage: 1, viewportFraction: 0.85)
+      ..addListener(_onScroll);
+    super.initState();
+  }
+
+  void _onScroll() {
+    if (_pageController.page!.toInt() != prevPage) {
+      prevPage = _pageController.page!.toInt();
+      cardTapped = false;
+      photoGalleryIndex = 1;
+      showBlankCard = false;
+      goToTappedPlace();
+      fetchImage();
+    }
+  }
+
+  //Fetch image to place inside the tile in the pageView
+  void fetchImage() async {
+    if (_pageController.page !=
+        null) if (allFavoritePlaces[_pageController.page!.toInt()]
+            ['photos'] !=
+        null) {
+      setState(() {
+        placeImg = allFavoritePlaces[_pageController.page!.toInt()]['photos'][0]
+            ['photo_reference'];
+      });
+    } else {
+      placeImg = '';
+    }
   }
 
   @override
@@ -273,6 +316,495 @@ class _NearbyPageState extends ConsumerState<NearbyPage> {
           ringDiameter: 250.0,
           ringWidth: 60.0,
           ringColor: complementaryColor1,
+          child: Column(children: [
+        Stack(children: [
+          Container(
+              height: screenHeight,
+              width: screenWidth,
+              child: GoogleMap(
+                mapType: MapType.normal,
+                markers: _markers,
+                polylines: _polylines,
+                circles: _circles,
+                initialCameraPosition: _kGooglePlex,
+                onMapCreated: (GoogleMapController controller) {
+                  _controller.complete(controller);
+                },
+                onTap: (point) {
+                  tappedPoint = point;
+                  _setCircle(point);
+                },
+              )),
+          searchToggle
+              ? Padding(
+                  padding: EdgeInsets.fromLTRB(15.0, 40.0, 15.0, 5.0),
+                  child: Column(children: [
+                    Container(
+                      height: 50.0,
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(10.0),
+                        color: Colors.white,
+                      ),
+                      child: TextFormField(
+                        controller: searchController,
+                        decoration: InputDecoration(
+                            contentPadding: EdgeInsets.symmetric(
+                                horizontal: 20.0, vertical: 15.0),
+                            border: InputBorder.none,
+                            hintText: 'Search',
+                            suffixIcon: IconButton(
+                                onPressed: () {
+                                  setState(() {
+                                    searchToggle = false;
+
+                                    searchController.text = '';
+                                    _markers = {};
+                                    if (searchFlag.searchToggle)
+                                      searchFlag.toggleSearch();
+                                  });
+                                },
+                                icon: Icon(Icons.close))),
+                        onChanged: (value) {
+                          if (_debounce?.isActive ?? false) _debounce?.cancel();
+                          _debounce =
+                              Timer(Duration(milliseconds: 700), () async {
+                            if (value.length > 2) {
+                              if (!searchFlag.searchToggle) {
+                                searchFlag.toggleSearch();
+                                _markers = {};
+                              }
+
+                              List<AutoCompleteResult> searchResults =
+                                  await MapServices().searchPlaces(value);
+
+                              allSearchResults.setResults(searchResults);
+                            } else {
+                              List<AutoCompleteResult> emptyList = [];
+                              allSearchResults.setResults(emptyList);
+                            }
+                          });
+                        },
+                      ),
+                    )
+                  ]),
+                )
+              : Container(),
+          searchFlag.searchToggle
+              ? allSearchResults.allReturnedResults.length != 0
+                  ? Positioned(
+                      top: 100.0,
+                      left: 15.0,
+                      child: Container(
+                        height: 200.0,
+                        width: screenWidth - 30.0,
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(10.0),
+                          color: Colors.white.withOpacity(0.7),
+                        ),
+                        child: ListView(
+                          children: [
+                            ...allSearchResults.allReturnedResults
+                                .map((e) => buildListItem(e, searchFlag))
+                          ],
+                        ),
+                      ))
+                  : Positioned(
+                      top: 100.0,
+                      left: 15.0,
+                      child: Container(
+                        height: 200.0,
+                        width: screenWidth - 30.0,
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(10.0),
+                          color: Colors.white.withOpacity(0.7),
+                        ),
+                        child: Center(
+                          child: Column(children: [
+                            Text('No results to show',
+                                style: TextStyle(
+                                    fontFamily: 'WorkSans',
+                                    fontWeight: FontWeight.w400)),
+                            SizedBox(height: 5.0),
+                            Container(
+                              width: 125.0,
+                              child: ElevatedButton(
+                                onPressed: () {
+                                  searchFlag.toggleSearch();
+                                },
+                                child: Center(
+                                  child: Text(
+                                    'Close this',
+                                    style: TextStyle(
+                                        color: Colors.white,
+                                        fontFamily: 'WorkSans',
+                                        fontWeight: FontWeight.w300),
+                                  ),
+                                ),
+                              ),
+                            )
+                          ]),
+                        ),
+                      ))
+              : Container(),
+          getDirections
+              ? Padding(
+                  padding: EdgeInsets.fromLTRB(15.0, 40.0, 15.0, 5),
+                  child: Column(children: [
+                    Container(
+                      height: 50.0,
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(10.0),
+                        color: Colors.white,
+                      ),
+                      child: TextFormField(
+                        controller: _originController,
+                        decoration: InputDecoration(
+                            contentPadding: EdgeInsets.symmetric(
+                                horizontal: 20.0, vertical: 15.0),
+                            border: InputBorder.none,
+                            hintText: 'Origin'),
+                      ),
+                    ),
+                    SizedBox(height: 3.0),
+                    Container(
+                      height: 50.0,
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(10.0),
+                        color: Colors.white,
+                      ),
+                      child: TextFormField(
+                        controller: _destinationController,
+                        decoration: InputDecoration(
+                            contentPadding: EdgeInsets.symmetric(
+                                horizontal: 20.0, vertical: 15.0),
+                            border: InputBorder.none,
+                            hintText: 'Destination',
+                            suffixIcon: Container(
+                                width: 96.0,
+                                child: Row(
+                                  children: [
+                                    IconButton(
+                                        onPressed: () async {
+                                          var directions = await MapServices()
+                                              .getDirections(
+                                                  _originController.text,
+                                                  _destinationController.text);
+                                          _markers = {};
+                                          _polylines = {};
+                                          gotoPlace(
+                                              directions['start_location']
+                                                  ['lat'],
+                                              directions['start_location']
+                                                  ['lng'],
+                                              directions['end_location']['lat'],
+                                              directions['end_location']['lng'],
+                                              directions['bounds_ne'],
+                                              directions['bounds_sw']);
+                                          _setPolyline(
+                                              directions['polyline_decoded']);
+                                        },
+                                        icon: Icon(Icons.search)),
+                                    IconButton(
+                                        onPressed: () {
+                                          setState(() {
+                                            getDirections = false;
+                                            _originController.text = '';
+                                            _destinationController.text = '';
+                                            _markers = {};
+                                            _polylines = {};
+                                          });
+                                        },
+                                        icon: Icon(Icons.close))
+                                  ],
+                                ))),
+                      ),
+                    )
+                  ]),
+                )
+              : Container(),
+          radiusSlider
+              ? Padding(
+                  padding: EdgeInsets.fromLTRB(15.0, 30.0, 15.0, 0.0),
+                  child: Container(
+                    height: 50.0,
+                    color: Colors.black.withOpacity(0.2),
+                    child: Row(
+                      children: [
+                        Expanded(
+                            child: Slider(
+                                max: 7000.0,
+                                min: 1000.0,
+                                value: radiusValue,
+                                onChanged: (newVal) {
+                                  radiusValue = newVal;
+                                  pressedNear = false;
+                                  _setCircle(tappedPoint);
+                                })),
+                        !pressedNear
+                            ? IconButton(
+                                onPressed: () {
+                                  if (_debounce?.isActive ?? false)
+                                    _debounce?.cancel();
+                                  _debounce =
+                                      Timer(Duration(seconds: 2), () async {
+                                    var placesResult = await MapServices()
+                                        .getPlaceDetails(
+                                            tappedPoint, radiusValue.toInt());
+
+                                    List<dynamic> placesWithin =
+                                        placesResult['results'] as List;
+
+                                    allFavoritePlaces = placesWithin;
+
+                                    tokenKey =
+                                        placesResult['next_page_token'] ??
+                                            'none';
+                                    _markers = {};
+                                    placesWithin.forEach((element) {
+                                      _setNearMarker(
+                                        LatLng(
+                                            element['geometry']['location']
+                                                ['lat'],
+                                            element['geometry']['location']
+                                                ['lng']),
+                                        element['name'],
+                                        element['types'],
+                                        element['business_status'] ??
+                                            'not available',
+                                      );
+                                    });
+                                    _markersDupe = _markers;
+                                    pressedNear = true;
+                                  });
+                                },
+                                icon: Icon(
+                                  Icons.near_me,
+                                  color: Colors.blue,
+                                ))
+                            : IconButton(
+                                onPressed: () {
+                                  if (_debounce?.isActive ?? false)
+                                    _debounce?.cancel();
+                                  _debounce =
+                                      Timer(Duration(seconds: 2), () async {
+                                    if (tokenKey != 'none') {
+                                      var placesResult = await MapServices()
+                                          .getMorePlaceDetails(tokenKey);
+
+                                      List<dynamic> placesWithin =
+                                          placesResult['results'] as List;
+
+                                      allFavoritePlaces.addAll(placesWithin);
+
+                                      tokenKey =
+                                          placesResult['next_page_token'] ??
+                                              'none';
+
+                                      placesWithin.forEach((element) {
+                                        _setNearMarker(
+                                          LatLng(
+                                              element['geometry']['location']
+                                                  ['lat'],
+                                              element['geometry']['location']
+                                                  ['lng']),
+                                          element['name'],
+                                          element['types'],
+                                          element['business_status'] ??
+                                              'not available',
+                                        );
+                                      });
+                                    } else {
+                                      print('Thats all folks!!');
+                                    }
+                                  });
+                                },
+                                icon:
+                                    Icon(Icons.more_time, color: Colors.blue)),
+                        IconButton(
+                            onPressed: () {
+                              setState(() {
+                                radiusSlider = false;
+                                pressedNear = false;
+                                cardTapped = false;
+                                radiusValue = 3000.0;
+                                _circles = {};
+                                _markers = {};
+                                allFavoritePlaces = [];
+                              });
+                            },
+                            icon: Icon(Icons.close, color: Colors.red))
+                      ],
+                    ),
+                  ),
+                )
+              : Container(),
+          pressedNear
+              ? Positioned(
+                  bottom: 20.0,
+                  child: Container(
+                    height: 200.0,
+                    width: MediaQuery.of(context).size.width,
+                    child: PageView.builder(
+                        controller: _pageController,
+                        itemCount: allFavoritePlaces.length,
+                        itemBuilder: (BuildContext context, int index) {
+                          return _nearbyPlacesList(index);
+                        }),
+                  ))
+              : Container(),
+          cardTapped
+              ? Positioned(
+                  top: 100.0,
+                  left: 15.0,
+                  child: FlipCard(
+                    front: Container(
+                      height: 250.0,
+                      width: 175.0,
+                      decoration: BoxDecoration(
+                          color: Colors.white,
+                          borderRadius: BorderRadius.all(Radius.circular(8.0))),
+                      child: SingleChildScrollView(
+                        child: Column(children: [
+                          Container(
+                            height: 150.0,
+                            width: 175.0,
+                            decoration: BoxDecoration(
+                                borderRadius: BorderRadius.only(
+                                  topLeft: Radius.circular(8.0),
+                                  topRight: Radius.circular(8.0),
+                                ),
+                                image: DecorationImage(
+                                    image: NetworkImage(placeImg != ''
+                                        ? 'https://maps.googleapis.com/maps/api/place/photo?maxwidth=400&photo_reference=$placeImg&key=$key'
+                                        : 'https://pic.onlinewebfonts.com/svg/img_546302.png'),
+                                    fit: BoxFit.cover)),
+                          ),
+                          Container(
+                            padding: EdgeInsets.all(7.0),
+                            width: 175.0,
+                            child: Row(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(
+                                  'Address: ',
+                                  style: TextStyle(
+                                      fontFamily: 'WorkSans',
+                                      fontSize: 12.0,
+                                      fontWeight: FontWeight.w500),
+                                ),
+                                Container(
+                                    width: 105.0,
+                                    child: Text(
+                                      tappedPlaceDetail['formatted_address'] ??
+                                          'none given',
+                                      style: TextStyle(
+                                          fontFamily: 'WorkSans',
+                                          fontSize: 11.0,
+                                          fontWeight: FontWeight.w400),
+                                    ))
+                              ],
+                            ),
+                          ),
+                          Container(
+                            padding: EdgeInsets.fromLTRB(7.0, 0.0, 7.0, 0.0),
+                            width: 175.0,
+                            child: Row(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(
+                                  'Contact: ',
+                                  style: TextStyle(
+                                      fontFamily: 'WorkSans',
+                                      fontSize: 12.0,
+                                      fontWeight: FontWeight.w500),
+                                ),
+                                Container(
+                                    width: 105.0,
+                                    child: Text(
+                                      tappedPlaceDetail[
+                                              'formatted_phone_number'] ??
+                                          'none given',
+                                      style: TextStyle(
+                                          fontFamily: 'WorkSans',
+                                          fontSize: 11.0,
+                                          fontWeight: FontWeight.w400),
+                                    ))
+                              ],
+                            ),
+                          ),
+                        ]),
+                      ),
+                    ),
+                    back: Container(
+                      height: 300.0,
+                      width: 225.0,
+                      decoration: BoxDecoration(
+                          color: Colors.white.withOpacity(0.95),
+                          borderRadius: BorderRadius.circular(8.0)),
+                      child: Column(
+                        children: [
+                          Padding(
+                            padding: EdgeInsets.all(8.0),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                              children: [
+                                GestureDetector(
+                                  onTap: () {
+                                    setState(() {
+                                      isReviews = true;
+                                      isPhotos = false;
+                                    });
+                                  },
+                                  child: AnimatedContainer(
+                                    duration: Duration(milliseconds: 700),
+                                    curve: Curves.easeIn,
+                                    padding:
+                                        EdgeInsets.fromLTRB(7.0, 4.0, 7.0, 4.0),
+                                    decoration: BoxDecoration(
+                                        borderRadius:
+                                            BorderRadius.circular(11.0),
+                                        color: isReviews
+                                            ? Colors.green.shade300
+                                            : Colors.white),
+                                    child: Text(
+                                      'Reviews',
+                                      style: TextStyle(
+                                          color: isReviews
+                                              ? Colors.white
+                                              : Colors.black87,
+                                          fontFamily: 'WorkSans',
+                                          fontSize: 12.0,
+                                          fontWeight: FontWeight.w500),
+                                    ),
+                                  ),
+                                ),
+                                GestureDetector(
+                                  onTap: () {
+                                    setState(() {
+                                      isReviews = false;
+                                      isPhotos = true;
+                                    });
+                                  },
+                                  child: AnimatedContainer(
+                                    duration: Duration(milliseconds: 700),
+                                    curve: Curves.easeIn,
+                                    padding:
+                                        EdgeInsets.fromLTRB(7.0, 4.0, 7.0, 4.0),
+                                    decoration: BoxDecoration(
+                                        borderRadius:
+                                            BorderRadius.circular(11.0),
+                                        color: isPhotos
+                                            ? Colors.green.shade300
+                                            : Colors.white),
+                                    child: Text(
+                                      'Photos',
+                                      style: TextStyle(
+                                          color: isPhotos
+                                              ? Colors.white
+                                              : Colors.black87,
+                                          fontFamily: 'WorkSans',
+                                          fontSize: 12.0,
+
           fabSize: 60.0,
           children: [
             IconButton(

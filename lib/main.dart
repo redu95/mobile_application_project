@@ -65,7 +65,6 @@ class _MyAppState extends State<MyApp> {
   Widget build(BuildContext context) {
     return LocaleBuilder(
       builder: (locale) => ChangeNotifierProvider(
-        // Using the aliased version
         create: (context) =>
             ThemeSettings(), // Provide the initial dark mode value
         child: Consumer<ThemeSettings>(
