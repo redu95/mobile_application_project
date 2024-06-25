@@ -52,11 +52,6 @@ class _NearbyPageState extends ConsumerState<NearbyPage> {
 
   String tokenKey = '';
 
-  static final CameraPosition _kGooglePlex = CameraPosition(
-    target: LatLng(37.42796133580664, -122.085749655962),
-    zoom: 14.4746,
-  );
-
   //Page controller for the nice pageview
   late PageController _pageController;
   int prevPage = 0;
@@ -78,6 +73,13 @@ class _NearbyPageState extends ConsumerState<NearbyPage> {
   TextEditingController searchController = TextEditingController();
   TextEditingController _originController = TextEditingController();
   TextEditingController _destinationController = TextEditingController();
+
+// Initial map position on load
+  static final CameraPosition _kGooglePlex = CameraPosition(
+    target:
+        LatLng(9.030077, 38.761253), // Coordinates for Addis Ababa, Ethiopia
+    zoom: 14.4746,
+  );
 
   @override
   Widget build(BuildContext context) {
