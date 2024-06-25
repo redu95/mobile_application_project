@@ -36,6 +36,22 @@ class _NearbyPageState extends ConsumerState<NearbyPage> {
   bool pressedNear = false;
   bool getDirections = false;
 
+//Markers set
+  Set<Marker> _markers = Set<Marker>();
+  Set<Marker> _markersDupe = Set<Marker>();
+
+  Set<Polyline> _polylines = Set<Polyline>();
+  int markerIdCounter = 1;
+  int polylineIdCounter = 1;
+
+  var radiusValue = 3000.0;
+
+  var tappedPoint;
+
+  List allFavoritePlaces = [];
+
+  String tokenKey = '';
+
   static final CameraPosition _kGooglePlex = CameraPosition(
     target: LatLng(37.42796133580664, -122.085749655962),
     zoom: 14.4746,
