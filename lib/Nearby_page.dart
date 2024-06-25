@@ -431,6 +431,125 @@ class _NearbyPageState extends ConsumerState<NearbyPage> {
                         ]),
                       )
                     : Container(), 
+                    radiusSlider
+                    ? Padding(
+                        padding: EdgeInsets.fromLTRB(15.0, 30.0, 15.0, 0.0),
+                        child: Container(
+                          height: 50.0,
+                          color: Colors.black.withOpacity(0.2),
+                          child: Row(
+                            children: [
+                              Expanded(
+                                  child: Slider(
+                                      max: 7000.0,
+                                      min: 1000.0,
+                                      value: radiusValue,
+                                      onChanged: (newVal) {
+                                        radiusValue = newVal;
+                                        pressedNear = false;
+                                        _setCircle(tappedPoint);
+                                      })),
+                              !pressedNear
+                                  ? IconButton(
+                                      onPressed: () {
+                                        if (_debounce?.isActive ?? false)
+                                          _debounce?.cancel();
+                                        _debounce = Timer(Duration(seconds: 2),
+                                            () async {
+                                          var placesResult = await MapServices()
+                                              .getPlaceDetails(tappedPoint,
+                                                  radiusValue.toInt());
+
+                                          List<dynamic> placesWithin =
+                                              placesResult['results'] as List;
+
+                                          allFavoritePlaces = placesWithin;
+
+                                          tokenKey =
+                                              placesResult['next_page_token'] ??
+                                                  'none';
+                                          _markers = {};
+                                          placesWithin.forEach((element) {
+                                            _setNearMarker(
+                                              LatLng(
+                                                  element['geometry']
+                                                      ['location']['lat'],
+                                                  element['geometry']
+                                                      ['location']['lng']),
+                                              element['name'],
+                                              element['types'],
+                                              element['business_status'] ??
+                                                  'not available',
+                                            );
+                                          });
+                                          _markersDupe = _markers;
+                                          pressedNear = true;
+                                        });
+                                      },
+                                      icon: Icon(
+                                        Icons.near_me,
+                                        color: Colors.blue,
+                                      ))
+                                  : IconButton(
+                                      onPressed: () {
+                                        if (_debounce?.isActive ?? false)
+                                          _debounce?.cancel();
+                                        _debounce = Timer(Duration(seconds: 2),
+                                            () async {
+                                          if (tokenKey != 'none') {
+                                            var placesResult =
+                                                await MapServices()
+                                                    .getMorePlaceDetails(
+                                                        tokenKey);
+
+                                            List<dynamic> placesWithin =
+                                                placesResult['results'] as List;
+
+                                            allFavoritePlaces
+                                                .addAll(placesWithin);
+
+                                            tokenKey = placesResult[
+                                                    'next_page_token'] ??
+                                                'none';
+
+                                            placesWithin.forEach((element) {
+                                              _setNearMarker(
+                                                LatLng(
+                                                    element['geometry']
+                                                        ['location']['lat'],
+                                                    element['geometry']
+                                                        ['location']['lng']),
+                                                element['name'],
+                                                element['types'],
+                                                element['business_status'] ??
+                                                    'not available',
+                                              );
+                                            });
+                                          } else {
+                                            print('Thats all folks!!');
+                                          }
+                                        });
+                                      },
+                                      icon: Icon(Icons.more_time,
+                                          color: Colors.blue)),
+                              IconButton(
+                                  onPressed: () {
+                                    setState(() {
+                                      radiusSlider = false;
+                                      pressedNear = false;
+                                      cardTapped = false;
+                                      radiusValue = 3000.0;
+                                      _circles = {};
+                                      _markers = {};
+                                      allFavoritePlaces = [];
+                                    });
+                                  },
+                                  icon: Icon(Icons.close, color: Colors.red))
+                            ],
+                          ),
+                        ),
+                      )
+                    : Container(),
       ])
     ])));
   }
