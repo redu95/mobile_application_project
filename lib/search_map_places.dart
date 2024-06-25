@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:googlemapsapp/models/auto_complete_result.dart';
+import 'package:mobile_application_project/auto_complete_result.dart';
 
 final placeResultsProvider = ChangeNotifierProvider<PlaceResults>((ref) {
   return PlaceResults();

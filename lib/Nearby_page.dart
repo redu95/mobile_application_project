@@ -11,6 +11,7 @@ import 'package:flutter_rating_stars/flutter_rating_stars.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:mobile_application_project/auto_complete_result.dart';
+import 'package:mobile_application_project/colors.dart';
 import 'package:mobile_application_project/search_map_places.dart';
 import 'package:mobile_application_project/map_services.dart';
 
@@ -155,6 +156,7 @@ class _NearbyPageState extends ConsumerState<NearbyPage> {
         markerId: MarkerId('marker_$counter'),
         position: point,
         onTap: () {},
+        // ignore: deprecated_member_use
         icon: BitmapDescriptor.fromBytes(markerIcon));
 
     setState(() {
@@ -739,7 +741,7 @@ class _NearbyPageState extends ConsumerState<NearbyPage> {
       floatingActionButton: FabCircularMenu(
           alignment: Alignment.bottomLeft,
           fabColor: Colors.blue.shade50,
-          fabOpenColor: Colors.red.shade100,
+          fabOpenColor: primaryColor,
           ringDiameter: 250.0,
           ringWidth: 60.0,
           ringColor: Colors.blue.shade50,
