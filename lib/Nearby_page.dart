@@ -212,6 +212,10 @@ class _NearbyPageState extends ConsumerState<NearbyPage> {
     final screenHeight = MediaQuery.of(context).size.height;
     final screenWidth = MediaQuery.of(context).size.width;
 
+    //Providers
+    final allSearchResults = ref.watch(placeResultsProvider);
+    final searchFlag = ref.watch(searchToggleProvider);
+
     return Scaffold(
         body: SingleChildScrollView(
             child: Column(children: [
@@ -221,9 +225,9 @@ class _NearbyPageState extends ConsumerState<NearbyPage> {
             width: screenWidth,
             child: GoogleMap(
               mapType: MapType.normal,
-              // markers: _markers,
-              // polylines: _polylines,
-              // circles: _circles,
+              markers: _markers,
+              polylines: _polylines,
+              circles: _circles,
               initialCameraPosition: _kGooglePlex,
               onMapCreated: (GoogleMapController controller) {
                 _controller.complete(controller);
