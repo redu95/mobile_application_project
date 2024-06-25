@@ -16,14 +16,25 @@ import 'package:mobile_application_project/map_services.dart';
 
 import 'dart:ui' as ui;
 
-class NearbyPage extends StatefulWidget {
+class NearbyPage extends ConsumerStatefulWidget {
   NearbyPage({Key? key}) : super(key: key);
+
   @override
   _NearbyPageState createState() => _NearbyPageState();
 }
 
-class _NearbyPageState extends State<NearbyPage> {
+class _NearbyPageState extends ConsumerState<NearbyPage> {
   Completer<GoogleMapController> _controller = Completer();
+
+//Debounce to throttle async calls during search
+  Timer? _debounce;
+
+//Toggling UI as we need;
+  bool searchToggle = false;
+  bool radiusSlider = false;
+  bool cardTapped = false;
+  bool pressedNear = false;
+  bool getDirections = false;
 
   static final CameraPosition _kGooglePlex = CameraPosition(
     target: LatLng(37.42796133580664, -122.085749655962),
