@@ -2,7 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart' as riverpod;
+import 'package:flutter_riverpod/flutter_riverpod.dart' as rev;
 import 'package:mobile_application_project/auth_page.dart';
 import 'package:mobile_application_project/login_page.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -12,7 +12,11 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'colors.dart';
 import 'firebase_options.dart';
 import 'package:mobile_application_project/theme_provider.dart';
-import 'package:provider/provider.dart';
+import 'package:provider/provider.dart'; // Aliasing the provider package
+
+import 'package:mobile_application_project/search_map_places.dart';
+
+// AIzaSyBiZW77UoNWmvp6xLz7eli-bHn6yQBWw4A
 
 class MyApp extends StatefulWidget {
   const MyApp({Key? key}) : super(key: key);
@@ -87,8 +91,8 @@ void main() async {
     options: DefaultFirebaseOptions.currentPlatform,
   );
   await Locales.init(['en', 'am', 'ar', 'es']); // Initialize flutter_locales
+  runApp(const rev.ProviderScope(child: MyApp()) as Widget);
   //await addHotels();
-  runApp(const riverpod.ProviderScope(child: MyApp()));
   // runApp(MyApp());
 }
 
