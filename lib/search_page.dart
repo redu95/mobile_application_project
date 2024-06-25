@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:mobile_application_project/dummy_data.dart';
+import 'package:mobile_application_project/home_page.dart';
 import 'package:mobile_application_project/places_widget.dart';
 import 'package:mobile_application_project/theme_provider.dart';
 import 'package:provider/provider.dart';
@@ -75,7 +76,11 @@ class _SearchPageState extends State<SearchPage> with TickerProviderStateMixin {
         leading: IconButton(
           icon: Icon(Icons.arrow_back),
           onPressed: () {
-            Navigator.pop(context);
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                  builder: (context) => Home()), // Navigate to your bookings page
+            );
           },
         ),
         title: Text('Explore'),

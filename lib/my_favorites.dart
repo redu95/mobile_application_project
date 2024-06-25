@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'colors.dart';
 import 'detail_screen.dart';
 
 class MyFavorites extends StatefulWidget {
@@ -122,7 +123,7 @@ class _MyFavoritesState extends State<MyFavorites> {
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(12),
                   border: Border.all(
-                    color: Colors.purpleAccent,
+                    color: primaryColor,
                     width: 1.5,
                   ),
                 ),
@@ -154,7 +155,7 @@ class _MyFavoritesState extends State<MyFavorites> {
                                 hotel['name'],
                                 style: TextStyle(
                                   fontSize: 24,
-                                  color: Colors.black,
+                                  //color: Colors.black,
                                   fontWeight: FontWeight.w600,
                                 ),
                               ),
@@ -164,14 +165,14 @@ class _MyFavoritesState extends State<MyFavorites> {
                                   Icon(
                                     Icons.location_on,
                                     size: 20,
-                                    color: Colors.black,
+                                    color: primaryColor,
                                   ),
                                   SizedBox(width: 4),
                                   Text(
                                     hotel['location']['address'] + ', ' + hotel['location']['city'],
                                     style: TextStyle(
                                       fontSize: 14,
-                                      color: Colors.black,
+                                      //color: Colors.black,
                                       fontWeight: FontWeight.w400,
                                     ),
                                   ),
@@ -185,7 +186,7 @@ class _MyFavoritesState extends State<MyFavorites> {
                                           (starIndex) =>
                                           Icon(
                                             Icons.star,
-                                            color: Colors.purple,
+                                            color: accentColor,
                                             size: 20,
                                           ),
                                     ),
@@ -195,7 +196,7 @@ class _MyFavoritesState extends State<MyFavorites> {
                                     '${hotel['rating']} Reviews',
                                     style: TextStyle(
                                       fontSize: 16,
-                                      color: Colors.purple,
+                                      color: primaryColor,
                                       fontWeight: FontWeight.bold,
                                     ),
                                   ),
@@ -223,7 +224,7 @@ class _MyFavoritesState extends State<MyFavorites> {
                         child: Icon(
                           isFavorite ? Icons.favorite : Icons.favorite_border,
                           size: 30,
-                          color: isFavorite ? Colors.purple : Colors.grey,
+                          color: isFavorite ? Colors.red  : Colors.grey,
                         ),
                       ),
                     ),

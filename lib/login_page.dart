@@ -3,6 +3,7 @@
 import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:mobile_application_project/colors.dart';
 import 'package:mobile_application_project/home_page.dart';
 import 'package:mobile_application_project/forgot_password.dart';
 import 'package:mobile_application_project/signup_page.dart';
@@ -229,15 +230,15 @@ class _LogInPageState extends State<LogInPage> {
                 width: 140,
                 padding: const EdgeInsets.all(10),
                 decoration: BoxDecoration(
-                    color: Colors.deepPurpleAccent,
+                    color: primaryColor,
                     borderRadius: BorderRadius.circular(30)),
                 child: GestureDetector(
                   onTap: signIn,
-                  child: const Center(
+                  child: Center(
                     child: Text(
                       "Log In",
                       style: TextStyle(
-                        color: Colors.white,
+                        //color: Colors.white,
                         fontSize: 18.0,
                         fontWeight: FontWeight.bold,
                       ),
@@ -262,7 +263,7 @@ class _LogInPageState extends State<LogInPage> {
                   const Text(
                     "Don't Have an Account?",
                     style: TextStyle(
-                      fontSize: 18.0,color: Colors.black,
+                      fontSize: 18.0,//color: Colors.black,
                     ),
                   ),
                   const SizedBox(width: 5.0,),
@@ -273,7 +274,7 @@ class _LogInPageState extends State<LogInPage> {
                     child: const Text(
                       "Create",
                       style: TextStyle(
-                        color: Colors.deepPurpleAccent,
+                        color: Color(0xFFFF9900),
                         fontSize: 20.0,
                         fontWeight: FontWeight.w500,
                       ),

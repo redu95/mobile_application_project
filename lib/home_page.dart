@@ -12,6 +12,9 @@ import 'package:mobile_application_project/theme_provider.dart';
 import 'package:provider/provider.dart';
 import 'Nearby_page.dart';
 import 'colors.dart';
+import 'package:badges/badges.dart' as badges;
+
+import 'my_bookings.dart';
 
 
 
@@ -153,6 +156,8 @@ class _HomePageState extends State<HomePage> {
   List<Map<String, dynamic>> hotels = []; // To store fetched hotel data
   List<String> favoriteHotelIds = [];
   bool isConnected = true;
+  int notificationCount = 0;
+
 
 
   @override
@@ -164,13 +169,54 @@ class _HomePageState extends State<HomePage> {
     fetchHotelData();
     fetchFavorites();
     checkConnection();
+    fetchNotificationCount();
   }
   Future<void> checkConnection() async {
-    var connectivityResult = await (Connectivity().checkConnectivity());
+    var connectivityResult = await Connectivity().checkConnectivity();
+    // showNoInternetSnackBar();
     setState(() {
       isConnected = connectivityResult != ConnectivityResult.none;
     });
+    if (connectivityResult == ConnectivityResult.none){
+      // Delay showing the SnackBar slightly to ensure the UI updates are processed
+      Future.delayed(Duration(milliseconds: 500), () {
+        showNoInternetSnackBar();
+      }); // Show snackbar if no internet
+    }
   }
+
+  void showNoInternetSnackBar() {
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        content: Text('No internet connection'),
+        duration: Duration(seconds: 5), // Adjust the duration as desired
+      ),
+    );
+  }
+
+  Future<void> fetchNotificationCount() async {
+    int count = await fetchNotifications();
+    setState(() {
+      notificationCount = count;
+    });
+  }
+  Future<int> fetchNotifications() async {
+    try {
+      QuerySnapshot snapshot = await FirebaseFirestore.instance
+          .collection('bookings')
+          .where('user_id', isEqualTo: user.uid)
+          .where('status', isEqualTo: 'booked')
+          .get();
+
+
+      return snapshot.docs.length;
+    } catch (e) {
+      print("Error fetching notifications: $e");
+      return 0;
+    }
+  }
+
+
   // Fetch Hotels Function
   Future<List<Map<String, dynamic>>> fetchHotels() async {
     try {
@@ -316,7 +362,6 @@ class _HomePageState extends State<HomePage> {
                                 'https://static.vecteezy.com/system/resources/previews/004/026/956/non_2x/person-avatar-icon-free-vector.jpg'),
                           ),
 
-
                           Icon(
                             Ionicons.location,
                             size: 30,
@@ -331,11 +376,49 @@ class _HomePageState extends State<HomePage> {
                               color: primaryColor,
                             ),
                           ),
-                          Icon(
-                            Ionicons.notifications,
-                            size: 30,
-                            color: primaryColor,
+                          Stack(
+                            children: [
+                              GestureDetector(
+                                onTap: () {
+                                  Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) => MyBookingsPage()), // Navigate to your bookings page
+                                  );
+                                },
+                                child: Icon(
+                                  Ionicons.notifications,
+                                  size: 30,
+                                  color: primaryColor,
+                                ),
+                              ),
+                              if (notificationCount > 0)
+                                Positioned(
+                                  right: 0,
+                                  child: Container(
+                                    padding: EdgeInsets.all(2),
+                                    decoration: BoxDecoration(
+                                      color: Colors.red,
+                                      borderRadius: BorderRadius.circular(10),
+                                    ),
+                                    constraints: BoxConstraints(
+                                      minWidth: 16,
+                                      minHeight: 16,
+                                    ),
+                                    child: Text(
+                                      '$notificationCount',
+                                      style: TextStyle(
+                                        color: Colors.white,
+                                        fontSize: 12,
+                                        fontWeight: FontWeight.bold,
+                                      ),
+                                      textAlign: TextAlign.center,
+                                    ),
+                                  ),
+                                ),
+                            ],
                           ),
+
                         ],
                       ),
                     ),
@@ -344,48 +427,98 @@ class _HomePageState extends State<HomePage> {
                       style: TextStyle(
                         fontWeight: FontWeight.bold,
                         fontSize: 24,
+                        fontFamily: 'Dancing Script',
                       ),
                     ),
                     Padding(
                       padding: EdgeInsets.symmetric(horizontal: 2, vertical: 5),
                       child: SizedBox(
-                        height: 80,
+                        height: 120,
                         child: ListView(
                           scrollDirection: Axis.horizontal,
                           children: [
-                            CircleAvatar(
-                              backgroundImage: AssetImage('assets/images/hotel_im/hiltonb.jpg'),
-                              radius: 40,
+                            _buildCategory(
+                              context,
+                              'Best Likes',
+                              'assets/images/hotel_im/hiltonb.jpg',
+                                  () {
+                                    Navigator.push(
+                                      context,
+                                      MaterialPageRoute(builder: (context) => SearchPage()),
+                                    );
+                              },
                             ),
-                            SizedBox(width: 10),
-                            CircleAvatar(
-                              backgroundImage: AssetImage('assets/images/hotel_im/sheratonb.jpg'),
-                              radius: 40,
+                            SizedBox(width: 20),
+                            _buildCategory(
+                              context,
+                              'Most Views',
+                              'assets/images/hotel_im/sheratonb.jpg',
+                                  () {
+                                    Navigator.push(
+                                      context,
+                                      MaterialPageRoute(builder: (context) => SearchPage()),
+                                    );
+                              },
                             ),
-                            SizedBox(width: 10),
-                            CircleAvatar(
-                              backgroundImage: AssetImage('assets/images/hotel_im/skyb.jpg'),
-                              radius: 40,
+                            SizedBox(width: 20),
+                            _buildCategory(
+                              context,
+                              'Top Rated',
+                              'assets/images/hotel_im/skyb.jpg',
+                                  () {
+                                    Navigator.push(
+                                      context,
+                                      MaterialPageRoute(builder: (context) => SearchPage()),
+                                    );
+                              },
                             ),
-                            SizedBox(width: 10),
-                            CircleAvatar(
-                              backgroundImage: AssetImage('assets/images/hotel_im/capitalb.jpg'),
-                              radius: 40,
+                            SizedBox(width: 20),
+                            _buildCategory(
+                              context,
+                              'Most Popular',
+                              'assets/images/hotel_im/capitalb.jpg',
+                                  () {
+                                    Navigator.push(
+                                      context,
+                                      MaterialPageRoute(builder: (context) => SearchPage()),
+                                    );
+                              },
                             ),
-                            SizedBox(width: 10),
-                            CircleAvatar(
-                              backgroundImage: AssetImage('assets/images/hotel_im/harmony.jpeg'),
-                              radius: 40,
+                            SizedBox(width: 20),
+                            _buildCategory(
+                              context,
+                              'Newest',
+                              'assets/images/hotel_im/harmony.jpeg',
+                                  () {
+                                    Navigator.push(
+                                      context,
+                                      MaterialPageRoute(builder: (context) => SearchPage()),
+                                    );
+                              },
                             ),
-                            SizedBox(width: 10),
-                            CircleAvatar(
-                              backgroundImage: AssetImage('assets/images/hotel_im/skycityb.jpg'),
-                              radius: 40,
+                            SizedBox(width: 20),
+                            _buildCategory(
+                              context,
+                              'Luxury',
+                              'assets/images/hotel_im/skycityb.jpg',
+                                  () {
+                                    Navigator.push(
+                                      context,
+                                      MaterialPageRoute(builder: (context) => SearchPage()),
+                                    );
+                              },
                             ),
-                            SizedBox(width: 10),
-                            CircleAvatar(
-                              backgroundImage: AssetImage('assets/images/hotel_im/Ililib.jpeg'),
-                              radius: 40,
+                            SizedBox(width: 20),
+                            _buildCategory(
+                              context,
+                              'Budget Friendly',
+                              'assets/images/hotel_im/Ililib.jpeg',
+                                  () {
+                                    Navigator.push(
+                                      context,
+                                      MaterialPageRoute(builder: (context) => SearchPage()),
+                                    );
+                              },
                             ),
                           ],
                         ),
@@ -421,7 +554,7 @@ class _HomePageState extends State<HomePage> {
                               decoration: BoxDecoration(
                                 borderRadius: BorderRadius.circular(12),
                                 border: Border.all(
-                                  color: Colors.purpleAccent,
+                                  color: primaryColor,
                                   width: 1.5,
                                 ),
                               ),
@@ -493,7 +626,7 @@ class _HomePageState extends State<HomePage> {
                                                   '${hotel['rating']} Reviews',
                                                   style: TextStyle(
                                                     fontSize: 16,
-                                                    color: accentColor,
+                                                    color: primaryColor,
                                                     fontWeight: FontWeight.bold,
                                                   ),
                                                 ),
@@ -521,7 +654,7 @@ class _HomePageState extends State<HomePage> {
                                       child: Icon(
                                         isFavorite ? Icons.favorite : Icons.favorite_border,
                                         size: 30,
-                                        color: isFavorite ? Colors.purple : Colors.grey,
+                                        color: isFavorite ? Colors.red  : Colors.grey,
                                       ),
                                     ),
                                   ),
@@ -583,7 +716,7 @@ class _HomePageState extends State<HomePage> {
                               decoration: BoxDecoration(
                                 borderRadius: BorderRadius.circular(12),
                                 border: Border.all(
-                                  color: Colors.grey,
+                                  color: primaryColor ,
                                   width: 1.5,
                                 ),
                               ),
@@ -661,7 +794,7 @@ class _HomePageState extends State<HomePage> {
                                                 '${hotel['rating']} Reviews',
                                                 style: TextStyle(
                                                   fontSize: 16,
-                                                  color: accentColor,
+                                                  color: primaryColor,
                                                   fontWeight: FontWeight.bold,
                                                 ),
                                               ),
@@ -677,7 +810,7 @@ class _HomePageState extends State<HomePage> {
                                     child: Icon(
                                       isFavorite ? Icons.favorite : Icons.favorite_border,
                                       size: 24,
-                                      color: isFavorite ? primaryColor : Colors.grey,
+                                      color: isFavorite ? Colors.red : Colors.grey,
                                     ),
                                   ),
                                 ],
@@ -692,6 +825,27 @@ class _HomePageState extends State<HomePage> {
                 ),
               ),
             )));
-
+  }
+  Widget _buildCategory(BuildContext context, String label, String imagePath, VoidCallback onTap) {
+    return GestureDetector(
+      onTap: onTap,
+      child: Column(
+        children: [
+          CircleAvatar(
+            backgroundImage: AssetImage(imagePath),
+            radius: 40,
+          ),
+          SizedBox(height: 5),
+          Text(
+            label,
+            style: TextStyle(
+              fontWeight: FontWeight.bold,
+              fontSize: 14,
+            ),
+          ),
+          SizedBox(width: 10),
+        ],
+      ),
+    );
   }
 }

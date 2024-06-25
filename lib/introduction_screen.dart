@@ -5,6 +5,9 @@ import 'package:introduction_screen/introduction_screen.dart';
 import 'package:mobile_application_project/login_page.dart';
 import 'package:mobile_application_project/signup_page.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:mobile_application_project/colors.dart';
+
+import 'colors.dart';
 
 class IntroScreenDemo extends StatefulWidget {
   const IntroScreenDemo({super.key});
@@ -18,6 +21,7 @@ class _IntroScreenDemoState extends State<IntroScreenDemo> {
 
   @override
   Widget build(BuildContext context) {
+
     return Scaffold(
       appBar: AppBar(
         leading: IconButton(
@@ -40,7 +44,7 @@ class _IntroScreenDemoState extends State<IntroScreenDemo> {
                 style: TextStyle(fontSize: 16),
               ),
               image: const Center(
-                child: Icon(Icons.waving_hand, size: 150.0, color: Colors.deepPurple),
+                child: Icon(Icons.waving_hand, size: 150.0, color: Color(0xFF0077B6)),
               ),
             ),
             PageViewModel(
@@ -51,7 +55,11 @@ class _IntroScreenDemoState extends State<IntroScreenDemo> {
                 style: TextStyle(fontSize: 16),
               ),
               image: const Center(
-                child: Icon(Icons.location_searching, size: 150.0, color: Colors.deepPurple),
+                child: Icon(
+                  Icons.location_searching,
+                  size: 150.0,
+                  color: Color(0xFF0077B6), // or primaryColor2, primaryColor3, etc.
+                ),
               ),
             ),
             PageViewModel(
@@ -79,7 +87,7 @@ class _IntroScreenDemoState extends State<IntroScreenDemo> {
               bodyWidget: Column(
                 children: [
                   Text(AppLocalizations.of(context)?.review_ratings_description?? '',
-                    style: TextStyle(color: Colors.deepPurple, fontSize: 20.0),
+                    style: TextStyle(fontSize: 20.0),
                   ),
                   const SizedBox(height: 10.0),
                   ElevatedButton(
@@ -89,7 +97,13 @@ class _IntroScreenDemoState extends State<IntroScreenDemo> {
                         MaterialPageRoute(builder: (context) => LogInPage()),
                       );
                     },
-                    child: Text(AppLocalizations.of(context)?.log_in?? '',
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: primaryColor, // Set the background color to green
+                      foregroundColor: Colors.white, // Set the text color to white
+
+                    ),
+                    child: Text(
+                      AppLocalizations.of(context)?.log_in ?? '',
                       style: TextStyle(fontSize: 20.0, fontWeight: FontWeight.bold),
                     ),
                   ),
@@ -99,8 +113,15 @@ class _IntroScreenDemoState extends State<IntroScreenDemo> {
                       Navigator.push(
                         context,
                         MaterialPageRoute(builder: (context) => SignUpPage()),
+
                       );
+
                     },
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: primaryColor, // Set the background color to green
+                      foregroundColor: Colors.white, // Set the text color to white
+
+                    ),
                     child: Text(AppLocalizations.of(context)?.sign_Up?? '',
                       style: TextStyle(fontSize: 20.0, fontWeight: FontWeight.bold),
                     ),

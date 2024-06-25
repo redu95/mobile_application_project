@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:mobile_application_project/languagerelatedclass/language.dart';
 import 'package:mobile_application_project/languagerelatedclass/language_constants.dart';
+import 'colors.dart';
 import 'main.dart';
 
 class LanguageMenuDemo extends StatefulWidget {
@@ -31,7 +32,7 @@ class _LanguageMenuDemoState extends State<LanguageMenuDemo> {
               },
               child: Container(
                 decoration: BoxDecoration(
-                  color: Colors.purple,
+                  color: primaryColor,
                   borderRadius: BorderRadius.circular(16),
                 ),
                 margin: const EdgeInsets.symmetric(vertical: 8.0),
