@@ -20,7 +20,15 @@ To install and run Addis Stay App on your local machine, follow these steps:
 3. Install dependencies
 4. Run the application
 
-
+## Features
+## Responsive app:
+The app is designed to be fully responsive, providing an optimal user experience across different devices and screen sizes.
+## Keyboard search:
+Users can easily search for hotels using the keyboard, making it quick and convenient to find specific accommodations.
+## Add hotel to favorites:
+Users have the option to save hotels to their favorites list, allowing them to easily access and reference their preferred choices.
+## Alphabetical filters:
+The app provides filters that allow users to organize and browse hotels alphabetically. This feature can help users find hotels based on specific letters or alphabetical ranges.
 ## Usage
 coming soon...
 
