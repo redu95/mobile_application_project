@@ -861,6 +861,7 @@ floatingActionButton: FabCircularMenu(
       ],
     );
   }
+
  _buildPhotoGallery(photoElement) {
     if (photoElement == null || photoElement.length == 0) {
       showBlankCard = true;
@@ -1142,5 +1143,67 @@ floatingActionButton: FabCircularMenu(
     );
   }
 
-  
+   Future<void> goToTappedPlace() async {
+    final GoogleMapController controller = await _controller.future;
+
+    _markers = {};
+
+    var selectedPlace = allFavoritePlaces[_pageController.page!.toInt()];
+
+    _setNearMarker(
+        LatLng(selectedPlace['geometry']['location']['lat'],
+            selectedPlace['geometry']['location']['lng']),
+        selectedPlace['name'] ?? 'no name',
+        selectedPlace['types'],
+        selectedPlace['business_status'] ?? 'none');
+
+    controller.animateCamera(CameraUpdate.newCameraPosition(CameraPosition(
+        target: LatLng(selectedPlace['geometry']['location']['lat'],
+            selectedPlace['geometry']['location']['lng']),
+        zoom: 14.0,
+        bearing: 45.0,
+        tilt: 45.0)));
+  }
+
+  Future<void> gotoSearchedPlace(double lat, double lng) async {
+    final GoogleMapController controller = await _controller.future;
+
+    controller.animateCamera(CameraUpdate.newCameraPosition(
+        CameraPosition(target: LatLng(lat, lng), zoom: 12)));
+
+    _setMarker(LatLng(lat, lng));
+  }
+
+  Widget buildListItem(AutoCompleteResult placeItem, searchFlag) {
+    return Padding(
+      padding: EdgeInsets.all(5.0),
+      child: GestureDetector(
+        onTapDown: (_) {
+          FocusManager.instance.primaryFocus?.unfocus();
+        },
+        onTap: () async {
+          var place = await MapServices().getPlace(placeItem.placeId);
+          gotoSearchedPlace(place['geometry']['location']['lat'],
+              place['geometry']['location']['lng']);
+          searchFlag.toggleSearch();
+        },
+        child: Row(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            Icon(Icons.location_on, color: Colors.green, size: 25.0),
+            SizedBox(width: 4.0),
+            Container(
+              height: 40.0,
+              width: MediaQuery.of(context).size.width - 75.0,
+              child: Align(
+                alignment: Alignment.centerLeft,
+                child: Text(placeItem.description ?? ''),
+              ),
+            )
+          ],
+        ),
+      ),
+    );
+  }
+
 }
