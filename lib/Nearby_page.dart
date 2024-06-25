@@ -1,7 +1,20 @@
 import 'dart:async';
+import 'dart:ffi';
+import 'dart:typed_data';
 
+import 'package:fab_circular_menu/fab_circular_menu.dart';
+import 'package:flip_card/flip_card.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:flutter_polyline_points/flutter_polyline_points.dart';
+import 'package:flutter_rating_stars/flutter_rating_stars.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:mobile_application_project/auto_complete_result.dart';
+import 'package:mobile_application_project/search_map_places.dart';
+import 'package:mobile_application_project/map_services.dart';
+
+import 'dart:ui' as ui;
 
 class NearbyPage extends StatefulWidget {
   NearbyPage({Key? key}) : super(key: key);
