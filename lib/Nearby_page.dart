@@ -861,6 +861,286 @@ floatingActionButton: FabCircularMenu(
       ],
     );
   }
+ _buildPhotoGallery(photoElement) {
+    if (photoElement == null || photoElement.length == 0) {
+      showBlankCard = true;
+      return Container(
+        child: Center(
+          child: Text(
+            'No Photos',
+            style: TextStyle(
+                fontFamily: 'WorkSans',
+                fontSize: 12.0,
+                fontWeight: FontWeight.w500),
+          ),
+        ),
+      );
+    } else {
+      var placeImg = photoElement[photoGalleryIndex]['photo_reference'];
+      var maxWidth = photoElement[photoGalleryIndex]['width'];
+      var maxHeight = photoElement[photoGalleryIndex]['height'];
+      var tempDisplayIndex = photoGalleryIndex + 1;
+
+      return Column(
+        children: [
+          SizedBox(height: 10.0),
+          Container(
+              height: 200.0,
+              width: 200.0,
+              decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(10.0),
+                  image: DecorationImage(
+                      image: NetworkImage(
+                          'https://maps.googleapis.com/maps/api/place/photo?maxwidth=$maxWidth&maxheight=$maxHeight&photo_reference=$placeImg&key=$key'),
+                      fit: BoxFit.cover))),
+          SizedBox(height: 10.0),
+          Row(mainAxisAlignment: MainAxisAlignment.spaceEvenly, children: [
+            GestureDetector(
+              onTap: () {
+                setState(() {
+                  if (photoGalleryIndex != 0)
+                    photoGalleryIndex = photoGalleryIndex - 1;
+                  else
+                    photoGalleryIndex = 0;
+                });
+              },
+              child: Container(
+                width: 40.0,
+                height: 20.0,
+                decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(9.0),
+                    color: photoGalleryIndex != 0
+                        ? Colors.green.shade500
+                        : Colors.grey.shade500),
+                child: Center(
+                  child: Text(
+                    'Prev',
+                    style: TextStyle(
+                        fontFamily: 'WorkSans',
+                        color: Colors.white,
+                        fontSize: 12.0,
+                        fontWeight: FontWeight.w500),
+                  ),
+                ),
+              ),
+            ),
+            Text(
+              '$tempDisplayIndex/' + photoElement.length.toString(),
+              style: TextStyle(
+                  fontFamily: 'WorkSans',
+                  fontSize: 12.0,
+                  fontWeight: FontWeight.w500),
+            ),
+            GestureDetector(
+              onTap: () {
+                setState(() {
+                  if (photoGalleryIndex != photoElement.length - 1)
+                    photoGalleryIndex = photoGalleryIndex + 1;
+                  else
+                    photoGalleryIndex = photoElement.length - 1;
+                });
+              },
+              child: Container(
+                width: 40.0,
+                height: 20.0,
+                decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(9.0),
+                    color: photoGalleryIndex != photoElement.length - 1
+                        ? Colors.green.shade500
+                        : Colors.grey.shade500),
+                child: Center(
+                  child: Text(
+                    'Next',
+                    style: TextStyle(
+                        fontFamily: 'WorkSans',
+                        color: Colors.white,
+                        fontSize: 12.0,
+                        fontWeight: FontWeight.w500),
+                  ),
+                ),
+              ),
+            ),
+          ])
+        ],
+      );
+    }
+  }
+
+  gotoPlace(double lat, double lng, double endLat, double endLng,
+      Map<String, dynamic> boundsNe, Map<String, dynamic> boundsSw) async {
+    final GoogleMapController controller = await _controller.future;
+
+    controller.animateCamera(CameraUpdate.newLatLngBounds(
+        LatLngBounds(
+            southwest: LatLng(boundsSw['lat'], boundsSw['lng']),
+            northeast: LatLng(boundsNe['lat'], boundsNe['lng'])),
+        25));
+
+    _setMarker(LatLng(lat, lng));
+    _setMarker(LatLng(endLat, endLng));
+  }
+
+  Future<void> moveCameraSlightly() async {
+    final GoogleMapController controller = await _controller.future;
+
+    controller.animateCamera(CameraUpdate.newCameraPosition(CameraPosition(
+        target: LatLng(
+            allFavoritePlaces[_pageController.page!.toInt()]['geometry']
+                    ['location']['lat'] +
+                0.0125,
+            allFavoritePlaces[_pageController.page!.toInt()]['geometry']
+                    ['location']['lng'] +
+                0.005),
+        zoom: 14.0,
+        bearing: 45.0,
+        tilt: 45.0)));
+  }
+
+  _nearbyPlacesList(index) {
+    return AnimatedBuilder(
+      animation: _pageController,
+      builder: (BuildContext context, Widget? widget) {
+        double value = 1;
+        if (_pageController.position.haveDimensions) {
+          value = (_pageController.page! - index);
+          value = (1 - (value.abs() * 0.3) + 0.06).clamp(0.0, 1.0);
+        }
+        return Center(
+          child: SizedBox(
+            height: Curves.easeInOut.transform(value) * 125.0,
+            width: Curves.easeInOut.transform(value) * 350.0,
+            child: widget,
+          ),
+        );
+      },
+      child: InkWell(
+        onTap: () async {
+          cardTapped = !cardTapped;
+          if (cardTapped) {
+            tappedPlaceDetail = await MapServices()
+                .getPlace(allFavoritePlaces[index]['place_id']);
+            setState(() {});
+          }
+          moveCameraSlightly();
+        },
+        child: Stack(
+          children: [
+            Center(
+              child: Container(
+                margin: EdgeInsets.symmetric(
+                  horizontal: 10.0,
+                  vertical: 20.0,
+                ),
+                height: 125.0,
+                width: 275.0,
+                decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(10.0),
+                    boxShadow: [
+                      BoxShadow(
+                          color: Colors.black54,
+                          offset: Offset(0.0, 4.0),
+                          blurRadius: 10.0)
+                    ]),
+                child: Container(
+                  decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(10.0),
+                      color: Colors.white),
+                  child: Row(
+                    children: [
+                      _pageController.position.haveDimensions
+                          ? _pageController.page!.toInt() == index
+                              ? Container(
+                                  height: 90.0,
+                                  width: 90.0,
+                                  decoration: BoxDecoration(
+                                      borderRadius: BorderRadius.only(
+                                        bottomLeft: Radius.circular(10.0),
+                                        topLeft: Radius.circular(10.0),
+                                      ),
+                                      image: DecorationImage(
+                                          image: NetworkImage(placeImg != ''
+                                              ? 'https://maps.googleapis.com/maps/api/place/photo?maxwidth=400&photo_reference=$placeImg&key=$key'
+                                              : 'https://pic.onlinewebfonts.com/svg/img_546302.png'),
+                                          fit: BoxFit.cover)),
+                                )
+                              : Container(
+                                  height: 90.0,
+                                  width: 20.0,
+                                  decoration: BoxDecoration(
+                                      borderRadius: BorderRadius.only(
+                                        bottomLeft: Radius.circular(10.0),
+                                        topLeft: Radius.circular(10.0),
+                                      ),
+                                      color: Colors.blue),
+                                )
+                          : Container(),
+                      SizedBox(width: 5.0),
+                      Column(
+                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Container(
+                            width: 170.0,
+                            child: Text(allFavoritePlaces[index]['name'],
+                                style: TextStyle(
+                                    fontSize: 12.5,
+                                    fontFamily: 'WorkSans',
+                                    fontWeight: FontWeight.bold)),
+                          ),
+                          RatingStars(
+                            value: allFavoritePlaces[index]['rating']
+                                        .runtimeType ==
+                                    int
+                                ? allFavoritePlaces[index]['rating'] * 1.0
+                                : allFavoritePlaces[index]['rating'] ?? 0.0,
+                            starCount: 5,
+                            starSize: 10,
+                            valueLabelColor: const Color(0xff9b9b9b),
+                            valueLabelTextStyle: TextStyle(
+                                color: Colors.white,
+                                fontFamily: 'WorkSans',
+                                fontWeight: FontWeight.w400,
+                                fontStyle: FontStyle.normal,
+                                fontSize: 12.0),
+                            valueLabelRadius: 10,
+                            maxValue: 5,
+                            starSpacing: 2,
+                            maxValueVisibility: false,
+                            valueLabelVisibility: true,
+                            animationDuration: Duration(milliseconds: 1000),
+                            valueLabelPadding: const EdgeInsets.symmetric(
+                                vertical: 1, horizontal: 8),
+                            valueLabelMargin: const EdgeInsets.only(right: 8),
+                            starOffColor: const Color(0xffe7e8ea),
+                            starColor: Colors.yellow,
+                          ),
+                          Container(
+                            width: 170.0,
+                            child: Text(
+                              allFavoritePlaces[index]['business_status'] ??
+                                  'none',
+                              style: TextStyle(
+                                  color: allFavoritePlaces[index]
+                                              ['business_status'] ==
+                                          'OPERATIONAL'
+                                      ? Colors.green
+                                      : Colors.red,
+                                  fontSize: 11.0,
+                                  fontWeight: FontWeight.w700),
+                            ),
+                          )
+                        ],
+                      )
+                    ],
+                  ),
+                ),
+              ),
+            )
+          ],
+        ),
+      ),
+    );
+  }
 
   
 }
