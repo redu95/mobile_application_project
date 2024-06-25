@@ -105,6 +105,7 @@ flutter:
     - assets/images/
     - assets/images/hotel_im/
     - assets/locales/
+    - assets/mapicons/
     #- images/a_dot_ham.jpegs
 
 
@@ -130,6 +131,24 @@ flutter:
   #       - asset: fonts/TrajanPro.ttf
   #       - asset: fonts/TrajanPro_Bold.ttf
   #         weight: 700
+  fonts:
+    - family: WorkSans
+      fonts:
+        - asset: assets/fonts/WorkSans-Regular.ttf
+        - asset: assets/fonts/WorkSans-Italic.ttf
+          style: italic
+        - asset: assets/fonts/WorkSans-Bold.ttf
+          weight: 700
+        - asset: assets/fonts/WorkSans-SemiBold.ttf
+          weight: 500
+        - asset: assets/fonts/WorkSans-Light.ttf
+          weight: 200
+        - asset: assets/fonts/WorkSans-Thin.ttf
+          weight: 300
+        - asset: assets/fonts/WorkSans-Medium.ttf
+          weight: 400
+        - asset: assets/fonts/WorkSans-ExtraLight.ttf
+          weight: 100
   #
   # For details regarding fonts from package dependencies,
   # see https://flutter.dev/custom-fonts/#from-packages

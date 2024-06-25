@@ -1,10 +1,17 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android">
+    
+        package="com.example.googlemapsapp">
+      <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+
+  <!-- Include only if your app benefits from precise location access. -->
+  <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    
     <application
         android:label="Addis Stay"
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher">
         <meta-data android:name="com.google.android.geo.API_KEY"
-               android:value="AIzaSyAJm-6i5bDguI4y73g8AQYYGmo2nrs19gY"/>
+               android:value="AIzaSyBiZW77UoNWmvp6xLz7eli-bHn6yQBWw4A"/>
         <activity
             android:name=".MainActivity"
             android:exported="true"
