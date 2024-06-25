@@ -81,6 +81,132 @@ class _NearbyPageState extends ConsumerState<NearbyPage> {
     zoom: 14.4746,
   );
 
+  void _setMarker(point) {
+    var counter = markerIdCounter++;
+
+    final Marker marker = Marker(
+        markerId: MarkerId('marker_$counter'),
+        position: point,
+        onTap: () {},
+        icon: BitmapDescriptor.defaultMarker);
+
+    setState(() {
+      _markers.add(marker);
+    });
+  }
+
+  void _setPolyline(List<PointLatLng> points) {
+    final String polylineIdVal = 'polyline_$polylineIdCounter';
+
+    polylineIdCounter++;
+
+    _polylines.add(Polyline(
+        polylineId: PolylineId(polylineIdVal),
+        width: 2,
+        color: Colors.blue,
+        points: points.map((e) => LatLng(e.latitude, e.longitude)).toList()));
+  }
+
+  void _setCircle(LatLng point) async {
+    final GoogleMapController controller = await _controller.future;
+
+    controller.animateCamera(CameraUpdate.newCameraPosition(
+        CameraPosition(target: point, zoom: 12)));
+    setState(() {
+      _circles.add(Circle(
+          circleId: CircleId('raj'),
+          center: point,
+          fillColor: Colors.blue.withOpacity(0.1),
+          radius: radiusValue,
+          strokeColor: Colors.blue,
+          strokeWidth: 1));
+      getDirections = false;
+      searchToggle = false;
+      radiusSlider = true;
+    });
+  }
+
+  _setNearMarker(LatLng point, String label, List types, String status) async {
+    var counter = markerIdCounter++;
+
+    final Uint8List markerIcon;
+
+    if (types.contains('restaurants'))
+      markerIcon =
+          await getBytesFromAsset('assets/mapicons/restaurants.png', 75);
+    else if (types.contains('food'))
+      markerIcon = await getBytesFromAsset('assets/mapicons/food.png', 75);
+    else if (types.contains('school'))
+      markerIcon = await getBytesFromAsset('assets/mapicons/schools.png', 75);
+    else if (types.contains('bar'))
+      markerIcon = await getBytesFromAsset('assets/mapicons/bars.png', 75);
+    else if (types.contains('lodging'))
+      markerIcon = await getBytesFromAsset('assets/mapicons/hotels.png', 75);
+    else if (types.contains('store'))
+      markerIcon =
+          await getBytesFromAsset('assets/mapicons/retail-stores.png', 75);
+    else if (types.contains('locality'))
+      markerIcon =
+          await getBytesFromAsset('assets/mapicons/local-services.png', 75);
+    else
+      markerIcon = await getBytesFromAsset('assets/mapicons/places.png', 75);
+
+    final Marker marker = Marker(
+        markerId: MarkerId('marker_$counter'),
+        position: point,
+        onTap: () {},
+        icon: BitmapDescriptor.fromBytes(markerIcon));
+
+    setState(() {
+      _markers.add(marker);
+    });
+  }
+
+  Future<Uint8List> getBytesFromAsset(String path, int width) async {
+    ByteData data = await rootBundle.load(path);
+
+    ui.Codec codec = await ui.instantiateImageCodec(data.buffer.asUint8List(),
+        targetWidth: width);
+    ui.FrameInfo fi = await codec.getNextFrame();
+    return (await fi.image.toByteData(format: ui.ImageByteFormat.png))!
+        .buffer
+        .asUint8List();
+  }
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    _pageController = PageController(initialPage: 1, viewportFraction: 0.85)
+      ..addListener(_onScroll);
+    super.initState();
+  }
+
+  void _onScroll() {
+    if (_pageController.page!.toInt() != prevPage) {
+      prevPage = _pageController.page!.toInt();
+      cardTapped = false;
+      photoGalleryIndex = 1;
+      showBlankCard = false;
+      goToTappedPlace();
+      fetchImage();
+    }
+  }
+
+  //Fetch image to place inside the tile in the pageView
+  void fetchImage() async {
+    if (_pageController.page !=
+        null) if (allFavoritePlaces[_pageController.page!.toInt()]
+            ['photos'] !=
+        null) {
+      setState(() {
+        placeImg = allFavoritePlaces[_pageController.page!.toInt()]['photos'][0]
+            ['photo_reference'];
+      });
+    } else {
+      placeImg = '';
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     final screenHeight = MediaQuery.of(context).size.height;
