@@ -57,6 +57,28 @@ class _NearbyPageState extends ConsumerState<NearbyPage> {
     zoom: 14.4746,
   );
 
+  //Page controller for the nice pageview
+  late PageController _pageController;
+  int prevPage = 0;
+  var tappedPlaceDetail;
+  String placeImg = '';
+  var photoGalleryIndex = 0;
+  bool showBlankCard = false;
+  bool isReviews = true;
+  bool isPhotos = false;
+
+  final key = 'AIzaSyBiZW77UoNWmvp6xLz7eli-bHn6yQBWw4A';
+
+  var selectedPlaceDetails;
+
+  //Circle
+  Set<Circle> _circles = Set<Circle>();
+
+//Text Editing Controllers
+  TextEditingController searchController = TextEditingController();
+  TextEditingController _originController = TextEditingController();
+  TextEditingController _destinationController = TextEditingController();
+
   @override
   Widget build(BuildContext context) {
     final screenHeight = MediaQuery.of(context).size.height;
