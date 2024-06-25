@@ -71,8 +71,20 @@
   "canICancelMyReservation": "¿Puedo cancelar mi reserva?",
   "youMayCancelYourReservationAtAnyTimeButThereWillBeA5Cost": "Puede cancelar su reserva en cualquier momento, pero habrá un costo del 5%.",
   "whatPaymentMethodsAreApplicable": "¿Qué métodos de pago son aplicables?",
-  "anyEthiopianInternetBankIncludingCEBApoloAndMobileBankingAcceptsOnlinePayments": "Cualquier banco de Internet etíope, incluidos CEB, Apolo y la banca móvil, acepta pagos en línea."
-
+  "anyEthiopianInternetBankIncludingCEBApoloAndMobileBankingAcceptsOnlinePayments": "Cualquier banco de Internet etíope, incluidos CEB, Apolo y la banca móvil, acepta pagos en línea.",
+  "privacy": "Privacidad",
+    "change_password": "Cambiar contraseña",
+    "do_you_want_to_change_your_password": "¿Desea cambiar su contraseña?",
+    "your_username": "Su nombre de usuario",
+    "please_enter_your_name": "Por favor ingrese su nombre",
+    "your_email": "Su correo electrónico",
+    "please_enter_a_valid_email": "Por favor ingrese un correo electrónico válido",
+    "old_password": "Contraseña anterior",
+    "new_password": "Nueva contraseña",
+    "confirm_password": "Confirmar contraseña",
+    "please_confirm_your_password": "Por favor confirme su contraseña",
+    "passwords_do_not_match": "Las contraseñas no coinciden",
+    "submit": "Enviar"
 
 }
 

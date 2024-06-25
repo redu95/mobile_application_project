@@ -72,7 +72,20 @@
   "canICancelMyReservation": "هل أستطيع إلغاء حجزي",
   "youMayCancelYourReservationAtAnyTimeButThereWillBeA5Cost": "يمكنك إلغاء حجزك في أي وقت ، ولكن هناك سيكون هناك تكلفة بنسبة 5٪.",
   "whatPaymentMethodsAreApplicable": "ما هي طرق الدفع المطبقة",
-  "anyEthiopianInternetBankIncludingCEBApoloAndMobileBankingAcceptsOnlinePayments": "أي بنك إنترنت إثيوبي بما في ذلك CEB و Apolo والخدمات المصرفية عبر الهاتف المحمول يقبل المدفوعات عبر الإنترنت."
+  "anyEthiopianInternetBankIncludingCEBApoloAndMobileBankingAcceptsOnlinePayments": "أي بنك إنترنت إثيوبي بما في ذلك CEB و Apolo والخدمات المصرفية عبر الهاتف المحمول يقبل المدفوعات عبر الإنترنت.",
+ "privacy": "الخصوصية",
+  "change_password": "تغيير كلمة المرور",
+  "do_you_want_to_change_your_password": "هل تريد تغيير كلمة المرور الخاصة بك؟",
+  "your_username": "اسم المستخدم الخاص بك",
+  "please_enter_your_name": "الرجاء إدخال اسمك",
+  "your_email": "بريدك الإلكتروني",
+  "please_enter_a_valid_email": "الرجاء إدخال بريد إلكتروني صالح",
+  "old_password": "كلمة المرور القديمة",
+  "new_password": "كلمة المرور الجديدة",
+  "confirm_password": "تأكيد كلمة المرور",
+  "please_confirm_your_password": "الرجاء تأكيد كلمة المرور الخاصة بك",
+  "passwords_do_not_match": "كلمات المرور لا تتطابق",
+  "submit": "إرسال"
 
 
 

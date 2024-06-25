@@ -73,8 +73,20 @@
   "canICancelMyReservation": "ያስያዝኩትን መሰረዝ እችላለሁ",
   "youMayCancelYourReservationAtAnyTimeButThereWillBeA5Cost": "በማንኛውም ጊዜ_ያለዎትን_ቦታ_መሰረዝ_ይችላሉ ግን_5%_ወጪ_ይኖራል።",
    "whatPaymentMethodsAreApplicable": "ምን የመክፈያ ስልቶች ተግባራዊ ናቸው።",
-   "anyEthiopianInternetBankIncludingCEBApoloAndMobileBankingAcceptsOnlinePayments": "ማንኛውም የኢትዮጵያ ኢንተርኔት ባንክ ሲኢቢ አፖሎ እና ሞባይል ባንኪንግ የኦንላይን ክፍያን ይቀበላል።"
-
+   "anyEthiopianInternetBankIncludingCEBApoloAndMobileBankingAcceptsOnlinePayments": "ማንኛውም የኢትዮጵያ ኢንተርኔት ባንክ ሲኢቢ አፖሎ እና ሞባይል ባንኪንግ የኦንላይን ክፍያን ይቀበላል።",
+ "privacy": "ግላዊነት",
+  "change_password": "የይለፍ ቃል ይቀይሩ",
+  "do_you_want_to_change_your_password": "የይለፍ ቃልዎን መቀየር ይፈልጋሉ?",
+  "your_username": "የተጠቃሚ ስምዎ",
+  "please_enter_your_name": "እባክዎ ስምዎን ያስገቡ",
+  "your_email": "ኢሜልዎ",
+  "please_enter_a_valid_email": "እባክዎ ትክክለኛ ኢሜል ያስገቡ",
+  "old_password": "የድሮ የይለፍ ቃል",
+  "new_password": "አዲስ የይለፍ ቃል",
+  "confirm_password": "የይለፍ ቃልን ያረጋግጡ",
+  "please_confirm_your_password": "እባክዎ የይለፍ ቃልዎን ያረጋግጡ",
+  "passwords_do_not_match": "የይለፍ ቃላት አይዛመዱም",
+  "submit": "አቅርብ"
 
 
 

@@ -47,7 +47,7 @@
    "@hotel_details_description": {
      "description": "Description of the hotel details feature"
    },
-   "review_ratings": "review ratings",
+   "review_ratings": "Review and Ratings",
    "@review_ratings": {
      "description": "Label for the review and ratings feature"
    },
@@ -55,7 +55,7 @@
    "@review_ratings_description": {
      "description": "Description of the review and ratings feature"
    },
-   "log_in": "log in",
+   "log_in": "Log In",
    "@log_in": {
      "description": "Label for the login button"
    },
@@ -108,7 +108,7 @@
    "@search_Page": {
      "description": "Label for the search page"
    },
-   "sign_Up": "Sign up",
+   "sign_Up": "Sign Up",
    "@sign_Up": {
      "description": "Label for the sign up feature"
    },
@@ -177,7 +177,7 @@
    "@notifications": {
      "description": "Label for the notifications settings"
    },
-   "dark_Mode": "Dark mode",
+   "dark_mode": "Dark mode",
    "@dark_Mode": {
      "description": "Label for the dark mode settings"
    },
@@ -185,8 +185,8 @@
    "@help": {
      "description": "Label for the help section"
    },
-    "log_Out": "Log Out",
-     "@log_Out": {
+    "log_out": "Log Out",
+     "@log_out": {
        "description": "Text for the log out button or link"
      },
 
@@ -204,8 +204,53 @@
    "@appearances": {
      "description": "Label for the appearances settings"
    },
-   "help_And_Support": "Help and support",
-   "@help_And_Support": {
+     "change_password": "Change Password",
+     "@change_password":{
+     "description": "text"
+     },
+      "do_you_want_to_change_your_password": "Do you want to change your Password?",
+          "@do_you_want_to_change_your_password":{
+          "description": "text"
+          },
+     "your_username": "Your Username",
+              "@your_username":{
+              "description": "text"
+              },
+   "please_enter_your_name": "Please enter your name",
+                 "@please_enter_your_name":{
+                 "description": "text"
+                 },
+    "your_email": "Your email",
+                    "@your_email":{
+                    "description": "text"
+                    },
+
+     "please_enter_a_valid_email": "Please enter a valid email",
+                         "@please_enter_a_valid_email":{
+                         "description": "text"
+                         },
+      "old_password": "Old Password",
+           "@old_password":{
+             "description": "text"
+                            },
+      "new_password": "New Password",
+                "@new_password":{
+                  "description": "text"
+                                 },
+      "confirm_password": "Confirm Password",
+                      "@confirm_password":{
+                        "description": "text"
+                                       },
+
+        "please_confirm_your_password": "Please confirm your password",
+                         "@please_confirm_your_password":{
+                           "description": "text"
+                                          },
+     "passwords_do_not_match": "Passwords do not match",
+     "submit": "Submit",
+
+   "help_and_support": "Help and support",
+   "@help_and_support": {
      "description": "Label for the help and support settings"
    },
    "privacy": "Privacy",
