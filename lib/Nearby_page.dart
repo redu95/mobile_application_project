@@ -232,7 +232,66 @@ class _NearbyPageState extends ConsumerState<NearbyPage> {
               onMapCreated: (GoogleMapController controller) {
                 _controller.complete(controller);
               },
+              onTap: (point) {
+                tappedPoint = point;
+                _setCircle(point);
+              },
             ))
+                searchToggle
+                    ? Padding(
+                        padding: EdgeInsets.fromLTRB(15.0, 40.0, 15.0, 5.0),
+                        child: Column(children: [
+                          Container(
+                            height: 50.0,
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(10.0),
+                              color: Colors.white,
+                            ),
+                            child: TextFormField(
+                              controller: searchController,
+                              decoration: InputDecoration(
+                                  contentPadding: EdgeInsets.symmetric(
+                                      horizontal: 20.0, vertical: 15.0),
+                                  border: InputBorder.none,
+                                  hintText: 'Search',
+                                  suffixIcon: IconButton(
+                                      onPressed: () {
+                                        setState(() {
+                                          searchToggle = false;
+
+                                          searchController.text = '';
+                                          _markers = {};
+                                          if (searchFlag.searchToggle)
+                                            searchFlag.toggleSearch();
+                                        });
+                                      },
+                                      icon: Icon(Icons.close))),
+                              onChanged: (value) {
+                                if (_debounce?.isActive ?? false)
+                                  _debounce?.cancel();
+                                _debounce = Timer(Duration(milliseconds: 700),
+                                    () async {
+                                  if (value.length > 2) {
+                                    if (!searchFlag.searchToggle) {
+                                      searchFlag.toggleSearch();
+                                      _markers = {};
+                                    }
+
+                                    List<AutoCompleteResult> searchResults =
+                                        await MapServices().searchPlaces(value);
+
+                                    allSearchResults.setResults(searchResults);
+                                  } else {
+                                    List<AutoCompleteResult> emptyList = [];
+                                    allSearchResults.setResults(emptyList);
+                                  }
+                                });
+                              },
+                            ),
+                          )
+                        ]),
+                      )
+                    : Container(),    
       ])
     ])));
   }
