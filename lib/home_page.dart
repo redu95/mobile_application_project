@@ -12,6 +12,8 @@ import 'package:mobile_application_project/theme_provider.dart';
 import 'package:provider/provider.dart';
 import 'Nearby_page.dart';
 import 'colors.dart';
+
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:badges/badges.dart' as badges;
 
 import 'my_bookings.dart';
@@ -101,7 +103,7 @@ class _HomeState extends State<Home> {
                     Icon(Icons.warning, color: Colors.white),
                     SizedBox(width: 8),
                     Text(
-                      'No Internet Connection',
+                      AppLocalizations.of(context)!.no_internet_connection,
                       style: TextStyle(color: Colors.white),
                     ),
                   ],
@@ -114,19 +116,19 @@ class _HomeState extends State<Home> {
         items: <BottomNavigationBarItem>[
           BottomNavigationBarItem(
             icon: Icon(Icons.home),
-            label: 'Home',
+            label: AppLocalizations.of(context)!.home,
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.search),
-            label: 'Search',
+            label: AppLocalizations.of(context)!.search,
           ),
           BottomNavigationBarItem(
             icon: Icon(FontAwesomeIcons.locationDot),
-            label: 'Nearby',
+            label: AppLocalizations.of(context)!.nearby,
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.person),
-            label: 'Profile',
+            label: AppLocalizations.of(context)!.profile,
           ),
         ],
         currentIndex: _selectedIndex,
@@ -188,7 +190,7 @@ class _HomePageState extends State<HomePage> {
   void showNoInternetSnackBar() {
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(
-        content: Text('No internet connection'),
+        content: Text(AppLocalizations.of(context)!.no_internet_connection),
         duration: Duration(seconds: 5), // Adjust the duration as desired
       ),
     );

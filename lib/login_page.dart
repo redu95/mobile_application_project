@@ -7,6 +7,7 @@ import 'package:mobile_application_project/colors.dart';
 import 'package:mobile_application_project/home_page.dart';
 import 'package:mobile_application_project/forgot_password.dart';
 import 'package:mobile_application_project/signup_page.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 
 class LogInPage extends StatefulWidget {
@@ -45,8 +46,9 @@ class _LogInPageState extends State<LogInPage> {
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  const Text(
-                    'No Internet Connection',
+                  Text(
+                    AppLocalizations.of(context)!.no_internet_connection
+                    ,
                     style: TextStyle(fontSize: 18.0),
                   ),
                   IconButton(
@@ -58,8 +60,8 @@ class _LogInPageState extends State<LogInPage> {
                 ],
               ),
             ),
-            content: const Text(
-              'Please check your internet connection and try again.',
+            content:  Text(AppLocalizations.of(context)!.please_check_your_internet_connection_and_try_again
+             ,
               style: TextStyle(fontSize: 16.0),
             ),
           );
@@ -173,8 +175,8 @@ class _LogInPageState extends State<LogInPage> {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              const Text(
-                'Login',
+              Text(AppLocalizations.of(context)!.log_in
+                ,
                 style: TextStyle(
                   fontSize: 24.0,
                   fontWeight: FontWeight.bold,
@@ -200,8 +202,8 @@ class _LogInPageState extends State<LogInPage> {
                   });
                 },
                 controller: emailController,
-                decoration: const InputDecoration(
-                  labelText: 'Email',
+                decoration: InputDecoration(
+                  labelText: AppLocalizations.of(context)!.email,
                   border: OutlineInputBorder(),
                 ),
               ),
@@ -220,8 +222,8 @@ class _LogInPageState extends State<LogInPage> {
                 },
                 controller: passwordController,
                 obscureText: true,
-                decoration: const InputDecoration(
-                  labelText: 'Password',
+                decoration: InputDecoration(
+                  labelText: AppLocalizations.of(context)!.password,
                   border: OutlineInputBorder(),
                 ),
               ),
@@ -236,7 +238,7 @@ class _LogInPageState extends State<LogInPage> {
                   onTap: signIn,
                   child: Center(
                     child: Text(
-                      "Log In",
+                      AppLocalizations.of(context)!.log_in,
                       style: TextStyle(
                         //color: Colors.white,
                         fontSize: 18.0,
@@ -254,14 +256,14 @@ class _LogInPageState extends State<LogInPage> {
                     MaterialPageRoute(builder: (context) => const ForgotPassword()),
                   );
                 },
-                child: const Text('Forgot Your Password?'),
+                child:  Text(AppLocalizations.of(context)!.forgot_Your_Password),
               ),
               const SizedBox(height: 10.0),
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  const Text(
-                    "Don't Have an Account?",
+                   Text(AppLocalizations.of(context)!.dont_have_an_account
+                    ,
                     style: TextStyle(
                       fontSize: 18.0,//color: Colors.black,
                     ),
@@ -271,8 +273,8 @@ class _LogInPageState extends State<LogInPage> {
                     onTap: (){
                       Navigator.push(context, MaterialPageRoute(builder: (context)=>const SignUpPage()));
                     },
-                    child: const Text(
-                      "Create",
+                    child: Text(AppLocalizations.of(context)!.create
+                      ,
                       style: TextStyle(
                         color: Color(0xFFFF9900),
                         fontSize: 20.0,
