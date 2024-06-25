@@ -752,6 +752,41 @@ class _NearbyPageState extends ConsumerState<NearbyPage> {
                         ))
                     : Container()
       ])
-    ])));
+    ])),
+floatingActionButton: FabCircularMenu(
+          alignment: Alignment.bottomLeft,
+          fabColor: Colors.blue.shade50,
+          fabOpenColor: Colors.red.shade100,
+          ringDiameter: 250.0,
+          ringWidth: 60.0,
+          ringColor: Colors.blue.shade50,
+          fabSize: 60.0,
+          children: [
+            IconButton(
+                onPressed: () {
+                  setState(() {
+                    searchToggle = true;
+                    radiusSlider = false;
+                    pressedNear = false;
+                    cardTapped = false;
+                    getDirections = false;
+                  });
+                },
+                icon: Icon(Icons.search)),
+            IconButton(
+                onPressed: () {
+                  setState(() {
+                    searchToggle = false;
+                    radiusSlider = false;
+                    pressedNear = false;
+                    cardTapped = false;
+                    getDirections = true;
+                  });
+                },
+                icon: Icon(Icons.navigation))
+          ]),
+    );
+  }
+    );
   }
 }
