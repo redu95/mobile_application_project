@@ -315,7 +315,7 @@ class _SettingPageState extends State<SettingPage> {
                       ),
                     ),
                     title: Text(
-                      AppLocalizations.of(context)!.dark_Mode ?? '',
+                      AppLocalizations.of(context)!.dark_mode ?? '',
                       style: TextStyle(
                         fontSize: 18,
                         fontWeight: FontWeight.w500,
@@ -331,7 +331,7 @@ class _SettingPageState extends State<SettingPage> {
                   ),
                   SizedBox(height: 30),
                   Text(
-                    AppLocalizations.of(context)!.help_And_Support ?? '',
+                    AppLocalizations.of(context)!.help_and_support ?? '',
                     style: TextStyle(
                       fontSize: 18,
                       fontWeight: FontWeight.w300,
@@ -401,7 +401,7 @@ class _SettingPageState extends State<SettingPage> {
                       ),
                     ),
                     title: Text(
-                      AppLocalizations.of(context)!.log_Out ?? '',
+                      AppLocalizations.of(context)!.log_out ?? '',
                       style: TextStyle(
                         fontSize: 18,
                         fontWeight: FontWeight.w500,
@@ -413,7 +413,7 @@ class _SettingPageState extends State<SettingPage> {
                         builder: (BuildContext context) {
                           return AlertDialog(
                             title: Text(
-                                AppLocalizations.of(context)!.log_Out ?? ''),
+                                AppLocalizations.of(context)!.log_out ?? ''),
                             content: Text("Do you really want to log out?"),
                             actions: [
                               TextButton(
@@ -430,7 +430,7 @@ class _SettingPageState extends State<SettingPage> {
                                   await refreshUserData();
                                 },
                                 child: Text(
-                                    AppLocalizations.of(context)!.log_Out ??
+                                    AppLocalizations.of(context)!.log_out ??
                                         "Log Out"),
                               ),
                             ],
