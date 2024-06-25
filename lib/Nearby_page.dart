@@ -550,6 +550,207 @@ class _NearbyPageState extends ConsumerState<NearbyPage> {
                         ),
                       )
                     : Container(),
+                  pressedNear
+                    ? Positioned(
+                        bottom: 20.0,
+                        child: Container(
+                          height: 200.0,
+                          width: MediaQuery.of(context).size.width,
+                          child: PageView.builder(
+                              controller: _pageController,
+                              itemCount: allFavoritePlaces.length,
+                              itemBuilder: (BuildContext context, int index) {
+                                return _nearbyPlacesList(index);
+                              }),
+                        ))
+                    : Container(),
+                cardTapped
+                    ? Positioned(
+                        top: 100.0,
+                        left: 15.0,
+                        child: FlipCard(
+                          front: Container(
+                            height: 250.0,
+                            width: 175.0,
+                            decoration: BoxDecoration(
+                                color: Colors.white,
+                                borderRadius:
+                                    BorderRadius.all(Radius.circular(8.0))),
+                            child: SingleChildScrollView(
+                              child: Column(children: [
+                                Container(
+                                  height: 150.0,
+                                  width: 175.0,
+                                  decoration: BoxDecoration(
+                                      borderRadius: BorderRadius.only(
+                                        topLeft: Radius.circular(8.0),
+                                        topRight: Radius.circular(8.0),
+                                      ),
+                                      image: DecorationImage(
+                                          image: NetworkImage(placeImg != ''
+                                              ? 'https://maps.googleapis.com/maps/api/place/photo?maxwidth=400&photo_reference=$placeImg&key=$key'
+                                              : 'https://pic.onlinewebfonts.com/svg/img_546302.png'),
+                                          fit: BoxFit.cover)),
+                                ),
+                                Container(
+                                  padding: EdgeInsets.all(7.0),
+                                  width: 175.0,
+                                  child: Row(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      Text(
+                                        'Address: ',
+                                        style: TextStyle(
+                                            fontFamily: 'WorkSans',
+                                            fontSize: 12.0,
+                                            fontWeight: FontWeight.w500),
+                                      ),
+                                      Container(
+                                          width: 105.0,
+                                          child: Text(
+                                            tappedPlaceDetail[
+                                                    'formatted_address'] ??
+                                                'none given',
+                                            style: TextStyle(
+                                                fontFamily: 'WorkSans',
+                                                fontSize: 11.0,
+                                                fontWeight: FontWeight.w400),
+                                          ))
+                                    ],
+                                  ),
+                                ),
+                                Container(
+                                  padding:
+                                      EdgeInsets.fromLTRB(7.0, 0.0, 7.0, 0.0),
+                                  width: 175.0,
+                                  child: Row(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      Text(
+                                        'Contact: ',
+                                        style: TextStyle(
+                                            fontFamily: 'WorkSans',
+                                            fontSize: 12.0,
+                                            fontWeight: FontWeight.w500),
+                                      ),
+                                      Container(
+                                          width: 105.0,
+                                          child: Text(
+                                            tappedPlaceDetail[
+                                                    'formatted_phone_number'] ??
+                                                'none given',
+                                            style: TextStyle(
+                                                fontFamily: 'WorkSans',
+                                                fontSize: 11.0,
+                                                fontWeight: FontWeight.w400),
+                                          ))
+                                    ],
+                                  ),
+                                ),
+                              ]),
+                            ),
+                          ),
+                          back: Container(
+                            height: 300.0,
+                            width: 225.0,
+                            decoration: BoxDecoration(
+                                color: Colors.white.withOpacity(0.95),
+                                borderRadius: BorderRadius.circular(8.0)),
+                            child: Column(
+                              children: [
+                                Padding(
+                                  padding: EdgeInsets.all(8.0),
+                                  child: Row(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceEvenly,
+                                    children: [
+                                      GestureDetector(
+                                        onTap: () {
+                                          setState(() {
+                                            isReviews = true;
+                                            isPhotos = false;
+                                          });
+                                        },
+                                        child: AnimatedContainer(
+                                          duration: Duration(milliseconds: 700),
+                                          curve: Curves.easeIn,
+                                          padding: EdgeInsets.fromLTRB(
+                                              7.0, 4.0, 7.0, 4.0),
+                                          decoration: BoxDecoration(
+                                              borderRadius:
+                                                  BorderRadius.circular(11.0),
+                                              color: isReviews
+                                                  ? Colors.green.shade300
+                                                  : Colors.white),
+                                          child: Text(
+                                            'Reviews',
+                                            style: TextStyle(
+                                                color: isReviews
+                                                    ? Colors.white
+                                                    : Colors.black87,
+                                                fontFamily: 'WorkSans',
+                                                fontSize: 12.0,
+                                                fontWeight: FontWeight.w500),
+                                          ),
+                                        ),
+                                      ),
+                                      GestureDetector(
+                                        onTap: () {
+                                          setState(() {
+                                            isReviews = false;
+                                            isPhotos = true;
+                                          });
+                                        },
+                                        child: AnimatedContainer(
+                                          duration: Duration(milliseconds: 700),
+                                          curve: Curves.easeIn,
+                                          padding: EdgeInsets.fromLTRB(
+                                              7.0, 4.0, 7.0, 4.0),
+                                          decoration: BoxDecoration(
+                                              borderRadius:
+                                                  BorderRadius.circular(11.0),
+                                              color: isPhotos
+                                                  ? Colors.green.shade300
+                                                  : Colors.white),
+                                          child: Text(
+                                            'Photos',
+                                            style: TextStyle(
+                                                color: isPhotos
+                                                    ? Colors.white
+                                                    : Colors.black87,
+                                                fontFamily: 'WorkSans',
+                                                fontSize: 12.0,
+                                                fontWeight: FontWeight.w500),
+                                          ),
+                                        ),
+                                      )
+                                    ],
+                                  ),
+                                ),
+                                Container(
+                                  height: 250.0,
+                                  child: isReviews
+                                      ? ListView(
+                                          children: [
+                                            if (isReviews &&
+                                                tappedPlaceDetail['reviews'] !=
+                                                    null)
+                                              ...tappedPlaceDetail['reviews']!
+                                                  .map((e) {
+                                                return _buildReviewItem(e);
+                                              })
+                                          ],
+                                        )
+                                      : _buildPhotoGallery(
+                                          tappedPlaceDetail['photos'] ?? []),
+                                )
+                              ],
+                            ),
+                          ),
+                        ))
+                    : Container()
       ])
     ])));
   }
